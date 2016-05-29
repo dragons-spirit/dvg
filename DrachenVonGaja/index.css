@@ -1,0 +1,172 @@
+
+body
+{
+    overflow-y: hidden;
+    margin:auto;
+    min-height:30%;
+}
+
+#rahmen
+{
+    position: absolute;
+    width:100%;
+    height:100%;
+    min-height:550px;
+    min-width:600px;
+}
+
+#header
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    height:100px;
+    width:100%;
+    background-color:#000000;
+    color:#ffffff;
+}
+
+#anmeldung
+{
+    position:absolute;
+    top:100px;
+    left:0px;
+    right:0px;
+    bottom:50px;
+    color:#000000;
+    padding:10px;
+}
+
+
+#obere_Leiste
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    height:25px;
+    width:100%;
+    background-color:darkgrey;
+}
+
+#mitte
+{
+    position:absolute;
+    top:25px;
+    left:0px;
+    right:0px;
+    /*height:600px;*/
+    height:100%;
+    width:100%;
+    background-color:black;
+}
+
+#untere_Leiste
+{
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    height:25px;
+    width:100%;
+    background-color:darkgrey;
+}
+
+#footer
+{
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    height:50px;
+    width:100%;
+    background-color:#000000;
+    color:#ffffff;
+}
+
+#elemente
+{
+    position:absolute;
+    right:10px;
+    top:100px;
+    width:200px;
+    height:178px;
+    color:white;
+}
+
+#l1
+{
+    position:absolute;
+    bottom:40px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_1.png");
+}
+
+
+#l2
+{
+    position:absolute;
+    bottom:90px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_2.png");
+}
+
+
+#l3
+{
+    position:absolute;
+    bottom:140px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_3.png");
+}
+
+#l4
+{
+    position:absolute;
+    bottom:190px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_4.png");
+}
+
+
+#l5
+{
+    position:absolute;
+    bottom:240px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_5.png");
+    
+}
+
+
+#l6
+{
+    position:absolute;
+    bottom:290px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_6.png");
+    background-repeat: no-repeat;
+}
+
+#l7
+{
+    position:absolute;
+    bottom:340px;
+    left:5px;
+    width:50px;
+    height:50px;
+    background-Image: url("Bilder/zahl_7.png");
+}
