@@ -16,6 +16,8 @@
 			break;
 			case 6: include("Inc/gamestart1.inc.php");
 			break;
+			case 7: include("Inc/impressum.inc.php");
+			break;
 			default: include("Inc/anmelden.inc.php");
 			break;
 		}

@@ -7,14 +7,14 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript">
     <meta http-equiv="Content-Style-Type" content="text/css">
     <meta http-equiv="last-modified" content="11.05.2016 21:00:00" >
-    <meta name="description" content="Lichtdrachen der Elemente - Browsergame">
-    <meta name="keywords" content="Lichtdrachen, Elemente, Browsergame, Browserspiel,">
-    <meta name="Author" content="Tina Schmidtbauer" >
+    <meta name="description" content="Drachen von Gaja - Browsergame">
+    <meta name="keywords" content="Drachen, Elemente, Browsergame, Browserspiel,">
+    <meta name="Author" content="Tina Schmidtbauer, Hendrik Matthes" >
 
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="index.js" type="text/javascript"></script>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-        <title>Lichtdrachen der Elemente</title>
+        <title>Drachen von Gaja</title>
     
     </head>
     
@@ -23,7 +23,7 @@
         <div id="rahmen">
         
         <div id="header">
-            <h3 align="center">Lichtdrachen der Elemente</h3>  
+            <h3 align="center">Drachen von Gaja</h3>  
         </div>
          <?php
          
@@ -54,7 +54,7 @@
         
            
           <div id="footer">
-              <h4 align="center">Impressum</h4>
+              <h4 align="center"><a href="index.php?id=7">Impressum</a></h4>
           </div>
         </div>
     </body>

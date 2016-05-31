@@ -8,9 +8,9 @@
 
 <table align="center">
     <tr>
-        <td>Wiese<br><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></td>
-        <td>Dschungel<br><img src="Bilder/Dschungelgebiet_grosz.png"  height="10%"/></td>
-        <td>Wald&ouml;hle<br><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></td>
+        <td>Wiese<br><a href="index.php?id=5" class="wiese"><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
+        <td>Dschungel<br><a href="index.php?id=5" class="dschungel"><img src="Bilder/Dschungelgebiet_grosz.png"  height="10%"/></a></td>
+        <td>Wald&ouml;hle<br><a href="index.php?id=5" class="hoehle"><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
     </tr>
       <tr>
         <td></td>
