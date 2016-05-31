@@ -8,9 +8,9 @@
 
 <table align="center">
     <tr>
-        <td>Wiese<br><a href="index.php?id=5" class="wiese"><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
-        <td>Dschungel<br><a href="index.php?id=5" class="dschungel"><img src="Bilder/Dschungelgebiet_grosz.png"  height="10%"/></a></td>
-        <td>Wald&ouml;hle<br><a href="index.php?id=5" class="hoehle"><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
+        <td>Waldgebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
+        <td>Dschungelgebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Dschungelgebiet_grosz.png"  height="10%"/></a></td>
+        <td>Kristallgebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Dschungelgebiet_grosz.png" height="10%"/></a></td>
     </tr>
       <tr>
         <td></td>
@@ -18,13 +18,12 @@
     </tr>
 </table>
 
-<!-- Gebiete der Wasserdrachen-->
 
 <table align="center">
     <tr>
-        <td>Sumpf</td>
-        <td>See</td>
-        <td>Eis</td>
+        <td>Eisgebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Vulkangebiet_grosz.png" height="10%"/></a></td>
+        <td>Klippengebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Vulkangebiet_grosz.png" height="10%"/></a></td>
+        <td>Vulkangebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Vulkangebiet_grosz.png" height="10%"/></a></td>
     </tr>
     <tr>
         <td></td>
@@ -32,33 +31,15 @@
     </tr>
 </table>
 
-<!-- Gebiete der Feuerdrachen-->
 
 <table align="center">
     <tr>
-        <td>Vulkan<br><img src="Bilder/Vulkangebiet_grosz.png" height="10%"/></td>
-        
-        <td>W&uuml;ste<br><img src="Bilder/Vulkangebiet_grosz.png" height="10%"/></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
+        <td>W&uuml;stengebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Klippen_grosz.png" height="10%"/></a></td>       
+        <td>Steppengebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Klippen_grosz.png" height="10%"/></a></td>
+        <td>Wassergebiet<br><a href="index.php?id=5" class=""><img src="Bilder/Klippen_grosz.png" height="10%"/></td>
     </tr>
 </table>
 
-<!-- Gebiete der Luftdrachen-->
-
-<table align="center">
-    <tr>
-        <td>Klippe<br><img src="Bilder/Klippen_grosz.png" height="10%"/></td>
-        <td>Sturmh&ouml;hle<br><img src="Bilder/Klippen_grosz.png" height="10%"/></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-    </tr>
-</table>
-
-<form method="POST" action="index.php?id=5">
+<!--<form method="POST" action="index.php?id=5">
     <input type="submit" name="weiter2" value="Speichern und Weiter">
-</form>
+</form>-->
