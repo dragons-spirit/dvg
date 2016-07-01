@@ -1,23 +1,21 @@
+<html>
+
 <?php
-    include('funktionen.php');
-?><
-    
-    !-- Registrierung -->
-<?php
-    if(isset($_POST['button_register']))
-    {
+    include("funktionen.php");
 ?>
-<form method="POST" action="<?php
-            registrierung($ausername, $auserpswd, $ausermail);
-            echo $_SERVER['SELF_PHP'];
-            ?>">
+
+<form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
     Benutzername:<input type="text" name="ausername" size="15">
     Passwort:<input type="password" name="auserpswd" size="15">
     E-Mail: <input type="email" name="ausermail" size="30">
-    <input type="submit" name="button_register" value="registrieren">
-    
-</form>  
+    <input type="submit" name="button_register" value="registrieren">   
+</form>
 
 <?php
+    if(isset($_POST["button_register"]))
+    {
+        registrierung($_POST['ausername'], $_POST['auserpswd'], $_POST['ausermail']);
     }
 ?>
+
+</html>
