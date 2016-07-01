@@ -39,12 +39,6 @@ function registrierung($login, $passwort, $email)
 	return true;
 }
 
-$log = "tester";
-$pwd = "geheim";
-$mail = "geheime@mail.com";
-
-registrierung($log, $pwd, $mail);
-
 
 
 
