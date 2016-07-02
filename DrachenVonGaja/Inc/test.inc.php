@@ -1,7 +1,7 @@
 <html>
 
 <?php
-    include("funktionen.php");
+    include("db_funktionen.php");
 ?>
 
 <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
@@ -14,7 +14,7 @@
 <?php
     if(isset($_POST["button_register"]))
     {
-        registrierung($_POST['ausername'], $_POST['auserpswd'], $_POST['ausermail']);
+        insert_registrierung($_POST['ausername'], $_POST['auserpswd'], $_POST['ausermail']);
     }
 ?>
 
