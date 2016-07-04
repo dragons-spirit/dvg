@@ -11,6 +11,8 @@ include("funktionen.php");
 /**********************************************/
 function insert_registrierung($login, $passwort, $email)
 {
+	global $debug;
+	
 	# Verbindungsaufbau zur Datenbank
 	$connect_db_dvg = open_connection();
 	
@@ -18,7 +20,7 @@ function insert_registrierung($login, $passwort, $email)
 	if ($stmt = $connect_db_dvg->prepare("INSERT INTO account (login, passwort, email, aktiv) VALUES (?, ?, ?, true)")){
 		$stmt->bind_param('sss', $login, $passwort, $email);
 		$stmt->execute();
-		echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
+		if ($debug) echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
 	} else {
 		echo "<br />\nQuerryfehler in <br />\n";
 	}
@@ -34,6 +36,8 @@ function insert_registrierung($login, $passwort, $email)
 /**************************************/
 function get_anmeldung($login)
 {
+	global $debug;
+	
 	# Verbindungsaufbau zur Datenbank
 	$connect_db_dvg = open_connection();
 	
@@ -41,28 +45,31 @@ function get_anmeldung($login)
 	if ($stmt = $connect_db_dvg->prepare("SELECT * FROM account WHERE login = ?")){
 		$stmt->bind_param('s', $login);
 		$stmt->execute();
-		echo "<br />\nAnmeldedaten abgeholt für: [" . $login . "]<br />\n";
+		if ($debug) echo "<br />\nAnmeldedaten abgeholt für: [" . $login . "]<br />\n";
 		$result = $stmt->get_result();
-        while ($row = $result->fetch_array(MYSQLI_NUM))
-        {
-            foreach ($row as $r)
-            {
-                print "$r ";
-            }
-            print "\n";
-        }
+		$row = $result->fetch_array(MYSQLI_NUM);
 	} else {
 		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
 	}
 	
+	# Verbindungsabbbau zur Datenbank
 	close_connection($connect_db_dvg);
-	return true;
+	
+	return $row;
 }
 
 
-#insert_registrierung('hendrik','abc123','h.m@xmg.de');
-
-get_anmeldung('hendrik');
-
-
+#insert_registrierung('hendrik','rofl','zen@jamaika.be');
+/*
+$ergebnis = get_anmeldung('hendrik');
+if (!$ergebnis){
+	print "Benutzer existiert nicht!";
+}
+else{
+	foreach ($ergebnis as $column){
+		print "[ $column ] ";
+	}
+}
+print "<br />\n";
+*/
 ?>
