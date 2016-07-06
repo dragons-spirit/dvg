@@ -1,3 +1,21 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Erstellungszeit: 07. Jul 2016 um 00:17
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 5.6.21
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Datenbank: `db_dvg`
 --
@@ -8,6 +26,7 @@
 -- Tabellenstruktur für Tabelle `account`
 --
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id` int(10) NOT NULL,
   `login` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -17,12 +36,20 @@ CREATE TABLE `account` (
   `letzter_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `account`
+--
+
+INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `letzter_login`) VALUES
+(11, 'hendrik', 'kirdneh', 'ich@gmx.de', 1, '2016-07-06 20:58:44');
+
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `bilder`
 --
 
+DROP TABLE IF EXISTS `bilder`;
 CREATE TABLE `bilder` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -30,12 +57,20 @@ CREATE TABLE `bilder` (
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `bilder`
+--
+
+INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
+(1, 'blank', '', '');
+
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `element`
 --
 
+DROP TABLE IF EXISTS `element`;
 CREATE TABLE `element` (
   `id` int(10) NOT NULL,
   `element_id` int(10) NOT NULL,
@@ -50,6 +85,7 @@ CREATE TABLE `element` (
 -- Tabellenstruktur für Tabelle `faehigkeiten`
 --
 
+DROP TABLE IF EXISTS `faehigkeiten`;
 CREATE TABLE `faehigkeiten` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -63,6 +99,7 @@ CREATE TABLE `faehigkeiten` (
 -- Tabellenstruktur für Tabelle `faehigkeiten_spieler`
 --
 
+DROP TABLE IF EXISTS `faehigkeiten_spieler`;
 CREATE TABLE `faehigkeiten_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -77,6 +114,7 @@ CREATE TABLE `faehigkeiten_spieler` (
 -- Tabellenstruktur für Tabelle `gattung`
 --
 
+DROP TABLE IF EXISTS `gattung`;
 CREATE TABLE `gattung` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -91,12 +129,20 @@ CREATE TABLE `gattung` (
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `gattung`
+--
+
+INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intelligenz`, `start_magie`, `start_element_feuer`, `start_element_wasser`, `start_element_erde`, `start_element_luft`, `beschreibung`) VALUES
+(1, 1, 'Vulkandrache', 10, 5, 0, 6, 1, 2, 2, '');
+
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `level`
 --
 
+DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
   `id` int(10) NOT NULL,
   `voraussetzung` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -106,12 +152,20 @@ CREATE TABLE `level` (
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `level`
+--
+
+INSERT INTO `level` (`id`, `voraussetzung`, `titel`, `stufe`, `modifikator`, `beschreibung`) VALUES
+(1, '', 'Level 1', 1, 0, '');
+
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `npc`
 --
 
+DROP TABLE IF EXISTS `npc`;
 CREATE TABLE `npc` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -137,6 +191,7 @@ CREATE TABLE `npc` (
 -- Tabellenstruktur für Tabelle `position`
 --
 
+DROP TABLE IF EXISTS `position`;
 CREATE TABLE `position` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -144,12 +199,20 @@ CREATE TABLE `position` (
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Daten für Tabelle `position`
+--
+
+INSERT INTO `position` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
+(1, 1, 'Startgebiet', '');
+
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `quest`
 --
 
+DROP TABLE IF EXISTS `quest`;
 CREATE TABLE `quest` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -169,6 +232,7 @@ CREATE TABLE `quest` (
 -- Tabellenstruktur für Tabelle `quest_spieler`
 --
 
+DROP TABLE IF EXISTS `quest_spieler`;
 CREATE TABLE `quest_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -183,14 +247,17 @@ CREATE TABLE `quest_spieler` (
 -- Tabellenstruktur für Tabelle `spieler`
 --
 
+DROP TABLE IF EXISTS `spieler`;
 CREATE TABLE `spieler` (
   `id` int(10) NOT NULL,
   `account_id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
   `gattung_id` int(10) NOT NULL,
   `level_id` int(10) NOT NULL,
+  `position_id` int(10) NOT NULL,
   `name` varchar(24) COLLATE utf8_unicode_ci NOT NULL,
-  `straerke` float NOT NULL COMMENT 'Stärke',
+  `geschlecht` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
+  `staerke` float NOT NULL COMMENT 'Stärke',
   `intelligenz` float NOT NULL COMMENT 'Intelligenz',
   `magie` float NOT NULL COMMENT 'Magie',
   `element_feuer` float NOT NULL,
@@ -198,9 +265,18 @@ CREATE TABLE `spieler` (
   `element_erde` float NOT NULL,
   `element_luft` float NOT NULL,
   `gesundheit` int(10) NOT NULL,
+  `max_gesundheit` int(10) NOT NULL,
   `energie` int(10) NOT NULL,
+  `max_energie` int(10) NOT NULL,
   `balance` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `spieler`
+--
+
+INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `position_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `balance`) VALUES
+(1, 11, 1, 1, 1, 1, 'Theobald', 'M', 10, 5, 0, 6, 1, 2, 2, 60, 60, 11, 11, 0);
 
 -- --------------------------------------------------------
 
@@ -208,6 +284,7 @@ CREATE TABLE `spieler` (
 -- Tabellenstruktur für Tabelle `zauber`
 --
 
+DROP TABLE IF EXISTS `zauber`;
 CREATE TABLE `zauber` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -228,6 +305,7 @@ CREATE TABLE `zauber` (
 -- Tabellenstruktur für Tabelle `zauberart`
 --
 
+DROP TABLE IF EXISTS `zauberart`;
 CREATE TABLE `zauberart` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -331,12 +409,12 @@ ALTER TABLE `zauberart`
 -- AUTO_INCREMENT für Tabelle `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -356,12 +434,12 @@ ALTER TABLE `faehigkeiten_spieler`
 -- AUTO_INCREMENT für Tabelle `gattung`
 --
 ALTER TABLE `gattung`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
 ALTER TABLE `level`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `npc`
 --
@@ -371,7 +449,7 @@ ALTER TABLE `npc`
 -- AUTO_INCREMENT für Tabelle `position`
 --
 ALTER TABLE `position`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
@@ -386,7 +464,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --
@@ -400,7 +478,3 @@ ALTER TABLE `zauberart`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-GRANT ALL PRIVILEGES ON *.* TO 'dragons'@'localhost' IDENTIFIED BY PASSWORD '*335D8389C2F532F95052A084D99A80C9C7746D29' WITH GRANT OPTION;
-
-GRANT ALL PRIVILEGES ON `db\_dvg`.* TO 'dragons'@'localhost' WITH GRANT OPTION;

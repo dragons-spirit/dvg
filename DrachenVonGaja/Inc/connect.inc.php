@@ -5,24 +5,25 @@ $default_user = "dragons";
 $default_pswd = "ti19nahend88rik";
 $default_db = "db_dvg";
 
-$debug = false;
+$debug = true;
+$debug_connection = false;
 
 /**********************************/
 /* Datenbankverbindung herstellen */
 /**********************************/
 function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "localhost", $db = "db_dvg")
 {
-	global $debug;
+	global $debug_connection;
 	
 	# Aktuelle Zeit ausgeben
-	if ($debug) echo "<br />\n" . timestamp() . "<br />\n";
+	if ($debug_connection) echo "<br />\n" . timestamp() . "<br />\n";
 	
 	# Verbindungsaufbau zur Datenbank
 	$connection = new mysqli($host, $user, $pswd, $db);
 	if (mysqli_connect_error()) {
 		die("Verbindungsfehler (" . mysqli_connect_errno() . ") " . mysqli_connect_error());
 	}
-	if ($debug)  echo "Verbunden mit Datenbank " . $db . " ... " . $connection->host_info . "<br />\n";
+	if ($debug_connection)  echo "Verbunden mit Datenbank " . $db . " ... " . $connection->host_info . "<br />\n";
 	return $connection;
 }
 
@@ -31,14 +32,14 @@ function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "
 /*******************************/
 function close_connection($connection)
 {
-	global $debug;
+	global $debug_connection;
 	
 	# Aktuelle Zeit ausgeben
-	if ($debug)  echo "<br />\n" . timestamp() . "<br />\n";
+	if ($debug_connection)  echo "<br />\n" . timestamp() . "<br />\n";
 	
 	# Verbindung zur Datenbank trennen
 	$connection->close();
-	if ($debug)  echo "Verbindung zur Datenbank getrennt ... <br />\n";
+	if ($debug_connection)  echo "Verbindung zur Datenbank getrennt ... <br />\n";
 	return true;
 }
 
