@@ -1,6 +1,7 @@
+
 <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
 <?php
-    if(isset($_POST["button_register"]))
+     if(isset($_POST["button_register"]))
     {
         $ergebnis = get_anmeldung($_POST['reg_user']);
         if ( ! $ergebnis)
@@ -36,7 +37,7 @@
             {
                 print "Super! Passwort erraten!";
                 ?>
-                <!-- Neuer Spieler anlegen -->
+<!-- Neuer Spieler anlegen -->
 
 <h3 align="center">Account</h3>
 
@@ -201,8 +202,14 @@ if(isset($_POST["button_neuerSpieler"]))
             {
                 print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
                 /*Irgendwas aufrufen (z.B. GalgenmŠnnchen)*/
-                   ?>
-                   <!-- Registrierung -->
+            }
+        }
+        print "<br />\n";
+    }
+}
+?>   
+
+<!-- Registrierung -->
 
 
     Benutzername:<input type="text" name="reg_user" size="15">
@@ -222,13 +229,9 @@ if(isset($_POST["button_neuerSpieler"]))
 
         
  <p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
-           <?php }
-        }
-        print "<br />\n";
-    }
-    
-   ?>
-</form>
+ </form>
+<?php
+
          
 
 
