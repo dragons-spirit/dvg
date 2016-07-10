@@ -35,7 +35,8 @@
             if ($ergebnis[2] == $_POST['login_pswd'])
             {
                 print "Super! Passwort erraten!";
-                ?><!-- Neuer Spieler anlegen -->
+                ?>
+                <!-- Neuer Spieler anlegen -->
 
 <h3 align="center">Account</h3>
 
@@ -219,21 +220,15 @@ else
     Passwort:<input type="password" name="login_pswd" size="15">
     <input type="submit" name="button_login" value="anmelden">
         <?php
-}?>
-</form>
+}
                 
             }
             else
             {
                 print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
                 #Irgendwas aufrufen (z.B. Galgenmännchen)
-            }
-        }
-        print "<br />\n";
-    }
-    
-   ?>
-            <!-- Registrierung -->
+                   ?>
+                   <!-- Registrierung -->
 
 
     Benutzername:<input type="text" name="reg_user" size="15">
@@ -250,7 +245,15 @@ else
     Benutzername:<input type="text" name="login_user" size="15">
     Passwort:<input type="password" name="login_pswd" size="15">
     <input type="submit" name="button_login" value="anmelden">
+</form>
         
  <p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
+           <?php }
+        }
+        print "<br />\n";
+    }
+    
+   ?>
+         
 
 
