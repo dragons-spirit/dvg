@@ -222,11 +222,12 @@ else
         <?php
 }
                 
-            }
+            
+            
             else
             {
                 print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
-                #Irgendwas aufrufen (z.B. GalgenmŠnnchen)
+                /*Irgendwas aufrufen (z.B. GalgenmŠnnchen)*/
                    ?>
                    <!-- Registrierung -->
 
@@ -245,7 +246,7 @@ else
     Benutzername:<input type="text" name="login_user" size="15">
     Passwort:<input type="password" name="login_pswd" size="15">
     <input type="submit" name="button_login" value="anmelden">
-</form>
+
         
  <p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
            <?php }
@@ -253,7 +254,7 @@ else
         print "<br />\n";
     }
     
-   ?>
+   ?></form>
          
 
 
