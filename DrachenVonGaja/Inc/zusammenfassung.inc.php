@@ -22,6 +22,13 @@
         }
         print "<br />\n";
     }
+    else
+    {
+        
+        echo "<p align='center'>Bitte registriere dich, wenn du noch nicht angemeldet bist!</p>";
+        echo "<br />";
+        echo "<br />";
+    }
 
 
     if(isset($_POST["button_login"]))
@@ -59,7 +66,7 @@ if(isset($_POST["button_neuerSpieler"]))
                 <td><input type="submit" style="background:url(./Bilder/Erdei_klein.png); height:110px; width:90px; background-repeat:no-repeat;" alt="Erdelement" name="button_erdelement" value=""></td>
                 <td><input type="submit" style="background:url(./Bilder/Wasserei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Wasserelement" name="button_wasserelement" value=""></td>
                 <td><input type="submit" style="background:url(./Bilder/Feuerei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Feuerelement" name="button_feuerelement" value=""></td>
-                <td><input type="submit" style="background:url(./Bilder/Luftei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt=Luftelement" name="button_luftelement" value=""></td>
+                <td><input type="submit" style="background:url(./Bilder/Luftei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Luftelement" name="button_luftelement" value=""></td>
             </tr>
            <tr>
                 <td>Beschreibung von Erdelement</td>
