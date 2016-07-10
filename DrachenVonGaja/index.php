@@ -39,13 +39,17 @@
               
         */
         ?>
-        <div id="anmeldung">
+       <div id="anmeldung">
             
             <?php
-            include("Inc/navi.inc.php");
+            /*include("Inc/navi.inc.php");*/
+            include("Inc/db_funktionen.php");
+            include("Inc/zusammenfassung.inc.php");
             ?>
           
         </div>
+        
+        
         
          
         <?php
