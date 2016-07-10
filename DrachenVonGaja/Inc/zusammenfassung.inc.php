@@ -196,34 +196,7 @@ if(isset($_POST["button_neuerSpieler"]))
         }
 
 }
-    
-
-
-else
-{
-?>
-    <!-- Registrierung -->
-
-
-    Benutzername:<input type="text" name="reg_user" size="15">
-    Passwort:<input type="password" name="reg_pswd" size="15">
-    E-Mail: <input type="email" name="reg_mail" size="30">
-    <input type="submit" name="button_register" value="registrieren">
-        
-        
-<br />
-<br />
-
-<!-- Anmeldung -->
-
-    Benutzername:<input type="text" name="login_user" size="15">
-    Passwort:<input type="password" name="login_pswd" size="15">
-    <input type="submit" name="button_login" value="anmelden">
-        <?php
-}
-                
-            
-            }          
+             
             else
             {
                 print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
@@ -255,23 +228,6 @@ else
     }
     
    ?>
-   
-    Benutzername:<input type="text" name="reg_user" size="15">
-    Passwort:<input type="password" name="reg_pswd" size="15">
-    E-Mail: <input type="email" name="reg_mail" size="30">
-    <input type="submit" name="button_register" value="registrieren">
-        
-        
-<br />
-<br />
-
-<!-- Anmeldung -->
-
-    Benutzername:<input type="text" name="login_user" size="15">
-    Passwort:<input type="password" name="login_pswd" size="15">
-    <input type="submit" name="button_login" value="anmelden">
-        
-    <p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
 </form>
          
 
