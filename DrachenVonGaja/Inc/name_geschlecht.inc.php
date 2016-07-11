@@ -8,3 +8,11 @@
     </select>
     <tr><td><input type="submit" name="button_spieleseite" value="Zur Spielseite"></td></tr>
 </table>
+<?php
+
+if(isset($_POST["button_spieleseite"]))
+{
+ insert_spieler($login, $gattung, $name, $geschlecht);
+}
+
+?>

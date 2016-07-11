@@ -180,7 +180,8 @@ function insert_spieler($login, $gattung, $name, $geschlecht)
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("INSERT INTO spieler (account_id, bilder_id, gattung_id, level_id, position_id, name, geschlecht, staerke, intelligenz, magie, element_feuer, element_wasser, element_erde, element_luft, gesundheit, max_gesundheit, energie, max_energie, balance) VALUES (?, 1, ?, 1, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
-		if (! $account_id = get_account_id($login)){
+		if (! $account_id = get_account_id($login))
+		{
 			close_connection($connect_db_dvg);
 			return false;
 		}

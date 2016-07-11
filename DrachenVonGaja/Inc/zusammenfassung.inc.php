@@ -1,6 +1,9 @@
 
 <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
 <?php
+    $gattung = "" ;
+    $element = "" ;
+    
      if(isset($_POST["button_register"]))
     {
         $ergebnis = get_anmeldung($_POST['reg_user']);
@@ -44,14 +47,23 @@
             {
                 print "Super! Passwort erraten!";
                 ?>
-<!-- Neuer Spieler anlegen -->
-
-<h3 align="center">Account</h3>
-
-
-<input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
+                
+                <!-- Neuer Spieler anlegen -->
+                <h3 align="center">Account</h3>
+                <input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
     
-<?php
+                <?php
+            }
+            else
+            {
+                print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
+                /*Irgendwas aufrufen (z.B. GalgenmŠnnchen)*/
+            }
+        }
+        print "<br />\n";
+    }
+    
+    
 if(isset($_POST["button_neuerSpieler"]))
 {
 
@@ -74,17 +86,17 @@ if(isset($_POST["button_neuerSpieler"]))
                 <td>Beschreibung von Feuerelement</td>
                 <td>Beschreibung von Luftelement </td>
            </tr>
-
-       
-        
 </table>
 
-
 <?php
+}
+
     if(isset($_POST["button_erdelement"]))
         {
         echo "Du hast das Erdelement ausgewŠhlt!";
+        $element = "Erde";
         #Zeige Gebiete fŸr Erdelement
+        
         ?>
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         
@@ -95,21 +107,7 @@ if(isset($_POST["button_neuerSpieler"]))
             </tr>            
         </table>
         <?php
-                if(isset($_POST["button_dschungel"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                echo "Hier mŸsste etwas dastehen!";
-                }
-            
-                if(isset($_POST["button_kristallhoehle"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                }
-                else
-                {
-                echo "W&auml;hle ein Heimatgebiet aus!";
-                }
-        } 
+        }
         
     if(isset($_POST["button_wasserelement"]))
         {
@@ -125,21 +123,9 @@ if(isset($_POST["button_neuerSpieler"]))
             </tr>
         </table>
         <?php
-                if(isset($_POST["button_eissee"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                }
-        
-                if(isset($_POST["button_sumpf"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                }
-                else
-                {
-                echo "W&auml;hle ein Heimatgebiet aus!";
-                }
+                
         }
-        
+
         if(isset($_POST["button_feuerelement"]))
         {
         echo "Du hast das Feuerelement ausgew&auml;hlt!";
@@ -154,20 +140,9 @@ if(isset($_POST["button_neuerSpieler"]))
             </tr>
         </table>
         <?php
-                if(isset($_POST["button_vulkan"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                 }
-                        
-                if(isset($_POST["button_wueste"]))
-                 {
-                 include("Inc/name_geschlecht.inc.php");
-                 }
-                 else
-                {
-                echo "W&auml;hle ein Heimatgebiet aus!";
-                }
-        } 
+               
+        }
+ 
 
        if(isset($_POST["button_luftelement"]))
         {
@@ -183,37 +158,11 @@ if(isset($_POST["button_neuerSpieler"]))
             </tr>
         </table>
         <?php
-                if(isset($_POST["button_klippe"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                }
-                        
-                if(isset($_POST["button_mamutbaum"]))
-                {
-                include("Inc/name_geschlecht.inc.php");
-                }
-                else
-                {
-                echo "W&auml;hle ein Heimatgebiet aus!";
-                }
-        } 
-        else
-        {
-        echo "W&auml;hle ein Element aus!";
                 
-        }
+        } 
 
-}
              
-            else
-            {
-                print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
-                /*Irgendwas aufrufen (z.B. GalgenmŠnnchen)*/
-            }
-        }
-        print "<br />\n";
-    }
-}
+           
 ?>   
 
 <!-- Registrierung -->
@@ -236,8 +185,21 @@ if(isset($_POST["button_neuerSpieler"]))
 
         
  <p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
- </form>
+
+ 
 <?php
+                
+                if(isset($_POST["button_mamutbaum"]) or isset($_POST["button_klippe"]) or isset($_POST["button_wueste"]) or isset($_POST["button_dschungel"]) or isset($_POST["button_kristallhoehle"]) or isset($_POST["button_eissee"]) or isset($_POST["button_sumpf"]) or isset($_POST["button_vulkan"]))
+                {
+                    include("Inc/name_geschlecht.inc.php");
+                    
+                }
+                
+                
+                
+                
+                
+ ?></form>
 
          
 
