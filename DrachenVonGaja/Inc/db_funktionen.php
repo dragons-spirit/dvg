@@ -110,7 +110,7 @@ function insert_registrierung($login, $passwort, $email)
 		}
 	}
 	
-	if ($stmt = $connect_db_dvg->prepare("INSERT INTO account (login, passwort, email, aktiv) VALUES (?, ?, ?, true)")){
+	if ($stmt = $connect_db_dvg->prepare("INSERT INTO account (login, passwort, email, aktiv, rolle) VALUES (?, ?, ?, true, 'Spieler')")){
 		$stmt->bind_param('sss', $login, $passwort, $email);
 		$stmt->execute();
 		if ($debug) echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
@@ -163,26 +163,65 @@ function get_start_gattung($gattung)
 
 
 #***************************************************************************************************************
+#*************************************************** GEBIET ****************************************************
+#***************************************************************************************************************
+
+
+#---------------------------------------------- SELECT Gebiet.id ----------------------------------------------
+# 	-> gebiet.titel (str)
+#	<- gebiet.id (int)
+
+function get_gebiet_id($gebiet_titel)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("SELECT id FROM gebiet WHERE titel = ?")){
+		$stmt->bind_param('s', $gebiet_titel);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nGebiet_id abgeholt für: [" . $gebiet_titel . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** SPIELER ***************************************************
 #***************************************************************************************************************
 
 
 #----------------------------------------------- INSERT Spieler.* ----------------------------------------------
 # 	-> account.login (str)
+#	-> gebiet.titel (str) - gewähltes Startgebiet
 #	-> gattung.titel (str) - gewählte Gattung
 #	-> name (str) - gewählter Spielername
 #	-> geschlecht (str) - gewähltes Geschlecht
 #	<- true/false
 
-function insert_spieler($login, $gattung, $name, $geschlecht)
+function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("INSERT INTO spieler (account_id, bilder_id, gattung_id, level_id, position_id, name, geschlecht, staerke, intelligenz, magie, element_feuer, element_wasser, element_erde, element_luft, gesundheit, max_gesundheit, energie, max_energie, balance) VALUES (?, 1, ?, 1, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
+	if ($stmt = $connect_db_dvg->prepare("INSERT INTO spieler (account_id, bilder_id, gattung_id, level_id, gebiet_id, name, geschlecht, staerke, intelligenz, magie, element_feuer, element_wasser, element_erde, element_luft, gesundheit, max_gesundheit, energie, max_energie, balance) VALUES (?, 1, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
 		if (! $account_id = get_account_id($login))
 		{
 			close_connection($connect_db_dvg);
+			echo "<br />\nLogin nicht gefunden<br />\n";
+			return false;
+		}
+		if (! $gebiet_id = get_gebiet_id($gebiet))
+		{
+			close_connection($connect_db_dvg);
+			echo "<br />\nGebiet nicht gefunden<br />\n";
 			return false;
 		}
 		if ($gattung_data = get_start_gattung($gattung)){
@@ -197,18 +236,20 @@ function insert_spieler($login, $gattung, $name, $geschlecht)
 		}
 		else{
 			close_connection($connect_db_dvg);
+			echo "<br />\nGattung nicht gefunden<br />\n";
 			return false;
 		}
 		$max_gesundheit = berechne_max_gesundheit($start_staerke, $start_intelligenz, $start_magie);
 		$max_energie = berechne_max_energie($start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft);
 		
-		$stmt->bind_param('ddssddddddddddd', $account_id, $gattung_id, $name, $geschlecht, $start_staerke, $start_intelligenz, $start_magie, $start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft, $max_gesundheit, $max_gesundheit, $max_energie, $max_energie);
+		$stmt->bind_param('dddssddddddddddd', $account_id, $gattung_id, $gebiet_id, $name, $geschlecht, $start_staerke, $start_intelligenz, $start_magie, $start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft, $max_gesundheit, $max_gesundheit, $max_energie, $max_energie);
 		$stmt->execute();
-		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $name . " | " . $geschlecht . " | " . $account_id . " | " . $gattung . "]<br />\n";
+		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $account_id . " | " . $name . " | " . $geschlecht . " | " . $gattung . " | " . $gebiet . "]<br />\n";
 		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in <br />\n";
+		echo "<br />\nQuerryfehler in insert_spieler()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
