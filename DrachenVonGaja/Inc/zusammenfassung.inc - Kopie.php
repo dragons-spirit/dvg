@@ -1,16 +1,8 @@
-<form id="temp" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
-
 <?php
     
 print "Session-Parameter 2<br/>";
 print_r($_SESSION);
 print "<br/>";
-	
-	if (isset($_POST["button_logout"]))
-	{
-		session_unset();
-		session_destroy();
-	}
 	
 	
 	if(isset($_POST["button_login"]))
@@ -56,12 +48,17 @@ print "<br/>";
 ?>
 
 
-
 <!--
 ############
 #  Logout  #
 ############
 -->
+<form name="form-logout" method="POST" action="
+<?php
+	session_destroy();
+	echo $_SERVER['PHP_SELF'];
+?>">
+
 <?php
 	if (isset($_SESSION['login_name']))
 	{
@@ -72,6 +69,7 @@ print "<br/>";
 <?php
 	}
 ?>
+</form>
 
 
 
@@ -80,6 +78,7 @@ print "<br/>";
 #	Anmeldung	#
 #################
 -->
+<form id="temp" name="form-anmeldung" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 <?php
 	if ((!isset($_POST["button_acc_neu"]) and !isset($_SESSION['login_name'])) or isset($_SESSION['registrierung_ok']))
 	{
@@ -105,12 +104,14 @@ print "<br/>";
 <?php
     }
 ?>
+</form>
 
 <!--
 #####################
 #	Registrierung	#
 #####################
 -->
+<form id="temp" name="form-anmeldung" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 <?php
 	if (isset($_POST["button_acc_neu"]) or isset($_POST["button_nochmal"]))
 	{
@@ -132,6 +133,7 @@ print "<br/>";
 <?php
     }
 ?>
+</form>
 
 
 <!--	
@@ -149,6 +151,7 @@ print "<br/>";
 #######################################
 -->
 <?php
+	if(isset($_POST["button_neuerSpieler"]))
 	if(isset($_POST["button_neuerSpieler"]))
 	{
 		$_SESSION['letzte_seite'] = "neuer_spieler_element";
@@ -302,6 +305,7 @@ print "<br/>";
 print "Session-Parameter 3<br/>";
 print_r($_SESSION);
 print "<br/>";
+echo session_write_close();
 ?>
 </form>
 
