@@ -79,6 +79,36 @@ function get_anmeldung($login)
 }
 
 
+# 	-> account.email (str)
+#	Array mit Accountdaten [Position]
+#	<- [0] id
+#	<- [1] login
+#	<- [2] passwort
+#	<- [3] email
+#	<- [4] aktiv
+#	<- [5] letzter_login
+
+function get_anmeldung_email($email)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("SELECT * FROM account WHERE email = ?")){
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nAnmeldedaten abgeholt für: [" . $email . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row;
+	} else {
+		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
 #---------------------------------------------- INSERT Account.* ----------------------------------------------
 # 	-> account.login (str)
 # 	-> account.passwort (str)
@@ -92,22 +122,24 @@ function insert_registrierung($login, $passwort, $email)
 	$log = false;
 	
 	if ($account_existiert = get_anmeldung($login)){
-		if ($account_existiert[1] = $login){
+		if ($account_existiert[1] == $login){
 			echo $account_existiert[1];
 			echo $login;
 			echo "Nutzer schon vorhanden<br />\n";
 			$log = true;
 		}
-		if ($account_existiert[3] = $email){
+	}
+	if ($account_existiert = get_anmeldung_email($email)){
+		if ($account_existiert[3] == $email){
 			echo $account_existiert[3];
 			echo $email;
 			echo "Email schon in Benutzung<br />\n";
 			$log = true;
 		}
-		if ($log){
-			close_connection($connect_db_dvg);
-			return false;
-		}
+	}
+	if ($log){
+		close_connection($connect_db_dvg);
+		return false;
 	}
 	
 	if ($stmt = $connect_db_dvg->prepare("INSERT INTO account (login, passwort, email, aktiv, rolle) VALUES (?, ?, ?, true, 'Spieler')")){

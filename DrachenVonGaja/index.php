@@ -2,7 +2,6 @@
 
 <?php
 	session_start();
-	$_SESSION['letzte_seite'] = "index";
 ?>
 
 <html>
@@ -27,29 +26,15 @@
 			<div id="header">
 				<h3 align="center">Drachen von Gaja</h3>  
 			</div>
-<?php	
-			include("Inc/testspieldaten.inc.php");
 			
-			/*
-			include("Inc/connect.inc.php");
-			SESSION_START();
-			$result = mysql_query ($sql)OR die(mysql_error());; 
-			*/
-?>	
 			<div id="anmeldung">
 <?php	
-				/*include("Inc/navi.inc.php");*/
 				include("Inc/db_funktionen.php");
 				include("Inc/zusammenfassung.inc.php");
 ?>	
 			</div>
-        
-<?php
-			/*mysql_close();*/
-?>
-        
-           
-			<div id="footer">
+                
+           	<div id="footer">
 				<h4 align="center"><a href="index.php?id=7">Impressum</a></h4>
 			</div>
         </div>

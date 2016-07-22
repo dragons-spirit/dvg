@@ -1,27 +1,24 @@
-<form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>">
-<?php    
+<form id="temp" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
-#################
-#	Anmeldung	#
-#################
-
-	if ($_SESSION['letzte_seite'] = "index" or $_SESSION['letzte_seite'] = "registrierung")
-	{
-		$_SESSION['letzte_seite'] = "login";
-?>
-		Benutzername:<input type="text" name="login_user" size="15">
-		Passwort:<input type="password" name="login_pswd" size="15">
-		<input type="submit" name="button_login" value="anmelden">
-		<br />
-		<br />
-		<input type="submit" name="button_acc_neu" value="Neuer Account">
 <?php
+
+	if ($debug)
+	{
+		print "Session-Parameter Beginn<br/>";
+		print_r($_SESSION);
+		print "<br/>";
+	}
+	
+	if (isset($_POST["button_logout"]))
+	{
+		session_unset();
+		session_destroy();
 	}
 	
 	
 	if(isset($_POST["button_login"]))
     {
-        $ergebnis = get_anmeldung($_POST['login_user']);
+		$ergebnis = get_anmeldung($_POST['login_user']);
         if (!$ergebnis)
         {
             print "Benutzer existiert nicht!";
@@ -30,29 +27,107 @@
         {
             if ($ergebnis[2] == $_POST['login_pswd'])
             {
-                $_SESSION['login'] = $_POST['login_user'];
+                $_SESSION["login_name"] = $_POST['login_user'];
+				unset ($_SESSION['registrierung_ok']); 
 				print "Anmeldung erfolgreich";
-?>
-                <!-- Neuer Spieler anlegen -->
-                <h3 align="center">Account</h3>
-                <input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
-<?php
             }
             else
             {
                 print "Du kommst hier nicht rein, aber du kannst es gern noch einmal versuchen.";
-                /*Irgendwas aufrufen (z.B. Galgenmaennchen)*/
             }
         }
         print "<br />\n";
     }
 
 
+	if(isset($_POST["button_register"]))
+    {
+		$daten_ok = true;
+		if ($_POST['reg_user'] == ""){ print "Bitte geben Sie einen Benutzernamen ein.<br />\n"; $daten_ok = false;}
+		if ($_POST['reg_pswd'] == ""){ print "Bitte geben Sie ein Passwort ein.<br />\n";  $daten_ok = false;}
+		if ($_POST['reg_mail'] == ""){ print "Bitte geben Sie eine E-Mailadresse ein.<br />\n"; $daten_ok = false;}
+		if (get_anmeldung($_POST['reg_user'])){ "Nutzer bereits vorhanden.<br />\n"; $daten_ok = false;}
+		if (get_anmeldung_email($_POST['reg_mail'])){ "E-Mailadresse bereits registriert.<br />\n"; $daten_ok = false;}
+				
+		if ($daten_ok)
+        {
+            $_SESSION['registrierung_ok'] = true;
+			insert_registrierung($_POST['reg_user'], $_POST['reg_pswd'], $_POST['reg_mail']);
+			print "Registrierung erfolgt";
+        }
+		print "<br />\n";
+    }
+	
+	
+	if(isset($_POST["button_neuerSpieler"]))
+	{
+		$_SESSION['letzte_seite'] = "neuer_spieler_element";
+	}
+?>
+
+
+
+<!--
+############
+#  Logout  #
+############
+-->
+<?php
+	if (isset($_SESSION['login_name']))
+	{
+?>
+		<p align="right">
+			<input type="submit" name="button_logout" value="Logout">
+		</p>
+<?php
+	}
+?>
+
+
+
+<!--
+#################
+#	Anmeldung	#
+#################
+-->
+<?php
+	if ((!isset($_POST["button_acc_neu"]) and !isset($_SESSION['login_name'])) or isset($_SESSION['registrierung_ok']))
+	{
+		$_SESSION['letzte_seite'] = "login";
+?>
+		Benutzername:<input type="text" name="login_user" size="15">
+		Passwort:<input type="password" name="login_pswd" size="15">
+		<input type="submit" name="button_login" value="anmelden">
+		<br />
+		<br />
+<?php
+		if (!isset($_SESSION['registrierung_ok']))
+		{
+?>
+			<input id="temp2" type="submit" name="button_acc_neu" value="Neuer Account">
+			<br />
+			<br />
+<?php
+		}
+	}
+	
+	if(isset($_SESSION["login_name"]) and $_SESSION['letzte_seite'] == "login")
+    {
+?>
+        <h3 align="center">Account</h3>
+        <input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
+		<br />
+<?php
+    }
+?>
+
+<!--
 #####################
 #	Registrierung	#
 #####################
-	
-	if (isset($_POST["button_acc_neu"]))
+-->
+<?php
+	if (isset($_POST["button_acc_neu"]) or isset($_POST["button_nochmal"]))
 	{
 		$_SESSION['letzte_seite'] = "registrierung";
 ?>
@@ -64,45 +139,33 @@
 	}
 
 	
-	if(isset($_POST["button_register"]))
+	if(isset($_POST["button_register"]) and !isset($_SESSION['registrierung_ok']))
     {
-		$ergebnis = get_anmeldung($_POST['reg_user']);
-        if ( ! $ergebnis and $_POST['reg_user'] != '' and $_POST['reg_pswd'] != '')
-        {
-            insert_registrierung($_POST['reg_user'], $_POST['reg_pswd'], $_POST['reg_mail']);
-            print "Registrierung erfolgt";
-        }
-        else
-        {
-            if ($ergebnis[1] == $_POST['reg_user']) print "Nutzer existiert bereits.<br />";
-            if ($ergebnis[2] == $_POST['reg_pswd']) print "Wählen Sie ein Passwort.<br />";
-			if ($ergebnis[3] == $_POST['reg_mail']) print "E-Mailadresse schon vorhanden.<br />";
-        }
-        print "<br />\n";
+?>
+		<input type="submit" name="button_acc_neu" value="Nochmal">
+		<br />
+<?php
     }
-    else
-    {
-        echo "<p align='center'>Bitte registriere dich, wenn du noch nicht angemeldet bist!</p>";
-        echo "<br />";
-        echo "<br />";
-    }
+?>
 
+
+<!--	
 #######################
 #	Hintergrundbild   #
 #######################
-	
-?>
+-->
+
 	<p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
-<?php
 
-
+	
+<!--
 #######################################
 #	Neuer Spieler - Element waehlen   #
 #######################################
-    
+-->
+<?php
 	if(isset($_POST["button_neuerSpieler"]))
 	{
-		$_SESSION['letzte_seite'] = "neuer_spieler_element";
 ?>
 		<!-- Element und Heimatgebiet auswaehlen -->
 		<h3 align="center">Auswahl des Elementes</h3>
@@ -130,7 +193,7 @@
 	
     if(isset($_POST["button_erdelement"]))
     {
-        $_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
+		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
 		echo "Du hast das Erdelement ausgew&auml;hlt!";
         $_SESSION['element'] = "Erde";
 		$_SESSION['gattung'] = "Erddrache";
@@ -148,7 +211,7 @@
 
     if(isset($_POST["button_wasserelement"]))
     {
-        $_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
+		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
 		echo "Du hast das Wasserelement ausgew&auml;hlt!";
 		$_SESSION['element'] = "Wasser";
 		$_SESSION['gattung'] = "Wasserdrache";
@@ -166,7 +229,7 @@
 
     if(isset($_POST["button_feuerelement"]))
     {
-        $_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
+		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
 		echo "Du hast das Feuerelement ausgew&auml;hlt!";
 		$_SESSION['element'] = "Feuer";
 		$_SESSION['gattung'] = "Feuerdrache";
@@ -184,7 +247,7 @@
 
     if(isset($_POST["button_luftelement"]))
     {
-        $_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
+		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
 		echo "Du hast das Luftelement ausgew&auml;hlt!";
 		$_SESSION['element'] = "Luft";
 		$_SESSION['gattung'] = "Luftdrache";
@@ -215,8 +278,8 @@
 ###############################################
 	
     
-	#if(isset($_POST["button_mammutbaum"]) or isset($_POST["button_klippe"]) or isset($_POST["button_wueste"]) or isset($_POST["button_dschungel"]) or isset($_POST["button_kristallhoehle"]) or isset($_POST["button_eissee"]) or isset($_POST["button_sumpf"]) or isset($_POST["button_vulkan"]))
-	if( $_SESSION['letzte_seite'] = "neuer_spieler_startgebiet")
+	if(isset($_POST["button_mammutbaum"]) or isset($_POST["button_klippe"]) or isset($_POST["button_wueste"]) or isset($_POST["button_dschungel"]) or isset($_POST["button_kristallhoehle"]) or isset($_POST["button_eissee"]) or isset($_POST["button_sumpf"]) or isset($_POST["button_vulkan"]))
+	#if( $_SESSION['letzte_seite'] == "neuer_spieler_startgebiet")
     {
 		$_SESSION['letzte_seite'] = "neuer_spieler_name_geschlecht";
 ?>
@@ -247,11 +310,18 @@
 			$_SESSION['geschlecht'] = "M";
 		}
 		
-		insert_spieler($_SESSION['login'], $_SESSION['startgebiet'], $_SESSION['gattung'], $_SESSION['spielername'], $_SESSION['geschlecht']);
+		insert_spieler($_SESSION['login_name'], $_SESSION['startgebiet'], $_SESSION['gattung'], $_SESSION['spielername'], $_SESSION['geschlecht']);
+	}
+
+
+	if ($debug)
+	{
+		print "Session-Parameter Ende<br/>";
+		print_r($_SESSION);
+		print "<br/>";
 	}
 ?>
 </form>
 
-         
 
 
