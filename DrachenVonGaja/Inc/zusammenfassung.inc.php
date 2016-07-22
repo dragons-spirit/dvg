@@ -12,7 +12,6 @@
 	if (isset($_POST["button_logout"]))
 	{
 		session_unset();
-		session_destroy();
 	}
 	
 	
@@ -111,11 +110,49 @@
 		}
 	}
 	
-	if(isset($_SESSION["login_name"]) and $_SESSION['letzte_seite'] == "login")
+	if(isset($_SESSION['login_name']) and $_SESSION['letzte_seite'] == "login")
     {
 ?>
         <h3 align="center">Account</h3>
-        <input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
+<?php
+    	if ($spieler_zu_account = get_spieler($_SESSION['login_name']))
+		{
+			$count = 0;
+?>			
+			<table align="center" border="1px" color="black">
+				<tr>
+					<td>Nummer</td>
+					<td>Name</td>
+					<td>Gattung</td>
+					<td>Geschlecht</td>
+					<td>Level</td>
+					<td>Aktueller Ort</td>
+				</tr>
+<?php			
+			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
+			{
+				$count = $count + 1;
+?>			
+				<tr>
+					<td><?php echo $count ?></td>
+					<td><?php echo $row[6] . "<br />\n"; ?></td>
+					<td><?php echo $row[3] . "<br />\n"; ?></td>
+					<td><?php echo $row[7] . "<br />\n"; ?></td>
+					<td><?php echo $row[4] . "<br />\n"; ?></td>
+					<td><?php echo $row[5] . "<br />\n"; ?></td>
+				</tr>
+<?php
+			}
+?>
+			</table>
+<?php
+			
+		}
+		else{
+			echo "<br />\nKeine Spieler zum Account vorhanden.<br />\n";
+		}
+?>
+		<input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
 		<br />
 <?php
     }
@@ -141,7 +178,7 @@
 	
 	if(isset($_POST["button_register"]) and !isset($_SESSION['registrierung_ok']))
     {
-?>
+?>		
 		<input type="submit" name="button_acc_neu" value="Nochmal">
 		<br />
 <?php
