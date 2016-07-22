@@ -12,7 +12,7 @@
 	if (isset($_POST["button_logout"]))
 	{
 		session_unset();
-		session_destroy();
+		/*session_destroy();*/
 	}
 	
 	
