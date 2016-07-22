@@ -110,7 +110,11 @@
 		}
 	}
 	
+<<<<<<< HEAD
 	if(isset($_SESSION['login_name']) and $_SESSION['letzte_seite'] == "login")
+=======
+	if(isset($_SESSION["login_name"]) and isset($_SESSION['letzte_seite']) == "login")
+>>>>>>> origin/master
     {
 ?>
         <h3 align="center">Account</h3>
