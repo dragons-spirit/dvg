@@ -4,7 +4,7 @@
 	{
 		switch($_GET['id'])
 		{
-			case 1: include("Inc/anmelden.inc.php");
+			case 1: include("Index.php");
 			break;
 			case 2: include("Inc/registrieren.inc.php");
 			break;
@@ -21,9 +21,5 @@
 			default: include("Inc/anmelden.inc.php");
 			break;
 		}
-	}
-	else 
-	{
-	include("Inc/anmelden.inc.php");
 	}
 ?>
