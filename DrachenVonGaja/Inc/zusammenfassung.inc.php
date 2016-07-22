@@ -1,7 +1,8 @@
 <form id="temp" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
 <?php
-
+	
+	##### Ausgabe Session-Parameter wenn gewünscht #####
 	if ($debug)
 	{
 		print "Session-Parameter Beginn<br/>";
@@ -9,12 +10,15 @@
 		print "<br/>";
 	}
 	
+	
+	##### Logout löscht alle Session-Parameter #####
 	if (isset($_POST["button_logout"]))
 	{
 		session_unset();
 	}
 	
 	
+	##### Login löst Passwortprüfung und bei Erfolg Sicherung der Logindaten aus #####
 	if(isset($_POST["button_login"]))
     {
 		$ergebnis = get_anmeldung($_POST['login_user']);
@@ -27,6 +31,7 @@
             if ($ergebnis[2] == $_POST['login_pswd'])
             {
                 $_SESSION["login_name"] = $_POST['login_user'];
+				$_SESSION["login_rolle"] = $ergebnis[5];
 				unset ($_SESSION['registrierung_ok']); 
 				print "Anmeldung erfolgreich";
             }
@@ -38,7 +43,8 @@
         print "<br />\n";
     }
 
-
+	
+	##### Registrierung prüft Daten und legt bei Erfolg neuen Account an #####
 	if(isset($_POST["button_register"]))
     {
 		$daten_ok = true;
@@ -58,9 +64,24 @@
     }
 	
 	
+	##### Neuer Spieler aktualisiert letzte Seite #####
 	if(isset($_POST["button_neuerSpieler"]))
 	{
 		$_SESSION['letzte_seite'] = "neuer_spieler_element";
+	}
+	
+	
+	##### Spieler anlegen setzt Geschlecht und fügt neuen Spieler ein #####
+	if(isset($_POST["button_spieler_angelegt"]))
+	{
+		$_SESSION['spielername'] = $_POST["playname"];
+		if ($_POST['geschlecht'] == "Weiblich"){
+			$_SESSION['geschlecht'] = "W";
+		} else {
+			$_SESSION['geschlecht'] = "M";
+		}
+		
+		insert_spieler($_SESSION['login_name'], $_SESSION['startgebiet'], $_SESSION['gattung'], $_SESSION['spielername'], $_SESSION['geschlecht']);
 	}
 ?>
 
@@ -110,11 +131,7 @@
 		}
 	}
 	
-<<<<<<< HEAD
-	if(isset($_SESSION['login_name']) and $_SESSION['letzte_seite'] == "login")
-=======
-	if(isset($_SESSION["login_name"]) and isset($_SESSION['letzte_seite']) == "login")
->>>>>>> origin/master
+	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht"))
     {
 ?>
         <h3 align="center">Account</h3>
@@ -311,7 +328,7 @@
 	if(isset($_POST["button_vulkan"])) $_SESSION['startgebiet'] = "Vulkan";
 	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wueste";
     if(isset($_POST["button_klippe"])) $_SESSION['startgebiet'] = "Klippe";
-	if(isset($_POST["button_mammut"])) $_SESSION['startgebiet'] = "Mammutbaum"; 
+	if(isset($_POST["button_mammutbaum"])) $_SESSION['startgebiet'] = "Mammutbaum"; 
 
 
 ###############################################
@@ -332,7 +349,7 @@
 				<option value="Weiblich" name="gesch1">Weiblich</option>
 				<option value="Maennlich" name="gesch2">M&auml;nnlich</option>
 			</select>
-			<tr><td><input type="submit" name="button_spieleseite" value="Zur Spielseite"></td></tr>
+			<tr><td><input type="submit" name="button_spieler_angelegt" value="Spieler erstellen"></td></tr>
 		</table>
 <?php
 	}
@@ -341,20 +358,9 @@
 #############################
 #	Neuen Spieler anlegen   #
 #############################
+
 	
-	if(isset($_POST["button_spieleseite"]))
-	{
-		$_SESSION['spielername'] = $_POST["playname"];
-		if ($_POST["geschlecht"] = "Weiblich"){
-			$_SESSION['geschlecht'] = "W";
-		} else {
-			$_SESSION['geschlecht'] = "M";
-		}
-		
-		insert_spieler($_SESSION['login_name'], $_SESSION['startgebiet'], $_SESSION['gattung'], $_SESSION['spielername'], $_SESSION['geschlecht']);
-	}
-
-
+	
 	if ($debug)
 	{
 		print "Session-Parameter Ende<br/>";

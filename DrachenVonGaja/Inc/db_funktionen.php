@@ -59,7 +59,8 @@ function get_account_id($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] letzter_login
+#	<- [5] rolle
+#	<- [6] letzter_login
 
 function get_anmeldung($login)
 {
@@ -67,7 +68,7 @@ function get_anmeldung($login)
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	* 
+			SELECT 	*
 			FROM 	account 
 			WHERE 	login = ?")){
 		$stmt->bind_param('s', $login);
@@ -92,7 +93,8 @@ function get_anmeldung($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] letzter_login
+#	<- [5] rolle
+#	<- [6] letzter_login
 
 function get_anmeldung_email($email)
 {
