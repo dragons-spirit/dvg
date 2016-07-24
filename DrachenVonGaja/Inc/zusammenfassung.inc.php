@@ -199,7 +199,7 @@
 					<td><?php echo $count ?></td>
 					<td>
 						<?php echo $row[6] . "<br />\n"; ?>
-						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:80px; width:80px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[6]; ?>">
+						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:80px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[6]; ?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
