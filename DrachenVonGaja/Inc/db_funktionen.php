@@ -120,36 +120,6 @@ function get_anmeldung_email($email)
 }
 
 
-# 	-> account.email (str)
-#	Array mit Accountdaten [Position]
-#	<- [0] id
-#	<- [1] login
-#	<- [2] passwort
-#	<- [3] email
-#	<- [4] aktiv
-#	<- [5] letzter_login
-
-function get_anmeldung_email($email)
-{
-	global $debug;
-	$connect_db_dvg = open_connection();
-	
-	if ($stmt = $connect_db_dvg->prepare("SELECT * FROM account WHERE email = ?")){
-		$stmt->bind_param('s', $email);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$row = $result->fetch_array(MYSQLI_NUM);
-		if ($debug and $row) echo "<br />\nAnmeldedaten abgeholt für: [" . $email . "]<br />\n";
-		close_connection($connect_db_dvg);
-		return $row;
-	} else {
-		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
-		close_connection($connect_db_dvg);
-		return false;
-	}	
-}
-
-
 #---------------------------------------------- INSERT Account.* ----------------------------------------------
 # 	-> account.login (str)
 # 	-> account.passwort (str)
