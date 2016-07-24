@@ -5,7 +5,7 @@ $default_user = "dragons";
 $default_pswd = "ti19nahend88rik";
 $default_db = "db_dvg";
 
-$debug = false;
+$debug = true;
 $debug_connection = false;
 
 /**********************************/
