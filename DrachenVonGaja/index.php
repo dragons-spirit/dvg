@@ -27,7 +27,7 @@
 				<h3 align="center">Drachen von Gaja</h3>  
 			</div>
 			
-			<div id="anmeldung">
+			<div id="anmeldung" style="overflow:scroll;">
                             
                                 
 <?php
