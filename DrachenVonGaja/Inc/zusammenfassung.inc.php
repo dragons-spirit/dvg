@@ -112,6 +112,18 @@
 		
 		insert_spieler($_SESSION['login_name'], $_SESSION['startgebiet'], $_SESSION['gattung'], $_SESSION['spielername'], $_SESSION['geschlecht']);
 	}
+	
+	
+	##### Spielerlogin und Weiterleitung zur Spielseite #####
+	if(isset($_POST["button_spielerlogin"]))
+	{
+		$_SESSION['login_spieler'] = $_POST["button_spielerlogin"];
+?>
+		<script type="text/javascript">
+			window.location.href = "Inc/drachenvongaja.php"
+		</script>
+<?php
+	}
 ?>
 
 
@@ -165,7 +177,7 @@
 ?>
         <h3 align="center">Account</h3>
 <?php
-    	if ($spieler_zu_account = get_spieler($_SESSION['login_name']))
+    	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
 			$count = 0;
 ?>			
@@ -185,7 +197,10 @@
 ?>			
 				<tr>
 					<td><?php echo $count ?></td>
-					<td><?php echo $row[6] . "<br />\n"; ?></td>
+					<td>
+						<?php echo $row[6] . "<br />\n"; ?>
+						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:80px; width:80px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[6]; ?>">
+					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
 					<td><?php echo $row[4] . "<br />\n"; ?></td>

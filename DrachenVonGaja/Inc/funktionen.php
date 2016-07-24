@@ -21,6 +21,34 @@ function berechne_max_energie($start_element_feuer, $start_element_wasser, $star
 	return ($start_element_feuer + $start_element_wasser + $start_element_erde + $start_element_luft);	
 }
 
+function bild_zu_spielerlevel($level){
+	$bild = "buchstabe_E.png";
+	switch ($level) {
+    case 1:
+        $bild = "Babydrache.png";
+        break;
+    case 2:
+        $bild = "Drachenkind.png";
+        break;
+    case 3:
+        $bild = "JugendlicherDrache.png";
+        break;
+	case 4:
+        $bild = "ErwachsenerDrache.png";
+        break;
+	case 5:
+        $bild = "AusgewachsenerDrache.png";
+        break;
+	case 6:
+        $bild = "ErfahrenerDrache.png";
+        break;
+	case 7:
+        $bild = "AlterDrache.png";
+        break;
+	}
+	echo $bild;
+	return;
+}
 
 
 ?>

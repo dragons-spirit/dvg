@@ -265,7 +265,7 @@ function get_gebiet_id($gebiet_titel)
 #***************************************************************************************************************
 
 
-#----------------------------------------------- SELECT Spieler.* ----------------------------------------------
+#----------------------------------- SELECT Spieler.* (nur für Loginbereich) -----------------------------------
 # 	-> account.login (str)
 #	Array mit Spielerdaten [Position]
 #	<- [0] id
@@ -277,7 +277,7 @@ function get_gebiet_id($gebiet_titel)
 #	<- [6] name
 #	<- [7] geschlecht
 
-function get_spieler($login)
+function get_spieler_login($login)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -303,6 +303,55 @@ function get_spieler($login)
 		$result = $stmt->get_result();
 		close_connection($connect_db_dvg);
 		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------------------- SELECT Spieler.* ----------------------------------------------
+# 	-> spieler.name (str)
+#	Array mit Spielerdaten [Position]
+#	<- [0] id,
+#	<- [1] account_id, 
+#	<- [2] bilder_id, 
+#	<- [3] gattung_id, 
+#	<- [4] level_id, 
+#	<- [5] gebiet_id, 
+#	<- [6] name, 
+#	<- [7] geschlecht, 
+#	<- [8] staerke, 
+#	<- [9] intelligenz, 
+#	<- [10] magie, 
+#	<- [11] element_feuer, 
+#	<- [12] element_wasser, 
+#	<- [13] element_erde, 
+#	<- [14] element_luft, 
+#	<- [15] gesundheit, 
+#	<- [16] max_gesundheit, 
+#	<- [17] energie, 
+#	<- [18] max_energie, 
+#	<- [19] balance
+
+function get_spieler($spielername)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	spieler.*
+			FROM 	spieler
+			WHERE 	spieler.name = ?"))
+	{
+		$stmt->bind_param('s', $spielername);
+		$stmt->execute();
+		if ($debug) echo "<br />\nSpielerdaten für: [" . $spielername . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
 		close_connection($connect_db_dvg);
