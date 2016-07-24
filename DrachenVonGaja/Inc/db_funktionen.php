@@ -32,7 +32,10 @@ function get_account_id($login)
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("SELECT id FROM account WHERE login = ?")){
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id 
+			FROM 	account 
+			WHERE 	login = ?")){
 		$stmt->bind_param('s', $login);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -56,14 +59,18 @@ function get_account_id($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] letzter_login
+#	<- [5] rolle
+#	<- [6] letzter_login
 
 function get_anmeldung($login)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("SELECT * FROM account WHERE login = ?")){
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	*
+			FROM 	account 
+			WHERE 	login = ?")){
 		$stmt->bind_param('s', $login);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -75,7 +82,7 @@ function get_anmeldung($login)
 		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
-	}	
+	}
 }
 
 
@@ -86,14 +93,18 @@ function get_anmeldung($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] letzter_login
+#	<- [5] rolle
+#	<- [6] letzter_login
 
 function get_anmeldung_email($email)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("SELECT * FROM account WHERE email = ?")){
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	* 
+			FROM 	account 
+			WHERE 	email = ?")){
 		$stmt->bind_param('s', $email);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -142,7 +153,14 @@ function insert_registrierung($login, $passwort, $email)
 		return false;
 	}
 	
-	if ($stmt = $connect_db_dvg->prepare("INSERT INTO account (login, passwort, email, aktiv, rolle) VALUES (?, ?, ?, true, 'Spieler')")){
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO account (
+				login, 
+				passwort, 
+				email, 
+				aktiv, 
+				rolle) 
+			VALUES (?, ?, ?, true, 'Spieler')")){
 		$stmt->bind_param('sss', $login, $passwort, $email);
 		$stmt->execute();
 		if ($debug) echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
@@ -178,7 +196,17 @@ function get_start_gattung($gattung)
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("SELECT id, start_staerke, start_intelligenz, start_magie, start_element_feuer, start_element_wasser, start_element_erde, start_element_luft FROM gattung WHERE titel = ?")){
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, 
+					start_staerke, 
+					start_intelligenz, 
+					start_magie, 
+					start_element_feuer, 
+					start_element_wasser, 
+					start_element_erde, 
+					start_element_luft 
+			FROM 	gattung 
+			WHERE 	titel = ?")){
 		$stmt->bind_param('s', $gattung);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -208,7 +236,10 @@ function get_gebiet_id($gebiet_titel)
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("SELECT id FROM gebiet WHERE titel = ?")){
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id 
+			FROM 	gebiet 
+			WHERE 	titel = ?")){
 		$stmt->bind_param('s', $gebiet_titel);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -230,6 +261,52 @@ function get_gebiet_id($gebiet_titel)
 #***************************************************************************************************************
 
 
+#----------------------------------------------- SELECT Spieler.* ----------------------------------------------
+# 	-> account.login (str)
+#	Array mit Spielerdaten [Position]
+#	<- [0] id
+#	<- [1] account_id
+#	<- [2] bilder_id
+#	<- [3] gattung.titel
+#	<- [4] level_id
+#	<- [5] gebiet_id
+#	<- [6] name
+#	<- [7] geschlecht
+
+function get_spieler($login)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	spieler.id,
+					spieler.account_id,
+					spieler.bilder_id,
+					gattung.titel,
+					spieler.level_id,
+					gebiet.titel,
+					spieler.name,
+					spieler.geschlecht
+			FROM 	spieler
+					JOIN account ON spieler.account_id = account.id 
+					JOIN gattung ON spieler.gattung_id = gattung.id
+					JOIN gebiet ON spieler.gebiet_id = gebiet.id
+			WHERE 	account.login = ?"))
+	{
+		$stmt->bind_param('s', $login);
+		$stmt->execute();
+		if ($debug) echo "<br />\nSpieler für: [" . $login . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
 #----------------------------------------------- INSERT Spieler.* ----------------------------------------------
 # 	-> account.login (str)
 #	-> gebiet.titel (str) - gewähltes Startgebiet
@@ -243,7 +320,28 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("INSERT INTO spieler (account_id, bilder_id, gattung_id, level_id, gebiet_id, name, geschlecht, staerke, intelligenz, magie, element_feuer, element_wasser, element_erde, element_luft, gesundheit, max_gesundheit, energie, max_energie, balance) VALUES (?, 1, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO spieler (
+				account_id, 
+				bilder_id, 
+				gattung_id, 
+				level_id, 
+				gebiet_id, 
+				name, 
+				geschlecht, 
+				staerke, 
+				intelligenz, 
+				magie, 
+				element_feuer, 
+				element_wasser, 
+				element_erde, 
+				element_luft, 
+				gesundheit, 
+				max_gesundheit, 
+				energie, 
+				max_energie, 
+				balance) 
+			VALUES (?, 1, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
 		if (! $account_id = get_account_id($login))
 		{
 			close_connection($connect_db_dvg);
