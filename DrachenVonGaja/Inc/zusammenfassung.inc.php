@@ -15,8 +15,35 @@
 	if (isset($_POST["button_logout"]))
 	{
 		session_unset();
+	}
+	
+	
+	##### Adminbereich für komfortablen Datenbankzugriff und Administration #####
+	if (isset($_POST["button_admin"]) and isset($_SESSION['login_name']))
+	{
+		$_SESSION['letzte_seite'] = "adminbereich_login";
+		$ergebnis = get_anmeldung($_SESSION['login_name']);
+        if (!$ergebnis)
+        {
+            print "Kein angemeldeter Benutzer beim Klick auf \"Adminbereich\"?";
+        }
+        else
+        {
+            if ($ergebnis[5] == "Admin")
+            {
+				print "Auf in den Loginbereich ... <br/>";
+?>
+				Hier folgt bald die Weiterleitung nach "admin.php". (Java-Skript?)
+				<br/>
+<?php            
+			}
+            else
+            {
+                print "Adminbereich nur für Admins !!! <br/>";
+            }
+        }
+        print "<br />\n";
 
-		/*session_destroy();*/
 	}
 	
 	
@@ -336,8 +363,7 @@
 ###############################################
 #	Neuer Spieler - Name/Geschlecht waehlen   #
 ###############################################
-	
-    
+	    
 	if(isset($_POST["button_mammutbaum"]) or isset($_POST["button_klippe"]) or isset($_POST["button_wueste"]) or isset($_POST["button_dschungel"]) or isset($_POST["button_kristallhoehle"]) or isset($_POST["button_eissee"]) or isset($_POST["button_sumpf"]) or isset($_POST["button_vulkan"]))
 	#if( $_SESSION['letzte_seite'] == "neuer_spieler_startgebiet")
     {
@@ -361,6 +387,21 @@
 #	Neuen Spieler anlegen   #
 #############################
 
+
+
+
+##################
+#  Adminbereich  #
+##################
+
+	if (isset($_SESSION['login_name']))
+	{
+?>
+		<p align="right">
+			<input type="submit" name="button_admin" value="Adminbereich">
+		</p>
+<?php
+	}
 	
 	
 	if ($debug)

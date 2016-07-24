@@ -9,10 +9,14 @@ include("funktionen.php");
 
 get_account_id($login)
 get_anmeldung($login)
+get_anmeldung_email($email)
 insert_registrierung($login, $passwort, $email)
 
 get_start_gattung($gattung)
 
+get_gebiet_id($gebiet_titel)
+
+get_spieler($login)
 insert_spieler($login, $gattung, $name, $geschlecht)
 
 */
