@@ -133,7 +133,7 @@
 		}
 	}
 	
-	if(isset($_SESSION['login_name']) and isset($_SESSION['letzte_seite']) == "login" or isset($_SESSION['letzte_seite']) == "neuer_spieler_name_geschlecht")
+	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht"))
     {
 ?>
         <h3 align="center">Account</h3>
