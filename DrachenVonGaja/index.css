@@ -1,7 +1,8 @@
 
 body
 {
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
+    overflow: scroll;
     margin:auto;
     min-height:30%;
 }
