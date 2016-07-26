@@ -15,10 +15,10 @@
 	else
 	{
 		echo "Los geht's ...<br/>";
-		echo "Der Spieler [" . $_SESSION['login_spieler'] . "] ist über Account [" . $_SESSION['login_name'] . "] eingeloggt. <br/>";
+		echo "Der Spieler [spieler_id=" . $_SESSION['spieler_id'] . "] ist über Account [" . $_SESSION['login_name'] . "] eingeloggt. <br/>";
 	}
 	
-	if ($spielerdaten = get_spieler($_SESSION['login_spieler']))
+	if ($spielerdaten = get_spieler($_SESSION['spieler_id']))
 	{
 		$id = $spielerdaten[0]; 
 		$account_id = $spielerdaten[1]; 

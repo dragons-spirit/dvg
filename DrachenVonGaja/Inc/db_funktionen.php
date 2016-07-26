@@ -313,7 +313,7 @@ function get_spieler_login($login)
 
 
 #----------------------------------------------- SELECT Spieler.* ----------------------------------------------
-# 	-> spieler.name (str)
+# 	-> spieler.id (str)
 #	Array mit Spielerdaten [Position]
 #	<- [0] id,
 #	<- [1] account_id, 
@@ -336,7 +336,7 @@ function get_spieler_login($login)
 #	<- [18] max_energie, 
 #	<- [19] balance
 
-function get_spieler($spielername)
+function get_spieler($spieler_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -344,11 +344,11 @@ function get_spieler($spielername)
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	spieler.*
 			FROM 	spieler
-			WHERE 	spieler.name = ?"))
+			WHERE 	spieler.id = ?"))
 	{
-		$stmt->bind_param('s', $spielername);
+		$stmt->bind_param('s', $spieler_id);
 		$stmt->execute();
-		if ($debug) echo "<br />\nSpielerdaten für: [" . $spielername . "] geladen.<br />\n";
+		if ($debug) echo "<br />\nSpielerdaten für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		close_connection($connect_db_dvg);
@@ -440,43 +440,38 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 }
 
 #----------------------------------------------- DELETE Spieler.* ----------------------------------------------
-# 	-> account.login (str)
-#	-> gebiet.titel (str) - gewähltes Startgebiet
-#	-> gattung.titel (str) - gewählte Gattung
-#	-> name (str) - gewählter Spielername
-#	-> geschlecht (str) - gewähltes Geschlecht
+# 	-> spieler.id (str)
 #	<- true/false
 
-function delete_Spieler()
+function delete_Spieler($spieler_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
+	if ($spieler_data = get_spieler($spieler_id))
+		{
+			close_connection($connect_db_dvg);
+			echo "<br />\nLogin nicht gefunden<br />\n";
+			return false;
+		}
+	
+	echo "<br />\nSpieler [id=" . $spieler_data[0] . "] - " . $spieler_data[6] . " soll gelöscht werden.<br />\n";
+		
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT FROM spieler(
-				account_id, 
-				bilder_id, 
-				gattung_id, 
-				level_id, 
-				gebiet_id, 
-				name, 
-				geschlecht, 
-				staerke, 
-				intelligenz, 
-				magie, 
-				element_feuer, 
-				element_wasser, 
-				element_erde, 
-				element_luft, 
-				gesundheit, 
-				max_gesundheit, 
-				energie, 
-				max_energie, 
-				balance) 
-			VALUES (?, 1, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)"))
+			DELETE 
+			FROM 	spieler 
+			WHERE 	spieler.id = ?"))
 	{
-		echo ". $_account_id .";
+		$stmt->bind_param('d', $spieler_id);
+		$stmt->execute();
+		echo "<br />\nSpieler: [" . $spieler_data[6] . " wurde gelöscht.<br />\n";
 		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in insert_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
 	}
 }
 

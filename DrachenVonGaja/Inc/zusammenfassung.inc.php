@@ -117,7 +117,7 @@
 	##### Spielerlogin und Weiterleitung zur Spielseite #####
 	if(isset($_POST["button_spielerlogin"]))
 	{
-		$_SESSION['login_spieler'] = $_POST["button_spielerlogin"];
+		$_SESSION['spieler_id'] = $_POST["button_spielerlogin"];
 ?>
 		<script type="text/javascript">
 			window.location.href = "Inc/drachenvongaja.php"
@@ -178,14 +178,13 @@
         <h3 align="center">Account</h3>
         
         <script type="text/javascript">
-
-        function buttonwechsel()
-        {
-        document.getElementByName("button_spielerloeschen").style.visibility="hidden";
-        document.getElementByName("entgueltig_loeschen").style.visibility="visible";
-        }
-
-</script>
+			function buttonwechsel()
+			{
+				document.getElementById("b_sp_loe_1").style.visibility="hidden";
+				document.getElementById("b_sp_loe_2").style.visibility="visible";
+			}
+		</script>
+		
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
@@ -195,12 +194,12 @@
 				<tr>
 					<td>Nummer</td>
 					<td>Name</td>
-                                        <td>Bild</td>
+                    <td>Bild</td>
 					<td>Gattung</td>
 					<td>Geschlecht</td>
 					<td>Level</td>
 					<td>Aktueller Ort</td>
-                                        <td>LÖSCHEN</td>
+                    <td>LÖSCHEN</td>
 				</tr>
 <?php			
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
@@ -210,12 +209,17 @@
 				<tr>
 					<td><?php echo $count ?></td>
 					<td><?php echo $row[6] . "<br />\n"; ?></td>
-                                        <td><input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:150px; width:90px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[6]; ?>"></td>
+                    <td>
+						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:150px; width:90px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[0]; ?>">
+					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
 					<td><?php echo $row[4] . "<br />\n"; ?></td>
 					<td><?php echo $row[5] . "<br />\n"; ?></td>
-                                        <td align="center"><input type="submit" name="button_spielerloeschen" value="Ja" onclick="buttonwechsel()"><input type="submit" name="entgueltig_loeschen" value="Wirklich ?" style="visibility:hidden;"></td>
+                    <td align="center">
+						<input type="submit" id="b_sp_loe_1" name="button_spielerloeschen" value="Ja" onclick="buttonwechsel()">
+						<input type="submit" id="b_sp_loe_2" name="button_spielerloeschen_endueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
+					</td>
 				</tr>
 <?php
 			}
@@ -409,15 +413,13 @@
 	}
 	
 
-#############################
+###################################
 #	Vorhandenen Spieler löschen   #
-#############################
+###################################
 
-if(isset($_POST["entgueltig_loeschen"]))
+if(isset($_POST["button_spielerloeschen_endueltig"]))
 {
-
-    delete_Spieler();
-
+    delete_Spieler($_POST["button_spielerloeschen_endueltig"]);
 }
 
 ##################
