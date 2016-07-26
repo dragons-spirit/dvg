@@ -177,7 +177,7 @@
 ?>
         <h3 align="center">Account</h3>
         
-        <script language="Javascript">
+        <script type="text/javascript">
 
         function buttonwechsel()
         {
