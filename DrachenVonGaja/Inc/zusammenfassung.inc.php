@@ -405,25 +405,7 @@
 
 if(isset($_POST["button_spielerloeschen"]))
 {
-?>
-    <script type = "text/javascript">
-    var Abfrage; 
-        Abfrage = window.confirm("Wollen Sie den Spieler wirklich löschen ?"); 
-    if (Abfrage == true) 
-{
 
-
-
-} 
-else 
-{
-
-
-
-}
-  
-    </script>
-<?php
     delete_Spieler();
 
 }
