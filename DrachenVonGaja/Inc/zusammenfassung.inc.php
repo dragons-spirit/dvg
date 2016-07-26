@@ -176,6 +176,16 @@
     {
 ?>
         <h3 align="center">Account</h3>
+        
+        <script language="Javascript">
+
+        function buttonwechsel()
+        {
+        document.getElementByName("button_spielerloeschen").style.visibility="hidden";
+        document.getElementByName("entgueltig_loeschen").style.visibility="visible";
+        }
+
+</script>
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
@@ -205,7 +215,7 @@
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
 					<td><?php echo $row[4] . "<br />\n"; ?></td>
 					<td><?php echo $row[5] . "<br />\n"; ?></td>
-                                        <td align="center"><input type="submit" name="button_spielerloeschen" value="Ja"></td>
+                                        <td align="center"><input type="submit" name="button_spielerloeschen" value="Ja" onclick="buttonwechsel()"><input type="submit" name="entgueltig_loeschen" value="Wirklich ?" style="visibility:hidden;"></td>
 				</tr>
 <?php
 			}
@@ -403,14 +413,12 @@
 #	Vorhandenen Spieler löschen   #
 #############################
 
-if(isset($_POST["button_spielerloeschen"]))
+if(isset($_POST["entgueltig_loeschen"]))
 {
 
     delete_Spieler();
 
 }
-
-
 
 ##################
 #  Adminbereich  #
