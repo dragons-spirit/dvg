@@ -199,7 +199,7 @@
 					<td>Geschlecht</td>
 					<td>Level</td>
 					<td>Aktueller Ort</td>
-                    <td>LÖSCHEN</td>
+                                        <td>LÖSCHEN</td>
 				</tr>
 <?php			
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
@@ -218,7 +218,7 @@
 					<td><?php echo $row[5] . "<br />\n"; ?></td>
                     <td align="center">
 						<input type="submit" id="b_sp_loe_1" name="button_spielerloeschen" value="Ja" onclick="buttonwechsel()">
-						<input type="submit" id="b_sp_loe_2" name="button_spielerloeschen_endueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
+						<input type="submit" id="b_sp_loe_2" name="button_spielerloeschen_endgueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
 					</td>
 				</tr>
 <?php
@@ -417,9 +417,9 @@
 #	Vorhandenen Spieler löschen   #
 ###################################
 
-if(isset($_POST["button_spielerloeschen_endueltig"]))
+if(isset($_POST["button_spielerloeschen_endgueltig"]))
 {
-    delete_Spieler($_POST["button_spielerloeschen_endueltig"]);
+    delete_Spieler($_POST["button_spielerloeschen_endgueltig"]);
 }
 
 ##################
