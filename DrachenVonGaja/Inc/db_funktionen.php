@@ -18,6 +18,7 @@ get_gebiet_id($gebiet_titel)
 
 get_spieler($login)
 insert_spieler($login, $gattung, $name, $geschlecht)
+delete_Spieler()
 
 */
 
@@ -437,6 +438,48 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 		return false;
 	}
 }
+
+#----------------------------------------------- DELETE Spieler.* ----------------------------------------------
+# 	-> account.login (str)
+#	-> gebiet.titel (str) - gewähltes Startgebiet
+#	-> gattung.titel (str) - gewählte Gattung
+#	-> name (str) - gewählter Spielername
+#	-> geschlecht (str) - gewähltes Geschlecht
+#	<- true/false
+
+function delete_Spieler()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT FROM spieler(
+				account_id, 
+				bilder_id, 
+				gattung_id, 
+				level_id, 
+				gebiet_id, 
+				name, 
+				geschlecht, 
+				staerke, 
+				intelligenz, 
+				magie, 
+				element_feuer, 
+				element_wasser, 
+				element_erde, 
+				element_luft, 
+				gesundheit, 
+				max_gesundheit, 
+				energie, 
+				max_energie, 
+				balance) 
+			VALUES (?, 1, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)"))
+	{
+		echo ". $_account_id .";
+		close_connection($connect_db_dvg);
+	}
+}
+
 
 #***************************************************************************************************************
 #************************************************ TEST-BEREICH *************************************************

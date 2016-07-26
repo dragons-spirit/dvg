@@ -190,6 +190,7 @@
 					<td>Geschlecht</td>
 					<td>Level</td>
 					<td>Aktueller Ort</td>
+                                        <td>LÖSCHEN</td>
 				</tr>
 <?php			
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
@@ -204,6 +205,7 @@
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
 					<td><?php echo $row[4] . "<br />\n"; ?></td>
 					<td><?php echo $row[5] . "<br />\n"; ?></td>
+                                        <td align="center"><input type="submit" name="button_spielerloeschen" value="Ja"></td>
 				</tr>
 <?php
 			}
@@ -398,9 +400,33 @@
 	
 
 #############################
-#	Neuen Spieler anlegen   #
+#	Vorhandenen Spieler löschen   #
 #############################
 
+if(isset($_POST["button_spielerloeschen"]))
+{
+?>
+    <script type = "text/javascript">
+    var Abfrage; 
+        Abfrage = window.confirm("Wollen Sie den Spieler wirklich löschen ?"); 
+    if (Abfrage == true) 
+{
+
+
+
+} 
+else 
+{
+
+
+
+}
+  
+    </script>
+<?php
+    delete_Spieler();
+
+}
 
 
 
