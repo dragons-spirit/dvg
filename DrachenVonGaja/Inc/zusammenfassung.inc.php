@@ -33,7 +33,9 @@
             {
 				print "Auf in den Loginbereich ... <br/>";
 ?>
-				Hier folgt bald die Weiterleitung nach "admin.php". (Java-Skript?)
+				<script type="text/javascript">
+					window.location.href = "Inc/admin.php"
+				</script>
 				<br/>
 <?php            
 			}
@@ -199,7 +201,7 @@
 					<td>Geschlecht</td>
 					<td>Level</td>
 					<td>Aktueller Ort</td>
-                                        <td>LÖSCHEN</td>
+                    <td>LÖSCHEN</td>
 				</tr>
 <?php			
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
