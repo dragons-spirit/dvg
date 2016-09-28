@@ -15,6 +15,52 @@
 	else
 	{
 		echo "Los geht's ...<br/>\n";
+		
+		if ($tabellen = get_tabellen())
+		{
+			$count_tabelle = 0;
+			$count_spalte = 0;
+?>			
+			<table align="center" border="1px" color="black">
+<?php			
+			while($tabelle = $tabellen->fetch_array(MYSQLI_NUM))
+			{
+				$count_tabelle = $count_tabelle + 1;
+				$count_spalte = 0;
+				$tabellenname = $tabelle[0];
+?>				
+				<tr>
+					<td><?php echo "#" . $count_tabelle ?></td>
+					<td><?php echo $tabellenname . "<br />\n"; ?></td>
+					
+<?php
+				if ($spalten = get_spalten($tabellenname))
+				{
+					while($spalte = $spalten->fetch_array(MYSQLI_NUM))
+					{
+						$count_spalte = $count_spalte + 1;
+?>						
+							<td><?php echo $spalte[0] . "<br />\n"; ?></td>
+<?php		
+					}
+?>					
+					<td><?php echo $count_spalte . " Spalten<br />\n"; ?></td>
+<?php					
+				}
+?>
+				</tr>
+<?php
+			}
+?>
+			</table>
+<?php
+			
+		}
+		else{
+			echo "<br />\nKeine Spieler zum Account vorhanden.<br />\n";
+		}
+		
+		
 		if ($alle_spieler = get_spieler_all())
 		{
 			$count_zeile = 0;

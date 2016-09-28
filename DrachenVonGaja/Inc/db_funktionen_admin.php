@@ -8,6 +8,62 @@ get_spieler()
 
 
 #***************************************************************************************************************
+#************************************************* ALLGEMEINES *************************************************
+#***************************************************************************************************************
+
+#----------------------------------- Tabellennamen -----------------------------------
+# 	-> 
+#	<- Tabellennamen (irgendwie)
+
+function get_tabellen()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SHOW TABLES"))
+	{
+		$stmt->execute();
+		if ($debug) echo "<br />\nTabellennamen sollen angezeigt werden.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_tabellen()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+#----------------------------------- Spaltennamen -----------------------------------
+# 	-> Tabellenname (str)
+#	<- Spaltennamen (irgendwie)
+
+function get_spalten($tabellenname)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($debug) echo $tabellenname . "<br />\n";
+	$querry = "SHOW COLUMNS FROM " . $tabellenname . "";
+	
+	if ($stmt = $connect_db_dvg->prepare($querry))
+	{
+		$stmt->execute();
+		if ($debug) echo "<br />\nSpaltennamen sollen angezeigt werden.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_spalten()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** ACCOUNT ***************************************************
 #***************************************************************************************************************
 
