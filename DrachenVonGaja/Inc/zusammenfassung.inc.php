@@ -212,7 +212,7 @@
 					<td><?php echo $count ?></td>
 					<td><?php echo $row[6] . "<br />\n"; ?></td>
                     <td>
-						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:150px; width:90px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[0]; ?>">
+						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:90px; width:150px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[0];?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
@@ -321,8 +321,8 @@
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Dschungel<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/dschungel.jpg); height:100px;" alt="Dschungel" name="button_dschungel" value=""></td>
-                <td>Kristallh&ouml;hle<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/kristallhoehle.jpg); height:100px;" alt="Kristallhoehle" name="button_kristallhoehle" value=""></td>
+                <td>Dschungel<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/dschungel.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Dschungel" name="button_dschungel" value="                                             "></td>
+                <td>Kristallh&ouml;hle<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/kristallhoehle.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
             </tr>            
         </table>
  <?php
@@ -339,8 +339,8 @@
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-				<td>Eissee<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/eissee.jpg); height:100px;" alt="Eissee" name="button_eissee" value=""></td>
-				<td>Sumpf<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/sumpf.jpg); height:100px;" alt="Sumpf" name="button_sumpf" value=""></td>
+				<td>Eissee<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/eissee.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Eissee" name="button_eissee" value="                                             "></td>
+				<td>Sumpf<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/sumpf.jpg);width:150px; height:94px; background-repeat:no-repeat;" alt="Sumpf" name="button_sumpf" value="                                             "></td>
             </tr>
         </table>
 <?php
@@ -357,8 +357,8 @@
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Vulkan<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/vulkan.jpg); height:100px;" alt="Vulkan" name="button_vulkan" value=""></td>
-                <td>W&uml;ste<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/wueste.jpg); height:100px;" alt="Wueste" name="button_wueste" value=""></td>
+                <td>Vulkan<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/vulkan.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Vulkan" name="button_vulkan" value="                                      "></td>
+                <td>W&uuml;ste<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/wueste.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
             </tr>
         </table>
 <?php
@@ -375,8 +375,8 @@
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Klippe<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/klippen.jpg); height:100px;" alt="Klippe" name="button_klippe" value=""></td>
-                <td>Mammutbaum<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/mammutbaum.jpg); height:100px;" alt="Mammutbaum" name="button_mammutbaum" value=""></td>
+                <td>Klippe<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/klippen.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Klippe" name="button_klippe" value="                                             "></td>
+                <td>Mammutbaum<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/mammutbaum.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Mammutbaum" name="button_mammutbaum" value="                                             "></td>
             </tr>
         </table>
 <?php
