@@ -80,7 +80,8 @@
     
    
 <div id="mitte">
-    <p align="center" style="margin-top:0px;margin-bottom:0px;"><img src="../Bilder/Vulkan.png" width="60%" height="60%"/></p>
+    <p align="center" style="margin-top:0px;margin-bottom:0px;"><img src="../Platzhalter_gebiete/Grosz/<?php bild_zu_startgebiet($gebiet_id); ?>" width="60%" height="60%"/></p> 
+    
 </div>
 
 <div id="untere_Leiste">

@@ -50,5 +50,38 @@ function bild_zu_spielerlevel($level){
 	return;
 }
 
+function bild_zu_startgebiet($gebiet_id)
+{
+	$gebietsbild = "vulkan.jpg";
+	switch ($gebiet_id)
+	{
+		case 1: $gebietsbild = "sumpf.jpg";
+		break;
+		
+		case 2: $gebietsbild = "vulkan.jpg";
+		break;
+		
+		case 3: $gebietsbild = "eissee.jpg";
+		break;
+	
+	        case 4: $gebietsbild = "dschungel.jpg";
+		break;
+	
+                case 5: $gebietsbild = "klippen.jpg";
+		break;
+	
+                case 6: $gebietsbild = "kristallhoehle.jpg";
+		break;
+	
+	        case 7: $gebietsbild = "wueste.jpg";
+		break;
+		
+		case 8: $gebietsbild = "mammutbaum.jpg";
+		break;
+               
+	}
+	echo $gebietsbild;
+	return;
+}
 
 ?>

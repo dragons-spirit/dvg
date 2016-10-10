@@ -196,12 +196,12 @@
 				<tr>
 					<td>Nummer</td>
 					<td>Name</td>
-                    <td>Bild</td>
+                                        <td>Bild</td>
 					<td>Gattung</td>
 					<td>Geschlecht</td>
 					<td>Level</td>
 					<td>Aktueller Ort</td>
-                    <td>LÖSCHEN</td>
+                                        <td>LÖSCHEN</td>
 				</tr>
 <?php			
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
