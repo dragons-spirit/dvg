@@ -136,7 +136,7 @@
 <div id="footer">
 <h3 align="center">Impressum</h3>
  
-     <p align="center" style="background-color:black">Grafik: Tina Schmidtbauer || Programmierung: Hendrik Matthes</p>
+     <p align="center" style="background-color:black">Grafik & Progammierung: Tina Schmidtbauer || Programmierung & Datenbankverwaltung: Hendrik Matthes</p>
  
 </div>
   </div>
