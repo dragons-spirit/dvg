@@ -50,7 +50,15 @@ body
     width:100%;
     background-color:darkgrey;
 }
-
+#elemente
+{
+    position:absolute;
+    right:10px;
+    top:200px;
+    width:200px;
+    height:178px;
+    color:white;
+}
 #mitte
 {
     position:absolute;
@@ -66,7 +74,8 @@ body
 #untere_Leiste
 {
     position:absolute;
-    bottom:0px;
+    top:85%;
+    bottom:100px;
     left:0px;
     right:0px;
     height:25px;
@@ -87,67 +96,59 @@ body
 }
 
 
-#elemente
-{
-    position:absolute;
-    right:10px;
-    top:100px;
-    width:200px;
-    height:178px;
-    color:white;
-}
+
 
 #l1
 {
     position:absolute;
-    bottom:40px;
+    bottom:120px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_1.png");
+    background-image: url("./Bilder/zahl_1.png");
 }
 
 
 #l2
 {
     position:absolute;
-    bottom:90px;
+    bottom:170px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_2.png");
+    background-image: url("./Bilder/zahl_2.png");
 }
 
 
 #l3
 {
     position:absolute;
-    bottom:140px;
+    bottom:220px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_3.png");
+    background-image: url("./Bilder/zahl_3.png");
 }
 
 #l4
 {
     position:absolute;
-    bottom:190px;
+    bottom:270px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_4.png");
+    background-image: url("./Bilder/zahl_4.png");
 }
 
 
 #l5
 {
     position:absolute;
-    bottom:240px;
+    bottom:320px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_5.png");
+    background-image: url("./Bilder/zahl_5.png");
     
 }
 
@@ -155,21 +156,124 @@ body
 #l6
 {
     position:absolute;
-    bottom:290px;
+    bottom:370px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_6.png");
+    background-image: url("./Bilder/zahl_6.png");
     background-repeat: no-repeat;
 }
 
 #l7
 {
     position:absolute;
-    bottom:340px;
+    bottom:420px;
     left:5px;
     width:50px;
     height:50px;
-    background-Image: url("Bilder/zahl_7.png");
+    background-image: url("./Bilder/zahl_7.png");
+}
+
+/*Gebietsverlinkungsbildchen*/
+
+#sumpf
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:500px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#vulkan
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:450px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#eissee
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:400px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#dschungel
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:350px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#klippen
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:30%;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#kristall
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:20%;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#wueste
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:550px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#mammut
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:600px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+
+#wald
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:650px;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#oase
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:40%;
+  width:50px;
+  height:25px;
+  color:white;
+}
+#steppe
+{
+  position:absolute;
+  margin-top:200px;
+  margin-left:20%;
+  width:50px;
+  height:25px;
+  color:white;
 }
 

@@ -53,6 +53,7 @@ function bild_zu_spielerlevel($level){
 function bild_zu_startgebiet($gebiet_id)
 {
 	$gebietsbild = "vulkan.jpg";
+	
 	switch ($gebiet_id)
 	{
 		case 1: $gebietsbild = "sumpf.jpg";
@@ -78,10 +79,73 @@ function bild_zu_startgebiet($gebiet_id)
 		
 		case 8: $gebietsbild = "mammutbaum.jpg";
 		break;
+	
+	        case 9: $gebietsbild ="wald.jpg";
+		break;
+	
+                case 10: $gebietsbild ="oase.jpg";
+	        break;
+	
+                case 11: $gebietsbild ="steppe.jpg";
+	        break;
                
 	}
 	echo $gebietsbild;
+	
 	return;
 }
 
+function gebietwechseln($gebiet_id)
+{
+	
+	switch($gebiet_id)
+	{
+	
+	case 1:
+		echo "<div id='dschungel'>Dschungel</div>";
+		echo "<div id='wald'>Wald</div>";
+	break;
+
+	
+	case 2:
+		echo "<div id='klippen'>Klippen</div>";
+		echo "<div id='kristall'>Kristallh&ouml;le</div>";
+	break;
+	
+	case 3:
+		echo "<div id='klippen'>Klippen</div>";
+		echo "<div id='kristall'>Kristallh&ouml;hle</div>";
+	break;
+
+        case 4:
+		echo "<div id='steppe'>Steppe</div>";
+		echo "<div id='wald'>Wald</div>";
+		echo "<div id='sumpf'>Sumpf</div>";
+	break;
+
+        case 5:
+		echo "<div id='eissee'>Eissee</div>";
+		echo "<div id='vulkan'>Vulkan</div>";
+		echo "<div id='wueste'>W&uuml;ste</div>";
+	break;
+
+        case 6:
+		echo "<div id='vulkan'>Vulkan</div>";
+		echo "<div id='eissee'>Eissee</div>";
+		echo "<div id='wald'>Wald</div>";
+	break;
+
+        case 7:
+		echo "<div id='oase'>Oase</div>";
+		echo "<div id='klippen'>Klippen</div>";
+		echo "<div id='steppe'>Steppe</div>";
+        break;
+
+        case 8:
+		echo "<div id='wald'>Wald</div>";
+		echo "<div id='dschungel'>Dschungel</div>";
+        break;	
+        }
+
+}
 ?>

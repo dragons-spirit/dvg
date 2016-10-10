@@ -1,4 +1,25 @@
-<?php
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+    
+    <head>
+		<meta http-equiv="Content-Language" content="de">
+		<meta http-equiv="Content-Script-Type" content="text/javascript">
+		<meta http-equiv="Content-Style-Type" content="text/css">
+		<meta http-equiv="last-modified" content="11.05.2016 21:00:00" >
+		<meta name="description" content="Drachen von Gaja - Browsergame">
+		<meta name="keywords" content="Drachen, Elemente, Browsergame, Browserspiel,">
+		<meta name="Author" content="Tina Schmidtbauer, Hendrik Matthes" >
+	
+		<link rel="stylesheet" type="text/css" href="../index.css">
+		<script src="index.js" type="text/javascript"></script>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+			<title>Drachen von Gaja</title>
+    </head>
+    
+    <body>
+	<?php
 	session_start();
 	
 	include("navi.inc.php");
@@ -71,33 +92,31 @@
 	
 	
 ?>
+<div id="rahmen">
 
 
+   
 
 <div id="obere_Leiste">
     <table align="center"><tr><td>St&auml;rke <?php echo $staerke ?></td><td>Intelligenz <?php echo $intelligenz ?></td><td>Magie <?php echo $magie ?></td></tr></table>
 </div>
     
-   
-<div id="mitte">
-    <p align="center" style="margin-top:0px;margin-bottom:0px;"><img src="../Platzhalter_gebiete/Grosz/<?php bild_zu_startgebiet($gebiet_id); ?>" width="60%" height="60%"/></p> 
-    
+<div id="mitte" >
+    <p align="center" style="margin-top:0px;margin-bottom:0px;"><img src="../Platzhalter_gebiete/Grosz/<?php bild_zu_startgebiet($gebiet_id); ?>" width="60%" height="60%" alt=""/></p> 
+
 </div>
-
-<div id="untere_Leiste">
-             <table align="center"><tr><td>Feuer Speien <?php echo $speipunkte ?></td><td>Karte</td><td>Fliegen <?php echo $flugpunkte ?></td></tr></table>
-</div>
-
-
-    <div id="l7"><?php echo $level7 ?></div>
+<div id="l7"><?php echo $level7 ?></div>
     <div id="l6"><?php echo $level6 ?></div>
     <div id="l5"><?php echo $level5 ?></div>
     <div id="l4"><?php echo $level4 ?></div>
     <div id="l3"><?php echo $level3 ?></div>
     <div id="l2"><?php echo $level2 ?></div>
     <div id="l1"><?php echo $level1 ?></div>
-    
-    <div id="elemente">
+<div id="untere_Leiste">
+             <table align="center"><tr><td>Feuer Speien <?php echo $speipunkte ?></td><td>Karte</td><td>Fliegen <?php echo $flugpunkte ?></td></tr></table>
+</div>
+
+<div id="elemente">
         <table cellpadding="1px">
             <tr><td bgcolor="darkgrey">E</td><td colspan="3" height="15px"></td></tr>
             <tr>
@@ -110,7 +129,13 @@
             <tr><td bgcolor="darkgrey">T</td><td height="15px" bgcolor="brown"><?php echo $erd5 ?></td><td bgcolor="blue"><?php echo $wasser5 ?></td><td bgcolor="red"><?php echo $feuer5 ?></td><td bgcolor="lightblue"><?php echo $luft5 ?></td></tr>
             <tr><td bgcolor="darkgrey">E</td><td height="15px"></td><td colspan="3"></td></tr>
         </table>
-        
-         
-    </div>
+</div>
+<?php gebietwechseln($gebiet_id); ?>
+
+</div>
+   
+     </body>
+    
+</html>   
+    
     

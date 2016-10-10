@@ -211,6 +211,9 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (6, 1, 'Kristallhoehle', ''),
 (7, 1, 'Wueste', ''),
 (8, 1, 'Mammutbaum', '');
+(9, 1, 'Wald', ''),
+(10, 1, 'Oase', ''),
+(11, 1, 'Steppe', '');
 
 -- --------------------------------------------------------
 
