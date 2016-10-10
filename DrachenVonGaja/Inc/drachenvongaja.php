@@ -93,17 +93,17 @@
 	
 ?>
 <div id="rahmen">
-
-
-   
-
+<div id="header">
+<h1 align="center">Drachen von Gaja</h1>  
+</div>
 <div id="obere_Leiste">
     <table align="center"><tr><td>St&auml;rke <?php echo $staerke ?></td><td>Intelligenz <?php echo $intelligenz ?></td><td>Magie <?php echo $magie ?></td></tr></table>
 </div>
     
 <div id="mitte" >
     <p align="center" style="margin-top:0px;margin-bottom:0px;"><img src="../Platzhalter_gebiete/Grosz/<?php bild_zu_startgebiet($gebiet_id); ?>" width="60%" height="60%" alt=""/></p> 
-
+<p align="center"><img src="../Bilder/feuerbutton.png" width="160px"alt="feuerbutton"/><br>
+<img src="../Bilder/flugbutton.png" width="200px" alt="flugbutton"/></p>
 </div>
 <div id="l7"><?php echo $level7 ?></div>
     <div id="l6"><?php echo $level6 ?></div>
@@ -113,7 +113,9 @@
     <div id="l2"><?php echo $level2 ?></div>
     <div id="l1"><?php echo $level1 ?></div>
 <div id="untere_Leiste">
-             <table align="center"><tr><td>Feuer Speien <?php echo $speipunkte ?></td><td>Karte</td><td>Fliegen <?php echo $flugpunkte ?></td></tr></table>
+             <table align="center">
+		
+		<tr><td>Speipunkte<?php echo $speipunkte ?></td><td>Karte</td><td>Flugpunkte <?php echo $flugpunkte ?></td></tr></table>
 </div>
 
 <div id="elemente">
@@ -131,8 +133,13 @@
         </table>
 </div>
 <?php gebietwechseln($gebiet_id); ?>
-
+<div id="footer">
+<h3 align="center">Impressum</h3>
+ 
+     <p align="center" style="background-color:black">Grafik: Tina Schmidtbauer || Programmierung: Hendrik Matthes</p>
+ 
 </div>
+  </div>
    
      </body>
     

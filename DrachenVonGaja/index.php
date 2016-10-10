@@ -24,7 +24,7 @@
     <body>
         <div id="rahmen">
 			<div id="header">
-				<h3 align="center">Drachen von Gaja</h3>  
+				<h1 align="center">Drachen von Gaja</h1>  
 			</div>
 			
 			<div id="anmeldung" style="overflow:scroll;">
@@ -38,7 +38,13 @@
 			</div>
                 
            	<div id="footer">
-				<h4 align="center"><a href="index.php?id=7">Impressum</a></h4>
+				<h3 align="center">Impressum</h3>
+ 
+    <p align="center" style="background-color:black">Grafik: Tina Schmidtbauer || Programmierung: Hendrik Matthes</p>
+
+    
+
+
 			</div>
         </div>
     </body>
