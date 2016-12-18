@@ -3,13 +3,25 @@ body
 {
     margin:auto;
     min-height:30%;
+    font-family:fantasy;
+    font-size:smaller;
+}
+
+input[type=submit]
+{
+    cursor:pointer;
+    color:white;
+    background-color:black;
+    line-height:normal;
+    font-family:fantasy;
+    height: 20px;
 }
 
 #rahmen
 {
     position: absolute;
-    /*top: 0px;*/
-	/*left: 0px;*/
+    top: 0px;
+	left: 0px;
 	width:100%;
     height:100%;
     min-height:550px;
@@ -28,8 +40,6 @@ body
     color:#ffffff;
 }
 
-
-
 #anmeldung
 {
     position:absolute;
@@ -40,6 +50,7 @@ body
     color:#000000;
     padding:10px;
 }
+
 
 #mitte
 {
@@ -56,7 +67,7 @@ body
 #obere_Leiste
 {
     position:absolute;
-    top:25px;
+    top:2%;
     left:0px;
     right:0px;
     height:25px;
@@ -78,13 +89,13 @@ body
 #untere_Leiste
 {
     position:absolute;
-    top:90%;
-    bottom:100px;
+    bottom:5%;
     left:0px;
     right:0px;
     height:25px;
     width:100%;
     background-color:darkgrey;
+	z-index: 1;
 }
 
 #footer
@@ -93,7 +104,7 @@ body
     bottom:0px;
     left:0px;
     right:0px;
-    height:50px;
+    height:56px;
     width:100%;
     background-color:#000000;
     color:#ffffff;
@@ -102,11 +113,13 @@ body
 #zur_spielerauswahl
 {
 	position:absolute;
-    top:95%;
+    bottom:2%;
 	left:90%;
 	z-index: 1;
 }
 
+
+/* Level-/Zahlensymbole */
 
 #l1
 {
@@ -118,7 +131,6 @@ body
     background-image: url("./Bilder/zahl_1.png");
 }
 
-
 #l2
 {
     position:absolute;
@@ -128,7 +140,6 @@ body
     height:50px;
     background-image: url("./Bilder/zahl_2.png");
 }
-
 
 #l3
 {
@@ -150,7 +161,6 @@ body
     background-image: url("./Bilder/zahl_4.png");
 }
 
-
 #l5
 {
     position:absolute;
@@ -161,7 +171,6 @@ body
     background-image: url("./Bilder/zahl_5.png");
     
 }
-
 
 #l6
 {
@@ -286,4 +295,3 @@ body
   height:25px;
   color:white;
 }
-
