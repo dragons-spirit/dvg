@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 13. Jul 2016 um 22:31
+-- Erstellungszeit: 18. Dez 2016 um 19:47
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -43,14 +43,19 @@ CREATE TABLE `account` (
 
 INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `letzter_login`) VALUES
 (10, 'Tina', 'Tina', 'eisdrache@gmx.de', 1, 'Admin', '2016-07-13 18:20:18'),
-(11, 'hendrik', 'feruerdrache', 'feuerdrache@gmx.de', 1, 'Admin', '2016-07-13 17:59:03'),
+(11, 'hendrik', 'feuerdrache', 'feuerdrache@gmx.de', 1, 'Admin', '2016-07-13 21:06:28'),
 (12, 'mustafa', 'kyrillisch', 'afatsum@mustafa.ru', 1, 'Spieler', '2016-07-13 18:02:18'),
 (13, 'balduin', 'xyzzyx', 'balduin@gmail.com', 1, 'Spieler', '2016-07-13 18:00:13'),
 (14, 'klaus_trophobie', 'zuckerwatte', 'register@klaustrophobie.de', 1, 'Spieler', '2016-07-13 18:00:13'),
 (15, 'Apfel', 'Achorle', 'Apfel.Schorle@Saft.com', 1, 'Spieler', '2016-07-13 18:20:23'),
 (16, 'hugo', '123456', 'hugo@gmx.de', 1, 'Spieler', '2016-07-13 18:03:06'),
 (17, 'erwin', 'erwin', 'erwin@gmx.de', 1, 'Spieler', '2016-07-13 18:21:11'),
-(31, 'tester', 'tester', 'tester@gmx.de', 1, 'Spieler', '2016-07-13 20:19:48');
+(31, 'tester', 'tester', 'tester@gmx.de', 1, 'Spieler', '2016-07-13 20:19:48'),
+(32, 'test', 'test', 'test@gmx.de', 1, 'Spieler', '2016-07-13 20:41:09'),
+(33, 'zonk', 'zonk', 'zonk@zonk.de', 1, 'Spieler', '2016-07-22 19:03:10'),
+(34, 'zonk1', 'zonk1', 'zonk1@zonk1.de', 1, 'Spieler', '2016-07-22 19:09:54'),
+(35, 'zonk2', 'zonk2', 'zonk2@zonk2.de', 1, 'Spieler', '2016-07-22 19:10:26'),
+(36, 'zonk3', 'zonk3', 'zonk3@zonk3.de', 1, 'Spieler', '2016-07-22 19:17:33');
 
 -- --------------------------------------------------------
 
@@ -71,7 +76,18 @@ CREATE TABLE `bilder` (
 --
 
 INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
-(1, 'blank', '', '');
+(1, 'blank', '', ''),
+(2, 'Sumpf', '../Platzhalter_gebiete/Gross/sumpf', 'Nass, schmutzig und schauerlich. Ein Sumpf eben!'),
+(3, 'Vulkan', '../Platzhalter_gebiete/Gross/vulkan.jpg', 'Das feurige Herz von Gaia. Vorsicht heiß!'),
+(4, 'Eissee', '../Platzhalter_gebiete/Gross/eissee.jpg', 'Ein schöner großer See lädt euch zum Baden gehen ein. An die Hacke, fertig, los!'),
+(5, 'Dschungel', '../Platzhalter_gebiete/Gross/dschungel.jpg', 'Gestrüpp soweit das Auge reicht. Was hier alles kreucht und fleucht, wollt ihr euch gar nicht erst ausmalen.'),
+(6, 'Klippe', '../Platzhalter_gebiete/Gross/klippe.jpg', 'Ihr schaut in den Abgrund und sogleich juckt es euch in den Flügeln. Traut euch!'),
+(7, 'Kristallhoehle', '../Platzhalter_gebiete/Gross/kristallhoehle.jpg', 'Funkelnde Steine weit und breit. Ein wahres Paradies ... wenn man es kalt, muffig und feucht mag.'),
+(8, 'Wueste', '../Platzhalter_gebiete/Gross/wueste.jpg', 'Naaaa, wollt ihr etwas zu trinken? Hier ganz sicher nicht!'),
+(9, 'Mammutbaum', '../Platzhalter_gebiete/Gross/mammutbaum.jpg', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
+(10, 'Wald', '../Platzhalter_gebiete/Gross/wald.jpg', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
+(11, 'Oase', '../Platzhalter_gebiete/Gross/oase.jpg', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
+(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...''');
 
 -- --------------------------------------------------------
 
@@ -183,37 +199,6 @@ INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intel
 (8, 1, 'Vogel', 1, 3, 0, 0, 3, 1, 30, ''),
 (9, 1, 'Nager', 1, 2, 0, 1, 1, 20, 0, ''),
 (10, 1, 'Raubtier', 10, 7, 0, 5, 3, 10, 3, '');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `gebiet`
---
-
-DROP TABLE IF EXISTS `gebiet`;
-CREATE TABLE `gebiet` (
-  `id` int(10) NOT NULL,
-  `bilder_id` int(10) NOT NULL,
-  `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Daten für Tabelle `gebiet`
---
-
-INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
-(1, 1, 'Sumpf', ''),
-(2, 1, 'Vulkan', ''),
-(3, 1, 'Eissee', ''),
-(4, 1, 'Dschungel', ''),
-(5, 1, 'Klippe', ''),
-(6, 1, 'Kristallhoehle', ''),
-(7, 1, 'Wueste', ''),
-(8, 1, 'Mammutbaum', '');
-(9, 1, 'Wald', ''),
-(10, 1, 'Oase', ''),
-(11, 1, 'Steppe', '');
 
 -- --------------------------------------------------------
 
@@ -356,18 +341,29 @@ CREATE TABLE `spieler` (
   `max_gesundheit` int(10) NOT NULL,
   `energie` int(10) NOT NULL,
   `max_energie` int(10) NOT NULL,
-  `balance` float NOT NULL
+  `balance` float NOT NULL,
+  `zuletzt_gespielt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Daten für Tabelle `spieler`
 --
 
-INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `balance`) VALUES
-(7, 17, 1, 2, 1, 3, 'Saphira', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0),
-(8, 17, 1, 1, 1, 7, 'Drako', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0),
-(9, 17, 1, 4, 1, 5, 'Luftikuss', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0),
-(10, 31, 1, 3, 1, 6, 'Testdrachin', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0);
+INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `balance`, `zuletzt_gespielt`) VALUES
+(7, 17, 1, 2, 1, 3, 'Saphira', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(8, 17, 1, 1, 1, 7, 'Drako', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(9, 17, 1, 4, 1, 5, 'Luftikuss', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:43:57'),
+(10, 31, 1, 3, 1, 6, 'Testdrachin', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(11, 32, 1, 3, 1, 4, 'Heino', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 16:18:43'),
+(12, 36, 1, 1, 1, 2, 'Quiecker', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(13, 36, 1, 2, 1, 1, 'Lambadina', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(14, 11, 1, 4, 1, 8, 'Baldrian', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:49:15'),
+(15, 11, 1, 3, 1, 8, 'Cecilia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 17:46:48'),
+(16, 17, 1, 2, 1, 3, 'Blauer Enzian', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(17, 17, 1, 1, 1, 7, 'WÃ¼stenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(18, 17, 1, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(19, 11, 1, 3, 1, 8, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 18:26:34'),
+(20, 11, 1, 3, 1, 4, 'Erdwurmi', 'M', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44');
 
 -- --------------------------------------------------------
 
@@ -470,13 +466,6 @@ ALTER TABLE `gattung`
   ADD UNIQUE KEY `titel` (`titel`);
 
 --
--- Indizes für die Tabelle `gebiet`
---
-ALTER TABLE `gebiet`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `titel` (`titel`);
-
---
 -- Indizes für die Tabelle `level`
 --
 ALTER TABLE `level`
@@ -529,12 +518,12 @@ ALTER TABLE `zauberart`
 -- AUTO_INCREMENT für Tabelle `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -555,11 +544,6 @@ ALTER TABLE `faehigkeiten_spieler`
 --
 ALTER TABLE `gattung`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
---
--- AUTO_INCREMENT für Tabelle `gebiet`
---
-ALTER TABLE `gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -584,7 +568,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --

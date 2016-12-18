@@ -8,7 +8,9 @@ body
 #rahmen
 {
     position: absolute;
-    width:100%;
+    /*top: 0px;*/
+	/*left: 0px;*/
+	width:100%;
     height:100%;
     min-height:550px;
     min-width:600px;
@@ -39,17 +41,30 @@ body
     padding:10px;
 }
 
-
-#obere_Leiste
+#mitte
 {
     position:absolute;
     top:0px;
     left:0px;
     right:0px;
+    /*height:600px;*/
+    height:100%;
+    width:100%;
+    background-color:black;
+}
+
+#obere_Leiste
+{
+    position:absolute;
+    top:25px;
+    left:0px;
+    right:0px;
     height:25px;
     width:100%;
     background-color:darkgrey;
+	z-index: 1;
 }
+
 #elemente
 {
     position:absolute;
@@ -59,22 +74,11 @@ body
     height:178px;
     color:white;
 }
-#mitte
-{
-    position:absolute;
-    top:25px;
-    left:0px;
-    right:0px;
-    /*height:600px;*/
-    height:100%;
-    width:100%;
-    background-color:black;
-}
 
 #untere_Leiste
 {
     position:absolute;
-    top:85%;
+    top:90%;
     bottom:100px;
     left:0px;
     right:0px;
@@ -95,7 +99,13 @@ body
     color:#ffffff;
 }
 
-
+#zur_spielerauswahl
+{
+	position:absolute;
+    top:95%;
+	left:90%;
+	z-index: 1;
+}
 
 
 #l1
@@ -179,8 +189,8 @@ body
 #sumpf
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:500px;
+  margin-top:10%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -188,8 +198,8 @@ body
 #vulkan
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:450px;
+  margin-top:12%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -197,8 +207,8 @@ body
 #eissee
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:400px;
+  margin-top:14%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -206,8 +216,8 @@ body
 #dschungel
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:350px;
+  margin-top:16%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -215,8 +225,8 @@ body
 #klippen
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:30%;
+  margin-top:18%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -224,8 +234,8 @@ body
 #kristall
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:20%;
+  margin-top:20%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -233,8 +243,8 @@ body
 #wueste
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:550px;
+  margin-top:22%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -242,8 +252,8 @@ body
 #mammut
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:600px;
+  margin-top:24%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -252,8 +262,8 @@ body
 #wald
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:650px;
+  margin-top:26%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -261,8 +271,8 @@ body
 #oase
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:40%;
+  margin-top:28%;
+  float:left;
   width:50px;
   height:25px;
   color:white;
@@ -270,8 +280,8 @@ body
 #steppe
 {
   position:absolute;
-  margin-top:200px;
-  margin-left:20%;
+  margin-top:30%;
+  float:left;
   width:50px;
   height:25px;
   color:white;

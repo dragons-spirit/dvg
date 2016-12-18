@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 include("connect.inc.php");
 include("funktionen.php");
@@ -7,18 +7,40 @@ include("funktionen.php");
 /* Funktionsübersicht
 
 
-get_account_id($login)
-get_anmeldung($login)
-get_anmeldung_email($email)
-insert_registrierung($login, $passwort, $email)
+--- ACCOUNT - ANMELDUNG
 
-get_start_gattung($gattung)
+get_account_id($login)									-> ID zum Login
+get_anmeldung($login)									-> Anmeldung (Passwort) überprüfen
+get_anmeldung_email($email)								-> Email verifizieren (schon vorhanden?)
+insert_registrierung($login, $passwort, $email)			-> neuen Account anlegen
 
-get_gebiet_id($gebiet_titel)
 
-get_spieler($login)
-insert_spieler($login, $gattung, $name, $geschlecht)
-delete_Spieler()
+--- BILDER
+
+get_bild_zu_gebiet($gebiet_id) 							-> direkter Bilderpfad
+get_bilder($bilder_id) 									-> alle Daten zum Bild
+
+
+--- GATTUNG
+
+get_start_gattung($gattung)								-> Startdaten der Gattung
+
+
+--- GEBIETE
+
+get_gebiet_id($gebiet_titel)							-> ID zur Bezeichnung
+get_gebiet($gebiet_id)									-> alle Daten zum Gebiet
+get_gebiet_zu_gebiet($von_gebiet_id)					-> alle Verlinkungen vom Gebiet aus
+exist_gebiet_zu_gebiet($von_gebiet_id, $nach_gebiet_id)	-> gibt Anzahl der Gebietsverlinkungen von A nach B zurück (in der Regel 0 oder 1)
+
+
+--- SPIELER
+
+get_spieler_login($login)								-> alle Spieler zum Account
+get_spieler($login)										-> alle Spielerdaten
+insert_spieler($login, $gattung, $name, $geschlecht)	-> neuen Spieler anlegen
+delete_spieler()										-> Spieler löschen (funktioniert noch nicht)
+gebietswechsel($spieler_id, $gebiet_id)					-> Spieler in neues Gebiet setzen
 
 */
 
@@ -28,7 +50,7 @@ delete_Spieler()
 #***************************************************************************************************************
 
 
-#---------------------------------------------- SELECT Account.id ----------------------------------------------
+#---------------------------------------------- SELECT account.id ----------------------------------------------
 # 	-> account.login (str)
 #	<- account.id (int)
 
@@ -49,14 +71,14 @@ function get_account_id($login)
 		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
-		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		echo "<br />\nQuerryfehler in get_account_id()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
 
 
-#---------------------------------------------- SELECT Account.* ----------------------------------------------
+#---------------------------------------------- SELECT account.* ----------------------------------------------
 # 	-> account.login (str)
 #	Array mit Accountdaten [Position]
 #	<- [0] id
@@ -118,14 +140,14 @@ function get_anmeldung_email($email)
 		close_connection($connect_db_dvg);
 		return $row;
 	} else {
-		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		echo "<br />\nQuerryfehler in get_anmeldung_email()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
 
 
-#---------------------------------------------- INSERT Account.* ----------------------------------------------
+#---------------------------------------------- INSERT account.* ----------------------------------------------
 # 	-> account.login (str)
 # 	-> account.passwort (str)
 # 	-> account.email (str)
@@ -172,7 +194,7 @@ function insert_registrierung($login, $passwort, $email)
 		close_connection($connect_db_dvg);
 		return true;
 	} else {
-		echo "<br />\nQuerryfehler in <br />\n";
+		echo "<br />\nQuerryfehler in insert_registrierung<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
@@ -180,11 +202,76 @@ function insert_registrierung($login, $passwort, $email)
 
 
 #***************************************************************************************************************
+#*************************************************** BILDER ****************************************************
+#***************************************************************************************************************
+
+
+#----------------------------------------- SELECT bilder.pfad (Gebiet) -----------------------------------------
+# 	-> gebiet.id (int)
+#	<- bild.pfad(str)
+
+function get_bild_zu_gebiet($gebiet_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	pfad 
+			FROM 	bilder
+				JOIN gebiet ON gebiet.bilder_id = bilder.id
+			WHERE 	gebiet.id = ?")){
+		$stmt->bind_param('d', $gebiet_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_bild_zu_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#----------------------------------------------- SELECT bilder.* ----------------------------------------------
+# 	-> bilder.id (int)
+#	Array mit Bilderdaten [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] pfad
+#	<- [3] beschreibung
+
+function get_bilder($bilder_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	* 
+			FROM 	bilder
+			WHERE 	id = ?")){
+		$stmt->bind_param('d', $bilder_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_bilder()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** GATTUNG ***************************************************
 #***************************************************************************************************************
 
 
-#--------------------------------------- SELECT Gattung.id + Gattung.start_* -----------------------------------
+#--------------------------------------- SELECT gattung.id + gattung.start_* -----------------------------------
 # 	-> gattung.titel (str)
 #	Array mit id und Startwerten zur Gattung [Position]
 #	<- [0] id
@@ -220,7 +307,7 @@ function get_start_gattung($gattung)
 		close_connection($connect_db_dvg);
 		return $row;
 	} else {
-		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		echo "<br />\nQuerryfehler in get_start_gattung()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
@@ -232,7 +319,7 @@ function get_start_gattung($gattung)
 #***************************************************************************************************************
 
 
-#---------------------------------------------- SELECT Gebiet.id ----------------------------------------------
+#---------------------------------------------- SELECT gebiet.id ----------------------------------------------
 # 	-> gebiet.titel (str)
 #	<- gebiet.id (int)
 
@@ -253,7 +340,7 @@ function get_gebiet_id($gebiet_titel)
 		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
-		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
+		echo "<br />\nQuerryfehler in get_gebiet_id()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
@@ -261,12 +348,104 @@ function get_gebiet_id($gebiet_titel)
 
 
 
+#---------------------------------------------- SELECT gebiet.* ----------------------------------------------
+# 	-> gebiet.id (int)
+#	Array mit allen Gebietsdaten [Position]
+#	<- [0] id
+#	<- [1] bilder_id
+#	<- [2] titel
+#	<- [3] beschreibung
+
+function get_gebiet($gebiet_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	* 
+			FROM 	gebiet 
+			WHERE 	id = ?")){
+		$stmt->bind_param('d', $gebiet_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nGebietsdaten abgeholt für: [" . $gebiet_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#----------------------------------- SELECT gebiet_zu_gebiet.* (alle Verbindungen) ---------------------------
+# 	-> von_gebiet.id (int)
+#	Array mit allen Gebietsverlinkungen ausgehend vom übergebenen Gebiet (1 Datensatz pro Verlinkung) [Position]
+#	<- [0] id
+#	<- [1] von_gebiet_id
+#	<- [2] nach_gebiet_id
+
+function get_gebiet_zu_gebiet($von_gebiet_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	* 
+			FROM 	gebiet_zu_gebiet
+			WHERE 	von_gebiet_id = ?")){
+		$stmt->bind_param('d', $von_gebiet_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nGebietsverlinkungen abgeholt für: [" . $von_gebiet_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_gebiet_zu_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+#-------------------------------- SELECT gebiet_zu_gebiet.* (Verbindung vorhanden?) --------------------------
+# 	-> von_gebiet.id (int)
+# 	-> nach_gebiet.id (int)
+#	<- true/false
+
+
+function exist_gebiet_zu_gebiet($von_gebiet_id, $nach_gebiet_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	count(id)
+			FROM 	gebiet_zu_gebiet
+			WHERE 	von_gebiet_id = ?
+				AND nach_gebiet = ?")){
+		$stmt->bind_param('dd', $von_gebiet_id, $nach_gebiet_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nGebietsverlinkung getestet für: [" . $von_gebiet_id . " -> " . $von_gebiet_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in exist_gebiet_zu_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
 #***************************************************************************************************************
 #*************************************************** SPIELER ***************************************************
 #***************************************************************************************************************
 
 
-#----------------------------------- SELECT Spieler.* (nur für Loginbereich) -----------------------------------
+#----------------------------------- SELECT spieler.* (nur für Loginbereich) -----------------------------------
 # 	-> account.login (str)
 #	Array mit Spielerdaten [Position]
 #	<- [0] id
@@ -305,14 +484,14 @@ function get_spieler_login($login)
 		close_connection($connect_db_dvg);
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
+		echo "<br />\nQuerryfehler in get_spieler_login()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
 }
 
 
-#----------------------------------------------- SELECT Spieler.* ----------------------------------------------
+#----------------------------------------------- SELECT spieler.* ----------------------------------------------
 # 	-> spieler.id (str)
 #	Array mit Spielerdaten [Position]
 #	<- [0] id,
@@ -361,7 +540,7 @@ function get_spieler($spieler_id)
 }
 
 
-#----------------------------------------------- INSERT Spieler.* ----------------------------------------------
+#----------------------------------------------- INSERT spieler.* ----------------------------------------------
 # 	-> account.login (str)
 #	-> gebiet.titel (str) - gewähltes Startgebiet
 #	-> gattung.titel (str) - gewählte Gattung
@@ -439,11 +618,11 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 	}
 }
 
-#----------------------------------------------- DELETE Spieler.* ----------------------------------------------
+#----------------------------------------------- DELETE spieler.* ----------------------------------------------
 # 	-> spieler.id (str)
 #	<- true/false
 
-function delete_Spieler($spieler_id)
+function delete_spieler($spieler_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -469,11 +648,40 @@ function delete_Spieler($spieler_id)
 		$result = $stmt->get_result();
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in insert_spieler()<br />\n";
+		echo "<br />\nQuerryfehler in delete_spieler()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
 }
+
+#----------------------------------- UPDATE spieler.gebiet_id (Gebietswechsel) -----------------------------------
+# 	-> spieler.id
+#	-> gebiet.id (Zielgebiet)
+#	<- true/false
+
+function gebietswechsel($spieler_id, $gebiet_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE spieler
+			SET gebiet_id = ?
+			WHERE id = ?"))
+	{
+		$stmt->bind_param('ss', $gebiet_id, $spieler_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nSpieler [" . $spieler_id . "] ist nun im Gebiet [" . $gebiet_id . "].<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in gebietswechsel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 
 
 #***************************************************************************************************************
