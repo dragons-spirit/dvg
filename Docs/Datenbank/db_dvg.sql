@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 18. Dez 2016 um 19:47
+-- Erstellungszeit: 18. Dez 2016 um 21:38
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -77,7 +77,7 @@ CREATE TABLE `bilder` (
 
 INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
 (1, 'blank', '', ''),
-(2, 'Sumpf', '../Platzhalter_gebiete/Gross/sumpf', 'Nass, schmutzig und schauerlich. Ein Sumpf eben!'),
+(2, 'Sumpf', '../Platzhalter_gebiete/Gross/sumpf.jpg', 'Nass, schmutzig und schauerlich. Ein Sumpf eben!'),
 (3, 'Vulkan', '../Platzhalter_gebiete/Gross/vulkan.jpg', 'Das feurige Herz von Gaia. Vorsicht heiß!'),
 (4, 'Eissee', '../Platzhalter_gebiete/Gross/eissee.jpg', 'Ein schöner großer See lädt euch zum Baden gehen ein. An die Hacke, fertig, los!'),
 (5, 'Dschungel', '../Platzhalter_gebiete/Gross/dschungel.jpg', 'Gestrüpp soweit das Auge reicht. Was hier alles kreucht und fleucht, wollt ihr euch gar nicht erst ausmalen.'),
@@ -199,6 +199,82 @@ INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intel
 (8, 1, 'Vogel', 1, 3, 0, 0, 3, 1, 30, ''),
 (9, 1, 'Nager', 1, 2, 0, 1, 1, 20, 0, ''),
 (10, 1, 'Raubtier', 10, 7, 0, 5, 3, 10, 3, '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gebiet`
+--
+
+DROP TABLE IF EXISTS `gebiet`;
+CREATE TABLE `gebiet` (
+  `id` int(10) NOT NULL,
+  `bilder_id` int(10) NOT NULL,
+  `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `gebiet`
+--
+
+INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
+(1, 2, 'Sumpf', ''),
+(2, 3, 'Vulkan', ''),
+(3, 4, 'Eissee', ''),
+(4, 5, 'Dschungel', ''),
+(5, 6, 'Klippe', ''),
+(6, 7, 'Kristallhoehle', ''),
+(7, 8, 'Wueste', ''),
+(8, 9, 'Mammutbaum', ''),
+(9, 10, 'Wald', ''),
+(10, 11, 'Oase', ''),
+(11, 12, 'Steppe', '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `gebiet_zu_gebiet`
+--
+
+DROP TABLE IF EXISTS `gebiet_zu_gebiet`;
+CREATE TABLE `gebiet_zu_gebiet` (
+  `id` int(10) NOT NULL,
+  `von_gebiet_id` int(10) NOT NULL,
+  `nach_gebiet_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `gebiet_zu_gebiet`
+--
+
+INSERT INTO `gebiet_zu_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
+(1, 1, 4),
+(2, 1, 9),
+(3, 2, 5),
+(4, 2, 6),
+(5, 3, 5),
+(6, 3, 6),
+(7, 4, 1),
+(8, 4, 8),
+(9, 4, 11),
+(10, 5, 2),
+(11, 5, 3),
+(12, 5, 7),
+(13, 6, 2),
+(14, 6, 3),
+(15, 6, 9),
+(16, 7, 5),
+(17, 7, 10),
+(18, 7, 11),
+(19, 8, 4),
+(20, 8, 9),
+(21, 9, 1),
+(22, 9, 6),
+(23, 9, 8),
+(24, 10, 7),
+(25, 11, 4),
+(26, 11, 7);
 
 -- --------------------------------------------------------
 
@@ -466,6 +542,19 @@ ALTER TABLE `gattung`
   ADD UNIQUE KEY `titel` (`titel`);
 
 --
+-- Indizes für die Tabelle `gebiet`
+--
+ALTER TABLE `gebiet`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `titel` (`titel`);
+
+--
+-- Indizes für die Tabelle `gebiet_zu_gebiet`
+--
+ALTER TABLE `gebiet_zu_gebiet`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `level`
 --
 ALTER TABLE `level`
@@ -544,6 +633,16 @@ ALTER TABLE `faehigkeiten_spieler`
 --
 ALTER TABLE `gattung`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
+-- AUTO_INCREMENT für Tabelle `gebiet`
+--
+ALTER TABLE `gebiet`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT für Tabelle `gebiet_zu_gebiet`
+--
+ALTER TABLE `gebiet_zu_gebiet`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
