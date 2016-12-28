@@ -1,6 +1,6 @@
 <!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"-->
 
-<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
+
 
 <html>
 	
@@ -12,14 +12,19 @@
 		<meta name="description" content="Drachen von Gaja - Browsergame">
 		<meta name="keywords" content="Drachen, Elemente, Browsergame, Browserspiel,">
 		<meta name="Author" content="Tina Schmidtbauer, Hendrik Matthes" >
+		<meta charset="utf-8">
 	
 		<link rel="stylesheet" type="text/css" href="../index.css">
 		<script src="index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja</title>
+		
+		
+		
 	</head>
 	
 	<body>
+	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 			session_start();
 			
@@ -39,6 +44,21 @@
 					window.location.href = "../index.php"
 				</script>
 		<?php
+			}
+			else
+			{
+				if ($debug)
+				{
+					echo "Los geht's ...<br/>";
+					echo "Der Spieler [spieler_id=" . $_SESSION['spieler_id'] . "] ist über Account [" . $_SESSION['login_name'] . "] eingeloggt. <br/>";
+				}
+			}
+			
+			
+# Gebietswechsel angeklickt?			
+			if (isset($_POST["button_zum_zielgebiet"]))
+			{
+				gebietswechsel($_SESSION['spieler_id'], get_gebiet_id($_POST["button_zum_zielgebiet"]));
 			}
 			else
 			{
@@ -118,7 +138,7 @@
 			<div id="obere_Leiste">
 				<table align="center">
 					<tr>
-						<td>St&auml;rke <?php echo $staerke ?></td>
+						<td>Stärke <?php echo $staerke ?></td>
 						<td>Intelligenz <?php echo $intelligenz ?></td>
 						<td>Magie <?php echo $magie ?></td>
 					</tr>
@@ -127,8 +147,9 @@
 			
 			<!-- Hintergrundbild -->
 			<div id="mitte" >
-				<p align="center" style="margin-top:75px; margin-bottom:0px;">
-					<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/>
+				<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:20pt;">
+					<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/><br>
+					<?php echo get_gebiet($gebiet_id)[3]; ?>
 				</p> 
 			</div>
 			
@@ -152,65 +173,81 @@
 				</table>
 			</div>
 			
-			<!-- Tabelle für Elemente -->
-			<div id="elemente">
-				<table cellpadding="1px">
-					<tr>
-						<td bgcolor="darkgrey">E</td>
-						<td colspan="3" height="15px"></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">L</td>
-						<td height="15px" width="50px" bgcolor="brown">Erde</td>
-						<td width="50px" bgcolor="blue">Wasser</td>
-						<td width="50px" bgcolor="red">Feuer</td>
-						<td width="50px" bgcolor="lightblue">Luft</td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">E</td>
-						<td height="15px" bgcolor="brown"><?php echo $erd1 ?></td>
-						<td bgcolor="blue"><?php echo $wasser1 ?></td>
-						<td bgcolor="red"><?php echo $feuer1 ?></td>
-						<td bgcolor="lightblue"><?php echo $luft1 ?></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">M</td>
-						<td height="15px" bgcolor="brown"><?php echo $erd2 ?></td>
-						<td bgcolor="blue"><?php echo $wasser2 ?></td>
-						<td bgcolor="red"><?php echo $feuer2 ?></td>
-						<td bgcolor="lightblue"><?php echo $luft2 ?></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">E</td>
-						<td height="15px" bgcolor="brown"><?php echo $erd3 ?></td>
-						<td bgcolor="blue"><?php echo $wasser3 ?></td>
-						<td bgcolor="red"><?php echo $feuer3 ?></td>
-						<td bgcolor="lightblue"><?php echo $luft3 ?></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">N</td>
-						<td height="15px" bgcolor="brown"><?php echo $erd4 ?></td>
-						<td bgcolor="blue"><?php echo $wasser4 ?></td>
-						<td bgcolor="red"><?php echo $feuer4 ?></td>
-						<td bgcolor="lightblue"><?php echo $luft4 ?></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">T</td>
-						<td height="15px" bgcolor="brown"><?php echo $erd5 ?></td>
-						<td bgcolor="blue"><?php echo $wasser5 ?></td>
-						<td bgcolor="red"><?php echo $feuer5 ?></td>
-						<td bgcolor="lightblue"><?php echo $luft5 ?></td>
-					</tr>
-					<tr>
-						<td bgcolor="darkgrey">E</td>
-						<td height="15px"></td>
-						<td colspan="3"></td>
-					</tr>
-				</table>
+			<!-- Zielgebiete -->
+			<div id="zielgebiete">
+				<?php
+					if ($zielgebiete = get_gebiet_zu_gebiet($gebiet_id))
+					{		
+						while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
+						{
+				?>			
+						<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
+				<?php
+						}
+					}
+					else{
+						echo "<br />\nKeine Zielgebiete gefunden.<br />\n";
+					}
+				?>
 			</div>
+			
+			<!-- Anzeige für Spielerdaten -->
+			<div id="charakter">
+			<table border-color="white" border="1px">
+				<tr>
+					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="150px" alt="Spielerbild"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><p align="center" style="font-size:20pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Geschlecht</p></td>
+					<td><p align="left">
+					<?php 
+						switch ($geschlecht){
+						case "W":
+							echo "weiblich";
+							break;
+						default:
+							echo "männlich";
+							break;
+						}
+					?>
+				</tr>
+				<tr>
+					<td><p align="left">Element Feuer</p></td>
+					<td><p align="left"><?php echo $element_feuer;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Element Erde</p></td>
+					<td><p align="left"><?php echo $element_erde;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Element Wasser</p></td>
+					<td><p align="left"><?php echo $element_wasser;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Element Luft</p></td>
+					<td><p align="left"><?php echo $element_luft;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Gesundheit</p></td>
+					<td><p align="left"><?php echo $gesundheit . "/" . $max_gesundheit;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Energie</p></td>
+					<td><p align="left"><?php echo $energie . "/" . $max_energie;?></p></td>
+				</tr>
+				<tr>
+					<td><p align="left">Balance</p></td>
+					<td><p align="left"><?php echo $balance;?></p></td>
+				</tr>
+			
+			
+			</table>
+			</div>
+
 		</div>
-		
-		<?php #echo gebietswechsel($_SESSION['spieler_id'], 8); ?>
 		
 	</body>
 </html>   

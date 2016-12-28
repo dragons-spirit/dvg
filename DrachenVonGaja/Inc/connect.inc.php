@@ -24,6 +24,8 @@ function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "
 		die("Verbindungsfehler (" . mysqli_connect_errno() . ") " . mysqli_connect_error());
 	}
 	if ($debug_connection)  echo "Verbunden mit Datenbank " . $db . " ... " . $connection->host_info . "<br />\n";
+	
+	mysqli_set_charset($connection, 'utf8');
 	return $connection;
 }
 

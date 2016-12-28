@@ -5,6 +5,7 @@ body
     min-height:30%;
     font-family:fantasy;
     font-size:smaller;
+	color:white;
 }
 
 input[type=submit]
@@ -76,14 +77,24 @@ input[type=submit]
 	z-index: 1;
 }
 
-#elemente
+#zielgebiete
+{
+	position:absolute;
+    left:10px;
+    top:200px;
+    width:50px;
+    height:100px;
+    fcolor:#ffffff;
+}
+
+#charakter
 {
     position:absolute;
-    right:10px;
+    right:5%;
     top:200px;
     width:200px;
     height:178px;
-    color:white;
+
 }
 
 #untere_Leiste
@@ -198,7 +209,7 @@ input[type=submit]
 #sumpf
 {
   position:absolute;
-  margin-top:10%;
+  margin-top:11%;
   float:left;
   width:50px;
   height:25px;
@@ -216,7 +227,7 @@ input[type=submit]
 #eissee
 {
   position:absolute;
-  margin-top:14%;
+  margin-top:13%;
   float:left;
   width:50px;
   height:25px;
@@ -225,7 +236,7 @@ input[type=submit]
 #dschungel
 {
   position:absolute;
-  margin-top:16%;
+  margin-top:14%;
   float:left;
   width:50px;
   height:25px;
@@ -234,7 +245,7 @@ input[type=submit]
 #klippen
 {
   position:absolute;
-  margin-top:18%;
+  margin-top:15%;
   float:left;
   width:50px;
   height:25px;
@@ -243,7 +254,7 @@ input[type=submit]
 #kristall
 {
   position:absolute;
-  margin-top:20%;
+  margin-top:16%;
   float:left;
   width:50px;
   height:25px;
@@ -252,7 +263,7 @@ input[type=submit]
 #wueste
 {
   position:absolute;
-  margin-top:22%;
+  margin-top:17%;
   float:left;
   width:50px;
   height:25px;
@@ -261,7 +272,7 @@ input[type=submit]
 #mammut
 {
   position:absolute;
-  margin-top:24%;
+  margin-top:18%;
   float:left;
   width:50px;
   height:25px;
@@ -271,7 +282,7 @@ input[type=submit]
 #wald
 {
   position:absolute;
-  margin-top:26%;
+  margin-top:19%;
   float:left;
   width:50px;
   height:25px;
@@ -280,7 +291,7 @@ input[type=submit]
 #oase
 {
   position:absolute;
-  margin-top:28%;
+  margin-top:20%;
   float:left;
   width:50px;
   height:25px;
@@ -289,7 +300,7 @@ input[type=submit]
 #steppe
 {
   position:absolute;
-  margin-top:30%;
+  margin-top:21%;
   float:left;
   width:50px;
   height:25px;

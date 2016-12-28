@@ -261,7 +261,7 @@ function get_bilder($bilder_id)
 		echo "<br />\nQuerryfehler in get_bilder()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
-	}	
+	}
 }
 
 
@@ -308,6 +308,34 @@ function get_start_gattung($gattung)
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_start_gattung()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#-------------------------------------------- SELECT gattung.titel ---------------------------------------------
+# 	-> gattung.id (int)
+#	<- gattung.titel (str)
+
+function get_gattung_titel($gattung_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	titel
+			FROM 	gattung 
+			WHERE 	id = ?")){
+		$stmt->bind_param('d', $gattung_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung . "]<br />\n";
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_gattung_titel()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
@@ -371,7 +399,7 @@ function get_gebiet($gebiet_id)
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGebietsdaten abgeholt für: [" . $gebiet_id . "]<br />\n";
 		close_connection($connect_db_dvg);
-		return $row[0];
+		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_gebiet()<br />\n";
 		close_connection($connect_db_dvg);
@@ -386,6 +414,8 @@ function get_gebiet($gebiet_id)
 #	<- [0] id
 #	<- [1] von_gebiet_id
 #	<- [2] nach_gebiet_id
+#	<- [3] nach_gebiet_titel
+
 
 function get_gebiet_zu_gebiet($von_gebiet_id)
 {
@@ -393,16 +423,20 @@ function get_gebiet_zu_gebiet($von_gebiet_id)
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	* 
-			FROM 	gebiet_zu_gebiet
-			WHERE 	von_gebiet_id = ?")){
+			SELECT gebiet_zu_gebiet.id, 
+				gebiet_zu_gebiet.von_gebiet_id, 
+				gebiet_zu_gebiet.nach_gebiet_id, 
+				gebiet.titel AS nach_gebiet_titel 
+			FROM gebiet_zu_gebiet 
+				LEFT JOIN gebiet ON (gebiet_zu_gebiet.nach_gebiet_id = gebiet.id) 
+			WHERE gebiet_zu_gebiet.von_gebiet_id = ?")){
 		$stmt->bind_param('d', $von_gebiet_id);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		$row = $result->fetch_array(MYSQLI_NUM);
-		if ($debug and $row) echo "<br />\nGebietsverlinkungen abgeholt für: [" . $von_gebiet_id . "]<br />\n";
+		#$row = $result->fetch_array(MYSQLI_NUM);
+		#if ($debug and $row) echo "<br />\nGebietsverlinkungen abgeholt für: [" . $von_gebiet_id . "]<br />\n";
 		close_connection($connect_db_dvg);
-		return $row[0];
+		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_gebiet_zu_gebiet()<br />\n";
 		close_connection($connect_db_dvg);

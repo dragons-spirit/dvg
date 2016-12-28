@@ -212,7 +212,7 @@
 					<td><?php echo $count ?></td>
 					<td><?php echo $row[6] . "<br />\n"; ?></td>
                     <td>
-						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:90px; width:150px; background-repeat:no-repeat;" alt="Spieler ausw&auml;hlen" name="button_spielerlogin" value="<?php echo $row[0];?>">
+						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:90px; width:150px; background-repeat:no-repeat;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>
@@ -313,7 +313,7 @@
     if(isset($_POST["button_erdelement"]))
     {
 		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
-		echo "Du hast das Erdelement ausgew&auml;hlt!";
+		echo "Du hast das Erdelement ausgewählt!";
         $_SESSION['element'] = "Erde";
 		$_SESSION['gattung'] = "Erddrache";
         #Zeige Gebiete fuer Erdelement
@@ -322,7 +322,7 @@
         <table align="center">
             <tr>
                 <td>Dschungel<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/dschungel_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Dschungel" name="button_dschungel" value="                                             "></td>
-                <td>Kristallh&ouml;hle<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
+                <td>Kristallhöhle<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
             </tr>            
         </table>
  <?php
@@ -331,7 +331,7 @@
     if(isset($_POST["button_wasserelement"]))
     {
 		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
-		echo "Du hast das Wasserelement ausgew&auml;hlt!";
+		echo "Du hast das Wasserelement ausgewählt!";
 		$_SESSION['element'] = "Wasser";
 		$_SESSION['gattung'] = "Wasserdrache";
         #Zeige Gebiete fuer Wasserelement
@@ -349,7 +349,7 @@
     if(isset($_POST["button_feuerelement"]))
     {
 		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
-		echo "Du hast das Feuerelement ausgew&auml;hlt!";
+		echo "Du hast das Feuerelement ausgewählt!";
 		$_SESSION['element'] = "Feuer";
 		$_SESSION['gattung'] = "Feuerdrache";
         #Zeige Gebiete fuer Feuerelement
@@ -358,7 +358,7 @@
         <table align="center">
             <tr>
                 <td>Vulkan<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/vulkan_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Vulkan" name="button_vulkan" value="                                      "></td>
-                <td>W&uuml;ste<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
+                <td>Wüste<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
             </tr>
         </table>
 <?php
@@ -367,7 +367,7 @@
     if(isset($_POST["button_luftelement"]))
     {
 		$_SESSION['letzte_seite'] = "neuer_spieler_startgebiet";
-		echo "Du hast das Luftelement ausgew&auml;hlt!";
+		echo "Du hast das Luftelement ausgewählt!";
 		$_SESSION['element'] = "Luft";
 		$_SESSION['gattung'] = "Luftdrache";
         #Zeige Gebiete fuer Luftelement
@@ -407,7 +407,7 @@
 			<tr><td>Name:<input type="text" name="playname" size="15"></td><td>
 			<select name="geschlecht">
 				<option value="Weiblich" name="gesch1">Weiblich</option>
-				<option value="Maennlich" name="gesch2">M&auml;nnlich</option>
+				<option value="Maennlich" name="gesch2">Männlich</option>
 			</select>
 			<tr><td><input type="submit" name="button_spieler_angelegt" value="Spieler erstellen"></td></tr>
 		</table>

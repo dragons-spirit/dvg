@@ -14,6 +14,7 @@
 		<meta name="description" content="Drachen von Gaja - Browsergame">
 		<meta name="keywords" content="Drachen, Elemente, Browsergame, Browserspiel,">
 		<meta name="Author" content="Tina Schmidtbauer, Hendrik Matthes" >
+		<meta charset="utf-8">
 	
 		<link rel="stylesheet" type="text/css" href="index.css">
 		<script src="index.js" type="text/javascript"></script>
