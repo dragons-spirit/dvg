@@ -193,7 +193,7 @@
 			
 			<!-- Anzeige für Spielerdaten -->
 			<div id="charakter">
-			<table border-color="white" border="1px">
+			<table> <!--border-color="white" border="1px"-->
 				<tr>
 					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="150px" alt="Spielerbild"/></td>
 				</tr>
@@ -242,12 +242,42 @@
 					<td><p align="left">Balance</p></td>
 					<td><p align="left"><?php echo $balance;?></p></td>
 				</tr>
-			
-			
+				<tr>
+				   <td><img src="../Bilder/pflanzenbutton.png" alt="pflanzenbutton" width="100%"/></td>
+				   <td><img src="../Bilder/jagenbutton.png" alt="jagenbutton" width="100%"/></td>
+				</tr>
+				<tr>
+				   <td><img src="../Bilder/feuerbutton.png" alt="feuerbutton" width="100%"/></td>
+				   <td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
+				</tr>
 			</table>
-			</div>
-
+		
+		<a href="javascript:Elemente()" >Elemente</a>
 		</div>
+		
+        
+		</div>
+		<div id="elemente">
+           <img src="../Bilder/Erdzauber.svg" alt="Elemente" width="100%" />
+        </div>
+		
+		<script type="text/javascript">
+		function Elemente()
+		{
+			var e = document.getElementById('elemente');
+			switch(e.style.display)
+			{
+			case 'none':
+				e.style.display='block';
+				break;
+			case 'block':
+				e.style.display='none';
+				break;
+			default:
+				e.style.display='block';
+			}
+		}
+		</script>
 		
 	</body>
 </html>   
