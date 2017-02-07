@@ -130,9 +130,7 @@
 -->
 
 		<div id="rahmen">
-			<div id="zur_spielerauswahl">
-				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
-			</div>
+			
 			
 			<!-- Obere Leiste -->
 			<div id="obere_Leiste">
@@ -162,16 +160,7 @@
 			<div id="l2"><?php echo $level2 ?></div>
 			<div id="l1"><?php echo $level1 ?></div>
 			
-			<!-- Untere Leiste -->
-			<div id="untere_Leiste">
-				<table align="center">
-					<tr>
-						<td>Feuer Speien <?php echo $speipunkte ?></td>
-						<td>Karte</td>
-						<td>Fliegen <?php echo $flugpunkte ?></td>
-					</tr>
-				</table>
-			</div>
+			
 			
 			<!-- Zielgebiete -->
 			<div id="zielgebiete">
@@ -190,12 +179,13 @@
 					}
 				?>
 			</div>
+		
 			
 			<!-- Anzeige für Spielerdaten -->
 			<div id="charakter">
 			<table> <!--border-color="white" border="1px"-->
 				<tr>
-					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="150px" alt="Spielerbild"/></td>
+					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
 				</tr>
 				<tr>
 					<td colspan="2"><p align="center" style="font-size:20pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
@@ -251,16 +241,12 @@
 				   <td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
 				</tr>
 			</table>
-		
-		<a href="javascript:Elemente()" >Elemente</a>
-		</div>
-		
-        
-		</div>
-		<div id="elemente">
-           <img src="../Bilder/Erdzauber.svg" alt="Elemente" width="100%" />
-        </div>
-		
+			<a href="javascript:Elemente()" >Elemente</a>
+			  </div>
+			<!-- Anzeige für Fähigkeiten -->
+			
+			<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
+			
 		<script type="text/javascript">
 		function Elemente()
 		{
@@ -278,6 +264,22 @@
 			}
 		}
 		</script>
+		<div id="zur_spielerauswahl">
+				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
+		</div>
+		<!-- Untere Leiste -->
+			<div id="untere_Leiste">
+				<table align="center">
+					<tr>
+						<td>Feuer Speien <?php echo $speipunkte ?></td>
+						<td>Karte</td>
+						<td>Fliegen <?php echo $flugpunkte ?></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		
+	
 		
 	</body>
 </html>   

@@ -3,7 +3,7 @@ body
 {
     margin:auto;
     min-height:30%;
-    font-family:fantasy;
+    font-family:fantasy,georgia;
     font-size:smaller;
     color:white;
 }
@@ -14,7 +14,7 @@ input[type=submit]
     color:white;
     background-color:black;
     line-height:normal;
-    font-family:fantasy;
+    font-family:fantasy,georgia;
     height: 20px;
 }
 
@@ -68,7 +68,7 @@ input[type=submit]
 #obere_Leiste
 {
     position:absolute;
-    top:10px;
+    top:2%;
     left:0px;
     right:0px;
     height:25px;
@@ -90,29 +90,19 @@ input[type=submit]
 #charakter
 {
     position:absolute;
-    right:20px;
-    top:10px;
+    right:5%;
+    top:200px;
     width:200px;
     height:178px;
-
-}
-
-#elemente
-{
-    position:absolute;
-    right:50%;
-    top:100px;
-    width:200px;
-    height:200px;
-    display:none;
 
 }
 
 #untere_Leiste
 {
     position:absolute;
-    bottom:10px;
+    bottom:5%;
     left:0px;
+    right:0px;
     height:25px;
     width:100%;
     background-color:darkgrey;
@@ -134,8 +124,8 @@ input[type=submit]
 #zur_spielerauswahl
 {
     position:absolute;
-    bottom:50px;
-    right:50px;
+    bottom:2%;
+    left:90%;
     z-index: 1;
 }
 
@@ -315,4 +305,14 @@ input[type=submit]
   width:50px;
   height:25px;
   color:white;
+}
+
+/*Elemente - Rad*/
+
+#elemente
+{
+  position:absolute;
+  display:none;
+  right:25%;
+  top:10%;
 }
