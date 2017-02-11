@@ -274,7 +274,7 @@
 #######################
 -->
 
-<p align="center"><img src="Bilder/Deckblatt.png" height=300px"/></p>
+<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
 
 	
 <!--
