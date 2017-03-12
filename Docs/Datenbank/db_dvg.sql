@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 28. Dez 2016 um 22:08
+-- Erstellungszeit: 12. Mrz 2017 um 22:24
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -35,7 +35,7 @@ CREATE TABLE `account` (
   `aktiv` tinyint(1) NOT NULL,
   `Rolle` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   `letzter_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Logindaten für Nutzer';
 
 --
 -- Daten für Tabelle `account`
@@ -60,6 +60,35 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `aktion`
+--
+
+DROP TABLE IF EXISTS `aktion`;
+CREATE TABLE `aktion` (
+  `id` int(10) NOT NULL,
+  `art` enum('kurz','normal','lang') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
+  `text` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='alle möglichen Aktionen die ein Spieler ausführen kann';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `aktion_spieler`
+--
+
+DROP TABLE IF EXISTS `aktion_spieler`;
+CREATE TABLE `aktion_spieler` (
+  `id` int(10) NOT NULL,
+  `spieler_id` int(10) NOT NULL,
+  `aktion_id` int(10) NOT NULL,
+  `start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `ende` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `bilder`
 --
 
@@ -69,7 +98,7 @@ CREATE TABLE `bilder` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `pfad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle genutzen Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
 --
 -- Daten für Tabelle `bilder`
@@ -102,7 +131,7 @@ CREATE TABLE `element` (
   `bilder_id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Elemente';
 
 --
 -- Daten für Tabelle `element`
@@ -126,7 +155,7 @@ CREATE TABLE `faehigkeiten` (
   `bilder_id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Fähigkeiten';
 
 --
 -- Daten für Tabelle `faehigkeiten`
@@ -151,7 +180,7 @@ CREATE TABLE `faehigkeiten_spieler` (
   `faehigkeiten_id` int(10) NOT NULL,
   `wert` float NOT NULL,
   `stufe` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Fähigkeiten die die einzelnen Spieler besitzen bzw. beherrschen';
 
 --
 -- Daten für Tabelle `faehigkeiten_spieler`
@@ -182,7 +211,7 @@ CREATE TABLE `gattung` (
   `start_element_erde` float NOT NULL,
   `start_element_luft` float NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Gattungen aller möglichen Lebewesen';
 
 --
 -- Daten für Tabelle `gattung`
@@ -212,7 +241,7 @@ CREATE TABLE `gebiet` (
   `bilder_id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Vorhandene Gebiete';
 
 --
 -- Daten für Tabelle `gebiet`
@@ -234,21 +263,21 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `gebiet_zu_gebiet`
+-- Tabellenstruktur für Tabelle `gebiet_gebiet`
 --
 
-DROP TABLE IF EXISTS `gebiet_zu_gebiet`;
-CREATE TABLE `gebiet_zu_gebiet` (
+DROP TABLE IF EXISTS `gebiet_gebiet`;
+CREATE TABLE `gebiet_gebiet` (
   `id` int(10) NOT NULL,
   `von_gebiet_id` int(10) NOT NULL,
   `nach_gebiet_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Verbindungen von Gebieten untereinander';
 
 --
--- Daten für Tabelle `gebiet_zu_gebiet`
+-- Daten für Tabelle `gebiet_gebiet`
 --
 
-INSERT INTO `gebiet_zu_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
+INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
 (1, 1, 4),
 (2, 1, 9),
 (3, 2, 5),
@@ -279,6 +308,35 @@ INSERT INTO `gebiet_zu_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `items`
+--
+
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE `items` (
+  `id` int(10) NOT NULL,
+  `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
+  `typ` enum('Pflanze','Pilz','Werkzeug','Kleidung','Material') COLLATE utf8_unicode_ci NOT NULL,
+  `bilder_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Items';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `items_spieler`
+--
+
+DROP TABLE IF EXISTS `items_spieler`;
+CREATE TABLE `items_spieler` (
+  `id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `spieler_id` int(10) NOT NULL,
+  `anzahl` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `level`
 --
 
@@ -290,7 +348,7 @@ CREATE TABLE `level` (
   `stufe` int(10) NOT NULL,
   `modifikator` float NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Level und die einzelnen Voraussetzungen zum Erreichen des Levels';
 
 --
 -- Daten für Tabelle `level`
@@ -317,7 +375,7 @@ CREATE TABLE `npc` (
   `bilder_id` int(10) NOT NULL,
   `element_id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `Familie` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `familie` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `staerke` float NOT NULL,
   `intelligenz` float NOT NULL,
   `magie` float NOT NULL,
@@ -328,18 +386,48 @@ CREATE TABLE `npc` (
   `gesundheit` int(10) NOT NULL,
   `energie` int(10) NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Objekten (Tiere, Pflanzen, Personen, usw.)';
 
 --
 -- Daten für Tabelle `npc`
 --
 
-INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `Familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `beschreibung`) VALUES
+INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `beschreibung`) VALUES
 (1, 1, 1, 'Wymar', 'Drache', 75, 100, 50, 100, 20, 20, 20, 1000, 100, 'Wymar ist einer der ältesten bekannten Drachen und wird für seine Weisheit hoch geschätzt. Ihr tut gut daran, seinen Ratschlägen aufs genauste zu folgen.'),
 (2, 1, 3, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. '),
 (3, 1, 0, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Einen Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.'),
 (4, 1, 3, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.'),
 (5, 1, 3, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `npc_gebiet`
+--
+
+DROP TABLE IF EXISTS `npc_gebiet`;
+CREATE TABLE `npc_gebiet` (
+  `id` int(10) NOT NULL,
+  `npc_id` int(10) NOT NULL,
+  `gebiet_id` int(10) NOT NULL,
+  `wahrscheinlichkeit` double UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `npc_items`
+--
+
+DROP TABLE IF EXISTS `npc_items`;
+CREATE TABLE `npc_items` (
+  `id` int(10) NOT NULL,
+  `npc_id` int(10) NOT NULL,
+  `item_id` int(10) NOT NULL,
+  `wahrscheinlichkeit` double UNSIGNED NOT NULL,
+  `anzahl_min` int(10) UNSIGNED NOT NULL,
+  `anzahl_max` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
 -- --------------------------------------------------------
 
@@ -359,7 +447,7 @@ CREATE TABLE `quest` (
   `text_mitte` text COLLATE utf8_unicode_ci NOT NULL,
   `text_sieg` text COLLATE utf8_unicode_ci NOT NULL,
   `text_niederlage` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen vorhandenen Quests';
 
 --
 -- Daten für Tabelle `quest`
@@ -379,16 +467,17 @@ CREATE TABLE `quest_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
   `quest_id` int(10) NOT NULL,
+  `status` enum('gestartet','beendet') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'gestartet',
   `start` timestamp NULL DEFAULT NULL,
   `ende` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Quests zu Spieler zum Speichern des Status einer Quest und bereits abgeschlossener Quests';
 
 --
 -- Daten für Tabelle `quest_spieler`
 --
 
-INSERT INTO `quest_spieler` (`id`, `spieler_id`, `quest_id`, `start`, `ende`) VALUES
-(1, 1, 1, NULL, NULL);
+INSERT INTO `quest_spieler` (`id`, `spieler_id`, `quest_id`, `status`, `start`, `ende`) VALUES
+(1, 1, 1, 'gestartet', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -419,7 +508,7 @@ CREATE TABLE `spieler` (
   `max_energie` int(10) NOT NULL,
   `balance` float NOT NULL,
   `zuletzt_gespielt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle vorhandenen Spieler mit Zuordnung zu den jeweiligen Accounts';
 
 --
 -- Daten für Tabelle `spieler`
@@ -436,11 +525,12 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (14, 11, 1, 4, 1, 8, 'Baldrian', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:49:15'),
 (15, 11, 1, 3, 1, 8, 'Cecilia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 17:46:48'),
 (16, 17, 1, 2, 1, 3, 'Blauer Enzian', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(17, 17, 1, 1, 1, 7, 'WÃ¼stenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
+(17, 17, 1, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-03-12 20:27:17'),
 (18, 17, 1, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
 (19, 11, 1, 3, 7, 1, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:59'),
 (20, 11, 1, 3, 6, 11, 'Erdwurmi', 'M', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:52'),
-(21, 11, 1, 1, 3, 7, 'Schneewitcher', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:44');
+(21, 11, 1, 1, 3, 7, 'Schneewitcher', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:44'),
+(25, 10, 1, 1, 1, 7, 'trtet', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-01-28 16:41:06');
 
 -- --------------------------------------------------------
 
@@ -461,7 +551,7 @@ CREATE TABLE `zauber` (
   `verbrauch` int(10) NOT NULL,
   `effekt` float NOT NULL COMMENT 'Grundwert für Angriff/Verteidigung und sonstige Effekte',
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zauber die ein Spieler wirken kann (z.B. im Kampf oder beim Erkunden)';
 
 --
 -- Daten für Tabelle `zauber`
@@ -485,7 +575,7 @@ CREATE TABLE `zauberart` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `modifikator` float NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Details zu Zaubern um verschiedenste Wirkungen abbilden zu können.';
 
 --
 -- Daten für Tabelle `zauberart`
@@ -508,6 +598,18 @@ ALTER TABLE `account`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `login` (`login`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indizes für die Tabelle `aktion`
+--
+ALTER TABLE `aktion`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `aktion_spieler`
+--
+ALTER TABLE `aktion_spieler`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indizes für die Tabelle `bilder`
@@ -550,9 +652,21 @@ ALTER TABLE `gebiet`
   ADD UNIQUE KEY `titel` (`titel`);
 
 --
--- Indizes für die Tabelle `gebiet_zu_gebiet`
+-- Indizes für die Tabelle `gebiet_gebiet`
 --
-ALTER TABLE `gebiet_zu_gebiet`
+ALTER TABLE `gebiet_gebiet`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `items`
+--
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `items_spieler`
+--
+ALTER TABLE `items_spieler`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -567,6 +681,18 @@ ALTER TABLE `level`
 ALTER TABLE `npc`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `titel` (`titel`);
+
+--
+-- Indizes für die Tabelle `npc_gebiet`
+--
+ALTER TABLE `npc_gebiet`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indizes für die Tabelle `npc_items`
+--
+ALTER TABLE `npc_items`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indizes für die Tabelle `quest`
@@ -610,6 +736,16 @@ ALTER TABLE `zauberart`
 ALTER TABLE `account`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
+-- AUTO_INCREMENT für Tabelle `aktion`
+--
+ALTER TABLE `aktion`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT für Tabelle `aktion_spieler`
+--
+ALTER TABLE `aktion_spieler`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
@@ -640,10 +776,20 @@ ALTER TABLE `gattung`
 ALTER TABLE `gebiet`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
--- AUTO_INCREMENT für Tabelle `gebiet_zu_gebiet`
+-- AUTO_INCREMENT für Tabelle `gebiet_gebiet`
 --
-ALTER TABLE `gebiet_zu_gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+ALTER TABLE `gebiet_gebiet`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+--
+-- AUTO_INCREMENT für Tabelle `items`
+--
+ALTER TABLE `items`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT für Tabelle `items_spieler`
+--
+ALTER TABLE `items_spieler`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -654,6 +800,16 @@ ALTER TABLE `level`
 --
 ALTER TABLE `npc`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT für Tabelle `npc_gebiet`
+--
+ALTER TABLE `npc_gebiet`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT für Tabelle `npc_items`
+--
+ALTER TABLE `npc_items`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
@@ -668,7 +824,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --
