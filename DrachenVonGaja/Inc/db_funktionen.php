@@ -408,7 +408,7 @@ function get_gebiet($gebiet_id)
 }
 
 
-#----------------------------------- SELECT gebiet_zu_gebiet.* (alle Verbindungen) ---------------------------
+#----------------------------------- SELECT gebiet_gebiet.* (alle Verbindungen) ---------------------------
 # 	-> von_gebiet.id (int)
 #	Array mit allen Gebietsverlinkungen ausgehend vom übergebenen Gebiet (1 Datensatz pro Verlinkung) [Position]
 #	<- [0] id
@@ -417,19 +417,19 @@ function get_gebiet($gebiet_id)
 #	<- [3] nach_gebiet_titel
 
 
-function get_gebiet_zu_gebiet($von_gebiet_id)
+function get_gebiet_gebiet($von_gebiet_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT gebiet_zu_gebiet.id, 
-				gebiet_zu_gebiet.von_gebiet_id, 
-				gebiet_zu_gebiet.nach_gebiet_id, 
+			SELECT gebiet_gebiet.id, 
+				gebiet_gebiet.von_gebiet_id, 
+				gebiet_gebiet.nach_gebiet_id, 
 				gebiet.titel AS nach_gebiet_titel 
-			FROM gebiet_zu_gebiet 
-				LEFT JOIN gebiet ON (gebiet_zu_gebiet.nach_gebiet_id = gebiet.id) 
-			WHERE gebiet_zu_gebiet.von_gebiet_id = ?")){
+			FROM gebiet_gebiet 
+				LEFT JOIN gebiet ON (gebiet_gebiet.nach_gebiet_id = gebiet.id) 
+			WHERE gebiet_gebiet.von_gebiet_id = ?")){
 		$stmt->bind_param('d', $von_gebiet_id);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -438,26 +438,26 @@ function get_gebiet_zu_gebiet($von_gebiet_id)
 		close_connection($connect_db_dvg);
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in get_gebiet_zu_gebiet()<br />\n";
+		echo "<br />\nQuerryfehler in get_gebiet_gebiet()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
 
-#-------------------------------- SELECT gebiet_zu_gebiet.* (Verbindung vorhanden?) --------------------------
+#-------------------------------- SELECT gebiet_gebiet.* (Verbindung vorhanden?) --------------------------
 # 	-> von_gebiet.id (int)
 # 	-> nach_gebiet.id (int)
 #	<- true/false
 
 
-function exist_gebiet_zu_gebiet($von_gebiet_id, $nach_gebiet_id)
+function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	count(id)
-			FROM 	gebiet_zu_gebiet
+			FROM 	gebiet_gebiet
 			WHERE 	von_gebiet_id = ?
 				AND nach_gebiet = ?")){
 		$stmt->bind_param('dd', $von_gebiet_id, $nach_gebiet_id);
@@ -468,7 +468,7 @@ function exist_gebiet_zu_gebiet($von_gebiet_id, $nach_gebiet_id)
 		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
-		echo "<br />\nQuerryfehler in exist_gebiet_zu_gebiet()<br />\n";
+		echo "<br />\nQuerryfehler in exist_gebiet_gebiet()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}	

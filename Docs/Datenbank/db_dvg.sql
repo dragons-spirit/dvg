@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 12. Mrz 2017 um 22:24
+-- Erstellungszeit: 15. Mrz 2017 um 22:18
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -71,6 +71,18 @@ CREATE TABLE `aktion` (
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='alle möglichen Aktionen die ein Spieler ausführen kann';
 
+--
+-- Daten für Tabelle `aktion`
+--
+
+INSERT INTO `aktion` (`id`, `art`, `text`, `beschreibung`) VALUES
+(1, 'normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.'),
+(2, 'kurz', 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.'),
+(5, 'lang', 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.'),
+(6, 'normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!'),
+(7, 'normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.'),
+(8, 'normal', 'Reden', 'Du versucht dein Gegenüber anzusprechen.');
+
 -- --------------------------------------------------------
 
 --
@@ -85,6 +97,13 @@ CREATE TABLE `aktion_spieler` (
   `start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `ende` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+
+--
+-- Daten für Tabelle `aktion_spieler`
+--
+
+INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`) VALUES
+(1, 26, 1, '2017-03-15 19:00:00', '2017-12-31 22:59:59');
 
 -- --------------------------------------------------------
 
@@ -320,6 +339,20 @@ CREATE TABLE `items` (
   `bilder_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Items';
 
+--
+-- Daten für Tabelle `items`
+--
+
+INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
+(1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 1),
+(2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 1),
+(4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
+(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 1),
+(6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
+(7, 'Messer', 'Ein kleines scharfes Messer. Nützlich um so allerlei Dinge zu ernten, zu teilen, zu filetieren oder was man sonst noch damit anstellen kann. Auf jeden Fall präziser als eine klobige Drachenkralle.', 'Werkzeug', 1),
+(8, 'Knochen', 'Grau, staubig, schaurig ... ein Knochen wie er im Buche steht.', 'Material', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -333,6 +366,15 @@ CREATE TABLE `items_spieler` (
   `spieler_id` int(10) NOT NULL,
   `anzahl` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+
+--
+-- Daten für Tabelle `items_spieler`
+--
+
+INSERT INTO `items_spieler` (`id`, `item_id`, `spieler_id`, `anzahl`) VALUES
+(1, 3, 26, 3),
+(2, 6, 26, 1),
+(3, 7, 26, 1);
 
 -- --------------------------------------------------------
 
@@ -397,7 +439,10 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 (2, 1, 3, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. '),
 (3, 1, 0, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Einen Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.'),
 (4, 1, 3, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.'),
-(5, 1, 3, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.');
+(5, 1, 3, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.'),
+(6, 1, 2, 'Apfelbaum', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Ein stattlicher Apfelbaum mit einer Menge Äpfeln in der Krone. Verlockend!'),
+(7, 1, 3, 'Steinpilz', 'Pilz', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Ein Pilz mit breitem Stiel und einem hellbraunen Hut. Das müsste ein Steinpilz sein.'),
+(8, 1, 3, 'Knoblauch', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Eine schöne Knoblauchpflanze. Der unterirdische Teil ist ein wahrer Gaumenschmaus für Kenner. Der oberirdische Teil hingegen ist ein Haufen unnützes Grünzeug.');
 
 -- --------------------------------------------------------
 
@@ -412,6 +457,45 @@ CREATE TABLE `npc_gebiet` (
   `gebiet_id` int(10) NOT NULL,
   `wahrscheinlichkeit` double UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
+
+--
+-- Daten für Tabelle `npc_gebiet`
+--
+
+INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
+(1, 2, 1, 50),
+(2, 2, 2, 50),
+(3, 2, 3, 50),
+(4, 2, 4, 50),
+(6, 2, 6, 50),
+(7, 2, 7, 50),
+(8, 2, 8, 50),
+(9, 2, 9, 50),
+(10, 2, 10, 50),
+(11, 2, 11, 50),
+(12, 1, 5, 100),
+(13, 4, 4, 40),
+(14, 5, 4, 10),
+(15, 4, 7, 40),
+(16, 5, 7, 10),
+(17, 4, 9, 40),
+(18, 5, 9, 10),
+(19, 4, 11, 40),
+(20, 5, 11, 10),
+(21, 6, 1, 30),
+(22, 6, 4, 30),
+(23, 6, 5, 30),
+(24, 6, 8, 10),
+(25, 6, 9, 70),
+(26, 6, 10, 50),
+(27, 6, 11, 20),
+(28, 7, 2, 20),
+(29, 7, 4, 50),
+(30, 7, 5, 25),
+(31, 7, 6, 80),
+(32, 7, 8, 35),
+(33, 7, 9, 80),
+(34, 8, 5, 100);
 
 -- --------------------------------------------------------
 
@@ -428,6 +512,24 @@ CREATE TABLE `npc_items` (
   `anzahl_min` int(10) UNSIGNED NOT NULL,
   `anzahl_max` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
+
+--
+-- Daten für Tabelle `npc_items`
+--
+
+INSERT INTO `npc_items` (`id`, `npc_id`, `item_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
+(1, 6, 1, 100, 1, 3),
+(2, 6, 2, 25, 1, 1),
+(3, 7, 5, 100, 1, 1),
+(4, 8, 3, 50, 1, 1),
+(5, 5, 8, 75, 1, 2),
+(6, 5, 4, 10, 1, 1),
+(7, 4, 8, 85, 2, 3),
+(8, 4, 4, 75, 1, 1),
+(9, 4, 6, 5, 1, 1),
+(10, 2, 1, 45, 1, 1),
+(11, 2, 7, 10, 1, 1),
+(12, 2, 8, 50, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -530,7 +632,8 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (19, 11, 1, 3, 7, 1, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:59'),
 (20, 11, 1, 3, 6, 11, 'Erdwurmi', 'M', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:52'),
 (21, 11, 1, 1, 3, 7, 'Schneewitcher', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:44'),
-(25, 10, 1, 1, 1, 7, 'trtet', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-01-28 16:41:06');
+(25, 10, 1, 1, 1, 7, 'trtet', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-01-28 16:41:06'),
+(26, 10, 1, 2, 1, 3, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2017-03-15 19:20:38');
 
 -- --------------------------------------------------------
 
@@ -739,12 +842,12 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT für Tabelle `aktion`
 --
 ALTER TABLE `aktion`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
@@ -784,12 +887,12 @@ ALTER TABLE `gebiet_gebiet`
 -- AUTO_INCREMENT für Tabelle `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -799,17 +902,17 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT für Tabelle `npc`
 --
 ALTER TABLE `npc`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT für Tabelle `npc_gebiet`
 --
 ALTER TABLE `npc_gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 --
 -- AUTO_INCREMENT für Tabelle `npc_items`
 --
 ALTER TABLE `npc_items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
@@ -824,7 +927,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --

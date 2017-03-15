@@ -165,7 +165,7 @@
 			<!-- Zielgebiete -->
 			<div id="zielgebiete">
 				<?php
-					if ($zielgebiete = get_gebiet_zu_gebiet($gebiet_id))
+					if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
 					{		
 						while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
 						{
