@@ -145,10 +145,65 @@
 			
 			<!-- Hintergrundbild -->
 			<div id="mitte" >
+		
+				<?php
+				if(isset($_POST["gebiet_erkunden"]))
+				{				
+					?>
+					<table border="1px" border-color="white" style="margin:auto;margin-top:10%;">
+					<?php
+					if ($npcs_gebiet = get_npcs_gebiet($gebiet_id, "angreifbar"))
+						{		
+							while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
+							{
+								?>
+									<tr align="center">
+										<td width="25px"><?php echo $row[0] ?></td>
+										<td width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
+										<td width="25px"><?php echo $row[3] ?></td>
+										<td width="25px"><?php if(check_wkt($row[3])) echo "X" ?></td>
+										<td><?php echo "<img src='../Bilder/jagenbutton.png' alt='jagenbutton' width='100px'/>" ?></td>
+									</tr>
+							<?php
+							}
+						}
+						else{
+							echo "<br />\nKeine NPCs gefunden.<br />\n";
+						}
+					if ($npcs_gebiet = get_npcs_gebiet($gebiet_id, "sammelbar"))
+						{		
+							while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
+							{
+								?>
+									<tr align="center">
+										<td	width="25px"><?php echo $row[0] ?></td>
+										<td	width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
+										<td	width="25px"><?php echo $row[3] ?></td>
+										<td	width="25px"><?php if(check_wkt($row[3])) echo "X" ?></td>
+										<td><?php echo "<img src='../Bilder/pflanzenbutton.png' alt='pflanzenbutton' width='100px'/>" ?></td>
+									</tr>
+								<?php
+							}
+						}
+						else{
+							echo "<br />\nKeine NPCs gefunden.<br />\n";
+						}
+					?>
+					</table>
+					<?php
+				}
+				else
+				{?>
+				
 				<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:20pt;">
 					<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/><br>
 					<?php echo get_gebiet($gebiet_id)[3]; ?>
+					
 				</p> 
+				
+				<?php
+				}
+				?>
 			</div>
 			
 			<!-- Level-/Zahlenzeichen ? -->
@@ -233,41 +288,53 @@
 					<td><p align="left"><?php echo $balance;?></p></td>
 				</tr>
 				<tr>
-				   <td><img src="../Bilder/pflanzenbutton.png" alt="pflanzenbutton" width="100%"/></td>
-				   <td><img src="../Bilder/jagenbutton.png" alt="jagenbutton" width="100%"/></td>
-				</tr>
-				<tr>
 				   <td><img src="../Bilder/feuerbutton.png" alt="feuerbutton" width="100%"/></td>
 				   <td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
 				</tr>
+				<tr>
+				   <td><input type="submit" name="gebiet_erkunden" value="Gebiet erkunden"></td>
+				</tr>
 			</table>
-			<a href="javascript:Elemente()" >Elemente</a>
-			  </div>
+			
+			<!-- Tabelle mit aktuellen Zeiten -->
+			<table border="1px" border-color="white">
+				<tr>
+					<td id="serverzeit">Serverzeit bei Seitengenerierung:<br><?php echo time_to_timestamp(time()) ?></td>
+				</tr>
+				<tr>
+					<td id="endezeit">Fiktives Aktionsende aus DB:<br><?php echo time_to_timestamp(time()+300) ?></td>
+				</tr>
+				<tr>
+					<td>
+						<input style="display:none" id="endezeit_temp" value="<?php echo time()+300 ?>"/>
+						Aktion beendet in:<br>
+						<b id="endezeit_div"></b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Aktuelle Clientzeit:<br>
+						<b id="clientzeit"></b>
+					</td>
+				</tr>
+			</table>
+			
+			
+				<script>
+					window.setInterval("client_times()", 100);
+				</script>
+			
+			
+				<a href="javascript:Elemente()" >Elemente</a>
+			</div>
 			<!-- Anzeige für Fähigkeiten -->
 			
 			<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
 			
-		<script type="text/javascript">
-		function Elemente()
-		{
-			var e = document.getElementById('elemente');
-			switch(e.style.display)
-			{
-			case 'none':
-				e.style.display='block';
-				break;
-			case 'block':
-				e.style.display='none';
-				break;
-			default:
-				e.style.display='block';
-			}
-		}
-		</script>
-		<div id="zur_spielerauswahl">
+			<div id="zur_spielerauswahl">
 				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
-		</div>
-		<!-- Untere Leiste -->
+			</div>
+			<!-- Untere Leiste -->
 			<div id="untere_Leiste">
 				<table align="center">
 					<tr>
@@ -279,7 +346,6 @@
 			</div>
 		</div>
 		
-	
 		
 	</body>
 </html>   

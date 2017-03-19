@@ -475,6 +475,50 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 }
 
 #***************************************************************************************************************
+#***************************************************** NPC *****************************************************
+#***************************************************************************************************************
+
+
+#----------------------------------- SELECT npc.* -----------------------------------
+# 	-> npc_gebiet.gebiet_id (int)
+#	-> npc.typ (str)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] beschreibung
+#	<- [3] wahrscheinlichkeit
+
+function get_npcs_gebiet($gebiet_id, $npc_typ)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	npc.id,
+				npc.titel,
+				npc.beschreibung,
+				npc_gebiet.wahrscheinlichkeit
+			FROM 	npc
+				JOIN npc_gebiet ON npc.id = npc_gebiet.npc_id
+			WHERE 	npc_gebiet.gebiet_id = ?
+				AND npc.typ = ?"))
+	{
+		$stmt->bind_param('ds', $gebiet_id, $npc_typ);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPC-Daten für: [gebiet_id=" . $gebiet_id . "] und [npc_typ=" . $npc_typ . "]geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npcs_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** SPIELER ***************************************************
 #***************************************************************************************************************
 
