@@ -4,43 +4,9 @@ include("connect.inc.php");
 include("funktionen.php");
 
 
-/* Funktionsübersicht
+/* 
 
-
---- ACCOUNT - ANMELDUNG
-
-get_account_id($login)									-> ID zum Login
-get_anmeldung($login)									-> Anmeldung (Passwort) überprüfen
-get_anmeldung_email($email)								-> Email verifizieren (schon vorhanden?)
-insert_registrierung($login, $passwort, $email)			-> neuen Account anlegen
-
-
---- BILDER
-
-get_bild_zu_gebiet($gebiet_id) 							-> direkter Bilderpfad
-get_bilder($bilder_id) 									-> alle Daten zum Bild
-
-
---- GATTUNG
-
-get_start_gattung($gattung)								-> Startdaten der Gattung
-
-
---- GEBIETE
-
-get_gebiet_id($gebiet_titel)							-> ID zur Bezeichnung
-get_gebiet($gebiet_id)									-> alle Daten zum Gebiet
-get_gebiet_zu_gebiet($von_gebiet_id)					-> alle Verlinkungen vom Gebiet aus
-exist_gebiet_zu_gebiet($von_gebiet_id, $nach_gebiet_id)	-> gibt Anzahl der Gebietsverlinkungen von A nach B zurück (in der Regel 0 oder 1)
-
-
---- SPIELER
-
-get_spieler_login($login)								-> alle Spieler zum Account
-get_spieler($login)										-> alle Spielerdaten
-insert_spieler($login, $gattung, $name, $geschlecht)	-> neuen Spieler anlegen
-delete_spieler()										-> Spieler löschen (funktioniert noch nicht)
-gebietswechsel($spieler_id, $gebiet_id)					-> Spieler in neues Gebiet setzen
+Eine Übersicht zu den verfügbaren Funktionen findet sich unter ../dvg/Docs/Übersicht Datenbankfunktionen.xlsx
 
 */
 
@@ -198,6 +164,108 @@ function insert_registrierung($login, $passwort, $email)
 		close_connection($connect_db_dvg);
 		return false;
 	}
+}
+
+
+#***************************************************************************************************************
+#*************************************************** AKTION ****************************************************
+#***************************************************************************************************************
+
+
+#--------------------------------------------- SELECT aktion.dauer ---------------------------------------------
+# 	-> aktion.id (int)
+#	<- aktion.dauer (str)
+
+function get_aktion_dauer($aktion_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	dauer
+			FROM 	aktion
+			WHERE 	id = ?")){
+		$stmt->bind_param('d', $aktion_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_aktion_dauer()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#------------------------------------------- INSERT aktion_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> aktion.id (int)
+#	<- true/false
+
+function insert_aktion_spieler($spieler_id, $aktion_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO aktion_spieler(
+				spieler_id, 
+				aktion_id, 
+				start, 
+				ende) 
+			VALUES (?, ?, NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE id = ?)))")){
+		$stmt->bind_param('ddd', spieler_id, aktion_id, aktion_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#---------------------------------------- SELECT aktion_spieler (Spieler) --------------------------------------
+# 	-> spieler.id (int)
+#	Array mit Aktions-Daten [Position]
+#	<- [0] aktion.text (str)
+#	<- [1] aktion.art (str)
+#	<- [2] aktion.beschreibung (str)
+#	<- [3] aktion_spieler.ende (str)
+
+function get_aktion_spieler($spieler_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	
+				aktion.text,
+				aktion.art,
+				aktion.beschreibung,
+				aktion_spieler.ende
+			FROM
+				aktion_spieler
+				JOIN aktion ON aktion.id = aktion_spieler.aktion_id
+			WHERE
+				spieler_id = ?
+			ORDER BY
+				aktion_spieler.ende ASC")){
+		$stmt->bind_param('d', $spieler_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_aktion_spieler<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
 }
 
 
@@ -433,8 +501,6 @@ function get_gebiet_gebiet($von_gebiet_id)
 		$stmt->bind_param('d', $von_gebiet_id);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		#$row = $result->fetch_array(MYSQLI_NUM);
-		#if ($debug and $row) echo "<br />\nGebietsverlinkungen abgeholt für: [" . $von_gebiet_id . "]<br />\n";
 		close_connection($connect_db_dvg);
 		return $result;
 	} else {
@@ -473,6 +539,98 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 		return false;
 	}	
 }
+
+
+#***************************************************************************************************************
+#**************************************************** ITMES ****************************************************
+#***************************************************************************************************************
+
+
+#-------------------------------- SELECT items.* (NPC) --------------------------------
+# 	-> npc.id (int)
+#	Array mit Items [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] beschreibung
+#	<- [3] typ
+#	<- [4] wahrscheinlichkeit
+#	<- [5] anzahl_min
+#	<- [6] anzahl_max
+
+function get_items_npc($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT
+				items.id,
+				items.titel,
+				items.beschreibung,
+				items.typ,
+				npc_items.wahrscheinlichkeit,
+				npc_items.anzahl_min,
+				npc_items.anzahl_max
+			FROM
+				items
+				JOIN npc_items ON items.id = npc_items.items_id
+			WHERE
+				npc_items.npc_id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItems für: [npc_id=" . $npc_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_items_npc()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT items.* (Spieler) -----------------------------------
+# 	-> spieler.id (int)
+#	Array mit Items [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] beschreibung
+#	<- [3] typ
+#	<- [4] anzahl
+
+function get_items_spieler($spieler_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT
+				items.id,
+				items.titel,
+				items.beschreibung,
+				items.typ,
+				items_spieler.anzahl
+			FROM
+				items
+				JOIN items_spieler ON items.id = items_spieler.items_id
+			WHERE
+				items_spieler.spieler_id = ?"))
+	{
+		$stmt->bind_param('d', $spieler_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItems für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_items_npc()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 
 #***************************************************************************************************************
 #***************************************************** NPC *****************************************************
@@ -515,7 +673,6 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 		return false;
 	}
 }
-
 
 
 #***************************************************************************************************************
@@ -766,14 +923,5 @@ function gebietswechsel($spieler_id, $gebiet_id)
 #************************************************ TEST-BEREICH *************************************************
 #***************************************************************************************************************
 
-#echo insert_registrierung('hugo', '123456', 'hugo@gmx.de');
-#echo insert_registrierung('balduin', 'xyzzyx', 'balduin@gmail.com');
-#echo insert_registrierung('klaus_trophobie', 'zuckerwatte', 'register@klaustrophobie.de');
-
-#insert_spieler('hugo', 'Klippendrache', 'Hathor', 'M');
-#insert_spieler('balduin', 'Eisdrache', 'Skadi', 'W');
-#insert_spieler('klaus_trophobie', 'Kristalldrache', 'Wyrm', 'W');
-
-#echo insert_registrierung('mustafa', 'kyrillisch', 'afatsum@mustafa.ru');
 
 ?>

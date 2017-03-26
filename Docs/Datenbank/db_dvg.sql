@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 19. Mrz 2017 um 23:35
+-- Erstellungszeit: 26. Mrz 2017 um 23:27
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -66,22 +66,23 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 DROP TABLE IF EXISTS `aktion`;
 CREATE TABLE `aktion` (
   `id` int(10) NOT NULL,
-  `art` enum('kurz','normal','lang') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
   `text` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
+  `art` enum('kurz','normal','lang') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
+  `dauer` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='alle möglichen Aktionen die ein Spieler ausführen kann';
 
 --
 -- Daten für Tabelle `aktion`
 --
 
-INSERT INTO `aktion` (`id`, `art`, `text`, `beschreibung`) VALUES
-(1, 'normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.'),
-(2, 'kurz', 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.'),
-(5, 'lang', 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.'),
-(6, 'normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!'),
-(7, 'normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.'),
-(8, 'normal', 'Reden', 'Du versucht dein Gegenüber anzusprechen.');
+INSERT INTO `aktion` (`id`, `text`, `beschreibung`, `art`, `dauer`) VALUES
+(1, 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.', 'normal', '00:01:00'),
+(2, 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.', 'kurz', '00:00:10'),
+(5, 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.', 'lang', '00:05:00'),
+(6, 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:10'),
+(7, 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:10'),
+(8, 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01');
 
 -- --------------------------------------------------------
 
@@ -103,7 +104,8 @@ CREATE TABLE `aktion_spieler` (
 --
 
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`) VALUES
-(1, 26, 1, '2017-03-15 19:00:00', '2017-12-31 22:59:59');
+(1, 26, 1, '2017-03-15 19:00:00', '2017-12-31 22:59:59'),
+(2, 26, 1, '2017-03-26 20:12:51', '2017-03-26 20:13:51');
 
 -- --------------------------------------------------------
 
@@ -362,7 +364,7 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 DROP TABLE IF EXISTS `items_spieler`;
 CREATE TABLE `items_spieler` (
   `id` int(10) NOT NULL,
-  `item_id` int(10) NOT NULL,
+  `items_id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
   `anzahl` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
@@ -371,7 +373,7 @@ CREATE TABLE `items_spieler` (
 -- Daten für Tabelle `items_spieler`
 --
 
-INSERT INTO `items_spieler` (`id`, `item_id`, `spieler_id`, `anzahl`) VALUES
+INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (1, 3, 26, 3),
 (2, 6, 26, 1),
 (3, 7, 26, 1);
@@ -508,7 +510,7 @@ DROP TABLE IF EXISTS `npc_items`;
 CREATE TABLE `npc_items` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
-  `item_id` int(10) NOT NULL,
+  `items_id` int(10) NOT NULL,
   `wahrscheinlichkeit` double UNSIGNED NOT NULL,
   `anzahl_min` int(10) UNSIGNED NOT NULL,
   `anzahl_max` int(10) UNSIGNED NOT NULL
@@ -518,7 +520,7 @@ CREATE TABLE `npc_items` (
 -- Daten für Tabelle `npc_items`
 --
 
-INSERT INTO `npc_items` (`id`, `npc_id`, `item_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
+INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
 (1, 6, 1, 100, 1, 3),
 (2, 6, 2, 25, 1, 1),
 (3, 7, 5, 100, 1, 1),
@@ -848,7 +850,7 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
