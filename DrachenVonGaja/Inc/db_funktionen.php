@@ -216,7 +216,7 @@ function insert_aktion_spieler($spieler_id, $aktion_id)
 				start, 
 				ende) 
 			VALUES (?, ?, NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE id = ?)))")){
-		$stmt->bind_param('ddd', spieler_id, aktion_id, aktion_id);
+		$stmt->bind_param('ddd', $spieler_id, $aktion_id, $aktion_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_id . "]<br />\n";
 		close_connection($connect_db_dvg);
@@ -600,7 +600,7 @@ function get_items_npc($npc_id)
 #	<- [3] typ
 #	<- [4] anzahl
 
-function get_items_spieler($spieler_id)
+function get_all_items_spieler($spieler_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -625,7 +625,108 @@ function get_items_spieler($spieler_id)
 		close_connection($connect_db_dvg);
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in get_items_npc()<br />\n";
+		echo "<br />\nQuerryfehler in get_all_items_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT item (Spieler) -----------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	<- Anzahl des Items
+
+function get_items_spieler($spieler_id, $items_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT
+				anzahl
+			FROM
+				items_spieler
+			WHERE
+				spieler_id = ?
+				AND items_id = ? "))
+	{
+		$stmt->bind_param('d', $spieler_id, $items_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nAnzahl von Item " . $items_id . " für Spieler " . $spieler_id . " geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($row)
+		{
+			return $row[0];
+		} else {
+			return 0;
+		}
+	} else {
+		echo "<br />\nQuerryfehler in get_items_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#------------------------------------------- INSERT items_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	-> anzahl (int)
+#	<- true/false
+
+function insert_items_spieler($spieler_id, $items_id, $anzahl)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO items_spieler(
+				items_id,
+				spieler_id, 
+				anzahl) 
+			VALUES (?, ?, ?))")){
+		$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#------------------------------------------- UPDATE items_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	-> anzahl (int)
+#	<- true/false
+
+function update_items_spieler($spieler_id, $items_id, $anzahl)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE items_spieler
+			SET anzahl = anzahl + ?
+			WHERE
+				items_id = ?
+				AND spieler_id = ?)")){
+		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
