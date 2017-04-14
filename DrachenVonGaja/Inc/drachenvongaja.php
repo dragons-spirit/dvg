@@ -276,7 +276,7 @@
 			
 			<!-- Anzeige für Spielerdaten -->
 			<div id="charakter">
-			<table> <!--border-color="white" border="1px"-->
+			<table style="margin-top:20px;"> <!--border-color="white" border="1px"-->
 				<tr>
 					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
 				</tr>
