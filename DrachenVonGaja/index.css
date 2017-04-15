@@ -316,3 +316,44 @@ input[type=submit]
   height:25px;
   color:white;
 }
+
+/*Ladebalken*/
+#laden{
+	width: 200px;
+	height: 20px;
+	border: 1px solid black;
+}
+
+#balken{
+	width: 200px;
+	height: 20px;
+	border-right: 1px solid black;
+	background: darkred;
+}
+
+#prozent{
+	width: 200px;
+	text-align: center;
+	color: white;
+	display: block;
+}
+#button_abschluss{
+	width: 200px;
+	text-align: center;
+	display: none;
+	background: darkred;
+}
+
+/*Aktion Status Spieler*/
+#aktion_status_wartend{
+	display: block;
+	text-align: center;
+}
+#aktion_status_kaempfend{
+	display: none;
+	text-align: center;
+}
+#aktion_status_laufend{
+	display: none;
+	text-align: center;
+}

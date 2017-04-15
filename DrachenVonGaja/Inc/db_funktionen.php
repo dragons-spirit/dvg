@@ -173,10 +173,10 @@ function insert_registrierung($login, $passwort, $email)
 
 
 #--------------------------------------------- SELECT aktion.dauer ---------------------------------------------
-# 	-> aktion.id (int)
+# 	-> aktion.titel (int)
 #	<- aktion.dauer (str)
 
-function get_aktion_dauer($aktion_id)
+function get_aktion_dauer($aktion_titel)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -184,8 +184,8 @@ function get_aktion_dauer($aktion_id)
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	dauer
 			FROM 	aktion
-			WHERE 	id = ?")){
-		$stmt->bind_param('d', $aktion_id);
+			WHERE 	titel = ?")){
+		$stmt->bind_param('d', $aktion_titel);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
@@ -201,11 +201,13 @@ function get_aktion_dauer($aktion_id)
 
 #------------------------------------------- INSERT aktion_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
-#	-> aktion.id (int)
+#	-> aktion.titel (int)
+#	?-> any_id_1 (int) - default = 0
+#	?-> any_id_2 (int) - default = 0
 #	<- true/false
 
-function insert_aktion_spieler($spieler_id, $aktion_id)
-{
+function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_id_2 = 0)
+{                                                          
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
@@ -214,14 +216,16 @@ function insert_aktion_spieler($spieler_id, $aktion_id)
 				spieler_id, 
 				aktion_id, 
 				start, 
-				ende) 
-			VALUES (?, ?, NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE id = ?)))")){
-		$stmt->bind_param('ddd', $spieler_id, $aktion_id, $aktion_id);
+				ende,
+				status,
+				any_id_1,
+				any_id_2) 
+			VALUES (?, (SELECT id FROM aktion WHERE titel = ?), NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE titel = ?)), 'gestartet', ?, ?)")){
+		$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
 		$stmt->execute();
-		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_id . "]<br />\n";
+		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
 		close_connection($connect_db_dvg);
-		$result = $stmt->get_result();
-		return $result;
+		return true;
 	} else {
 		echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
 		close_connection($connect_db_dvg);
@@ -233,10 +237,16 @@ function insert_aktion_spieler($spieler_id, $aktion_id)
 #---------------------------------------- SELECT aktion_spieler (Spieler) --------------------------------------
 # 	-> spieler.id (int)
 #	Array mit Aktions-Daten [Position]
-#	<- [0] aktion.text (str)
-#	<- [1] aktion.art (str)
-#	<- [2] aktion.beschreibung (str)
-#	<- [3] aktion_spieler.ende (str)
+#	<- [0] aktion.titel (str)
+#	<- [1] aktion.text (str)
+#	<- [2] aktion.art (str)
+#	<- [3] aktion.beschreibung (str)
+#	<- [4] aktion_spieler.start (str)
+#	<- [5] aktion_spieler.ende (str)
+#	<- [6] aktion.statusbild (str)
+#	<- [7] aktion_spieler.status (str)
+#	<- [8] aktion_spieler.any_id_1 (str)
+#	<- [9] aktion_spieler.any_id_2 (str)
 
 function get_aktion_spieler($spieler_id)
 {
@@ -244,16 +254,23 @@ function get_aktion_spieler($spieler_id)
 	$connect_db_dvg = open_connection();
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	
+			SELECT
+				aktion.titel,
 				aktion.text,
 				aktion.art,
 				aktion.beschreibung,
-				aktion_spieler.ende
+				aktion_spieler.start,
+				aktion_spieler.ende,
+				aktion.statusbild,
+				aktion_spieler.status,
+				aktion_spieler.any_id_1,
+				aktion_spieler.any_id_2
 			FROM
 				aktion_spieler
 				JOIN aktion ON aktion.id = aktion_spieler.aktion_id
 			WHERE
 				spieler_id = ?
+				AND aktion_spieler.status != 'abgeschlossen'
 			ORDER BY
 				aktion_spieler.ende ASC")){
 		$stmt->bind_param('d', $spieler_id);
@@ -266,6 +283,68 @@ function get_aktion_spieler($spieler_id)
 		close_connection($connect_db_dvg);
 		return false;
 	}	
+}
+
+
+#---------------------------------------- SELECT aktion_spieler (Spieler) --------------------------------------
+# 	-> spieler.id (int)
+#	<- true/false
+
+function get_aktion_spieler_aktiv($spieler_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	
+				aktion_spieler.id
+			FROM
+				aktion_spieler
+			WHERE
+				spieler_id = ?
+				AND NOW() > aktion_spieler.start
+				AND NOW() < aktion_spieler.ende")){
+		$stmt->bind_param('d', $spieler_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_aktion_spieler_aktiv<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#------------------------------------------- UPDATE aktion_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> aktion.text (str)
+#	<- true/false
+
+function update_aktion_spieler($spieler_id, $aktion_text)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE aktion_spieler
+			SET status = 'abgeschlossen'
+			WHERE
+				spieler_id = ?
+				AND aktion_id IN (SELECT id FROM aktion WHERE text = ?)")){
+		$stmt->bind_param('ds', $spieler_id, $aktion_text);
+		$stmt->execute();
+		if ($debug) echo "<br />\nAktion: [" . $aktion_text . " von Spieler " . $spieler_id . "] wurde abgeschlossen<br />\n";
+		close_connection($connect_db_dvg);
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in update_aktion_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
 }
 
 
@@ -327,6 +406,33 @@ function get_bilder($bilder_id)
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bilder()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------------------- SELECT bilder.pfad (titel) ----------------------------------------------
+# 	-> bilder.titel (str)
+#	<- bild.pfad(str)
+
+function get_bild_zu_titel($titel)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	pfad 
+			FROM 	bilder
+			WHERE 	bilder.titel = ?")){
+		$stmt->bind_param('s', $titel);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_bild_zu_titel()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
@@ -726,7 +832,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 		$result = $stmt->get_result();
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
+		echo "<br />\nQuerryfehler in update_items_spieler()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}

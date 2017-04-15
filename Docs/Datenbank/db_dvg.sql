@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 26. Mrz 2017 um 23:27
+-- Erstellungszeit: 15. Apr 2017 um 22:20
 -- Server-Version: 10.1.13-MariaDB
 -- PHP-Version: 5.6.21
 
@@ -66,23 +66,27 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 DROP TABLE IF EXISTS `aktion`;
 CREATE TABLE `aktion` (
   `id` int(10) NOT NULL,
+  `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `text` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
   `art` enum('kurz','normal','lang') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
-  `dauer` time NOT NULL
+  `dauer` time NOT NULL,
+  `statusbild` enum('laufend','kaempfend','wartend','') COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='alle möglichen Aktionen die ein Spieler ausführen kann';
 
 --
 -- Daten für Tabelle `aktion`
 --
 
-INSERT INTO `aktion` (`id`, `text`, `beschreibung`, `art`, `dauer`) VALUES
-(1, 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.', 'normal', '00:01:00'),
-(2, 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.', 'kurz', '00:00:10'),
-(5, 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.', 'lang', '00:05:00'),
-(6, 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:10'),
-(7, 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:10'),
-(8, 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01');
+INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `statusbild`) VALUES
+(1, 'erkunden_normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.', 'normal', '00:01:00', 'laufend'),
+(2, 'erkunden_kurz', 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.', 'kurz', '00:00:10', 'laufend'),
+(5, 'erkunden_lang', 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.', 'lang', '00:05:00', 'laufend'),
+(6, 'jagen_normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:01:00', 'kaempfend'),
+(7, 'sammeln_normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:01:00', 'kaempfend'),
+(8, 'reden', 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01', 'wartend'),
+(9, 'fliegen', 'Fliegen', 'Du fliegst von Punkt A zu Punkt B. Das könnte ein bis drei Weilchen dauern.', 'normal', '00:01:00', 'laufend'),
+(10, 'laufen', 'Laufen', 'Du läufst von Punkt A zu Punkt B. Das könnte zwei Weilchen dauern.', 'normal', '00:02:00', 'laufend');
 
 -- --------------------------------------------------------
 
@@ -96,16 +100,21 @@ CREATE TABLE `aktion_spieler` (
   `spieler_id` int(10) NOT NULL,
   `aktion_id` int(10) NOT NULL,
   `start` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ende` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `ende` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `status` enum('gestartet','beendet','abgeschlossen','') COLLATE utf8_unicode_ci NOT NULL,
+  `any_id_1` int(10) NOT NULL,
+  `any_id_2` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
 --
 -- Daten für Tabelle `aktion_spieler`
 --
 
-INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`) VALUES
-(1, 26, 1, '2017-03-15 19:00:00', '2017-12-31 22:59:59'),
-(2, 26, 1, '2017-03-26 20:12:51', '2017-03-26 20:13:51');
+INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
+(56, 26, 10, '2017-04-15 20:11:53', '2017-04-15 20:13:53', 'abgeschlossen', 9, 0),
+(57, 26, 2, '2017-04-15 20:15:13', '2017-04-15 20:15:23', 'abgeschlossen', 0, 0),
+(58, 26, 2, '2017-04-15 20:15:35', '2017-04-15 20:15:45', 'abgeschlossen', 0, 0),
+(59, 26, 10, '2017-04-15 20:15:52', '2017-04-15 20:17:52', 'abgeschlossen', 8, 0);
 
 -- --------------------------------------------------------
 
@@ -137,7 +146,10 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
 (9, 'Mammutbaum', '../Platzhalter_gebiete/Gross/mammutbaum.jpg', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (10, 'Wald', '../Platzhalter_gebiete/Gross/wald.jpg', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (11, 'Oase', '../Platzhalter_gebiete/Gross/oase.jpg', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...''');
+(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
+(13, 'Drache_laufend', '../Bilder/Drache_laeuft.gif', 'Animierter Drache (laufend)'),
+(14, 'Drache_kaempfend', '../Bilder/Drache_kaempft.gif', 'Animierter Drache (kämpfend)'),
+(15, 'Drache_wartend', '../Bilder/Drache_wartet.png', 'Drache (wartend)');
 
 -- --------------------------------------------------------
 
@@ -636,7 +648,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (20, 11, 1, 3, 6, 11, 'Erdwurmi', 'M', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:52'),
 (21, 11, 1, 1, 3, 7, 'Schneewitcher', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:44'),
 (25, 10, 1, 1, 1, 7, 'trtet', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-01-28 16:41:06'),
-(26, 10, 1, 2, 1, 11, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2017-03-19 22:34:04');
+(26, 10, 1, 2, 1, 8, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2017-04-15 20:19:24');
 
 -- --------------------------------------------------------
 
@@ -845,17 +857,17 @@ ALTER TABLE `account`
 -- AUTO_INCREMENT für Tabelle `aktion`
 --
 ALTER TABLE `aktion`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
