@@ -396,10 +396,10 @@
 				</tr>
 				<tr>
 					<td>
-						<input style="display:none" id="startzeit_temp" value="<?php echo $aktion_start; ?>"/>
-						<input style="display:none" id="endezeit_temp" value="<?php echo $aktion_ende; ?>"/>
-						<input style="display:none" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
-						<input style="display:none" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
+						<input style="display:none;" id="startzeit_temp" value="<?php echo $aktion_start; ?>"/>
+						<input style="display:none;" id="endezeit_temp" value="<?php echo $aktion_ende; ?>"/>
+						<input style="display:none;" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
+						<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
 						<!--
 						Start:  <b id="aktion_startzeit"></b><br>
 						Ende:   <b id="aktion_endezeit"></b><br>
@@ -413,6 +413,7 @@
 			
 			
 				<script>
+					/*client_times();*/
 					window.setInterval("client_times()", 100);
 				</script>
 			

@@ -88,10 +88,10 @@ function check_wkt($wkt)
 			*/
 			set_ladebalken('-', '-', '-');
 		} else {
-			var aktion_start = new Date(document.getElementById("startzeit_temp").value); /* Start */
-			var aktion_ende = new Date(document.getElementById("endezeit_temp").value); /* Ende */
-			var aktion_diffvs = now - new Date(document.getElementById("startzeit_temp").value + timeset); /* Zeit von Start */
-			var aktion_diffbe = new Date(document.getElementById("endezeit_temp").value + timeset) - now; /* Zeit bis Ende */
+			var aktion_start = new Date(document.getElementById("startzeit_temp").value.replace(/-/g,"/")); /* Start */
+			var aktion_ende = new Date(document.getElementById("endezeit_temp").value.replace(/-/g,"/")); /* Ende */
+			var aktion_diffvs = now - new Date((document.getElementById("startzeit_temp").value).replace(/-/g,"/")); /* Zeit von Start  + timeset*/
+			var aktion_diffbe = new Date((document.getElementById("endezeit_temp").value).replace(/-/g,"/")) - now; /* Zeit bis Ende  + timeset*/
 			var aktion_gesamt = aktion_ende - aktion_start; /* Gesamtzeit */
 			/*
 			document.getElementById("aktion_startzeit").innerHTML = convert_to_datetime(aktion_start);
