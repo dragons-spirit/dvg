@@ -211,8 +211,8 @@
 				<tr>
 					<td><?php echo $count ?></td>
 					<td><?php echo $row[6] . "<br />\n"; ?></td>
-                    <td>
-						<input type="submit" style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); height:94px; width:150px; background-repeat:no-repeat;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
+                    <td style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); background-repeat:no-repeat;">
+						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
 					<td><?php echo $row[7] . "<br />\n"; ?></td>

@@ -143,7 +143,7 @@
 			
 			
 			<!-- Hintergrundbild -->
-			<div id="mitte" >
+			<div id="mitte" align="center">
 				<?php
 				# Können Aktionen abgeschlossen werden?
 				if(isset($_POST["aktion_abgeschlossen"]))
@@ -154,8 +154,10 @@
 						update_aktion_spieler($spieler_id, $aktion_text);
 						gebietswechsel($_SESSION['spieler_id'], $aktion_any_id_1);
 						?>
-						<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:20pt;">
+						<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
 							Ihr seid erfolgreich im Gebiet "<?php echo get_gebiet($aktion_any_id_1)[2]; ?>" angekommen.<br>
+						</p>
+						<p>
 							<input type="submit" name="weiter" value="weiter">
 						</p>
 						<?php
@@ -165,7 +167,7 @@
 					if ($aktion_text == "Gegend erkunden")
 					{
 					?>
-						<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:20pt;">
+						<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:16pt;">
 							Ihr habt das Gebiet erkundet und folgende Dinge entdeckt:
 						</p>
 						<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
@@ -175,15 +177,16 @@
 							{		
 								while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
 								{
+									if(check_wkt($row[3])){
 									?>
 										<tr align="center">
 											<td width="25px"><?php echo $row[0] ?></td>
 											<td width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
 											<td width="25px"><?php echo $row[3] ?></td>
-											<td width="25px"><?php if(check_wkt($row[3])) echo "X" ?></td>
-											<td><?php echo "<img src='../Bilder/jagenbutton.png' alt='jagenbutton' width='100px'/>" ?></td>
+											<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $row[0];?>"></td>
 										</tr>
-								<?php
+									<?php
+									}
 								}
 							}
 							else{
@@ -193,15 +196,16 @@
 							{		
 								while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
 								{
+									if(check_wkt($row[3])){
 									?>
 										<tr align="center">
 											<td	width="25px"><?php echo $row[0] ?></td>
 											<td	width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
 											<td	width="25px"><?php echo $row[3] ?></td>
-											<td	width="25px"><?php if(check_wkt($row[3])) echo "X" ?></td>
-											<td><?php echo "<img src='../Bilder/pflanzenbutton.png' alt='pflanzenbutton' width='100px'/>" ?></td>
+											<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $row[0];?>"></td>
 										</tr>
 									<?php
+									}
 								}
 							}
 							else{
@@ -209,8 +213,10 @@
 							}
 						?>
 						</table>
-						<p align="center" style="margin-top:25px; margin-bottom:0px; font-size:20pt;">
+						<p align="center" style="margin-top:25px; margin-bottom:0px; font-size:16pt;">
 							Zum Erlegen von Tieren oder zum Sammeln von Pflanzen und anderem, klickt auf die Buttons hinter den Dingen.<br>
+						</p>
+						<p align="center">
 							<input type="submit" name="verwerfen" value="gefundene Dinge ignorieren">
 						</p>
 						<?php
@@ -218,7 +224,7 @@
 				} else {
 				?>
 				
-					<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:20pt;">
+					<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
 						<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/><br>
 						<?php echo get_gebiet($gebiet_id)[3]; ?>
 					</p> 
@@ -230,7 +236,7 @@
 						if ($aktion_titel)
 						{
 						?>
-							<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:20pt;">
+							<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:16pt;">
 								Ihr seid noch beschäftigt!<br>
 								<input type="submit" name="zurueck" value="zurück">
 							</p>
@@ -281,7 +287,7 @@
 					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
 				</tr>
 				<tr>
-					<td colspan="2"><p align="center" style="font-size:20pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
+					<td colspan="2"><p align="center" style="font-size:16pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
 				</tr>
 				<tr>
 					<td><p align="left">Geschlecht</p></td>
@@ -396,8 +402,8 @@
 				</tr>
 				<tr>
 					<td>
-						<input style="display:none;" id="startzeit_temp" value="<?php echo $aktion_start; ?>"/>
-						<input style="display:none;" id="endezeit_temp" value="<?php echo $aktion_ende; ?>"/>
+						<input style="display:none;" id="startzeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_start); ?>"/>
+						<input style="display:none;" id="endezeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_ende); ?>"/>
 						<input style="display:none;" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
 						<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
 						<!--
