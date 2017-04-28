@@ -844,7 +844,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 #***************************************************************************************************************
 
 
-#----------------------------------- SELECT npc.* -----------------------------------
+#----------------------------------- SELECT npc.* (im Gebiet) -----------------------------------
 # 	-> npc_gebiet.gebiet_id (int)
 #	-> npc.typ (str)
 #	Array mit npc-Daten [Position]
@@ -876,6 +876,39 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_npcs_gebiet()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT npc.* (einzel) -----------------------------------
+# 	-> npc.id (int)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] beschreibung
+
+function get_npc($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	npc.id,
+				npc.titel,
+				npc.beschreibung
+			FROM 	npc
+			WHERE 	npc.id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}

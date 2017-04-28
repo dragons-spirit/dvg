@@ -63,6 +63,17 @@ function check_wkt($wkt)
 	$zufall = rand(1,100);
 	return ($zufall <= $wkt);
 }
+
+
+function zeige_hintergrundbild($gebiet_id)
+{
+	?>
+	<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
+		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/><br>
+		<?php echo get_gebiet($gebiet_id)[3]; ?>
+	</p> 
+	<?php
+}
 ?>
 
 <script>

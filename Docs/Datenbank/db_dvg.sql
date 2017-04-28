@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 27. Apr 2017 um 21:04
--- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 5.6.30
+-- Erstellungszeit: 28. Apr 2017 um 23:18
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -82,8 +82,8 @@ INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `st
 (1, 'erkunden_normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund zu stoßen.', 'normal', '00:01:00', 'laufend'),
 (2, 'erkunden_kurz', 'Gegend erkunden', 'Du schaust vor deine Füße und hoffst ,etwas zu entdecken, was deine Aufmerksamkeit wert ist.', 'kurz', '00:00:05', 'laufend'),
 (5, 'erkunden_lang', 'Gegend erkunden', 'Du drehst und wendest stundelang jeden Stein, der dir über den Weg hüpft, in der Hoffnung endlichen den großen Schatz zu finden.', 'lang', '00:05:00', 'laufend'),
-(6, 'jagen_normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:01:00', 'kaempfend'),
-(7, 'sammeln_normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:01:00', 'kaempfend'),
+(6, 'jagen_normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:05', 'kaempfend'),
+(7, 'sammeln_normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:05', 'kaempfend'),
 (8, 'reden', 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01', 'wartend'),
 (9, 'fliegen', 'Fliegen', 'Du fliegst von Punkt A zu Punkt B. Das könnte ein bis drei Weilchen dauern.', 'normal', '00:01:00', 'laufend'),
 (10, 'laufen', 'Laufen', 'Du läufst von Punkt A zu Punkt B. Das könnte zwei Weilchen dauern.', 'normal', '00:00:10', 'laufend');
@@ -143,7 +143,61 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 (85, 26, 2, '2017-04-27 17:16:48', '2017-04-27 17:16:53', 'abgeschlossen', 0, 0),
 (86, 26, 2, '2017-04-27 17:17:33', '2017-04-27 17:17:38', 'abgeschlossen', 0, 0),
 (87, 26, 2, '2017-04-27 17:18:05', '2017-04-27 17:18:10', 'abgeschlossen', 0, 0),
-(88, 26, 2, '2017-04-27 17:31:42', '2017-04-27 17:31:47', 'abgeschlossen', 0, 0);
+(88, 26, 2, '2017-04-27 17:31:42', '2017-04-27 17:31:47', 'abgeschlossen', 0, 0),
+(89, 26, 2, '2017-04-28 19:10:34', '2017-04-28 19:10:39', 'abgeschlossen', 0, 0),
+(90, 26, 10, '2017-04-28 19:10:45', '2017-04-28 19:10:55', 'abgeschlossen', 1, 0),
+(91, 26, 2, '2017-04-28 19:11:04', '2017-04-28 19:11:09', 'abgeschlossen', 0, 0),
+(92, 26, 10, '2017-04-28 19:12:35', '2017-04-28 19:12:45', 'abgeschlossen', 9, 0),
+(93, 26, 2, '2017-04-28 19:13:27', '2017-04-28 19:13:32', 'abgeschlossen', 0, 0),
+(94, 26, 10, '2017-04-28 19:13:37', '2017-04-28 19:13:47', 'abgeschlossen', 1, 0),
+(95, 26, 10, '2017-04-28 20:14:44', '2017-04-28 20:14:54', 'abgeschlossen', 9, 0),
+(96, 26, 2, '2017-04-28 20:15:15', '2017-04-28 20:15:20', 'abgeschlossen', 0, 0),
+(97, 26, 2, '2017-04-28 20:20:53', '2017-04-28 20:20:58', 'abgeschlossen', 0, 0),
+(98, 26, 7, '2017-04-28 20:21:01', '2017-04-28 20:22:01', 'abgeschlossen', 6, 0),
+(99, 26, 2, '2017-04-28 20:27:37', '2017-04-28 20:27:42', 'abgeschlossen', 0, 0),
+(100, 26, 6, '2017-04-28 20:27:46', '2017-04-28 20:27:56', 'abgeschlossen', 4, 0),
+(101, 26, 2, '2017-04-28 20:29:26', '2017-04-28 20:29:31', 'abgeschlossen', 0, 0),
+(102, 26, 6, '2017-04-28 20:29:33', '2017-04-28 20:29:43', 'abgeschlossen', 4, 0),
+(103, 26, 2, '2017-04-28 20:30:19', '2017-04-28 20:30:24', 'abgeschlossen', 0, 0),
+(104, 26, 6, '2017-04-28 20:30:27', '2017-04-28 20:30:37', 'abgeschlossen', 4, 0),
+(105, 26, 2, '2017-04-28 20:31:31', '2017-04-28 20:31:36', 'abgeschlossen', 0, 0),
+(106, 26, 6, '2017-04-28 20:31:38', '2017-04-28 20:31:48', 'abgeschlossen', 4, 0),
+(107, 26, 2, '2017-04-28 20:32:42', '2017-04-28 20:32:47', 'abgeschlossen', 0, 0),
+(108, 26, 7, '2017-04-28 20:32:49', '2017-04-28 20:32:59', 'abgeschlossen', 7, 0),
+(109, 26, 2, '2017-04-28 20:35:13', '2017-04-28 20:35:18', 'abgeschlossen', 0, 0),
+(110, 26, 7, '2017-04-28 20:35:20', '2017-04-28 20:35:25', 'abgeschlossen', 6, 0),
+(111, 26, 2, '2017-04-28 20:36:54', '2017-04-28 20:36:59', 'abgeschlossen', 0, 0),
+(112, 26, 7, '2017-04-28 20:37:00', '2017-04-28 20:37:05', 'abgeschlossen', 6, 0),
+(113, 26, 10, '2017-04-28 20:37:14', '2017-04-28 20:37:24', 'abgeschlossen', 1, 0),
+(114, 26, 10, '2017-04-28 20:39:30', '2017-04-28 20:39:40', 'abgeschlossen', 8, 0),
+(115, 26, 2, '2017-04-28 20:44:16', '2017-04-28 20:44:21', 'abgeschlossen', 0, 0),
+(116, 26, 6, '2017-04-28 20:46:13', '2017-04-28 20:46:18', 'abgeschlossen', 2, 0),
+(117, 26, 10, '2017-04-28 20:46:29', '2017-04-28 20:46:39', 'abgeschlossen', 9, 0),
+(118, 26, 10, '2017-04-28 20:48:10', '2017-04-28 20:48:20', 'abgeschlossen', 9, 0),
+(119, 26, 10, '2017-04-28 20:48:22', '2017-04-28 20:48:32', 'abgeschlossen', 6, 0),
+(120, 26, 2, '2017-04-28 20:48:57', '2017-04-28 20:49:02', 'abgeschlossen', 0, 0),
+(121, 26, 2, '2017-04-28 20:49:10', '2017-04-28 20:49:15', 'abgeschlossen', 0, 0),
+(122, 26, 2, '2017-04-28 20:49:18', '2017-04-28 20:49:23', 'abgeschlossen', 0, 0),
+(123, 26, 2, '2017-04-28 20:50:12', '2017-04-28 20:50:17', 'abgeschlossen', 0, 0),
+(124, 26, 7, '2017-04-28 20:50:21', '2017-04-28 20:50:26', 'abgeschlossen', 7, 0),
+(125, 26, 10, '2017-04-28 20:50:32', '2017-04-28 20:50:42', 'abgeschlossen', 9, 0),
+(126, 26, 10, '2017-04-28 20:52:18', '2017-04-28 20:52:28', 'abgeschlossen', 2, 0),
+(127, 26, 10, '2017-04-28 20:52:36', '2017-04-28 20:52:46', 'abgeschlossen', 1, 0),
+(128, 26, 2, '2017-04-28 20:52:58', '2017-04-28 20:53:03', 'abgeschlossen', 0, 0),
+(129, 26, 2, '2017-04-28 20:55:58', '2017-04-28 20:56:03', 'abgeschlossen', 0, 0),
+(130, 26, 2, '2017-04-28 20:56:07', '2017-04-28 20:56:12', 'abgeschlossen', 0, 0),
+(131, 26, 6, '2017-04-28 20:56:15', '2017-04-28 20:56:20', 'abgeschlossen', 2, 0),
+(132, 26, 2, '2017-04-28 21:00:06', '2017-04-28 21:00:11', 'abgeschlossen', 0, 0),
+(133, 26, 2, '2017-04-28 21:00:16', '2017-04-28 21:00:21', 'abgeschlossen', 0, 0),
+(134, 26, 10, '2017-04-28 21:00:23', '2017-04-28 21:00:33', 'abgeschlossen', 4, 0),
+(135, 26, 2, '2017-04-28 21:00:40', '2017-04-28 21:00:45', 'abgeschlossen', 0, 0),
+(136, 26, 6, '2017-04-28 21:00:48', '2017-04-28 21:00:53', 'abgeschlossen', 2, 0),
+(137, 26, 2, '2017-04-28 21:04:29', '2017-04-28 21:04:34', 'abgeschlossen', 0, 0),
+(138, 26, 10, '2017-04-28 21:04:42', '2017-04-28 21:04:52', 'abgeschlossen', 8, 0),
+(139, 26, 2, '2017-04-28 21:04:55', '2017-04-28 21:05:00', 'abgeschlossen', 0, 0),
+(140, 26, 6, '2017-04-28 21:05:02', '2017-04-28 21:05:07', 'abgeschlossen', 2, 0),
+(141, 26, 2, '2017-04-28 21:05:11', '2017-04-28 21:05:16', 'abgeschlossen', 0, 0),
+(142, 26, 7, '2017-04-28 21:05:19', '2017-04-28 21:05:24', 'abgeschlossen', 7, 0);
 
 -- --------------------------------------------------------
 
@@ -175,7 +229,7 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
 (9, 'Mammutbaum', '../Platzhalter_gebiete/Gross/mammutbaum.jpg', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (10, 'Wald', '../Platzhalter_gebiete/Gross/wald.jpg', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (11, 'Oase', '../Platzhalter_gebiete/Gross/oase.jpg', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
+(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
 (13, 'Drache_laufend', '../Bilder/Drache_laeuft.gif', 'Animierter Drache (laufend)'),
 (14, 'Drache_kaempfend', '../Bilder/Drache_kaempft.gif', 'Animierter Drache (kämpfend)'),
 (15, 'Drache_wartend', '../Bilder/Drache_wartet.png', 'Drache (wartend)');
@@ -320,7 +374,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\'');
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...''');
 
 -- --------------------------------------------------------
 
@@ -389,7 +443,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 1),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 'Pflanze', 1),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 1),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
 (5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 1),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
@@ -600,7 +654,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
-(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht\'s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
+(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht''s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
 
 -- --------------------------------------------------------
 
@@ -677,7 +731,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (20, 11, 1, 3, 6, 11, 'Erdwurmi', 'M', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:52'),
 (21, 11, 1, 1, 3, 7, 'Schneewitcher', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-28 18:45:44'),
 (25, 10, 1, 1, 1, 7, 'trtet', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-01-28 16:41:06'),
-(26, 10, 1, 2, 1, 9, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2017-04-26 18:15:52');
+(26, 10, 1, 2, 1, 8, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2017-04-28 21:04:52');
 
 -- --------------------------------------------------------
 
@@ -891,7 +945,7 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=89;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
