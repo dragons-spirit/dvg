@@ -757,7 +757,7 @@ function get_items_spieler($spieler_id, $items_id)
 				spieler_id = ?
 				AND items_id = ? "))
 	{
-		$stmt->bind_param('d', $spieler_id, $items_id);
+		$stmt->bind_param('dd', $spieler_id, $items_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nAnzahl von Item " . $items_id . " für Spieler " . $spieler_id . " geladen.<br />\n";
 		$result = $stmt->get_result();
@@ -785,25 +785,36 @@ function get_items_spieler($spieler_id, $items_id)
 
 function insert_items_spieler($spieler_id, $items_id, $anzahl)
 {
+	
+	# ToDo:
+	#	* Bei negativer Anzahl prüfen, ob ausreichend Items vorhanden
+	#	* Wenn Item-Anzahl = negativer Anzahl -> Datensatz löschen
+	
 	global $debug;
 	$connect_db_dvg = open_connection();
 	
-	if ($stmt = $connect_db_dvg->prepare("
-			INSERT INTO items_spieler(
-				items_id,
-				spieler_id, 
-				anzahl) 
-			VALUES (?, ?, ?))")){
-		$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
-		$stmt->execute();
-		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
-		close_connection($connect_db_dvg);
-		$result = $stmt->get_result();
-		return $result;
+	if(get_items_spieler($spieler_id, $items_id) == 0)
+	{
+		if ($stmt = $connect_db_dvg->prepare("
+				INSERT INTO items_spieler(
+					items_id,
+					spieler_id, 
+					anzahl) 
+				VALUES (?, ?, ?)")){
+			$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
+			$stmt->execute();
+			if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+			close_connection($connect_db_dvg);
+			$result = $stmt->get_result();
+			return $result;
+		} else {
+			echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
+			echo "<br />\n" . $spieler_id . " | " . $items_id . " | " . $anzahl . "<br />\n";
+			close_connection($connect_db_dvg);
+			return false;
+		}
 	} else {
-		echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
-		close_connection($connect_db_dvg);
-		return false;
+		update_items_spieler($spieler_id, $items_id, $anzahl);
 	}
 }
 
@@ -824,7 +835,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 			SET anzahl = anzahl + ?
 			WHERE
 				items_id = ?
-				AND spieler_id = ?)")){
+				AND spieler_id = ?")){
 		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";

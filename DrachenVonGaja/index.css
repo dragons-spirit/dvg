@@ -3,7 +3,7 @@ body
 {
     margin:auto;
     min-height:30%;
-    font-family: Lucida Calligraphy, fantasy, Georgia, EG Dragon Caps;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
     font-size:smaller;
     color:white;
 }
@@ -14,7 +14,7 @@ input[type=submit]
     color:white;
     background-color:black;
     line-height:normal;
-    font-family: Lucida Calligraphy, fantasy, Georgia, EG Dragon Caps;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
 	font-size:smaller;
     height: 20px;
 }

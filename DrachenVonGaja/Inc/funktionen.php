@@ -74,6 +74,70 @@ function zeige_hintergrundbild($gebiet_id)
 	</p> 
 	<?php
 }
+
+function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
+{
+	if ($npc = get_npc($npc_id))
+	{		
+		while($row = $npc->fetch_array(MYSQLI_NUM))
+		{
+			?>
+			<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
+				<?php echo $text1 . $row[1] . $text2; ?>
+			</p>
+			<?php
+		}
+	} else {
+		echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
+	}
+	
+	if ($items = get_items_npc($npc_id))
+	{		
+		$counter = 0;
+		?>
+		<table border="1px" border-color="white" align="center" style="margin-top:75px;" width="500px" >
+			<tr>
+				<td>Item</td>
+				<td>Beschreibung</td>
+				<td>Anzahl</td>
+			</tr>
+		<?php
+		while($row = $items->fetch_array(MYSQLI_NUM))
+		{
+			$item_wkt = $row[4];
+			if(check_wkt($item_wkt))
+			{
+				$item_id = $row[0];
+				$item_titel = $row[1];
+				$item_beschreibung = $row[2];
+				$item_anzahl = rand($row[5], $row[6]);
+				$counter = $counter + 1;
+				insert_items_spieler($spieler_id, $item_id, $item_anzahl);
+				?>
+				<tr>
+					<td><?php echo $item_titel ?></td>
+					<td><?php echo $item_beschreibung ?></td>
+					<td><?php echo $item_anzahl ?></td>
+				</tr>
+				<?php
+			}
+		}
+		if($counter == 0)
+		{
+			?>
+			<tr>
+				<td colspan=3>Hehe ... nix gefunden. :P</td>
+			</tr>
+			<?php
+		}
+		?>
+		</table>
+		<?php
+	} else {
+		echo "<br />\nItems zum NPC mit id=[" . $npc_id . "] konnten nicht abgerufen werden.<br />\n";
+	}
+}
+
 ?>
 
 <script>
