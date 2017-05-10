@@ -19,6 +19,17 @@ input[type=submit]
     height: 20px;
 }
 
+input[type=button]
+{
+    cursor:pointer;
+    color:white;
+    background-color:black;
+    line-height:normal;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+	font-size:smaller;
+    height: 20px;
+}
+
 #rahmen
 {
     position: absolute;

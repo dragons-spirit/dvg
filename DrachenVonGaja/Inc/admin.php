@@ -4,18 +4,15 @@
 	include("db_funktionen.php");
 	include("db_funktionen_admin.php");
 	
-	if (!isset($_SESSION['login_name']))
+	$ergebnis = get_anmeldung($_SESSION['login_name']);
+	if (!$ergebnis or $ergebnis[5] != "Admin")
 	{
 ?>
 		<script type="text/javascript">
 			window.location.href = "../index.php"
 		</script>
 <?php
-	}
-	else
-	{
-		echo "Los geht's ...<br/>\n";
-		
+	} else {
 		if ($tabellen = get_tabellen())
 		{
 			$count_tabelle = 0;

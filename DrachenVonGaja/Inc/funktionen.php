@@ -75,6 +75,30 @@ function zeige_hintergrundbild($gebiet_id)
 	<?php
 }
 
+
+function zeige_gebietslinks($gebiet_id)
+{
+	?>
+	<div id="zielgebiete">
+		<?php
+			if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
+			{		
+				while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
+				{
+		?>			
+				<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
+		<?php
+				}
+			}
+			else{
+				echo "<br />\nKeine Zielgebiete gefunden.<br />\n";
+			}
+		?>
+	</div>
+	<?php
+}
+
+
 function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 {
 	if ($npc = get_npc($npc_id))

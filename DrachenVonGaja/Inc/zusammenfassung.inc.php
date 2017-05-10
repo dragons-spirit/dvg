@@ -144,8 +144,17 @@
 		</p>
 <?php
 	}
-?>
 
+
+###################################
+#	Vorhandenen Spieler löschen   #
+###################################
+
+if(isset($_POST["button_spielerloeschen_endgueltig"]))
+{
+    delete_Spieler($_POST["button_spielerloeschen_endgueltig"]);
+}
+?>
 
 
 <!--
@@ -178,15 +187,6 @@
     {
 ?>
         <h3 align="center">Account</h3>
-        
-        <script type="text/javascript">
-			function buttonwechsel()
-			{
-				document.getElementById("b_sp_loe_1").style.visibility="hidden";
-				document.getElementById("b_sp_loe_2").style.visibility="visible";
-			}
-		</script>
-		
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
@@ -219,8 +219,8 @@
 					<td><?php echo $row[4] . "<br />\n"; ?></td>
 					<td><?php echo $row[5] . "<br />\n"; ?></td>
                     <td align="center">
-						<input type="submit" id="b_sp_loe_1" name="button_spielerloeschen" value="Ja" onclick="buttonwechsel()">
-						<input type="submit" id="b_sp_loe_2" name="button_spielerloeschen_endgueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
+						<input type="button" id="<?php echo 'b_sp_loe_' . $row[0] . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
+						<input type="submit" id="<?php echo 'b_sp_loe_' . $row[0] . '_2' ?>" name="button_spielerloeschen_endgueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
 					</td>
 				</tr>
 <?php
@@ -274,8 +274,14 @@
 #######################
 -->
 
-<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
-
+<?php
+	if (!isset($_POST["button_login"]))
+	{
+?>
+		<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
+<?php
+	}
+?>
 	
 <!--
 #######################################
@@ -414,15 +420,6 @@
 <?php
 	}
 	
-
-###################################
-#	Vorhandenen Spieler löschen   #
-###################################
-
-if(isset($_POST["button_spielerloeschen_endgueltig"]))
-{
-    delete_Spieler($_POST["button_spielerloeschen_endgueltig"]);
-}
 
 ##################
 #  Adminbereich  #

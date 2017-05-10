@@ -159,6 +159,7 @@
 							update_aktion_spieler($spieler_id, $aktion_text);
 							gebietswechsel($_SESSION['spieler_id'], $aktion_any_id_1);
 							zeige_hintergrundbild($aktion_any_id_1);
+							zeige_gebietslinks($aktion_any_id_1);
 							break;
 						
 						#################################################################
@@ -166,6 +167,7 @@
 							update_aktion_spieler($spieler_id, $aktion_text);
 							gebietswechsel($_SESSION['spieler_id'], $aktion_any_id_1);
 							zeige_hintergrundbild($aktion_any_id_1);
+							zeige_gebietslinks($aktion_any_id_1);
 							break;
 						
 						#################################################################
@@ -222,6 +224,7 @@
 								<input type="submit" name="verwerfen" value="gefundene Dinge ignorieren">
 							</p>
 							<?php
+							zeige_gebietslinks($gebiet_id);
 							break;
 						
 						#################################################################
@@ -234,6 +237,7 @@
 								<input type="submit" name="weiter" value="weiter">
 							</p>
 							<?php
+							zeige_gebietslinks($gebiet_id);
 							break;
 							
 						
@@ -247,12 +251,14 @@
 								<input type="submit" name="weiter" value="weiter">
 							</p>
 							<?php
+							zeige_gebietslinks($gebiet_id);
 							break;
 						
 						#################################################################
 						default:
 							# Hintergrundbild einblenden, wenn Aktion schon verarbeitet
 							zeige_hintergrundbild($gebiet_id);
+							zeige_gebietslinks($gebiet_id);
 							break;
 					}
 				} else {
@@ -265,6 +271,7 @@
 					{				
 						# Hintergrundbild einblenden, wenn neue Aktion gestartet werden soll
 						zeige_hintergrundbild($gebiet_id);
+						zeige_gebietslinks($gebiet_id);
 						if ($aktion_titel)
 						{
 						?>
@@ -287,6 +294,7 @@
 ####################
 					if($dinge_anzeigen)
 					{
+						zeige_gebietslinks($gebiet_id);
 						if(isset($_POST["button_inventar"]))
 						{
 							if ($items = get_all_items_spieler($spieler_id))
@@ -336,6 +344,7 @@
 						{
 							# Hintergrundbild einblenden, wenn nichts los ist
 							zeige_hintergrundbild($gebiet_id);
+							zeige_gebietslinks($gebiet_id);
 						}
 					}
 				}
@@ -350,27 +359,7 @@
 			<div id="l3"><?php echo $level3 ?></div>
 			<div id="l2"><?php echo $level2 ?></div>
 			<div id="l1"><?php echo $level1 ?></div>
-			
-			
-			
-			<!-- Zielgebiete -->
-			<div id="zielgebiete">
-				<?php
-					if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
-					{		
-						while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
-						{
-				?>			
-						<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
-				<?php
-						}
-					}
-					else{
-						echo "<br />\nKeine Zielgebiete gefunden.<br />\n";
-					}
-				?>
-			</div>
-		
+					
 			
 			<!-- Anzeige für Spielerdaten -->
 			<div id="charakter">
