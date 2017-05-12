@@ -3,7 +3,6 @@
 include("connect.inc.php");
 include("funktionen_login.php");
 
-
 /* 
 
 Eine Übersicht zu den verfügbaren Funktionen findet sich unter ../dvg/Docs/Übersicht Datenbankfunktionen.xlsx

@@ -1,0 +1,71 @@
+body
+{
+    margin:auto;
+    min-height:30%;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+    font-size:smaller;
+	background-color:black;
+    color:white;
+}
+
+input[type=submit]
+{
+    cursor:pointer;
+    color:white;
+    background-color:black;
+    line-height:normal;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+	font-size:smaller;
+}
+
+input[type=button]
+{
+    cursor:pointer;
+    color:white;
+    background-color:black;
+    line-height:normal;
+    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+	font-size:smaller;
+}
+
+#rahmen
+{
+    position: absolute;
+	left: 10px;
+	top: 10px;
+    width: calc(100% - 20px);
+    height: calc(100% - 20px);
+	/*border: solid white 1pt;*/
+}
+
+#header
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    height:100px;
+    width:100%;
+    background-color:#000000;
+    color:#ffffff;
+}
+
+#mitte
+{
+    position:absolute;
+    top:0px;
+    left:0px;
+    right:0px;
+    /*height:600px;*/
+    height:100%;
+    width:100%;
+    background-color:black;
+}
+
+#zur_spielerauswahl
+{
+    position:absolute;
+    top:10px;
+    right:10px;
+	z-index: 1;
+}

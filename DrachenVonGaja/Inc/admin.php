@@ -1,123 +1,178 @@
-<?php
-	session_start();
+﻿<!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"-->
+
+<html>
 	
-	include("db_funktionen.php");
-	include("db_funktionen_admin.php");
+	<head>
+		<meta http-equiv="Content-Language" content="de">
+		<meta http-equiv="Content-Script-Type" content="text/javascript">
+		<meta http-equiv="Content-Style-Type" content="text/css">
+		<meta name="description" content="Drachen von Gaja - Administration">
+		<meta name="Author" content="Tina Schmidtbauer, Hendrik Matthes" >
+		<meta charset="utf-8">
+		<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
 	
-	$ergebnis = get_anmeldung($_SESSION['login_name']);
-	if (!$ergebnis or $ergebnis[5] != "Admin")
-	{
-?>
-		<script type="text/javascript">
-			window.location.href = "../index.php"
-		</script>
-<?php
-	} else {
-		if ($tabellen = get_tabellen())
+		<link rel="stylesheet" type="text/css" href="../index_admin.css">
+		<script src="index.js" type="text/javascript"></script>
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<title>Drachen von Gaja - Administration</title>		
+	</head>
+	
+	<body>
+	<form id="dvg_admin" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
+		<?php
+		#header("Content-Type: text/html; charset=utf-8");
+		session_start();
+		include("db_funktionen_login.php");
+		include("db_funktionen_admin.php");
+		$ergebnis = get_anmeldung($_SESSION['login_name']);
+		if (!$ergebnis or $ergebnis[5] != "Admin" or isset($_POST["button_zur_spielerauswahl"]))
 		{
-			$count_tabelle = 0;
-			$count_spalte = 0;
-?>			
-			<table align="center" border="1px" color="black">
-<?php			
-			while($tabelle = $tabellen->fetch_array(MYSQLI_NUM))
-			{
-				$count_tabelle = $count_tabelle + 1;
-				$count_spalte = 0;
-				$tabellenname = $tabelle[0];
-?>				
-				<tr>
-					<td><?php echo "#" . $count_tabelle ?></td>
-					<td><?php echo $tabellenname . "<br />\n"; ?></td>
-					
-<?php
-				if ($spalten = get_spalten($tabellenname))
+			?>
+			<script type="text/javascript">
+				window.location.href = "../index.php";
+			</script>
+			<?php
+		} else {
+	### Hier beginnt der eigentliche Seitenaufbau ###		
+			?>
+			<div id="zur_spielerauswahl">
+				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
+			</div>
+			
+			<div id="rahmen">
+				<?php
+				$buttonThemaGedrueckt = false;
+				if(isset($_POST["button_BilderLaden"]) or isset($_POST["button_ItemsAnlegen"]) or isset($_POST["button_NPCsAnlegen"]))
+					$buttonThemaGedrueckt = true;
+			
+				if($buttonThemaGedrueckt)
 				{
-					while($spalte = $spalten->fetch_array(MYSQLI_NUM))
+					# Bilder laden
+					if(isset($_POST["button_BilderLaden"]))
 					{
-						$count_spalte = $count_spalte + 1;
-?>						
-							<td><?php echo $spalte[0] . "<br />\n"; ?></td>
-<?php		
+						$ordner = "../Bilder/NPC"; # Standardordner für neue Bilder
+						$endungen_bilder = array('jpg','jpeg','bmp','png','gif','ico','tiff'); # erkannte Dateiendungen
+						$alle_dateien = scandir($ordner); # array für alle Dateien im Ordner
+						$neue_dateien = array(); # array für alle neuen Dateien im Ordner
+						foreach ($alle_dateien as $datei)
+						{
+							$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
+							$titel = ucwords(utf8_encode($dateiinfo['filename'])); # ersten Bildtitel aus Dateiname erzeugen
+							$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
+							if(array_key_exists('extension', $dateiinfo))
+								$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
+							else $endung = 'none';
+							
+							# Datei merken, wenn Dateipfad noch nicht in DB bekannt und Endung einer Bilddatei entspricht
+							if (!check_bild_vorhanden($pfad) && in_array($endung, $endungen_bilder))
+							{
+								$neue_dateien[] = array('titel' => $titel, 'pfad' => $pfad);
+							}
+						}
+						?>
+						<table>
+							<caption style="font-size:x-large;">Neue Bilder zum einfügen in die Datenbank</caption>
+							<tr align="left" style="margin:5px;">
+								<th>Einfügen?</th>
+								<th>Lfd Nr</th>
+								<th>Titel</th>
+								<th>Beschreibung</th>
+								<th>Pfad</th>
+							</tr>
+						<?php
+						$counter = 0;
+						foreach ($neue_dateien as $ds)
+						{
+							$counter = $counter + 1;
+							?>
+							<tr>
+								<td><input type="checkbox" name="<?php echo 'select_'.$counter ?>"></td>
+								<td><?php echo $counter ?></td>
+								<td><input type="text" name="<?php echo 'titel_'.$counter ?>" value="<?php echo $ds['titel']; ?>"></td>
+								<td><input type="text" name="<?php echo 'beschreibung_'.$counter ?>" style="width:750px;"></td>
+								<td><input type="text" name="<?php echo 'pfad_'.$counter ?>" value="<?php echo $ds['pfad']; ?>" style="width:300px;"></td>
+							</tr>
+							<?php							
+						}
+						?>
+						</table>
+						<br>
+						<?php
+						zeigeZurueckButton();
+						zeigeFertigButton();
 					}
-?>					
-					<td><?php echo $count_spalte . " Spalten<br />\n"; ?></td>
-<?php					
+				
+					# Items anlegen
+					if(isset($_POST["button_ItemsAnlegen"]))
+					{
+						echo "# Lege neue Items an"; 
+						zeigeZurueckButton();
+					}
+					
+					# NPCs anlegen
+					if(isset($_POST["button_NPCsAnlegen"]))
+					{
+						echo "# Lege neue NPCs an"; 
+						zeigeZurueckButton();
+					}
 				}
-?>
-				</tr>
-<?php
-			}
-?>
-			</table>
-<?php
 			
-		}
-		else{
-			echo "<br />\nKeine Spieler zum Account vorhanden.<br />\n";
-		}
-		
-		
-		if ($alle_spieler = get_spieler_all())
-		{
-			$count_zeile = 0;
-			$count_spalte_max = 19;
-?>			
-			<table align="center" border="1px" color="black">
-				<tr>
-					<td>Lfd. Nr.</td>
-					<td>id</td>
-                    <td>account_id</td>
-					<td>bilder_id</td>
-					<td>gattung_id</td>
-					<td>level_id</td>
-					<td>gebiet_id</td>
-                    <td>name</td>
-					<td>geschlecht</td>
-					<td>staerke</td>
-					<td>intelligenz</td>
-					<td>magie</td>
-					<td>element_feuer</td>
-					<td>element_wasser</td>
-					<td>element_erde</td>
-					<td>element_luft</td>
-					<td>gesundheit</td>
-					<td>max_gesundheit</td>
-					<td>energie</td>
-					<td>max_energie</td>
-					<td>balance</td>
-				</tr>
-<?php			
-			while($zeile = $alle_spieler->fetch_array(MYSQLI_NUM))
-			{
-				$count_zeile = $count_zeile + 1;
-				$count_spalte = 0;
-?>				
-				<tr>
-					<td><?php echo "#" . $count_zeile ?></td>
-<?php				
-				while($count_spalte <= $count_spalte_max)
+				if(isset($_POST['button_fertig']))
 				{
-					$spalte = $zeile[$count_spalte];
-?>			
-					<td><?php echo $spalte . "<br />\n"; ?></td>
-<?php
-					$count_spalte = $count_spalte + 1;
+					$counter = 1;
+					$bilderdaten = array();
+					while(array_key_exists('titel_'.$counter, $_POST))
+					{
+						if(array_key_exists('select_'.$counter, $_POST))
+						{	
+							$bilderdaten[] = array(
+								'titel' => $_POST['titel_'.$counter],
+								'beschreibung' => $_POST['beschreibung_'.$counter],
+								'pfad' => $_POST['pfad_'.$counter]);
+						}
+						$counter = $counter + 1;
+					}
+					echo insert_bilder($bilderdaten);
+					echo "<br>";
+					print_r($bilderdaten);
+					echo "<br>";
+					zeigeZurueckButton();
+					
+					
+					
+					
+					
 				}
-?>
-				</tr>
-<?php
-			}
-?>
-			</table>
-<?php
-			
+				
+				if(!$buttonThemaGedrueckt && !isset($_POST['button_fertig']))
+				{
+					?>
+					<div><input type="submit" name="button_BilderLaden" value="Neue Bilder laden"></div>
+					<div style="padding-top:5px;"><input type="submit" name="button_ItemsAnlegen" value="Neue Items anlegen"> (ohne Funktion)</div>
+					<div style="padding-top:5px;"><input type="submit" name="button_NPCsAnlegen" value="Neue NPCs anlegen"> (ohne Funktion)</div>
+					<?php
+				}
+				?>
+			</div>
+			<?php
 		}
-		else{
-			echo "<br />\nKeine Spieler zum Account vorhanden.<br />\n";
-		}
-		
+	?>
+	</form>
+	</body>
+</html>
+
+<?php
+
+	# Blendet einen Button mit Aufschrift "zurück" ein.
+	# Eine Betätigung lädt lediglich die Startseite des Adminbereiches neu.
+	# Standardausrichtung ist links. Eine individuelle Ausrichtung kann jedoch als Parameter übergeben werden.
+	function zeigeZurueckButton($ausrichtung = "left")
+	{
+		echo "<input type='submit' name='zurueck' value='zurück' style='float:" . $ausrichtung . ";'>";
 	}
 	
-	
-    
+	function zeigeFertigButton($ausrichtung = "right")
+	{
+		echo "<input type='submit' name='button_fertig' value='Fertig' style='float:" . $ausrichtung . ";'>";
+	}	
+?>

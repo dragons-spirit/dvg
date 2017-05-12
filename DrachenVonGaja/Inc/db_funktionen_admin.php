@@ -70,6 +70,81 @@ function get_spalten($tabellenname)
 
 
 #***************************************************************************************************************
+#*************************************************** BILDER ****************************************************
+#***************************************************************************************************************
+
+#----------------------------------------------- Check bilder.pfad (pfad) ----------------------------------------------
+# 	-> bilder.pfad (str)
+#	true/false
+
+function check_bild_vorhanden($pfad)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	pfad
+			FROM 	bilder
+			WHERE 	bilder.pfad = ?")){
+		$stmt->bind_param('s', $pfad);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		if($row[0]) return true;
+		else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_bild_zu_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------------------- INSESRT bilder (multi) ----------------------------------------------
+# 	-> Multidimensionales Array
+#		 [0][titel] bilder.titel (str)
+#		 [0][beschreibung] bilder.beschreibung (str)
+#		 [0][pfad] bilder.pfad (str)
+#	<- Anzahl geschriebener Datensätze
+
+function insert_bilder($bilderdaten)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	$anz_gesamt = 0;
+	if($bilderdaten)
+		$anz_gesamt = max(array_keys($bilderdaten)) + 1;
+	$anz_ok = 0;
+	foreach($bilderdaten as $bild)
+	{
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO bilder (
+				titel, 
+				beschreibung, 
+				pfad) 
+			VALUES (?, ?, ?)"))
+		{
+			$stmt->bind_param('sss', $bild['titel'], $bild['beschreibung'], $bild['pfad']);
+			$stmt->execute();
+			$anz_ok = $anz_ok + 1;
+		} else {
+			echo "<br />\nQuerryfehler in get_bild_zu_titel()<br />\n";
+			close_connection($connect_db_dvg);
+			return false;
+		}
+	}
+	close_connection($connect_db_dvg);
+	return $anz_ok."/".$anz_gesamt." Bildern erfolgreich eingefügt";
+}
+
+/*
+
+Ein seltsam anmutendes Gewächs. Recht groß, orange und mit ziemlich harter Schale. Was euch wohl im Inneren erwartet?
+
+*/
+#***************************************************************************************************************
 #*************************************************** GATTUNG ***************************************************
 #***************************************************************************************************************
 

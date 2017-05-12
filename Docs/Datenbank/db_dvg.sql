@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 28. Apr 2017 um 23:18
--- Server-Version: 10.1.13-MariaDB
--- PHP-Version: 5.6.21
+-- Erstellungszeit: 12. Mai 2017 um 17:31
+-- Server-Version: 10.1.21-MariaDB
+-- PHP-Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -229,10 +229,17 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`, `beschreibung`) VALUES
 (9, 'Mammutbaum', '../Platzhalter_gebiete/Gross/mammutbaum.jpg', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (10, 'Wald', '../Platzhalter_gebiete/Gross/wald.jpg', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (11, 'Oase', '../Platzhalter_gebiete/Gross/oase.jpg', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
+(12, 'Steppe', '../Platzhalter_gebiete/Gross/steppe.jpg', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
 (13, 'Drache_laufend', '../Bilder/Drache_laeuft.gif', 'Animierter Drache (laufend)'),
 (14, 'Drache_kaempfend', '../Bilder/Drache_kaempft.gif', 'Animierter Drache (kämpfend)'),
-(15, 'Drache_wartend', '../Bilder/Drache_wartet.png', 'Drache (wartend)');
+(15, 'Drache_wartend', '../Bilder/Drache_wartet.png', 'Drache (wartend)'),
+(16, 'Alligator', '../Bilder/NPC/alligator.png', 'Eine Panzerechse wie aus der Urzeit. Schaurig und schön zugleich. Kommt ihr besser nicht zu nahe.'),
+(17, 'Bambus', '../Bilder/NPC/bambus.png', 'Robust und biegsam zugleich. Ein wahres Wunderwerk von Gaja.'),
+(18, 'Hase', '../Bilder/NPC/Hase.png', 'Ein Langohr seinesgleichen. Da steht er nun vor dir und schaut dich mit seinen kleinen Äuglein an. Ein putziger kleriner Racker.'),
+(19, 'Eisbär', '../Bilder/NPC/eisbär.png', 'Ein großer weißer Bär mit spitzen Zähnen und scharfen Pranken. Wunderbar dazu geeignet Robben und Fische zu jagen, sowie sich gegen unliebsame Konkurrenten wie andere Bären oder Drachen durchzusetzen.'),
+(24, 'Perlmutterfalter', '../Bilder/NPC/Perlmutterfalter.png', 'Ein schöner Falter in einem orange-rosa Ton. Achtung Falter gehen schnell kaputt. Sorgsam behandeln!'),
+(25, 'Jaguar', '../Bilder/NPC/jaguar.png', 'Ein wahrlich scheues Raubtier, dass dank seines gefleckten Felles förmlich mit der Umgebung verschmilzt. Wer er schafft, einen Jaguar zu Gesicht zu bekommen, kann sich wirklich glücklich schätzen.'),
+(26, 'Kürbis', '../Bilder/NPC/kürbis.png', 'Ein seltsam anmutendes Gewächs. Recht groß, orange und mit ziemlich harter Schale. Was euch wohl im Inneren erwartet?');
 
 -- --------------------------------------------------------
 
@@ -374,7 +381,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...''');
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\'');
 
 -- --------------------------------------------------------
 
@@ -443,7 +450,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 1),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 1),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 'Pflanze', 1),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
 (5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 1),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
@@ -654,7 +661,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
-(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht''s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
+(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht\'s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
 
 -- --------------------------------------------------------
 
@@ -950,7 +957,7 @@ ALTER TABLE `aktion_spieler`
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
