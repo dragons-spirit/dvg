@@ -529,11 +529,12 @@ function delete_spieler($spieler_id)
 		echo "<br />\nLogin nicht gefunden<br />\n";
 		return false;
 	}
-		
+		# ToDo: Lösche Querverweise von Spieler (Items, Quests, ...)
 	if ($stmt = $connect_db_dvg->prepare("
-			DELETE 
-			FROM 	spieler 
-			WHERE 	spieler.id = ?"))
+			DELETE
+			FROM 	spieler
+			WHERE 	spieler.id = ?;
+			"))
 	{
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();

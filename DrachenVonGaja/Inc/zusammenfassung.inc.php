@@ -172,6 +172,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		<input type="submit" name="button_login" value="anmelden">
 		<br />
 		<br />
+		<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
 <?php
 		if (!isset($_SESSION['registrierung_ok']))
 		{
@@ -265,22 +266,6 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		<br />
 <?php
     }
-?>
-
-
-<!--	
-#######################
-#	Hintergrundbild   #
-#######################
--->
-
-<?php
-	if (!isset($_POST["button_login"]))
-	{
-?>
-		<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
-<?php
-	}
 ?>
 	
 <!--

@@ -16,6 +16,7 @@ input[type=submit]
     line-height:normal;
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
 	font-size:smaller;
+	min-width:75px;
 }
 
 input[type=button]
@@ -26,6 +27,7 @@ input[type=button]
     line-height:normal;
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
 	font-size:smaller;
+	min-width:75px;
 }
 
 #rahmen

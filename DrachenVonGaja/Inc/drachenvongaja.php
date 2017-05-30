@@ -350,172 +350,170 @@
 				}
 				?>
 			
-			
-			<!-- Level-/Zahlenzeichen -->
-			<div id="l7"><?php echo $level7 ?></div>
-			<div id="l6"><?php echo $level6 ?></div>
-			<div id="l5"><?php echo $level5 ?></div>
-			<div id="l4"><?php echo $level4 ?></div>
-			<div id="l3"><?php echo $level3 ?></div>
-			<div id="l2"><?php echo $level2 ?></div>
-			<div id="l1"><?php echo $level1 ?></div>
-					
-			
-			<!-- Anzeige für Spielerdaten -->
-			<div id="charakter">
-			<table style="margin-top:20px;">
-				<tr>
-					<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
-				</tr>
-				<tr>
-					<td colspan="2"><p align="center" style="font-size:16pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Geschlecht</p></td>
-					<td><p align="left">
-					<?php 
-						switch ($geschlecht){
-						case "W":
-							echo "weiblich";
-							break;
-						default:
-							echo "männlich";
-							break;
-						}
-					?>
-				</tr>
-				<tr>
-					<td><p align="left">Element Feuer</p></td>
-					<td><p align="left"><?php echo $element_feuer;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Element Erde</p></td>
-					<td><p align="left"><?php echo $element_erde;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Element Wasser</p></td>
-					<td><p align="left"><?php echo $element_wasser;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Element Luft</p></td>
-					<td><p align="left"><?php echo $element_luft;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Gesundheit</p></td>
-					<td><p align="left"><?php echo $gesundheit . "/" . $max_gesundheit;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Energie</p></td>
-					<td><p align="left"><?php echo $energie . "/" . $max_energie;?></p></td>
-				</tr>
-				<tr>
-					<td><p align="left">Balance</p></td>
-					<td><p align="left"><?php echo $balance;?></p></td>
-				</tr>
-				<tr>
-					<td><img src="../Bilder/feuerbutton.png" alt="feuerbutton" width="100%"/></td>
-					<td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden">
-						<input type="submit" name="button_inventar" value="Gepäck betrachten">
-					</td>
-				</tr>
-			</table>
-			
-			<a href="javascript:Elemente()" >Elemente</a>
-			
-			
-			<!--Anzeige für Fähigkeiten -->
-			<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
-			
-		
-			</div>
-			
-			<div id="aktionenrahmen">
-			
-			<!-- Anzeige Aktionen mit Clientzeit, Animation, Ladebalken -->
-			<?php
-			$aktion_titel = null;
-			$aktion_text = "keine aktuelle Aktion";
-			$aktion_start = 0;
-			$aktion_ende = 0;
-			$aktion_statusbild = null;
-			$aktion_any_id_1 = 0;
-			if($aktionen = get_aktion_spieler($spieler_id))
-			{
-				while($row = $aktionen->fetch_array(MYSQLI_NUM))
-				{
-					$aktion_titel = $row[0];
-					$aktion_text = $row[1];
-					$aktion_start = $row[4];
-					$aktion_ende = $row[5];
-					$aktion_statusbild = $row[6];
-					$aktion_any_id_1 = $row[8];
-				}
-			} else {
-				echo "<br />\nKeine Aktionen gefunden.<br />\n";
-			}
-			
-			?>			
-			<table border="1px" border-color="white">
-				<tr>
-					<td>
-						Clientzeit: <b id="clientzeit"></b>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<?php
-							$asb_breite = "100px";
-							$asb_hoehe = "100px";
-						?>
-						<div id="aktion_status_wartend"><img src="<?php echo get_bild_zu_titel('Drache_wartend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
-						<div id="aktion_status_kaempfend"><img src="<?php echo get_bild_zu_titel('Drache_kaempfend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
-						<div id="aktion_status_laufend"><img src="<?php echo get_bild_zu_titel('Drache_laufend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
-						<p align="center">
-							<b id="aktion_text">
-								<?php echo $aktion_text; ?>
-							</b><br>
-						</p>
-							
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<div class="laden">
-							<div id="balken">
-								<div id="prozent"></div>
-								<input type='submit' id="button_abschluss" name='aktion_abgeschlossen' value='Aktion abschließen' />
-							</div>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input style="display:none;" id="startzeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_start); ?>"/>
-						<input style="display:none;" id="endezeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_ende); ?>"/>
-						<input style="display:none;" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
-						<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
-					</td>
-				</tr>
-			</table>
-			
-			
-				<!-- Hier wird definiert, wie oft Zeiten und Ladebalken aktualisiert werden (in Millisekunden) -->
-				<script>
-					window.setInterval("client_times()", 100);
-				</script>
+				<!-- Level-/Zahlenzeichen -->
+				<div id="l7"><?php echo $level7 ?></div>
+				<div id="l6"><?php echo $level6 ?></div>
+				<div id="l5"><?php echo $level5 ?></div>
+				<div id="l4"><?php echo $level4 ?></div>
+				<div id="l3"><?php echo $level3 ?></div>
+				<div id="l2"><?php echo $level2 ?></div>
+				<div id="l1"><?php echo $level1 ?></div>
+						
 				
-			</div>
-			<div id="zur_spielerauswahl">
-				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
+				<!-- Anzeige für Spielerdaten -->
+				<div id="charakter">
+					<table style="margin-top:20px;">
+						<tr>
+							<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
+						</tr>
+						<tr>
+							<td colspan="2"><p align="center" style="font-size:16pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Geschlecht</p></td>
+							<td><p align="left">
+							<?php 
+								switch ($geschlecht){
+								case "W":
+									echo "weiblich";
+									break;
+								default:
+									echo "männlich";
+									break;
+								}
+							?>
+						</tr>
+						<tr>
+							<td><p align="left">Element Feuer</p></td>
+							<td><p align="left"><?php echo $element_feuer;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Element Erde</p></td>
+							<td><p align="left"><?php echo $element_erde;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Element Wasser</p></td>
+							<td><p align="left"><?php echo $element_wasser;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Element Luft</p></td>
+							<td><p align="left"><?php echo $element_luft;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Gesundheit</p></td>
+							<td><p align="left"><?php echo $gesundheit . "/" . $max_gesundheit;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Energie</p></td>
+							<td><p align="left"><?php echo $energie . "/" . $max_energie;?></p></td>
+						</tr>
+						<tr>
+							<td><p align="left">Balance</p></td>
+							<td><p align="left"><?php echo $balance;?></p></td>
+						</tr>
+						<tr>
+							<td><img src="../Bilder/feuerbutton.png" alt="feuerbutton" width="100%"/></td>
+							<td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
+						</tr>
+						<tr>
+							<td>
+								<input type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden">
+								<input type="submit" name="button_inventar" value="Gepäck betrachten">
+							</td>
+						</tr>
+					</table>
+					
+					
+					<a href="javascript:Elemente()" >Elemente</a>
+					
+					
+					<!-- Anzeige für Fähigkeiten -->
+					<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
+					
+				</div>	
+				
+				
+				<div id="aktionenrahmen">
+					<!-- Anzeige Aktionen mit Clientzeit, Animation, Ladebalken -->
+					<?php
+					$aktion_titel = null;
+					$aktion_text = "keine aktuelle Aktion";
+					$aktion_start = 0;
+					$aktion_ende = 0;
+					$aktion_statusbild = null;
+					$aktion_any_id_1 = 0;
+					if($aktionen = get_aktion_spieler($spieler_id))
+					{
+						while($row = $aktionen->fetch_array(MYSQLI_NUM))
+						{
+							$aktion_titel = $row[0];
+							$aktion_text = $row[1];
+							$aktion_start = $row[4];
+							$aktion_ende = $row[5];
+							$aktion_statusbild = $row[6];
+							$aktion_any_id_1 = $row[8];
+						}
+					} else {
+						echo "<br />\nKeine Aktionen gefunden.<br />\n";
+					}
+					
+					?>			
+					<table border="1px" border-color="white">
+						<tr>
+							<td>
+								Clientzeit: <b id="clientzeit"></b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<?php
+									$asb_breite = "100px";
+									$asb_hoehe = "100px";
+								?>
+								<div id="aktion_status_wartend"><img src="<?php echo get_bild_zu_titel('Drache_wartend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
+								<div id="aktion_status_kaempfend"><img src="<?php echo get_bild_zu_titel('Drache_kaempfend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
+								<div id="aktion_status_laufend"><img src="<?php echo get_bild_zu_titel('Drache_laufend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
+								<p align="center">
+									<b id="aktion_text">
+										<?php echo $aktion_text; ?>
+									</b><br>
+								</p>
+									
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="laden">
+									<div id="balken">
+										<div id="prozent"></div>
+										<input type='submit' id="button_abschluss" name='aktion_abgeschlossen' value='Aktion abschließen' />
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input style="display:none;" id="startzeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_start); ?>"/>
+								<input style="display:none;" id="endezeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_ende); ?>"/>
+								<input style="display:none;" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
+								<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
+							</td>
+						</tr>
+					</table>
+				
+					<!-- Hier wird definiert, wie oft Zeiten und Ladebalken aktualisiert werden (in Millisekunden) -->
+					<script>
+						window.setInterval("client_times()", 100);
+					</script>
+				
+				</div>
+				
+				<div id="zur_spielerauswahl">
+					<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
+				</div>
+			
 			</div>
 			
-			
-			
-			</div>
 			<!-- Untere Leiste -->
 			<div id="untere_Leiste">
 				<table align="center">

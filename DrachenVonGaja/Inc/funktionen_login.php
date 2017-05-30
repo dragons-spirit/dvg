@@ -56,12 +56,48 @@ function bild_zu_spielerlevel($level){
 	return;
 }
 
+
+function scanneNeueBilder($ordner)
+{
+	global $endungen_bilder, $neue_dateien;
+	$alle_dateien = scandir($ordner); # array für alle Dateien im Ordner
+	foreach ($alle_dateien as $datei)
+	{
+		$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
+		$titel = utf8_encode($dateiinfo['filename']); # ersten Bildtitel aus Dateiname erzeugen
+		$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
+		if(array_key_exists('extension', $dateiinfo))
+			$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
+		else $endung = 'none';
+		# Datei merken, wenn Dateipfad noch nicht in DB bekannt und Endung einer Bilddatei entspricht
+		if (!check_bild_vorhanden($pfad))
+		{	
+			if (in_array($endung, $endungen_bilder))
+				$neue_dateien[] = array('titel' => $titel, 'pfad' => $pfad);
+			elseif (is_dir($ordner."/".$titel) && $titel<>"." && $titel<>"")
+				scanneNeueBilder($ordner."/".$titel);
+		}
+	}
+}
+
 ?>
 <script>
 	function buttonwechsel(spieler_id)
 	{
-		alert(spieler_id);
 		document.getElementById("b_sp_loe_" + spieler_id + "_1").style.visibility="hidden";
 		document.getElementById("b_sp_loe_" + spieler_id + "_2").style.visibility="visible";
+	}
+	
+	function set_button(button_name, button_value="")
+	{
+		document.getElementById("button_name_id").value=button_name;
+		document.getElementById("button_value_id").value=button_value;
+	}
+	
+	function set_button_submit(button_name, button_value="")
+	{
+		document.getElementById("button_name_id").value=button_name;
+		document.getElementById("button_value_id").value=button_value;
+		document.getElementById("dvg_admin").submit();
 	}
 </script>

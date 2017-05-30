@@ -6,7 +6,6 @@ body
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
     font-size:smaller;
     color:white;
-
 }
 
 input[type=submit]
@@ -106,7 +105,7 @@ input[type=button]
     right:20px;
     top:15px;
     width:200px;
-    z-index: 1;
+	z-index: 1;
 }
 
 #elemente
@@ -117,16 +116,15 @@ input[type=button]
     width:200px;
     height:200px;
     display:none;
-    bottom:0px;
-
+	bottom:0px;
 }
 
 #aktionenrahmen
 {
-    position:absolute;
-    bottom:25px;
-    right:20px;
-    width:200px;
+	position:absolute;
+	bottom:25px;
+	right:20px;
+	width:200px;
 }
 
 #untere_Leiste
@@ -343,7 +341,7 @@ input[type=button]
 	width: 200px;
 	height: 20px;
 	border: 1px solid black;
-        bottom:0px;
+	bottom:0px;
 }
 
 #balken{
@@ -351,6 +349,7 @@ input[type=button]
 	height: 20px;
 	border-right: 1px solid black;
 	background: darkred;
+	bottom:0px;
 }
 
 #prozent{
@@ -358,7 +357,6 @@ input[type=button]
 	text-align: center;
 	color: white;
 	display: block;
-        bottom:0px;
 }
 #button_abschluss{
 	width: 200px;

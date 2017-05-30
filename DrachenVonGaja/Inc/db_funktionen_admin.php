@@ -121,12 +121,11 @@ function insert_bilder($bilderdaten)
 	{
 		if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO bilder (
-				titel, 
-				beschreibung, 
+				titel,
 				pfad) 
-			VALUES (?, ?, ?)"))
+			VALUES (?, ?)"))
 		{
-			$stmt->bind_param('sss', $bild['titel'], $bild['beschreibung'], $bild['pfad']);
+			$stmt->bind_param('ss', $bild['titel'], $bild['pfad']);
 			$stmt->execute();
 			$anz_ok = $anz_ok + 1;
 		} else {
@@ -136,14 +135,9 @@ function insert_bilder($bilderdaten)
 		}
 	}
 	close_connection($connect_db_dvg);
-	return $anz_ok."/".$anz_gesamt." Bildern erfolgreich eingefügt";
+	return $anz_ok;
 }
 
-/*
-
-Ein seltsam anmutendes Gewächs. Recht groß, orange und mit ziemlich harter Schale. Was euch wohl im Inneren erwartet?
-
-*/
 #***************************************************************************************************************
 #*************************************************** GATTUNG ***************************************************
 #***************************************************************************************************************
@@ -154,6 +148,104 @@ Ein seltsam anmutendes Gewächs. Recht groß, orange und mit ziemlich harter Sch
 #*************************************************** GEBIET ****************************************************
 #***************************************************************************************************************
 
+
+
+#***************************************************************************************************************
+#***************************************************** NPC *****************************************************
+#***************************************************************************************************************
+
+#----------------------------------- SELECT npc.* (einzel) -----------------------------------
+# 	-> npc.id (int)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] bilder_id
+#	<- [2] element_id
+#	<- [3] titel
+#	<- [4] familie
+#	<- [5] staerke
+#	<- [6] intelligenz
+#	<- [7] magie
+#	<- [8] element_feuer
+#	<- [9] element_wasser
+#	<- [10] element_erde
+#	<- [11] element_luft
+#	<- [12] gesundheit
+#	<- [13] energie
+#	<- [14] beschreibung
+#	<- [15] typ
+
+function get_npc_by_id($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	*
+			FROM 	npc
+			WHERE 	npc.id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_by_id()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT npc.* (auswahl) -----------------------------------
+#	-> npc.titel (str)
+#	-> npc.familie (str)
+#	-> npc.beschreibung (str)
+#	-> npc.typ (str)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] bilder_id
+#	<- [2] element_id
+#	<- [3] titel
+#	<- [4] familie
+#	<- [5] staerke
+#	<- [6] intelligenz
+#	<- [7] magie
+#	<- [8] element_feuer
+#	<- [9] element_wasser
+#	<- [10] element_erde
+#	<- [11] element_luft
+#	<- [12] gesundheit
+#	<- [13] energie
+#	<- [14] beschreibung
+#	<- [15] typ
+
+function suche_npcs($titel, $familie, $beschreibung, $typ)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	*
+			FROM 	npc
+			WHERE 	npc.titel like ?
+				and npc.familie like ?
+				and npc.beschreibung like ?
+				and npc.typ like ?"))
+	{
+		$stmt->bind_param('ssss', $titel, $familie, $beschreibung, $typ);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPCs geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in suche_npcs()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
 
 
 #***************************************************************************************************************
@@ -186,21 +278,5 @@ function get_spieler_all()
 		return false;
 	}
 }
-
-
-
-#***************************************************************************************************************
-#************************************************ TEST-BEREICH *************************************************
-#***************************************************************************************************************
-
-#echo insert_registrierung('hugo', '123456', 'hugo@gmx.de');
-#echo insert_registrierung('balduin', 'xyzzyx', 'balduin@gmail.com');
-#echo insert_registrierung('klaus_trophobie', 'zuckerwatte', 'register@klaustrophobie.de');
-
-#insert_spieler('hugo', 'Klippendrache', 'Hathor', 'M');
-#insert_spieler('balduin', 'Eisdrache', 'Skadi', 'W');
-#insert_spieler('klaus_trophobie', 'Kristalldrache', 'Wyrm', 'W');
-
-#echo insert_registrierung('mustafa', 'kyrillisch', 'afatsum@mustafa.ru');
 
 ?>
