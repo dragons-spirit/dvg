@@ -6,6 +6,7 @@ body
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
     font-size:smaller;
     color:white;
+
 }
 
 input[type=submit]
@@ -37,8 +38,8 @@ input[type=button]
     left: 0px;
     width:100%;
     height:100%;
-    min-height:550px;
-    min-width:600px;
+    min-height:890px;
+    min-width:1250px;
 }
 
 #header
@@ -103,10 +104,9 @@ input[type=button]
 {
     position:absolute;
     right:20px;
-    top:10px;
+    top:15px;
     width:200px;
-    height:178px;
-
+    z-index: 1;
 }
 
 #elemente
@@ -117,15 +117,24 @@ input[type=button]
     width:200px;
     height:200px;
     display:none;
+    bottom:0px;
 
+}
+
+#aktionenrahmen
+{
+    position:absolute;
+    bottom:25px;
+    right:20px;
+    width:200px;
 }
 
 #untere_Leiste
 {
     position:absolute;
-    bottom:10px;
+    bottom:-30px;
     left:0px;
-    height:25px;
+    height:30px;
     width:100%;
     background-color:darkgrey;
     z-index: 1;
@@ -146,8 +155,8 @@ input[type=button]
 #zur_spielerauswahl
 {
     position:absolute;
-    bottom:50px;
-    right:50px;
+    top:50px;
+    left:50px;
     z-index: 1;
 }
 
@@ -334,6 +343,7 @@ input[type=button]
 	width: 200px;
 	height: 20px;
 	border: 1px solid black;
+        bottom:0px;
 }
 
 #balken{
@@ -348,6 +358,7 @@ input[type=button]
 	text-align: center;
 	color: white;
 	display: block;
+        bottom:0px;
 }
 #button_abschluss{
 	width: 200px;

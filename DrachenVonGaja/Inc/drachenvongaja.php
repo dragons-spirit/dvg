@@ -349,7 +349,7 @@
 					}
 				}
 				?>
-			</div>
+			
 			
 			<!-- Level-/Zahlenzeichen -->
 			<div id="l7"><?php echo $level7 ?></div>
@@ -424,6 +424,17 @@
 				</tr>
 			</table>
 			
+			<a href="javascript:Elemente()" >Elemente</a>
+			
+			
+			<!--Anzeige für Fähigkeiten -->
+			<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
+			
+		
+			</div>
+			
+			<div id="aktionenrahmen">
+			
 			<!-- Anzeige Aktionen mit Clientzeit, Animation, Ladebalken -->
 			<?php
 			$aktion_titel = null;
@@ -491,22 +502,20 @@
 				</tr>
 			</table>
 			
+			
 				<!-- Hier wird definiert, wie oft Zeiten und Ladebalken aktualisiert werden (in Millisekunden) -->
 				<script>
 					window.setInterval("client_times()", 100);
 				</script>
-			
-			
-				<a href="javascript:Elemente()" >Elemente</a>
+				
 			</div>
-			
-			<!-- Anzeige für Fähigkeiten -->
-			<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
-			
 			<div id="zur_spielerauswahl">
 				<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
 			</div>
 			
+			
+			
+			</div>
 			<!-- Untere Leiste -->
 			<div id="untere_Leiste">
 				<table align="center">
