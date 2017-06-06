@@ -102,8 +102,7 @@
 						break;
 										
 					# NPCs ändern
-					case "NPCsAendern":
-						#if($npc = get_npc_by_id(1))
+					case "NPCsSuchen":
 						$titel = "";
 						$familie = "";
 						$beschreibung = "";
@@ -114,29 +113,6 @@
 						if(isset($_POST['filter_typ'])) $typ = $_POST['filter_typ'];
 						?>
 						<h2>NPCs</h2>
-						<br>
-						<table>
-							<tr>
-								<td>Titel: </td>
-								<td><input type="input" name="filter_titel" value="<?php echo $titel ?>" autofocus onFocus="set_button('NPCsAendern','titel');"></td>
-							</tr>
-							<tr>
-								<td>Familie: </td>
-								<td><input type="input" name="filter_familie" value="<?php echo $familie ?>" onFocus="set_button('NPCsAendern','familie');"></td>
-							</tr>
-							<tr>
-								<td>Beschreibung: </td>
-								<td><input type="input" name="filter_beschreibung" value="<?php echo $beschreibung ?>" onFocus="set_button('NPCsAendern','beschreibung');"></td>
-							</tr>
-							<tr>
-								<td>Typ: </td>
-								<td><input type="input" name="filter_typ" value="<?php echo $typ ?>" onFocus="set_button('NPCsAendern','typ');"></td>
-							</tr>
-							<tr>
-								<td></td>
-								<td><input type="button" name="button_filterNPCs" value="filtern" onclick="set_button_submit('NPCsAendern');"></td>
-							</tr>
-						</table>
 						<br>
 						<?php
 						if($npc = suche_npcs("%".$titel."%", "%".$familie."%", "%".$beschreibung."%", "%".$typ."%"))
@@ -150,17 +126,16 @@
 									<th>Element</th>
 									<th>Titel</th>
 									<th>Familie</th>
-									<!--<th>Stärke</th>
-									<th>Intelligenz</th>
-									<th>Magie</th>
-									<th>Feuer</th>
-									<th>Wasser</th>
-									<th>Erde</th>
-									<th>Luft</th>
-									<th>Gesundheit</th>
-									<th>Energie</th>-->
 									<th>Beschreibung</th>
 									<th>Typ</th>
+								</tr>
+								<tr align="left" style="margin:5px;">
+									<td><input type="button" name="button_NPCbearbeiten" value="hinzufügen" onclick="set_button_submit('NPCbearbeiten',0);"></td>
+									<td></td><td></td><td></td>
+									<td><input type="input" name="filter_titel" value="<?php echo $titel ?>" autofocus onFocus="set_button('NPCsSuchen','titel');"></td>
+									<td><input type="input" name="filter_familie" value="<?php echo $familie ?>" onFocus="set_button('NPCsSuchen','familie');"></td>
+									<td><input type="input" name="filter_beschreibung" value="<?php echo $beschreibung ?>" onFocus="set_button('NPCsSuchen','beschreibung');"></td>
+									<td><input type="input" name="filter_typ" value="<?php echo $typ ?>" onFocus="set_button('NPCsSuchen','typ');"></td>
 								</tr>   
 							<?php
 							$anz_gesamt = 0;
@@ -198,11 +173,36 @@
 					
 					# NPCs anlegen			
 					case "NPCbearbeiten":
+						$npc_id = $button_value;
 						?>
-						<script>set_button_submit('NPCsAendern',$button_value);</script>
+						<!-- Standardaktion - Seite neu laden mit selber NPC_Id -->
+						<script>set_button_submit('NPCaendern',$npc_id);</script>
 						<?php
-						echo "# Das NPC mit id = ".$button_value. " soll bearbeitet werden.<br>";
-						zeigeZurueckButton("NPCsAendern");
+						$row = false;
+						if($npc_id > 0){
+							if($npc = get_npc_by_id($npc_id)){
+								$row = $npc->fetch_array(MYSQLI_NUM);
+						}}
+						
+						zeigeEingabemaskeNPC($row, $npc_id);
+						?>
+						
+						<?php
+						zeigeZurueckButton("NPCsSuchen");
+						break;
+					
+					case "NPCaendern":
+						$npc_id = $button_value;
+						print_r($_POST);
+						echo "<br>";
+						
+						if($npc_id > 0){
+							echo "NPC ändern";
+						} else {
+							echo "NPC hinzufügen";
+						}
+						
+						zeigeZurueckButton("NPCaendern");
 						break;
 					
 					# Items anlegen					
@@ -226,7 +226,7 @@
 						<div id="NPCs" style="padding-top:20px;">
 							<h3>NPCs</h3>
 							<input type="button" name="button_NPCsAnlegen" value="Neu anlegen" onclick="set_button_submit('NPCsAnlegen');"> (ohne Funktion)<br>
-							<input type="button" name="button_NPCsAendern" value="Ändern" onclick="set_button_submit('NPCsAendern'); this.form.submit();">
+							<input type="button" name="button_NPCsSuchen" value="Ändern" onclick="set_button_submit('NPCsSuchen'); this.form.submit();">
 						</div>
 						<div id="Items" style="padding-top:20px;">
 							<h3>Items</h3>
@@ -254,6 +254,153 @@
 	{
 		?>
 		<input type="button" name="zurueck" value="zurück" style="float:left;" onclick="set_button_submit('<?php echo $ziel ?>');">
+		<?php
+	}
+	
+	
+	
+	function zeigeEingabemaskeNPC($row, $npc_id)
+	{
+		?>
+		<table>
+			<colgroup>
+				<col width="100px">
+				<col width="300px">
+			</colgroup>
+			<tr>
+				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
+			<tr>
+				<td>Id</td>
+				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="npc_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
+			</tr>
+			<tr>
+				<td>Bild</td>
+				<td>
+					<?php
+					if($bilder = get_bilder_titel("../Bilder/NPC/"))
+					{
+						?>
+						<select name="npc_bild">
+						<?php
+						while($bild = $bilder->fetch_array(MYSQLI_NUM))
+						{
+							if($row[1] != $bild[0]){
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$bild[1]."</option>";
+							} else {
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$bild[1]."</option>";
+							}
+						}
+						?>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Bildern.";
+					}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Element</td>
+				<td>
+					<?php
+					if($elemente = get_elemente_titel())
+					{
+						?>
+						<select name="npc_element">
+						<?php
+						while($element = $elemente->fetch_array(MYSQLI_NUM))
+						{
+							if($row[2] != $element[0]){
+								echo "<option value='".$element[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$element[1]."</option>";
+							} else {
+								echo "<option value='".$element[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$element[1]."</option>";
+							}
+						}
+						?>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Elementen.";
+					}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Titel</td>
+				<td><input id="allg_info_eingabe_text" type="input" name="npc_titel" value="<?php if($row) echo $row[3]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Familie</td>
+				<td><input id="allg_info_eingabe_text" type="input" name="npc_familie" value="<?php if($row) echo $row[4]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Stärke</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_starke" value="<?php if($row) echo $row[5]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Intelligenz</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_intelligenz" value="<?php if($row) echo $row[6]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Magie</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_magie" value="<?php if($row) echo $row[7]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Feuer</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_feuer" value="<?php if($row) echo $row[8]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Wasser</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_wasser" value="<?php if($row) echo $row[9]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Erde</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_erde" value="<?php if($row) echo $row[10]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Luft</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_luft" value="<?php if($row) echo $row[11]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Gesundheit</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_gesundheit" value="<?php if($row) echo $row[12]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Energie</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_energie" value="<?php if($row) echo $row[13]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Beschreibung</td>
+				<td><textarea id="allg_info_eingabe_text" style="height:80px; width:300;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[14]; ?></textarea></td>
+			</tr>
+			<tr>
+				<td>Typ</td>
+				<td>
+					<?php
+					if($typen = get_typen_titel())
+					{
+						?>
+						<select name="npc_typ">
+						<?php
+						while($typ = $typen->fetch_array(MYSQLI_NUM))
+						{
+							if($row[15] != $typ[0]){
+								echo "<option value='".$typ[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$typ[0]."</option>";
+							} else {
+								echo "<option value='".$typ[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$typ[0]."</option>";
+							}
+						}
+						?>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Typen.";
+					}
+					?>
+				</td>
+			</tr>
+		</table>
+		<br>
 		<?php
 	}
 ?>

@@ -73,6 +73,37 @@ function get_spalten($tabellenname)
 #*************************************************** BILDER ****************************************************
 #***************************************************************************************************************
 
+#----------------------------------------------- Bildernamen ----------------------------------------------
+#	-> pfad (str) - nur relevante Bilder
+#	Array mit Bilder-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+
+function get_bilder_titel($pfad)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	$pfad = $pfad."%";
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, titel
+			FROM 	bilder
+			WHERE	pfad like ?
+				OR id = 1
+			ORDER BY titel")){
+		$stmt->bind_param('s', $pfad);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_bilder_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
 #----------------------------------------------- Check bilder.pfad (pfad) ----------------------------------------------
 # 	-> bilder.pfad (str)
 #	true/false
@@ -137,6 +168,37 @@ function insert_bilder($bilderdaten)
 	close_connection($connect_db_dvg);
 	return $anz_ok;
 }
+
+
+#*****************************************************************************************************************
+#*************************************************** ELEMENTE ****************************************************
+#*****************************************************************************************************************
+
+#----------------------------------------------- Elementenamen ----------------------------------------------
+#	Array mit Bilder-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+
+function get_elemente_titel()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, titel
+			FROM 	element
+			ORDER BY titel")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_elemente_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 
 #***************************************************************************************************************
 #*************************************************** GATTUNG ***************************************************
@@ -246,6 +308,31 @@ function suche_npcs($titel, $familie, $beschreibung, $typ)
 		return false;
 	}
 }
+
+
+#----------------------------------------------- Typennamen ----------------------------------------------
+#	<- titel (str)
+
+function get_typen_titel()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT	typ
+			FROM 	npc
+			ORDER BY typ")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_typen_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 
 
 #***************************************************************************************************************

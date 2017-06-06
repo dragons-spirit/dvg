@@ -30,6 +30,23 @@ input[type=button]
 	min-width:75px;
 }
 
+#allg_info_eingabe
+{
+	min-width:160px;
+	text-align:right;
+}
+
+#allg_info_eingabe_text
+{
+	min-width:160px;
+	text-align:left;
+}
+
+select
+{
+	min-width:160px;
+} 
+
 #rahmen
 {
     position: absolute;
