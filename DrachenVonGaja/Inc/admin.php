@@ -92,13 +92,13 @@
 						echo $anz_ok."/".$anz_gesamt." Bildern erfolgreich eingefügt<br>";
 						if($anz_ok < $anz_gesamt) echo "Bitte prüfen!<br>";
 						echo "<br>";
-						zeigeZurueckButton();
+						zurueckButton();
 						break;
 					
 					# NPCs anlegen			
 					case "NPCsAnlegen":
 						echo "# Lege neue NPCs an<br>"; 
-						zeigeZurueckButton();
+						zurueckButton();
 						break;
 										
 					# NPCs ändern
@@ -168,7 +168,7 @@
 						} else {
 							echo "<br>Kein NPC gefunden.<br>";
 						}
-						zeigeZurueckButton();
+						zurueckButton();
 						break;
 					
 					# NPCs anlegen			
@@ -183,38 +183,51 @@
 							if($npc = get_npc_by_id($npc_id)){
 								$row = $npc->fetch_array(MYSQLI_NUM);
 						}}
-						
-						zeigeEingabemaskeNPC($row, $npc_id);
 						?>
-						
+						<table> <!-- border="1pt solid white" -->
+							<tr>
+								<td>
+									<?php eingabemaskeNPC($row, $npc_id); ?>
+								</td>
+								<td valign="top" style="padding-top:50px;">
+									<img src="<?php echo get_bild_zu_id($row[1]) ?>" width="75px" alt=""/><br>
+								</td>
+							<tr>
+						</table>
 						<?php
-						zeigeZurueckButton("NPCsSuchen");
+						updateButton("NPCaendern",$npc_id);
+						zurueckButton("NPCsSuchen");
+						echo "<br><br>";
 						break;
 					
 					case "NPCaendern":
 						$npc_id = $button_value;
-						print_r($_POST);
-						echo "<br>";
-						
+						$npc_daten = daten_aus_post("npc");
 						if($npc_id > 0){
-							echo "NPC ändern";
+							if (updateNPC($npc_daten))
+								echo "NPC erfolgreich geändert";
+							else
+								echo "Fehler beim Ändern des NPCs";
 						} else {
-							echo "NPC hinzufügen";
+							if (insertNPC($npc_daten))
+								echo "NPC erfolgreich hinzugefügt";
+							else
+								echo "Fehler beim Hinzufügen des NPCs";
 						}
-						
-						zeigeZurueckButton("NPCaendern");
+						echo "<br><br>";
+						zurueckButton("NPCsSuchen");
 						break;
 					
 					# Items anlegen					
 					case "ItemsAnlegen":
 						echo "# Lege neue Items an<br>"; 
-						zeigeZurueckButton();
+						zurueckButton();
 						break;
 					
 					# Items ändern			
 					case "ItemsAendern":
 						echo "# Ändere Items<br>"; 
-						zeigeZurueckButton();
+						zurueckButton();
 						break;
 					
 					default:
@@ -245,12 +258,15 @@
 	</body>
 </html>
 
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
+<!----------------------------------------------------------------------- Weitere Funktionen ----------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------------------------------------>
 <?php
 
 	# Blendet einen Button mit Aufschrift "zurück" ein.
 	# Eine Betätigung lädt lediglich die Startseite des Adminbereiches neu.
 	# Standardausrichtung ist links. Eine individuelle Ausrichtung kann jedoch als Parameter übergeben werden.
-	function zeigeZurueckButton($ziel = "zurueck")
+	function zurueckButton($ziel = "zurueck")
 	{
 		?>
 		<input type="button" name="zurueck" value="zurück" style="float:left;" onclick="set_button_submit('<?php echo $ziel ?>');">
@@ -258,14 +274,13 @@
 	}
 	
 	
-	
-	function zeigeEingabemaskeNPC($row, $npc_id)
+	function eingabemaskeNPC($row, $npc_id)
 	{
 		?>
 		<table>
 			<colgroup>
-				<col width="100px">
-				<col width="300px">
+				<col width="80px" valign="top">
+				<col width="200px">
 			</colgroup>
 			<tr>
 				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
@@ -275,7 +290,7 @@
 			</tr>
 			<tr>
 				<td>Bild</td>
-				<td>
+				<td align="top">
 					<?php
 					if($bilder = get_bilder_titel("../Bilder/NPC/"))
 					{
@@ -291,8 +306,8 @@
 							}
 						}
 						?>
-						</select> 
-					<?php
+						</select>
+						<?php
 					} else {
 						echo "Fehler beim Laden von Bildern.";
 					}
@@ -335,7 +350,7 @@
 			</tr>
 			<tr>
 				<td>Stärke</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_starke" value="<?php if($row) echo $row[5]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_staerke" value="<?php if($row) echo $row[5]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Intelligenz</td>
@@ -371,7 +386,7 @@
 			</tr>
 			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:80px; width:300;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[14]; ?></textarea></td>
+				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[14]; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>Typ</td>
@@ -401,6 +416,64 @@
 			</tr>
 		</table>
 		<br>
+		<?php
+	}
+	
+	function daten_aus_post($daten_art)
+	{
+		switch($daten_art)
+		{
+			# NPC-Daten aus $_POST auslesen und in separates Array schreiben
+			case "npc":
+				$daten = array(
+					"npc_id" => $_POST["npc_id"],
+					"npc_bild" => $_POST["npc_bild"],
+					"npc_element" => $_POST["npc_element"]);
+				if($_POST["npc_titel"] != "") $daten["npc_titel"] = $_POST["npc_titel"];
+				else $daten["npc_titel"] = "---ohne---";
+				if($_POST["npc_familie"] != "") $daten["npc_familie"] = $_POST["npc_familie"];
+				else $daten["npc_familie"] = "---ohne---";
+				if($_POST["npc_staerke"] != "") $daten["npc_staerke"] = $_POST["npc_staerke"];
+				else $daten["npc_staerke"] = "0";
+				if($_POST["npc_intelligenz"] != "") $daten["npc_intelligenz"] = $_POST["npc_intelligenz"];
+				else $daten["npc_intelligenz"] = "0";
+				if($_POST["npc_magie"] != "") $daten["npc_magie"] = $_POST["npc_magie"];
+				else $daten["npc_magie"] = "0";
+				if($_POST["npc_feuer"] != "") $daten["npc_feuer"] = $_POST["npc_feuer"];
+				else $daten["npc_feuer"] = "0";
+				if($_POST["npc_wasser"] != "") $daten["npc_wasser"] = $_POST["npc_wasser"];
+				else $daten["npc_wasser"] = "0";
+				if($_POST["npc_erde"] != "") $daten["npc_erde"] = $_POST["npc_erde"];
+				else $daten["npc_erde"] = "0";
+				if($_POST["npc_luft"] != "") $daten["npc_luft"] = $_POST["npc_luft"];
+				else $daten["npc_luft"] = "0";
+				if($_POST["npc_gesundheit"] != "") $daten["npc_gesundheit"] = $_POST["npc_gesundheit"];
+				else $daten["npc_gesundheit"] = "1";
+				if($_POST["npc_energie"] != "") $daten["npc_energie"] = $_POST["npc_energie"];
+				else $daten["npc_energie"] = "1";
+				if($_POST["npc_beschreibung"] != "") $daten["npc_beschreibung"] = $_POST["npc_beschreibung"];
+				else $daten["npc_beschreibung"] = "---ohne---";
+				$daten["npc_typ"] = $_POST["npc_typ"];
+				return $daten;
+			
+			####################
+			# ToDo
+			####################
+			# Item-Daten aus $_POST auslesen und in separates Array schreiben
+			case "item":
+				return false;
+			
+			# Keine Ahnung
+			default:
+				return false;
+		}
+	}
+	
+	
+	function updateButton($topic, $id)
+	{
+		?>
+		<input type="button" name="update" value="Hinzufügen/Ändern" style="float:left;" onclick="set_button_submit('<?php echo $topic ?>','<?php echo $id ?>');">
 		<?php
 	}
 ?>
