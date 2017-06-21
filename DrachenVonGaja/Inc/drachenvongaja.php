@@ -424,14 +424,15 @@
 					</table>
 					
 					
-					<a href="javascript:Elemente()" >Elemente</a>
 					
 					
-					<!-- Anzeige für Fähigkeiten -->
+					
+					
+					
+				</div>
+				<!-- Anzeige für Fähigkeiten -->
 					<div id="elemente"><img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" /></div>
-					
-				</div>	
-				
+				<a href="javascript:Elemente()" >Elemente</a>
 				
 				<div id="aktionenrahmen">
 					<!-- Anzeige Aktionen mit Clientzeit, Animation, Ladebalken -->

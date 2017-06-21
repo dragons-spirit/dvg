@@ -111,12 +111,12 @@ input[type=button]
 #elemente
 {
     position:absolute;
-    right:50%;
-    top:100px;
+    left:10px;
+    top:300px;
     width:200px;
     height:200px;
     display:none;
-	bottom:0px;
+    bottom:0px;
 }
 
 #aktionenrahmen
