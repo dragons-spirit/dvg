@@ -178,19 +178,26 @@
 						<!-- Standardaktion - Seite neu laden mit selber NPC_Id -->
 						<script>set_button_submit('NPCaendern',$npc_id);</script>
 						<?php
-						$row = false;
+						$npc = false;
 						if($npc_id > 0){
-							if($npc = get_npc_by_id($npc_id)){
-								$row = $npc->fetch_array(MYSQLI_NUM);
+							if($npc_result = get_npc_by_id($npc_id)){
+								$npc = $npc_result->fetch_array(MYSQLI_NUM);
 						}}
+						$npc_gebiete = false;
+						if($npc_id > 0){
+							$npc_gebiete = get_npc_gebiete($npc_id);
+						}
 						?>
 						<table> <!-- border="1pt solid white" -->
 							<tr>
 								<td>
-									<?php eingabemaskeNPC($row, $npc_id); ?>
+									<?php eingabemaskeNPC($npc, $npc_id); ?>
 								</td>
 								<td valign="top" style="padding-top:50px;">
-									<img src="<?php echo get_bild_zu_id($row[1]) ?>" width="75px" alt=""/><br>
+									<img src="<?php echo get_bild_zu_id($npc[1]) ?>" width="75px" alt=""/><br>
+								</td>
+								<td valign="top">
+									<?php eingabemaskeNPCgebiete($npc_gebiete, $npc_id); ?>
 								</td>
 							<tr>
 						</table>
@@ -284,6 +291,7 @@
 			</colgroup>
 			<tr>
 				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
+			</tr>
 			<tr>
 				<td>Id</td>
 				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="npc_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
@@ -418,6 +426,88 @@
 		<br>
 		<?php
 	}
+	
+	# $npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM);
+	function eingabemaskeNPCgebiete($npc_gebiete, $npc_id)
+	{
+		?>
+		<table>
+			<tr>
+				<td colspan="2" align="left"><h2>Zu finden in</h2></td>
+			</tr>
+			<tr>
+				<th>Gebiet</th>
+				<th>Wahrscheinlichkeit</th>
+			</tr>
+			<?php
+			while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
+			{
+				?>
+				<tr>
+					<td>
+						<?php
+						if($gebiete = get_gebiete_titel())
+						{
+							?>
+							<select name="npc_gebiet_auswahl">
+							<?php
+							while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
+							{
+								if($npc_gebiet[0] != $gebiet[0]){
+									echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
+								} else {
+									echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$gebiet[1]."</option>";
+								}
+							}
+							?>
+							</select> 
+						<?php
+						} else {
+							echo "Fehler beim Laden von Gebieten.";
+						}
+						?>
+					</td>
+					<td>
+						<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="<?php echo $npc_gebiet[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+				<tr>
+					<td>
+						Weiteres Gebiet hinzufügen<br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php
+						if($gebiete = get_gebiete_titel())
+						{
+							?>
+							<select name="npc_gebiet_auswahl">
+							<?php
+							while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
+							{
+								echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
+							}
+							?>
+							</select> 
+						<?php
+						} else {
+							echo "Fehler beim Laden von Gebieten.";
+						}
+						?>
+					</td>
+					<td>
+						<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+					</td>
+				</tr>
+			</table>
+		<br>
+		<?php
+	}
+	
 	
 	function daten_aus_post($daten_art)
 	{

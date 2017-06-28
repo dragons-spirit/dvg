@@ -203,7 +203,7 @@ function insert_bilder($bilderdaten)
 #*****************************************************************************************************************
 
 #----------------------------------------------- Elementenamen ----------------------------------------------
-#	Array mit Bilder-Daten [Position]
+#	Array mit Element-Daten [Position]
 #	<- [0] id
 #	<- [1] titel
 
@@ -237,6 +237,31 @@ function get_elemente_titel()
 #***************************************************************************************************************
 #*************************************************** GEBIET ****************************************************
 #***************************************************************************************************************
+
+#----------------------------------------------- Gebietsnamen ----------------------------------------------
+#	Array mit Gebiet-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+
+function get_gebiete_titel()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, titel
+			FROM 	gebiet
+			ORDER BY titel")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_gebiet_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
 
 
 
@@ -332,6 +357,35 @@ function suche_npcs($titel, $familie, $beschreibung, $typ)
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in suche_npcs()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT npc.* (gebiete) -----------------------------------
+# 	-> npc_id (int)
+#	<- gebiet_id (int)
+#	<- wahrscheinlichkeit (int)
+
+function get_npc_gebiete($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	gebiet_id,
+					wahrscheinlichkeit
+			FROM 	npc_gebiet
+			WHERE 	npc_id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_gebiete()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}

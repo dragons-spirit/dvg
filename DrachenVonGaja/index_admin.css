@@ -42,6 +42,12 @@ input[type=button]
 	text-align:left;
 }
 
+#eingabe_gebiete_wkt
+{
+	width:50px;
+	text-align:right;
+}
+
 select
 {
 	min-width:160px;

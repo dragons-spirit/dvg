@@ -3,10 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 06. Jun 2017 um 22:22
+-- Erstellungszeit: 28. Jun 2017 um 20:42
 -- Server-Version: 10.1.21-MariaDB
 -- PHP-Version: 5.6.30
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -113,7 +114,10 @@ CREATE TABLE `aktion_spieler` (
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
 (1, 26, 10, '2017-05-27 15:03:29', '2017-05-27 15:03:39', 'gestartet', 9, 0),
 (2, 19, 2, '2017-05-30 18:56:18', '2017-05-30 18:56:23', 'abgeschlossen', 0, 0),
-(3, 19, 7, '2017-05-30 18:56:29', '2017-05-30 18:56:34', 'abgeschlossen', 6, 0);
+(3, 19, 7, '2017-05-30 18:56:29', '2017-05-30 18:56:34', 'abgeschlossen', 6, 0),
+(4, 19, 2, '2017-06-14 17:10:18', '2017-06-14 17:10:23', 'abgeschlossen', 0, 0),
+(5, 19, 2, '2017-06-14 17:10:29', '2017-06-14 17:10:34', 'abgeschlossen', 0, 0),
+(6, 19, 6, '2017-06-14 17:10:46', '2017-06-14 17:10:51', 'abgeschlossen', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -358,7 +362,8 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\'');
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
+(12, 1, '---ohne---', '---ohne---');
 
 -- --------------------------------------------------------
 
@@ -456,8 +461,9 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (1, 3, 26, 3),
 (2, 6, 26, 1),
 (3, 7, 26, 1),
-(4, 1, 19, 3),
-(5, 2, 19, 1);
+(4, 1, 19, 4),
+(5, 2, 19, 1),
+(6, 8, 19, 1);
 
 -- --------------------------------------------------------
 
@@ -522,11 +528,12 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 (1, 1, 2, 'Wymar (Name von der Redaktion geändert)', 'Drache', 75, 100, 50, 100, 20, 20, 20, 1000, 100, 'Wymar ist einer der ältesten bekannten Drachen und wird für seine Weisheit hoch geschätzt. Ihr tut gut daran, seinen Ratschlägen aufs genauste zu folgen.', 'ansprechbar'),
 (2, 1, 4, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. ', 'angreifbar'),
 (3, 1, 1, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Einen Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.', 'angreifbar'),
-(4, 1, 4, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
-(5, 1, 4, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
+(4, 77, 4, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
+(5, 77, 4, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
 (6, 1, 3, 'Apfelbaum', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Ein stattlicher Apfelbaum mit einer Menge Äpfeln in der Krone. Verlockend!', 'sammelbar'),
 (7, 95, 4, 'Steinpilz', 'Pilz', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Ein Pilz mit breitem Stiel und einem hellbraunen Hut. Das müsste ein Steinpilz sein.', 'sammelbar'),
-(8, 84, 4, 'Knoblauch', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Eine schöne Knoblauchpflanze. Der unterirdische Teil ist ein wahrer Gaumenschmaus für Kenner. Der oberirdische Teil hingegen ist ein Haufen unnützes Grünzeug.', 'sammelbar');
+(8, 84, 4, 'Knoblauch', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Eine schöne Knoblauchpflanze. Der unterirdische Teil ist ein wahrer Gaumenschmaus für Kenner. Der oberirdische Teil hingegen ist ein Haufen unnützes Grünzeug.', 'sammelbar'),
+(10, 45, 3, 'Eisbär', 'Bär', 100, 75, 0, 0, 20, 10, 0, 500, 500, 'Ein kräftiger Bär mit großen Pranken und einem schneeweißen Pelz. Da könnte man sich bestimmt schön hinein kuscheln, wenn er nicht so wehrhaft wäre.', 'angreifbar');
 
 -- --------------------------------------------------------
 
@@ -971,7 +978,7 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
@@ -1001,7 +1008,7 @@ ALTER TABLE `gattung`
 -- AUTO_INCREMENT für Tabelle `gebiet`
 --
 ALTER TABLE `gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT für Tabelle `gebiet_gebiet`
 --
@@ -1016,7 +1023,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -1026,7 +1033,7 @@ ALTER TABLE `level`
 -- AUTO_INCREMENT für Tabelle `npc`
 --
 ALTER TABLE `npc`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT für Tabelle `npc_gebiet`
 --
@@ -1187,6 +1194,7 @@ ALTER TABLE `zauber`
 ALTER TABLE `zauber_spieler`
   ADD CONSTRAINT `FK_spieler_id_zauber_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_zauber_id_zauber_spieler` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
