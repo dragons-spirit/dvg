@@ -2,11 +2,12 @@
 
 <?php
 	session_start();
+	include("Inc/funktionen_system.php");
+	$_SESSION['browser'] = get_browser_name($_SERVER['HTTP_USER_AGENT']);
 ?>
 
 <html>
-    
-    <head>
+	<head>
 		<meta http-equiv="Content-Language" content="de">
 		<meta http-equiv="Content-Script-Type" content="text/javascript">
 		<meta http-equiv="Content-Style-Type" content="text/css">
@@ -20,32 +21,39 @@
 		<script src="index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 			<title>Drachen von Gaja</title>
+		<?php
+		if($_SESSION['browser'] == "Opera"){
+		?>
+			<style>
+				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+			</style>
+		<?php
+		}
+		?>
+		
     </head>
     
     <body>
         <div id="rahmen">
 			<div id="header">
-				<h1 align="center">Drachen von Gaja</h1>  
+				<h1 align="center" style="font-family:EG Dragon Caps;">Drachen von Gaja</h1>  
 			</div>
 			
 			<div id="anmeldung" style="overflow:scroll;">
-                            
-                                
+
 <?php
                 include("Inc/navi.inc.php");
 				include("Inc/db_funktionen_login.php");
 				include("Inc/zusammenfassung.inc.php");
 ?>	
 			</div>
-                
-           	<div id="footer">
+			
+			<div id="footer">
 				<h3 align="center">Impressum</h3>
- 
-    <p align="center" style="background-color:black">Grafik & Progammierung: Tina Schmidtbauer || Programmierung & Datenbankverwaltung: Hendrik Matthes</p>
-
-    
-
-
+ 				<p align="center" style="background-color:black">Grafik & Progammierung: Tina Schmidtbauer || Programmierung & Datenbankverwaltung: Hendrik Matthes</p>
 			</div>
         </div>
     </body>

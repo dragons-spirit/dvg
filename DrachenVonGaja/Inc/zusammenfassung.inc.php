@@ -167,8 +167,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 	{
 		$_SESSION['letzte_seite'] = "login";
 ?>
-		Benutzername:<input type="text" name="login_user" size="15">
-		Passwort:<input type="password" name="login_pswd" size="15">
+		Benutzername: <input type="text" name="login_user" size="15">
+		Passwort: <input type="password" name="login_pswd" size="15">
 		<input type="submit" name="button_login" value="anmelden">
 		<br />
 		<br />

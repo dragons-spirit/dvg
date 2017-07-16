@@ -1,6 +1,8 @@
 <!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"-->
 
-
+<?php
+	session_start();
+?>
 
 <html>
 	
@@ -17,14 +19,25 @@
 		<link rel="stylesheet" type="text/css" href="../index.css">
 		<script src="index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-		<title>Drachen von Gaja</title>		
+		<title>Drachen von Gaja</title>
+		<?php
+		if($_SESSION['browser'] == "Opera"){
+		?>
+			<style>
+				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+			</style>
+		<?php
+		}
+		?>
+		
 	</head>
 	
 	<body>
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
-			session_start();
-			
 			include("navi.inc.php");
 			include("db_funktionen.php");
 			

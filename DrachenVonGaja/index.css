@@ -3,9 +3,9 @@ body
 {
     margin:auto;
     min-height:30%;
-    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
-    font-size:smaller;
-    color:white;
+	font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+	font-size:smaller;
+	color:white;
 }
 
 input[type=submit]
@@ -14,7 +14,7 @@ input[type=submit]
     color:white;
     background-color:black;
     line-height:normal;
-    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
 	font-size:smaller;
     height: 20px;
 }
@@ -25,7 +25,7 @@ input[type=button]
     color:white;
     background-color:black;
     line-height:normal;
-    font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
 	font-size:smaller;
     height: 20px;
 }
