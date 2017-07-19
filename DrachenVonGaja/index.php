@@ -39,7 +39,7 @@
     <body>
         <div id="rahmen">
 			<div id="header">
-				<h1 align="center" style="font-family:EG Dragon Caps;">Drachen von Gaja</h1>  
+				<h1 align="center" style="font-family:Elementary Gothic,EG Dragon Caps;">Drachen von Gaja</h1>  
 			</div>
 			
 			<div id="anmeldung" style="overflow:scroll;">

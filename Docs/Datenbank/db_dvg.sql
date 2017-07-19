@@ -26,6 +26,8 @@ SET time_zone = "+00:00";
 --
 -- Tabellenstruktur für Tabelle `account`
 --
+DROP TABLE `account`, `aktion`, `bilder`, `element`, `faehigkeiten`, `gattung`, `gebiet`, `items`, `level`, `npc`, `quest`, `spieler`, `zauber`, `zauberart`;
+
 
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
