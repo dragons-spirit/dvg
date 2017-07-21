@@ -432,46 +432,51 @@
 	{
 		?>
 		<table>
-			<tr>
-				<td colspan="2" align="left"><h2>Zu finden in</h2></td>
-			</tr>
-			<tr>
-				<th>Gebiet</th>
-				<th>Wahrscheinlichkeit</th>
-			</tr>
 			<?php
-			while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
+			if($npc_gebiete)
 			{
 				?>
 				<tr>
-					<td>
-						<?php
-						if($gebiete = get_gebiete_titel())
-						{
-							?>
-							<select name="npc_gebiet_auswahl">
-							<?php
-							while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
-							{
-								if($npc_gebiet[0] != $gebiet[0]){
-									echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
-								} else {
-									echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$gebiet[1]."</option>";
-								}
-							}
-							?>
-							</select> 
-						<?php
-						} else {
-							echo "Fehler beim Laden von Gebieten.";
-						}
-						?>
-					</td>
-					<td>
-						<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="<?php echo $npc_gebiet[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
-					</td>
+					<td colspan="2" align="left"><h2>Zu finden in</h2></td>
+				</tr>
+				<tr>
+					<th>Gebiet</th>
+					<th>Wahrscheinlichkeit</th>
 				</tr>
 				<?php
+				while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
+				{
+					?>
+					<tr>
+						<td>
+							<?php
+							if($gebiete = get_gebiete_titel())
+							{
+								?>
+								<select name="npc_gebiet_auswahl">
+								<?php
+								while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
+								{
+									if($npc_gebiet[0] != $gebiet[0]){
+										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
+									} else {
+										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$gebiet[1]."</option>";
+									}
+								}
+								?>
+								</select> 
+							<?php
+							} else {
+								echo "Fehler beim Laden von Gebieten.";
+							}
+							?>
+						</td>
+						<td>
+							<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="<?php echo $npc_gebiet[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+						</td>
+					</tr>
+					<?php
+				}
 			}
 			?>
 				<tr>
