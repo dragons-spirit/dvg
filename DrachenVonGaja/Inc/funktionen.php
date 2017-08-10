@@ -68,8 +68,8 @@ function check_wkt($wkt)
 function zeige_hintergrundbild($gebiet_id)
 {
 	?>
-	<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
-		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="60%" height="60%" alt=""/><br>
+	<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:14pt;">
+		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="100%" height="60%" alt=""/><br>
 		<?php echo get_gebiet($gebiet_id)[3]; ?>
 	</p> 
 	<?php
@@ -78,24 +78,18 @@ function zeige_hintergrundbild($gebiet_id)
 
 function zeige_gebietslinks($gebiet_id)
 {
-	?>
-	<div id="zielgebiete">
-		<?php
-			if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
-			{		
-				while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
-				{
-		?>			
-				<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
-		<?php
-				}
-			}
-			else{
-				echo "<br />\nKeine Zielgebiete gefunden.<br />\n";
-			}
-		?>
-	</div>
+	if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
+	{		
+		while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
+		{
+	?>			
+		<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
 	<?php
+		}
+	}
+	else{
+		echo "<br />\nKeine Zielgebiete gefunden.<br />\n";
+	}
 }
 
 
@@ -106,7 +100,7 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 		while($row = $npc->fetch_array(MYSQLI_NUM))
 		{
 			?>
-			<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:16pt;">
+			<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:14pt;">
 				<?php echo $text1 . $row[1] . $text2; ?>
 			</p>
 			<?php

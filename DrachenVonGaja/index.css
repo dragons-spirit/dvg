@@ -1,6 +1,5 @@
-
-body
-{
+/* Allgemeine Definitionen */
+body{
     margin:auto;
     min-height:30%;
 	font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
@@ -8,8 +7,7 @@ body
 	color:white;
 }
 
-input[type=submit]
-{
+input[type=submit]{
     cursor:pointer;
     color:white;
     background-color:black;
@@ -19,8 +17,7 @@ input[type=submit]
     height: 20px;
 }
 
-input[type=button]
-{
+input[type=button]{
     cursor:pointer;
     color:white;
     background-color:black;
@@ -30,19 +27,9 @@ input[type=button]
     height: 20px;
 }
 
-#rahmen
-{
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width:100%;
-    height:100%;
-    min-height:890px;
-    min-width:1250px;
-}
 
-#header
-{
+/* Divs Anmeldung */
+#header{
     position:absolute;
     top:0px;
     left:0px;
@@ -52,9 +39,17 @@ input[type=button]
     background-color:#000000;
     color:#ffffff;
 }
-
-#anmeldung
-{
+#footer{
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    height:56px;
+    width:100%;
+    background-color:#000000;
+    color:#ffffff;
+}
+#anmeldung{
     position:absolute;
     top:100px;
     left:0px;
@@ -65,20 +60,17 @@ input[type=button]
 }
 
 
-#mitte
-{
-    position:absolute;
-    top:0px;
-    left:0px;
-    right:0px;
-    /*height:600px;*/
-    height:100%;
+/* Rahmen-Divs für Spieloberfläche */
+#rahmen{
+    position: absolute;
+    top: 0px;
+    left: 0px;
     width:100%;
-    background-color:black;
+    height:100%;
+    min-height:890px;
+    min-width:1250px;
 }
-
-#obere_Leiste
-{
+#obere_Leiste{
     position:absolute;
     top:10px;
     left:0px;
@@ -88,47 +80,17 @@ input[type=button]
     background-color:darkgrey;
     z-index: 1;
 }
-
-#zielgebiete
-{
+#mitte{
     position:absolute;
-    left:10px;
-    top:200px;
-    width:50px;
-    height:100px;
-    color:#ffffff;
+    top:0px;
+    left:0%;
+    right:0%;
+    /*height:600px;*/
+    height:100%;
+    width:100%;
+    background-color:black;
 }
-
-#charakter
-{
-    position:absolute;
-    right:20px;
-    top:15px;
-    width:200px;
-	z-index: 1;
-}
-
-#elemente
-{
-    position:absolute;
-    left:10px;
-    top:300px;
-    width:200px;
-    height:200px;
-    display:none;
-    bottom:0px;
-}
-
-#aktionenrahmen
-{
-	position:absolute;
-	bottom:25px;
-	right:20px;
-	width:200px;
-}
-
-#untere_Leiste
-{
+#untere_Leiste{
     position:absolute;
     bottom:-30px;
     left:0px;
@@ -138,105 +100,96 @@ input[type=button]
     z-index: 1;
 }
 
-#footer
-{
-    position:absolute;
-    bottom:0px;
-    left:0px;
-    right:0px;
-    height:56px;
-    width:100%;
-    background-color:#000000;
-    color:#ffffff;
+
+/* Rahmen-Divs für Mitte */
+#mitte_links{
+	position:absolute;
+    top:0px;
+    left:0%;
+    right:80%;
+    height:100%;
+    width:20%;
+}
+#mitte_zentral{
+	position:absolute;
+    top:0px;
+    left:20%;
+    right:20%;
+    height:100%;
+    width:60%;
+}
+#mitte_rechts{
+	position:absolute;
+    top:0px;
+    left:80%;
+    right:0%;
+    height:100%;
+    width:20%;
 }
 
-#zur_spielerauswahl
-{
+
+/* Mitte Links */
+#zur_spielerauswahl{
     position:absolute;
     top:50px;
     left:50px;
     z-index: 1;
 }
-
-
-/* Level-/Zahlensymbole */
-
-#l1
-{
-    position:absolute;
-    bottom:120px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_1.png");
+#zielgebiete{
+	position:absolute;
+	left:10px;
+	top:200px;
+	width:50px;
+	height:100px;
+	color:#ffffff;
+}
+#levelanzeige{
+	
 }
 
-#l2
-{
+
+/* Mitte Zentral */
+#hauptfenster{
+	
+}
+#elemente{
     position:absolute;
-    bottom:170px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_2.png");
+    left:10px;
+    top:300px;
+    width:200px;
+    height:200px;
+    display:none;
+    bottom:0px;
 }
 
-#l3
-{
+
+/* Mitte Rechts */
+#charakter{
     position:absolute;
-    bottom:220px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_3.png");
+    left:20px;
+    top:15px;
+    /*width:200px;*/
+	z-index: 1;
+}
+#spielmenü{
+	position:absolute;
+	left:20px;
+	top:40%;
+}
+#aktionenrahmen{
+	position:absolute;
+	bottom:25px;
+	left:20px;
+	/*width:200px;*/
 }
 
-#l4
-{
-    position:absolute;
-    bottom:270px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_4.png");
-}
 
-#l5
-{
-    position:absolute;
-    bottom:320px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_5.png");
-    
-}
 
-#l6
-{
-    position:absolute;
-    bottom:370px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_6.png");
-    background-repeat: no-repeat;
-}
 
-#l7
-{
-    position:absolute;
-    bottom:420px;
-    left:5px;
-    width:50px;
-    height:50px;
-    background-image: url("./Bilder/zahl_7.png");
-}
+/* Einzel-Divs */
 
 /*Gebietsverlinkungsbildchen*/
-
-#sumpf
-{
+#sumpf{
   position:absolute;
   margin-top:11%;
   float:left;
@@ -244,8 +197,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#vulkan
-{
+#vulkan{
   position:absolute;
   margin-top:12%;
   float:left;
@@ -253,8 +205,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#eissee
-{
+#eissee{
   position:absolute;
   margin-top:13%;
   float:left;
@@ -262,8 +213,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#dschungel
-{
+#dschungel{
   position:absolute;
   margin-top:14%;
   float:left;
@@ -271,8 +221,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#klippen
-{
+#klippen{
   position:absolute;
   margin-top:15%;
   float:left;
@@ -280,8 +229,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#kristall
-{
+#kristall{
   position:absolute;
   margin-top:16%;
   float:left;
@@ -289,8 +237,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#wueste
-{
+#wueste{
   position:absolute;
   margin-top:17%;
   float:left;
@@ -298,8 +245,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#mammut
-{
+#mammut{
   position:absolute;
   margin-top:18%;
   float:left;
@@ -307,9 +253,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-
-#wald
-{
+#wald{
   position:absolute;
   margin-top:19%;
   float:left;
@@ -317,8 +261,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#oase
-{
+#oase{
   position:absolute;
   margin-top:20%;
   float:left;
@@ -326,8 +269,7 @@ input[type=button]
   height:25px;
   color:white;
 }
-#steppe
-{
+#steppe{
   position:absolute;
   margin-top:21%;
   float:left;
@@ -336,6 +278,68 @@ input[type=button]
   color:white;
 }
 
+
+/* Level-/Zahlensymbole */
+#l1{
+	position:absolute;
+	bottom:120px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_1.png");
+}
+#l2{
+	position:absolute;
+	bottom:170px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_2.png");
+}
+#l3{
+	position:absolute;
+	bottom:220px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_3.png");
+}
+#l4{
+	position:absolute;
+	bottom:270px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_4.png");
+}
+#l5{
+	position:absolute;
+	bottom:320px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_5.png");
+	
+}
+#l6{
+	position:absolute;
+	bottom:370px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_6.png");
+	background-repeat: no-repeat;
+}
+#l7{
+	position:absolute;
+	bottom:420px;
+	left:5px;
+	width:50px;
+	height:50px;
+	background-image: url("./Bilder/zahl_7.png");
+}
+
+
 /*Ladebalken*/
 #laden{
 	width: 200px;
@@ -343,7 +347,6 @@ input[type=button]
 	border: 1px solid black;
 	bottom:0px;
 }
-
 #balken{
 	width: 200px;
 	height: 20px;
@@ -351,7 +354,6 @@ input[type=button]
 	background: darkred;
 	bottom:0px;
 }
-
 #prozent{
 	width: 200px;
 	text-align: center;
@@ -364,6 +366,7 @@ input[type=button]
 	display: none;
 	background: darkred;
 }
+
 
 /*Aktion Status Spieler*/
 #aktion_status_wartend{
