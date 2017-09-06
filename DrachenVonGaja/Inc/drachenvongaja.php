@@ -362,12 +362,19 @@
 							}
 						}
 						?>
+						
+						<!-- Anzeige des Spielmenüs -->
+					<div id="spielmenü">
+						
+							<div id="me1" style="background:url(./../Bilder/feuerbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuer Speien"></div>
+							<div id="me2" style="background:url(./../Bilder/flugbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_fliegen" value="Fliegen"></div>
+							<div id="me3" style="background:url(./../Bilder/erkundenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="me4" style="background:url(./../Bilder/gepäckbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_inventar" value="Gepäck betrachten"></div>
+							<div id="me5" style="background:url(./../Bilder/elementbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							
+					</div>
 					</div>
 					
-					<!-- Anzeige für Fähigkeiten -->
-					<div id="elemente">
-						<img src="../Bilder/Erdzauber.svg" alt="Elemente" width="200%" />
-					</div>
 					
 				</div>
 				
@@ -462,26 +469,7 @@
 						</table>
 					</div>
 					
-					<!-- Anzeige des Spielmenüs -->
-					<div id="spielmenü">
-						<table>
-							<tr>
-								<td><img src="../Bilder/feuerbutton.png" alt="feuerbutton" width="100%"/></td>
-							</tr>
-							<tr>
-								<td><img src="../Bilder/flugbutton.png" alt="flugbutton" width="100%"/></td>
-							</tr>
-							<tr>
-								<td><input type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></td>
-							</tr>
-							<tr>
-								<td><input type="submit" name="button_inventar" value="Gepäck betrachten"></td>
-							</tr>
-							<tr>
-								<td><a href="javascript:Elemente()" >Elemente</a></td>
-							</tr>
-						</table>
-					</div>
+					
 									
 					<!-- Anzeige für laufende Aktionen (Clientzeit, Animation, Ladebalken) -->
 					<div id="aktionenrahmen">

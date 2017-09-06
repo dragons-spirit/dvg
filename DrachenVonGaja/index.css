@@ -2,9 +2,9 @@
 body{
     margin:auto;
     min-height:30%;
-	font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
-	font-size:smaller;
-	color:white;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-size:smaller;
+    color:white;
 }
 
 input[type=submit]{
@@ -13,7 +13,7 @@ input[type=submit]{
     background-color:black;
     line-height:normal;
     font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
-	font-size:smaller;
+    font-size:smaller;
     height: 20px;
 }
 
@@ -72,17 +72,17 @@ input[type=button]{
 }
 #obere_Leiste{
     position:absolute;
-    top:10px;
+    top:0px;
     left:0px;
     right:0px;
-    height:25px;
+    height:30px;
     width:100%;
     background-color:darkgrey;
     z-index: 1;
 }
 #mitte{
     position:absolute;
-    top:0px;
+    top:30px;
     left:0%;
     right:0%;
     /*height:600px;*/
@@ -111,8 +111,8 @@ input[type=button]{
     width:20%;
 }
 #mitte_zentral{
-	position:absolute;
-    top:0px;
+    position:absolute;
+    top:20px;
     left:20%;
     right:20%;
     height:100%;
@@ -167,18 +167,46 @@ input[type=button]{
 #charakter{
     position:absolute;
     left:20px;
-    top:15px;
+    top:100px;
     /*width:200px;*/
 	z-index: 1;
 }
-#spielmenü{
+#spielmenü
+{
 	position:absolute;
-	left:20px;
-	top:40%;
+        top:-20px;
+        left:-2%;
 }
+#me1
+{
+    position:absolute;
+}
+#me2
+{
+    position:absolute;
+    left:180px;*
+}
+#me3
+{
+    position:absolute;
+    left:360px;
+}
+#me4
+{
+    position:absolute;
+    left:540px;
+}
+#me5
+{
+    position:absolute;
+    left:720px;
+}
+
+
+
 #aktionenrahmen{
 	position:absolute;
-	bottom:25px;
+	top:450px;
 	left:20px;
 	/*width:200px;*/
 }
