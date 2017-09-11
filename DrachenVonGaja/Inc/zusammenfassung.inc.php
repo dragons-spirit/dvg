@@ -212,7 +212,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 				<tr>
 					<td><?php echo $count ?></td>
 					<td><?php echo $row[6] . "<br />\n"; ?></td>
-                    <td style="background:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); background-repeat:no-repeat;">
+                    <td style="background-image:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); background-repeat:no-repeat;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
@@ -281,10 +281,10 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		<h3 align="center">Auswahl des Elementes</h3>
 		<table align="center">
 			<tr>
-				<td><input type="submit" style="background:url(./Bilder/Erdei_klein.png); height:110px; width:90px; background-repeat:no-repeat;" alt="Erdelement" name="button_erdelement" value=""></td>
-				<td><input type="submit" style="background:url(./Bilder/Wasserei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Wasserelement" name="button_wasserelement" value=""></td>
-				<td><input type="submit" style="background:url(./Bilder/Feuerei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Feuerelement" name="button_feuerelement" value=""></td>
-				<td><input type="submit" style="background:url(./Bilder/Luftei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Luftelement" name="button_luftelement" value=""></td>
+				<td><input type="submit" style="background-image:url(./Bilder/Erdei_klein.png); height:110px; width:90px; background-repeat:no-repeat;" alt="Erdelement" name="button_erdelement" value=""></td>
+				<td><input type="submit" style="background-image:url(./Bilder/Wasserei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Wasserelement" name="button_wasserelement" value=""></td>
+				<td><input type="submit" style="background-image:url(./Bilder/Feuerei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Feuerelement" name="button_feuerelement" value=""></td>
+				<td><input type="submit" style="background-image:url(./Bilder/Luftei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Luftelement" name="button_luftelement" value=""></td>
 			</tr>
 			<tr>
 				<td>Beschreibung von Erdelement</td>
@@ -312,8 +312,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Dschungel<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/dschungel_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Dschungel" name="button_dschungel" value="                                             "></td>
-                <td>Kristallhöhle<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
+                <td>Dschungel<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/dschungel_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Dschungel" name="button_dschungel" value="                                             "></td>
+                <td>Kristallhöhle<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
             </tr>            
         </table>
  <?php
@@ -330,8 +330,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-				<td>Eissee<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/eissee_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Eissee" name="button_eissee" value="                                             "></td>
-				<td>Sumpf<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/sumpf_klein.jpg);width:150px; height:94px; background-repeat:no-repeat;" alt="Sumpf" name="button_sumpf" value="                                             "></td>
+				<td>Eissee<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/eissee_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Eissee" name="button_eissee" value="                                             "></td>
+				<td>Sumpf<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/sumpf_klein.jpg);width:150px; height:94px; background-repeat:no-repeat;" alt="Sumpf" name="button_sumpf" value="                                             "></td>
             </tr>
         </table>
 <?php
@@ -348,8 +348,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Vulkan<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/vulkan_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Vulkan" name="button_vulkan" value="                                      "></td>
-                <td>Wüste<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
+                <td>Vulkan<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/vulkan_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Vulkan" name="button_vulkan" value="                                      "></td>
+                <td>Wüste<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
             </tr>
         </table>
 <?php
@@ -366,8 +366,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Klippe<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/klippe_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Klippe" name="button_klippe" value="                                             "></td>
-                <td>Mammutbaum<br><input type="submit" style="background:url(./Platzhalter_gebiete/Klein/mammutbaum_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Mammutbaum" name="button_mammutbaum" value="                                             "></td>
+                <td>Klippe<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/klippe_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Klippe" name="button_klippe" value="                                             "></td>
+                <td>Mammutbaum<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/mammutbaum_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Mammutbaum" name="button_mammutbaum" value="                                             "></td>
             </tr>
         </table>
 <?php
