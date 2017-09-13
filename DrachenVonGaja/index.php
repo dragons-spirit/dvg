@@ -27,8 +27,10 @@
 			<style>
 				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input                           {outline:none;}
+                                input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+                                
 			</style>
 		<?php
 		}

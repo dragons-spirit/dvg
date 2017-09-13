@@ -7,6 +7,11 @@ body{
     color:white;
 }
 
+input
+{
+    outline:none;
+}
+
 input[type=submit]{
     cursor:pointer;
     color:white;
@@ -17,15 +22,18 @@ input[type=submit]{
     height: 20px;
 }
 
-input[type=button]{
+input[type=button]
+{
     cursor:pointer;
     color:white;
     background-color:black;
     line-height:normal;
     font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
-	font-size:smaller;
+    font-size:smaller;
     height: 20px;
 }
+
+
 
 
 /* Divs Anmeldung */

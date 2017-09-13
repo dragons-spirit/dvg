@@ -26,7 +26,8 @@
 			<style>
 				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input                           {outline:none;}
+                                input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 			</style>
 		<?php
@@ -277,7 +278,7 @@
 							}
 						} else {
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR (isset($_POST["button_elemente"])));
 							
 							######################
 							# Start von Aktionen #
@@ -353,7 +354,14 @@
 										echo "<br />\nItems für den Spieler mit id=[" . $spieler_id . "] konnten nicht abgerufen werden.<br />\n";
 									}
 								}
-							} else {
+								
+								if(isset($_POST["button_elemente"]))
+								{
+									include('Erdelemente.php');
+								}
+								
+							}
+							else {
 								if(!$aktion_starten)
 								{
 									# Hintergrundbild einblenden, wenn nichts los ist
@@ -498,7 +506,7 @@
 						?>			
 						<table border="1px" border-color="white">
 							<tr>
-								<td>
+								<td style="display:none;">
 									Clientzeit: <b id="clientzeit"></b>
 								</td>
 							</tr>
