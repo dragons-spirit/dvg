@@ -357,7 +357,7 @@
 								
 								if(isset($_POST["button_elemente"]))
 								{
-									include('Erdelemente.php');
+									include('Elemente.inc.php');
 								}
 								
 							}
