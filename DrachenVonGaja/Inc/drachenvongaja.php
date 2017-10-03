@@ -36,7 +36,7 @@
 		
 	</head>
 	
-	<body>
+	<body style="background-color:black;">
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 			include("navi.inc.php");
@@ -426,11 +426,12 @@
 					<div id="charakter">
 						<table style="margin-top:20px;">
 							<tr>
-								<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" height="120px" alt="Spielerbild"/></td>
+								<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
 							</tr>
+							<tr><td><br/>    </td></tr>
 							<tr>
 								<td><p align="left">Geschlecht</p></td>
 								<td><p align="left">

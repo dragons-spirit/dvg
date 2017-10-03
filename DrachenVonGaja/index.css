@@ -37,7 +37,8 @@ input[type=button]
 
 
 /* Divs Anmeldung */
-#header{
+#header
+{
     position:absolute;
     top:0px;
     left:0px;
@@ -47,7 +48,8 @@ input[type=button]
     background-color:#000000;
     color:#ffffff;
 }
-#footer{
+#footer
+{
     position:absolute;
     bottom:0px;
     left:0px;
@@ -57,7 +59,8 @@ input[type=button]
     background-color:#000000;
     color:#ffffff;
 }
-#anmeldung{
+#anmeldung
+{
     position:absolute;
     top:100px;
     left:0px;
@@ -69,16 +72,19 @@ input[type=button]
 
 
 /* Rahmen-Divs für Spieloberfläche */
-#rahmen{
+#rahmen
+{
     position: absolute;
     top: 0px;
     left: 0px;
-    width:100%;
+    width:110%;
     height:100%;
     min-height:890px;
     min-width:1250px;
 }
-#obere_Leiste{
+#obere_Leiste
+{
+    
     position:absolute;
     top:0px;
     left:0px;
@@ -88,7 +94,8 @@ input[type=button]
     background-color:darkgrey;
     z-index: 1;
 }
-#mitte{
+#mitte
+{
     position:absolute;
     top:30px;
     left:0%;
@@ -98,9 +105,10 @@ input[type=button]
     width:100%;
     background-color:black;
 }
-#untere_Leiste{
+#untere_Leiste
+{
     position:absolute;
-    bottom:-30px;
+    bottom:-100px;
     left:0px;
     height:30px;
     width:100%;
@@ -110,15 +118,17 @@ input[type=button]
 
 
 /* Rahmen-Divs für Mitte */
-#mitte_links{
-	position:absolute;
+#mitte_links
+{
+    position:absolute;
     top:0px;
     left:0%;
     right:80%;
     height:100%;
     width:20%;
 }
-#mitte_zentral{
+#mitte_zentral
+{
     position:absolute;
     top:20px;
     left:20%;
@@ -126,18 +136,12 @@ input[type=button]
     height:100%;
     width:60%;
 }
-#mitte_rechts{
-	position:absolute;
-    top:0px;
-    left:80%;
-    right:0%;
-    height:100%;
-    width:20%;
-}
+
 
 
 /* Mitte Links */
-#zur_spielerauswahl{
+#zur_spielerauswahl
+{
     position:absolute;
     top:50px;
     left:50px;
@@ -169,22 +173,41 @@ input[type=button]
     display:none;
     bottom:0px;
 }
-
-
-/* Mitte Rechts */
-#charakter{
-    position:absolute;
-    left:20px;
-    top:100px;
-    /*width:200px;*/
-	z-index: 1;
-}
 #spielmenü
 {
 	position:absolute;
         top:-20px;
         left:-2%;
 }
+
+#mitte_rechts
+{
+    position:absolute;
+    top:60px;
+    right:10%;
+    height:300px;
+    width:120px;
+}
+
+/* Mitte Rechts */
+#charakter
+{
+    position:absolute;
+    top:50px;
+    /*width:200px;*/
+    z-index: 1;
+}
+
+
+#aktionenrahmen
+{
+	position:absolute;
+	top:450px;
+	left:10px;
+	/*width:200px;*/
+}
+
+
 #me1
 {
     position:absolute;
@@ -214,39 +237,39 @@ input[type=button]
 {
     position:absolute;
     top:100px;
-    left:-10px;
+    left:-60px;
 }
 
 #erdinhalt
 {
-    background-color:#884444;
+    background-color:#3B170B;
     position:absolute;
     margin-top:100px;
     margin-left:190px;
-    padding-left:50px;
+    padding:10px;
     top:-90px;
-    width:650px;
-    height:750px;
-    display:none  
+    width:600px;
+    height:390px;
+    display:block;  
 }
 
 #wasser
 {
     position:absolute;
     top:200px;
-    left:-10px;
+    left:-60px;
 }
 
 #wasserinhalt
 {
-    background-color:#226688;
+    background-color:#0B2161;
     position:absolute;
     margin-top:100px;
     margin-left:190px;
-    padding-left:50px;
+    padding:10px;
     top:-190px;
     width:600px;
-    height:1650px;
+    height:800px;
     display:block;  
 }
 
@@ -254,50 +277,43 @@ input[type=button]
 {
     position:absolute;
     top:300px;
-    left:-10px;
+    left:-60px;
 }
 
 #feuerinhalt
 {
-    background-color:#884444;
+    background-color:#3B0B0B;
     position:absolute;
-    margin-top:100px;
+    margin-top:-100px;
     margin-left:190px;
-    padding-left:50px;
+    padding:10px;
     top:-90px;
-    width:650px;
-    height:750px;
-    display:none;  
+    width:600px;
+    height:430px;
+    display:block;  
 }
 
 #luft
 {
     position:absolute;
     top:400px;
-    left:-10px;
+    left:-60px;
 }
 
 #luftinhalt
 {
-    background-color:#884444;
+    background-color:#088A85;
     position:absolute;
-    margin-top:100px;
+    margin-top:-200px;
     margin-left:190px;
-    padding-left:50px;
+    padding:10px;
     top:-90px;
-    width:650px;
-    height:750px;
-    display:none;  
+    width:600px;
+    height:550px;
+    display:block;  
 }
 
 
-
-#aktionenrahmen{
-	position:absolute;
-	top:450px;
-	left:20px;
-	/*width:200px;*/
-}
 
 
 
@@ -305,7 +321,8 @@ input[type=button]
 /* Einzel-Divs */
 
 /*Gebietsverlinkungsbildchen*/
-#sumpf{
+#sumpf
+{
   position:absolute;
   margin-top:11%;
   float:left;
@@ -313,7 +330,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#vulkan{
+#vulkan
+{
   position:absolute;
   margin-top:12%;
   float:left;
@@ -321,7 +339,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#eissee{
+#eissee
+{
   position:absolute;
   margin-top:13%;
   float:left;
@@ -329,7 +348,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#dschungel{
+#dschungel
+{
   position:absolute;
   margin-top:14%;
   float:left;
@@ -345,7 +365,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#kristall{
+#kristall
+{
   position:absolute;
   margin-top:16%;
   float:left;
@@ -353,7 +374,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#wueste{
+#wueste
+{
   position:absolute;
   margin-top:17%;
   float:left;
@@ -361,7 +383,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#mammut{
+#mammut
+{
   position:absolute;
   margin-top:18%;
   float:left;
@@ -369,7 +392,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#wald{
+#wald
+{
   position:absolute;
   margin-top:19%;
   float:left;
@@ -377,7 +401,8 @@ input[type=button]
   height:25px;
   color:white;
 }
-#oase{
+#oase
+{
   position:absolute;
   margin-top:20%;
   float:left;
@@ -457,26 +482,30 @@ input[type=button]
 
 
 /*Ladebalken*/
-#laden{
+#laden
+{
 	width: 200px;
 	height: 20px;
 	border: 1px solid black;
 	bottom:0px;
 }
-#balken{
+#balken
+{
 	width: 200px;
 	height: 20px;
 	border-right: 1px solid black;
 	background: darkred;
 	bottom:0px;
 }
-#prozent{
+#prozent
+{
 	width: 200px;
 	text-align: center;
 	color: white;
 	display: block;
 }
-#button_abschluss{
+#button_abschluss
+{
 	width: 200px;
 	text-align: center;
 	display: none;
@@ -485,15 +514,18 @@ input[type=button]
 
 
 /*Aktion Status Spieler*/
-#aktion_status_wartend{
+#aktion_status_wartend
+{
 	display: block;
 	text-align: center;
 }
-#aktion_status_kaempfend{
+#aktion_status_kaempfend
+{
 	display: none;
 	text-align: center;
 }
-#aktion_status_laufend{
+#aktion_status_laufend
+{
 	display: none;
 	text-align: center;
 }
