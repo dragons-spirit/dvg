@@ -1,8 +1,9 @@
 
 <!-- Erdelemente -->
-<div id="erde" style="background:url(../Bilder/erdelemente.png); background-repeat:no-repeat;"><input onklick="sichtbar(1);" type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_erde" value="Erdelemente">
-<div id="erdinhalt">
+<div id="erde" style="background:url(../Bilder/erdelemente.png); background-repeat:no-repeat;">
+	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_erde" value="Erdelemente"> 
 
+<div id="erdinhalt" name="erdinhalt">
 <table id="Erdelemente" cellspacing="5px">
     <tr>
         <td><span title="Lehm"><input type="button" style="background:url(../Bilder/Elemente/Lehm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lehm" value=""></span></td>
@@ -11,7 +12,7 @@
         <td><span title="Treibsand"><input type="button" style="background:url(../Bilder/Elemente/Treibsand.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_treibsand" value=""></span></td>
         <td><span title="Sandstein"><input type="button" style="background:url(../Bilder/Elemente/Sandstein.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_sandstein" value=""></span></td>
         <td><span title="Kreide"><input type="button" style="background:url(../Bilder/Elemente/Kreide.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_kreide" value=""></span></td>
-        <td><span title="Ger&ouml;lllawine"><input type="button" style="background:url(../Bilder/Elemente/Geroelllawine.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_geršlllawine" value=""></span></td>
+        <td><span title="Ger&ouml;lllawine"><input type="button" style="background:url(../Bilder/Elemente/Geroelllawine.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_geroelllawine" value=""></span></td>
     </tr>
     <tr>
         <td><span title="Kohle"><input type="button" style="background:url(../Bilder/Elemente/Kohle.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_kohle" value=""></span></td>
@@ -49,7 +50,7 @@
         <td>----------------</td>
         <td>----------------</td>
         <td>---------------></td>
-        <td><span title="Wanderd&uuml;ne"><input type="button" style="background:url(./Bilder/Elemente/Wanderduene.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_wanderduene" value=""></span></td>
+        <td><span title="Wanderd&uuml;ne"><input type="button" style="background:url(../Bilder/Elemente/Wanderduene.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_wanderduene" value=""></span></td>
         <td></td>
         <td></td>
     </tr>
@@ -59,7 +60,8 @@
 </div>
 
 <!-- Wasserelemente -->
-<div id="wasser" style="background:url(../Bilder/wasserelemente.png); background-repeat:no-repeat;"><input onklick="sichtbar(2);"type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_wasser" value="Wasserelemente">
+<div id="wasser" style="background:url(../Bilder/wasserelemente.png); background-repeat:no-repeat;">
+	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_wasser" value="Wasserelemente">
 
 <div id="wasserinhalt">
 <table id="Wasserelemente">
@@ -174,7 +176,9 @@
 </div>
 
 <!-- Feuerelemente -->
-<div id="feuer" style="background:url(../Bilder/feuerelemente.png); background-repeat:no-repeat;"><input onklick="sichtbar(3);" type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuerelemente">
+<div id="feuer" style="background:url(../Bilder/feuerelemente.png); background-repeat:no-repeat;">
+	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuerelemente">
+
 <div id="feuerinhalt">
     <table id="Feuerelemente">
     <tr>
@@ -239,7 +243,9 @@
 </div>
 
 <!-- Luftelemente -->
-<div id="luft" style="background:url(../Bilder/luftelemente.png); background-repeat:no-repeat;"><input onklick="sichtbar(4);" type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_luft" value="Luftelemente">
+<div id="luft" style="background:url(../Bilder/luftelemente.png); background-repeat:no-repeat;">
+	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_luft" value="Luftelemente">
+
 <div id="luftinhalt">
 <table id="Luftelemente">
     

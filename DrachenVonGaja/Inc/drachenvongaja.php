@@ -17,7 +17,7 @@
 		<meta charset="utf-8">
 	
 		<link rel="stylesheet" type="text/css" href="../index.css">
-		<script src="index.js" type="text/javascript"></script>
+		<script src="../index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja</title>
 		<?php
@@ -277,8 +277,14 @@
 									break;
 							}
 						} else {
+							# Elementebuttons auswerten
+							$elementebutton = 0;
+							if(isset($_POST["button_erde"])) $elementebutton = 1;
+							if(isset($_POST["button_wasser"])) $elementebutton = 2;
+							if(isset($_POST["button_feuer"])) $elementebutton = 3;
+							if(isset($_POST["button_luft"])) $elementebutton = 4;
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR (isset($_POST["button_elemente"])));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR isset($_POST["button_elemente"]) OR $elementebutton > 0);
 							
 							######################
 							# Start von Aktionen #
@@ -355,9 +361,12 @@
 									}
 								}
 								
-								if(isset($_POST["button_elemente"]))
+								if(isset($_POST["button_elemente"]) OR $elementebutton > 0)
 								{
 									include('Elemente.inc.php');
+									?>
+									<script>sichtbar(<?php echo $elementebutton; ?>);</script>
+									<?php
 								}
 								
 							}
@@ -374,11 +383,11 @@
 						<!-- Anzeige des Spielmenüs -->
 					<div id="spielmenü">
 						
-							<div id="me1" style="background:url(./../Bilder/feuerbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuer Speien"></div>
-							<div id="me2" style="background:url(./../Bilder/flugbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_fliegen" value="Fliegen"></div>
-							<div id="me3" style="background:url(./../Bilder/erkundenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
-							<div id="me4" style="background:url(./../Bilder/gepäckbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="me5" style="background:url(./../Bilder/elementbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							<div id="menu1" style="background:url(./../Bilder/feuerbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuer Speien"></div>
+							<div id="menu2" style="background:url(./../Bilder/flugbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_fliegen" value="Fliegen"></div>
+							<div id="menu3" style="background:url(./../Bilder/erkundenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="menu4" style="background:url(./../Bilder/gepäckbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_inventar" value="Gepäck betrachten"></div>
+							<div id="menu5" style="background:url(./../Bilder/elementbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
 							
 					</div>
 					</div>

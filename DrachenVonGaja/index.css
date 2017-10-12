@@ -136,7 +136,14 @@ input[type=button]
     height:100%;
     width:60%;
 }
-
+#mitte_rechts
+{
+    position:absolute;
+    top:60px;
+    right:10%;
+    height:300px;
+    width:120px;
+}
 
 
 /* Mitte Links */
@@ -180,14 +187,6 @@ input[type=button]
         left:-2%;
 }
 
-#mitte_rechts
-{
-    position:absolute;
-    top:60px;
-    right:10%;
-    height:300px;
-    width:120px;
-}
 
 /* Mitte Rechts */
 #charakter
@@ -208,26 +207,26 @@ input[type=button]
 }
 
 
-#me1
+#menu1
 {
     position:absolute;
 }
-#me2
+#menu2
 {
     position:absolute;
     left:180px;*
 }
-#me3
+#menu3
 {
     position:absolute;
     left:360px;
 }
-#me4
+#menu4
 {
     position:absolute;
     left:540px;
 }
-#me5
+#menu5
 {
     position:absolute;
     left:720px;
@@ -250,7 +249,7 @@ input[type=button]
     top:-90px;
     width:600px;
     height:390px;
-    display:block;  
+    display:none;  
 }
 
 #wasser
@@ -270,7 +269,7 @@ input[type=button]
     top:-190px;
     width:600px;
     height:800px;
-    display:block;  
+    display:none;  
 }
 
 #feuer
@@ -290,7 +289,7 @@ input[type=button]
     top:-90px;
     width:600px;
     height:430px;
-    display:block;  
+    display:none;  
 }
 
 #luft
@@ -310,7 +309,7 @@ input[type=button]
     top:-90px;
     width:600px;
     height:550px;
-    display:block;  
+    display:none;  
 }
 
 
