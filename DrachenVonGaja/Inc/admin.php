@@ -1,5 +1,9 @@
 ﻿<!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"-->
 
+<?php
+	session_start();
+?>
+
 <html>
 	
 	<head>
@@ -14,19 +18,32 @@
 		<link rel="stylesheet" type="text/css" href="../index_admin.css">
 		<script src="../index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-		<title>Drachen von Gaja - Administration</title>		
+		<title>Drachen von Gaja - Administration</title>
+		<?php
+		if($_SESSION['browser'] == "Opera"){
+		?>
+			<style>
+				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input                           {outline:none;}
+                                input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+			</style>
+		<?php
+		}
+		?>
 	</head>
 	
 	<body>
 	<form id="dvg_admin" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 		#header("Content-Type: text/html; charset=utf-8");
-		session_start();
 		include("db_funktionen_login.php");
 		include("db_funktionen_admin.php");
+		include("funktionen_system.php");
 		
 		if(isset($_POST["button_name"])) $button_name = $_POST["button_name"];
-		else $button_name = false;
+		else $button_name = "AdminStart";
 		if(isset($_POST["button_value"])) $button_value = $_POST["button_value"];
 		else $button_value = false;
 		
@@ -39,8 +56,7 @@
 			</script>
 			<?php
 		} else {
-	### Hier beginnt der eigentliche Seitenaufbau ###		
-			#print_r($_POST);
+	### Hier beginnt der eigentliche Seitenaufbau ###
 			?>
 			<input type="submit" style="visibility: hidden;">
 			<input type="hidden" id="button_name_id" name="button_name" value="">
@@ -59,7 +75,7 @@
 						$ordner = "../Bilder"; # Standardordner für neue Bilder
 						$endungen_bilder = array('jpg','jpeg','bmp','png','gif','ico','tiff'); # erkannte Dateiendungen
 						$neue_dateien = array(); # array für alle neuen Dateien im Ordner
-						scanneNeueBilder($ordner); # Bilder die noch nicht inder Datenbank stehen, werden in $neue_dateien eingetragen
+						scanneNeueBilder($ordner); # Bilder die noch nicht in der Datenbank stehen, werden in $neue_dateien eingetragen
 						?>
 						<table border="1px" border-color="white">
 							<caption style="font-size:x-large;" colspan="3">Neu in die Datenbank eingefügte Bilder</caption>
@@ -210,17 +226,33 @@
 					case "NPCaendern":
 						$npc_id = $button_value;
 						$npc_daten = daten_aus_post("npc");
+						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
+						ausgabe_array($npc_gebiet_daten,2);
+						echo "<br>";echo "<br>";
+						
+						#Update NPC-Daten
 						if($npc_id > 0){
 							if (updateNPC($npc_daten))
 								echo "NPC erfolgreich geändert";
 							else
-								echo "Fehler beim Ändern des NPCs";
+								echo "Keine Änderungen an NPC vorgenommen";
 						} else {
 							if (insertNPC($npc_daten))
 								echo "NPC erfolgreich hinzugefügt";
 							else
 								echo "Fehler beim Hinzufügen des NPCs";
 						}
+						echo "<br><br>";
+						
+						#Update NPC_Gebiet-Daten
+						$anz_delete = deleteNPCgebiet($npc_id);
+						$anz_insert = 0;
+						foreach ($npc_gebiet_daten as $ds){
+							if ($ds["wkt"]>0){
+								$anz_insert += insertNPCgebiet($ds);
+							}
+						}
+						echo "Alle Vorkommen des NPC in Gebieten wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
 						echo "<br><br>";
 						zurueckButton("NPCsSuchen");
 						break;
@@ -237,7 +269,7 @@
 						zurueckButton();
 						break;
 					
-					default:
+					case "AdminStart":
 						?>
 						<div id="Bilder">
 							<h3>Bilder</h3>
@@ -253,6 +285,12 @@
 							<input type="button" name="button_ItemsAnlegen" value="Neu anlegen" onclick="set_button_submit('ItemsAnlegen');"> (ohne Funktion)<br>
 							<input type="button" name="button_ItemsAendern" value="Ändern" onclick="set_button_submit('ItemsAendern');"> (ohne Funktion)
 						</div>
+						<?php
+						break;
+					
+					default:
+						?>
+						Hier passiert nix !
 						<?php
 						break;
 				}
@@ -271,9 +309,8 @@
 <?php
 
 	# Blendet einen Button mit Aufschrift "zurück" ein.
-	# Eine Betätigung lädt lediglich die Startseite des Adminbereiches neu.
-	# Standardausrichtung ist links. Eine individuelle Ausrichtung kann jedoch als Parameter übergeben werden.
-	function zurueckButton($ziel = "zurueck")
+	# Der Funktion wird die Zielseite mit übergeben ("NPCsAendern", "NPCsSuchen", ...). Wird keine Zielseite übergeben, so landet man auf der Startseite im Adminbereich.
+	function zurueckButton($ziel = "AdminStart")
 	{
 		?>
 		<input type="button" name="zurueck" value="zurück" style="float:left;" onclick="set_button_submit('<?php echo $ziel ?>');">
@@ -444,6 +481,7 @@
 					<th>Wahrscheinlichkeit</th>
 				</tr>
 				<?php
+				$count = 0;
 				while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
 				{
 					?>
@@ -453,7 +491,7 @@
 							if($gebiete = get_gebiete_titel())
 							{
 								?>
-								<select name="npc_gebiet_auswahl">
+								<select name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 								<?php
 								while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 								{
@@ -472,43 +510,49 @@
 							?>
 						</td>
 						<td>
-							<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="<?php echo $npc_gebiet[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+							<input id="<?php echo 'npc_gebiet_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_gebiet_wkt_'.$count; ?>" value="<?php echo $npc_gebiet[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 						</td>
 					</tr>
 					<?php
+					$count++;
 				}
 			}
 			?>
-				<tr>
-					<td>
-						Weiteres Gebiet hinzufügen<br>
-					</td>
-				</tr>
-				<tr>
-					<td>
+			<tr>
+				<td colspan="2" align="left">
+					Weiteres Gebiet hinzufügen<br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<?php
+					if($gebiete = get_gebiete_titel())
+					{
+						?>
+						<select name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 						<?php
-						if($gebiete = get_gebiete_titel())
+						while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 						{
-							?>
-							<select name="npc_gebiet_auswahl">
-							<?php
-							while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
-							{
-								echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
-							}
-							?>
-							</select> 
-						<?php
-						} else {
-							echo "Fehler beim Laden von Gebieten.";
+							echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
 						}
 						?>
-					</td>
-					<td>
-						<input id="eingabe_gebiete_wkt" type="input" name="npc_gebiet_wkt" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
-					</td>
-				</tr>
-			</table>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Gebieten.";
+					}
+					?>
+				</td>
+				<td>
+					<input id="<?php echo 'npc_gebiet_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_gebiet_wkt_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="left"> 
+					<br><br>Zum Löschen eines NPC-Vorkommens Wahrscheinlichkeit auf 0 setzen.
+				</td>
+			</tr>
+		</table>
 		<br>
 		<?php
 	}
@@ -551,6 +595,24 @@
 				$daten["npc_typ"] = $_POST["npc_typ"];
 				return $daten;
 			
+			# NPC-Gebiete und Wahrscheinlichkeiten aus $_POST auslesen und in separates Array schreiben
+			case "npc_gebiete":
+				$count = 0;
+				$daten = array();
+				$npc_id = $_POST["npc_id"];
+				while (array_key_exists("npc_gebiet_auswahl_".$count, $_POST)){
+					$gebiet_id = $_POST["npc_gebiet_auswahl_".$count];
+					$wkt = $_POST["npc_gebiet_wkt_".$count];
+					$daten[$count] = array(
+						"id" => get_npc_gebiet_id($npc_id, $gebiet_id),
+						"npc_id" => $npc_id,
+						"gebiet_id" => $gebiet_id,
+						"wkt" => $wkt);
+					$count++;
+				}
+				return $daten;
+				
+				
 			####################
 			# ToDo
 			####################
