@@ -279,18 +279,18 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 ?>
 		<!-- Element und Heimatgebiet auswaehlen -->
 		<h3 align="center">Auswahl des Elementes</h3>
-		<table align="center">
+		<table align="center" cellspacing="10px">
 			<tr>
-				<td><input type="submit" style="background-image:url(./Bilder/Erdei_klein.png); height:110px; width:90px; background-repeat:no-repeat;" alt="Erdelement" name="button_erdelement" value=""></td>
-				<td><input type="submit" style="background-image:url(./Bilder/Wasserei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Wasserelement" name="button_wasserelement" value=""></td>
-				<td><input type="submit" style="background-image:url(./Bilder/Feuerei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Feuerelement" name="button_feuerelement" value=""></td>
-				<td><input type="submit" style="background-image:url(./Bilder/Luftei_klein.png); height:110px;width:90px; background-repeat:no-repeat;" alt="Luftelement" name="button_luftelement" value=""></td>
+				<td align="center"><input type="submit" style="background-image:url(./Bilder/Erdei_klein.png); background-color:white; height:110px; width:90px; background-repeat:no-repeat;" alt="Erdelement" name="button_erdelement" value=""></td>
+				<td align="center"><input type="submit" style="background-image:url(./Bilder/Wasserei_klein.png); background-color:white; height:110px;width:90px; background-repeat:no-repeat;" alt="Wasserelement" name="button_wasserelement" value=""></td>
+				<td align="center"><input type="submit" style="background-image:url(./Bilder/Feuerei_klein.png); background-color:white; height:110px;width:90px; background-repeat:no-repeat;" alt="Feuerelement" name="button_feuerelement" value=""></td>
+				<td align="center"><input type="submit" style="background-image:url(./Bilder/Luftei_klein.png); background-color:white; height:110px;width:90px; background-repeat:no-repeat;" alt="Luftelement" name="button_luftelement" value=""></td>
 			</tr>
 			<tr>
-				<td>Beschreibung von Erdelement</td>
-				<td>Beschreibung von Wasserelement</td>
-				<td>Beschreibung von Feuerelement</td>
-				<td>Beschreibung von Luftelement </td>
+				<td align="center"><b>Erddrache</b><br>Wächter über die Dunkelheit, <br>der in den Tiefen lebt.</td>
+				<td align="center"><b>Wasserdrache</b><br>Wächter über die Kälte, <br>der viel heilen kann.</td>
+				<td align="center"><b>Feuerdrache</b><br>Wächter über die Hitze, <br>der viel zerstören kann.</td>
+				<td align="center"><b>Luftdrache</b><br>Wächter über das Licht, <br>der in der Höhe lebt.</td>
 			</tr>
 		</table>
 <?php
