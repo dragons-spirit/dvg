@@ -68,7 +68,7 @@ function check_wkt($wkt)
 function zeige_hintergrundbild($gebiet_id)
 {
 	?>
-	<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:14pt;">
+	<p align="center" style="margin-top:100px; margin-bottom:0px; font-size:14pt;">
 		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="100%" height="60%" alt=""/><br><br>
 		<?php echo get_gebiet($gebiet_id)[3]; ?>
 	</p> 

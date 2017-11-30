@@ -248,7 +248,7 @@
 						$anz_delete = deleteNPCgebiet($npc_id);
 						$anz_insert = 0;
 						foreach ($npc_gebiet_daten as $ds){
-							if ($ds["wkt"]>0){
+							if ($ds["wkt"]>0 and $ds["gebiet_id"]<>12){ #Wahrscheinlichkeit größer 0 und Gebiet ungleich ---ohne---
 								$anz_insert += insertNPCgebiet($ds);
 							}
 						}
@@ -464,11 +464,11 @@
 		<?php
 	}
 	
-	# $npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM);
+	
 	function eingabemaskeNPCgebiete($npc_gebiete, $npc_id)
 	{
 		?>
-		<table>
+		<table> <!--  border="1pt solid white" -->
 			<?php
 			if($npc_gebiete)
 			{
@@ -491,7 +491,7 @@
 							if($gebiete = get_gebiete_titel())
 							{
 								?>
-								<select name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
+								<select id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 								<?php
 								while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 								{
@@ -519,17 +519,18 @@
 			}
 			?>
 			<tr>
+				<input style="display:none;" id="npc_gebiet_neu_count" value="<?php echo $count; ?>" />
 				<td colspan="2" align="left">
-					Weiteres Gebiet hinzufügen<br>
+					<br><input type="button" name="weiteresGebiet" value="Weiteres Gebiet hinzufügen" onclick="weiteresElement('npc_gebiet_neu')"><br>
 				</td>
 			</tr>
-			<tr>
+			<tr id="<?php echo 'npc_gebiet_neu_'.$count; ?>">
 				<td>
 					<?php
 					if($gebiete = get_gebiete_titel())
 					{
 						?>
-						<select name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
+						<select id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 						<?php
 						while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 						{
@@ -547,7 +548,7 @@
 					<input id="<?php echo 'npc_gebiet_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_gebiet_wkt_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 				</td>
 			</tr>
-			<tr>
+			<tr id="npc_gebiet_ende">
 				<td colspan="2" align="left"> 
 					<br><br>Zum Löschen eines NPC-Vorkommens Wahrscheinlichkeit auf 0 setzen.
 				</td>
