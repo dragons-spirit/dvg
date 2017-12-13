@@ -264,6 +264,35 @@ function get_gebiete_titel()
 }
 
 
+#***************************************************************************************************************
+#**************************************************** ITEM *****************************************************
+#***************************************************************************************************************
+
+#-------------------------------------------------- Itemnamen --------------------------------------------------
+#	Array mit Item-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+
+function get_items_titel()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, titel
+			FROM 	items
+			ORDER BY titel")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_items_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 
 #***************************************************************************************************************
 #***************************************************** NPC *****************************************************
@@ -391,6 +420,40 @@ function get_npc_gebiete($npc_id)
 	}
 }
 
+
+#----------------------------------- SELECT npc.* (items) -----------------------------------
+# 	-> npc_id (int)
+#	<- item_id (int)
+#	<- wahrscheinlichkeit (int)
+#	<- anzahl_min (int)
+#	<- anzahl_max (int)
+
+function get_npc_items($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	items_id,
+					wahrscheinlichkeit,
+					anzahl_min,
+					anzahl_max
+			FROM 	npc_items
+			WHERE 	npc_id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_items()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
 #----------------------------------- get npc_gebiet.id -----------------------------------
 # 	-> npc_id (int)
 #	-> gebiet_id (int)
@@ -415,7 +478,38 @@ function get_npc_gebiet_id($npc_id, $gebiet_id)
 		if($row) return $row[0];
 		else return null;
 	} else {
-		echo "<br />\nQuerryfehler in check_npc_gebiet()<br />\n";
+		echo "<br />\nQuerryfehler in get_npc_gebiet_id()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- get npc_items.id -----------------------------------
+# 	-> npc_id (int)
+#	-> items_id (int)
+#	<- npc_items.id (wenn vorhanden)
+
+function get_npc_items_id($npc_id, $items_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id
+			FROM 	npc_items
+			WHERE 	npc_id = ?
+				and items_id = ?"))
+	{
+		$stmt->bind_param('dd', $npc_id, $items_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if($row) return $row[0];
+		else return null;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_items_id()<br />\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
@@ -627,7 +721,7 @@ function updateNPCgebiet($npc_gebiet_daten)
 		else
 			return 0;
 	} else {
-		echo "<br>\nQuerryfehler in updateNPCgebiete()<br>\n";
+		echo "<br>\nQuerryfehler in updateNPCgebiet()<br>\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
@@ -665,7 +759,7 @@ function insertNPCgebiet($npc_gebiet_daten)
 		else
 			return 0;
 	} else {
-		echo "<br>\nQuerryfehler in insertNPCgebiete()<br>\n";
+		echo "<br>\nQuerryfehler in insertNPCgebiet()<br>\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}
@@ -676,7 +770,7 @@ function insertNPCgebiet($npc_gebiet_daten)
 #	-> npc_id
 #	<- Anzahl gelöschter Datensätze
 
-function deleteNPCgebiet($npc_id)
+function deleteNPCgebiete($npc_id)
 {
 	global $debug;
 	$connect_db_dvg = open_connection();
@@ -691,6 +785,120 @@ function deleteNPCgebiet($npc_id)
 		return $result;
 	} else {
 		echo "<br>\nQuerryfehler in deleteNPCgebiete()<br>\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- UPDATE npc_items -----------------------------------
+#	Array mit npc_item-Daten [Position]
+#	-> [0] id
+#	-> [1] npc_id
+#	-> [2] items_id
+#	-> [3] wkt
+#	-> [4] min
+#	-> [5] max
+#	<- true/false
+
+function updateNPCitem($npc_item_daten)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE npc_items
+			SET npc_id = ?,
+				items_id = ?,
+				wahrscheinlichkeit = ?,
+				anzahl_min = ?,
+				anzahl_max = ?
+			WHERE id = ?")){
+		$stmt->bind_param('dddddd', 
+			$npc_item_daten["npc_id"], 
+			$npc_item_daten["items_id"], 
+			$npc_item_daten["wkt"],
+			$npc_item_daten["min"],
+			$npc_item_daten["max"],
+			$npc_item_daten["id"]);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		close_connection($connect_db_dvg);
+		if($result == 1)
+			return 1;
+		else
+			return 0;
+	} else {
+		echo "<br>\nQuerryfehler in updateNPCitem()<br>\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- INSERT npc_items -----------------------------------
+#	Array mit npc_item-Daten [Position]
+#	-> [0] id (ist null)
+#	-> [1] npc_id
+#	-> [2] gebiet_id
+#	-> [3] wkt
+#	-> [4] min
+#	-> [5] max
+#	<- true/false
+
+function insertNPCitem($npc_item_daten)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO npc_items (
+				npc_id,
+				items_id,
+				wahrscheinlichkeit,
+				anzahl_min,
+				anzahl_max)				
+			VALUES (?, ?, ?, ?, ?)")){
+		$stmt->bind_param('ddddd', 
+			$npc_item_daten["npc_id"], 
+			$npc_item_daten["items_id"], 
+			$npc_item_daten["wkt"],
+			$npc_item_daten["min"],
+			$npc_item_daten["max"]);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		close_connection($connect_db_dvg);
+		if($result == 1)
+			return 1;
+		else
+			return 0;
+	} else {
+		echo "<br>\nQuerryfehler in insertNPCitem()<br>\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- DELETE npc_items -----------------------------------
+#	-> npc_id
+#	<- Anzahl gelöschter Datensätze
+
+function deleteNPCitems($npc_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			DELETE FROM npc_items
+			WHERE npc_id = ?")){
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br>\nQuerryfehler in deleteNPCitems()<br>\n";
 		close_connection($connect_db_dvg);
 		return false;
 	}

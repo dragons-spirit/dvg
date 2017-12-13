@@ -192,7 +192,7 @@
 						$npc_id = $button_value;
 						?>
 						<!-- Standardaktion - Seite neu laden mit selber NPC_Id -->
-						<script>set_button_submit('NPCaendern',$npc_id);</script>
+						<!--<script>set_button_submit('NPCaendern', $npc_id);</script>--> <!-- npc_id kann hier nicht einfach per php eingefügt werden -->
 						<?php
 						$npc = false;
 						if($npc_id > 0){
@@ -203,8 +203,12 @@
 						if($npc_id > 0){
 							$npc_gebiete = get_npc_gebiete($npc_id);
 						}
+						$npc_items = false;
+						if($npc_id > 0){
+							$npc_items = get_npc_items($npc_id);
+						}
 						?>
-						<table> <!-- border="1pt solid white" -->
+						<table>
 							<tr>
 								<td>
 									<?php eingabemaskeNPC($npc, $npc_id); ?>
@@ -214,6 +218,9 @@
 								</td>
 								<td valign="top">
 									<?php eingabemaskeNPCgebiete($npc_gebiete, $npc_id); ?>
+								</td>
+								<td valign="top" style="padding-left:20px;">
+									<?php eingabemaskeNPCitems($npc_items, $npc_id); ?>
 								</td>
 							<tr>
 						</table>
@@ -228,6 +235,8 @@
 						$npc_daten = daten_aus_post("npc");
 						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
 						ausgabe_array($npc_gebiet_daten,2);
+						$npc_item_daten = daten_aus_post("npc_items");
+						ausgabe_array($npc_item_daten,2);
 						echo "<br>";echo "<br>";
 						
 						#Update NPC-Daten
@@ -245,7 +254,7 @@
 						echo "<br><br>";
 						
 						#Update NPC_Gebiet-Daten
-						$anz_delete = deleteNPCgebiet($npc_id);
+						$anz_delete = deleteNPCgebiete($npc_id);
 						$anz_insert = 0;
 						foreach ($npc_gebiet_daten as $ds){
 							if ($ds["wkt"]>0 and $ds["gebiet_id"]<>12){ #Wahrscheinlichkeit größer 0 und Gebiet ungleich ---ohne---
@@ -254,6 +263,18 @@
 						}
 						echo "Alle Vorkommen des NPC in Gebieten wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
 						echo "<br><br>";
+						
+						#Update NPC_Item-Daten
+						$anz_delete = deleteNPCitems($npc_id);
+						$anz_insert = 0;
+						foreach ($npc_item_daten as $ds){
+							if ($ds["wkt"]>0 and $ds["items_id"]<>9){ #Wahrscheinlichkeit größer 0 und Item ungleich ---ohne---
+								$anz_insert += insertNPCitem($ds);
+							}
+						}
+						echo "Alle Vorkommen von Items beim NPC wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
+						echo "<br><br>";
+						
 						zurueckButton("NPCsSuchen");
 						break;
 					
@@ -322,10 +343,6 @@
 	{
 		?>
 		<table>
-			<colgroup>
-				<col width="80px" valign="top">
-				<col width="200px">
-			</colgroup>
 			<tr>
 				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
 			</tr>
@@ -468,7 +485,7 @@
 	function eingabemaskeNPCgebiete($npc_gebiete, $npc_id)
 	{
 		?>
-		<table> <!--  border="1pt solid white" -->
+		<table>
 			<?php
 			if($npc_gebiete)
 			{
@@ -478,14 +495,14 @@
 				</tr>
 				<tr>
 					<th>Gebiet</th>
-					<th>Wahrscheinlichkeit</th>
+					<th>Wkt in %</th>
 				</tr>
 				<?php
 				$count = 0;
 				while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
 				{
 					?>
-					<tr>
+					<tr id="<?php echo 'npc_gebiet_neu_'.$count; ?>">
 						<td>
 							<?php
 							if($gebiete = get_gebiete_titel())
@@ -519,7 +536,6 @@
 			}
 			?>
 			<tr>
-				<input style="display:none;" id="npc_gebiet_neu_count" value="<?php echo $count; ?>" />
 				<td colspan="2" align="left">
 					<br><input type="button" name="weiteresGebiet" value="Weiteres Gebiet hinzufügen" onclick="weiteresElement('npc_gebiet_neu')"><br>
 				</td>
@@ -548,9 +564,106 @@
 					<input id="<?php echo 'npc_gebiet_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_gebiet_wkt_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 				</td>
 			</tr>
-			<tr id="npc_gebiet_ende">
-				<td colspan="2" align="left"> 
-					<br><br>Zum Löschen eines NPC-Vorkommens Wahrscheinlichkeit auf 0 setzen.
+		</table>
+		<br>
+		<?php
+	}
+	
+	
+	function eingabemaskeNPCitems($npc_items, $npc_id)
+	{
+		?>
+		<table>
+			<?php
+			if($npc_items)
+			{
+				?>
+				<tr>
+					<td colspan="4" align="left"><h2>Mögliche Items</h2></td>
+				</tr>
+				<tr>
+					<th>Item</th>
+					<th>Wkt in %</th>
+					<th>Minimum</th>
+					<th>Maximum</th>
+				</tr>
+				<?php
+				$count = 0;
+				while($npc_item = $npc_items->fetch_array(MYSQLI_NUM))
+				{
+					?>
+					<tr id="<?php echo 'npc_item_neu_'.$count; ?>">
+						<td>
+							<?php
+							if($items = get_items_titel())
+							{
+								?>
+								<select id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
+								<?php
+								while($item = $items->fetch_array(MYSQLI_NUM))
+								{
+									if($npc_item[0] != $item[0]){
+										echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item[1]."</option>";
+									} else {
+										echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$item[1]."</option>";
+									}
+								}
+								?>
+								</select> 
+							<?php
+							} else {
+								echo "Fehler beim Laden von Items.";
+							}
+							?>
+						</td>
+						<td>
+							<input id="<?php echo 'npc_item_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_item_wkt_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+						</td>
+						<td>
+							<input id="<?php echo 'npc_item_min_'.$count; ?>" type="input" name="<?php echo 'npc_item_min_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+						</td>
+						<td>
+							<input id="<?php echo 'npc_item_max_'.$count; ?>" type="input" name="<?php echo 'npc_item_max_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+						</td>
+					</tr>
+					<?php
+					$count++;
+				}
+			}
+			?>
+			<tr>
+				<td colspan="4" align="left">
+					<br><input type="button" name="weiteresItem" value="Weiteres Item hinzufügen" onclick="weiteresElement('npc_item_neu')"><br>
+				</td>
+			</tr>
+			<tr id="<?php echo 'npc_item_neu_'.$count; ?>">
+				<td>
+					<?php
+					if($items = get_items_titel())
+					{
+						?>
+						<select id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
+						<?php
+						while($item = $items->fetch_array(MYSQLI_NUM))
+						{
+							echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item[1]."</option>";
+						}
+						?>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Items.";
+					}
+					?>
+				</td>
+				<td>
+					<input id="<?php echo 'npc_item_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_item_wkt_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+				</td>
+				<td>
+					<input id="<?php echo 'npc_item_min_'.$count; ?>" type="input" name="<?php echo 'npc_item_min_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+				</td>
+				<td>
+					<input id="<?php echo 'npc_item_max_'.$count; ?>" type="input" name="<?php echo 'npc_item_max_'.$count; ?>" value="0" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 				</td>
 			</tr>
 		</table>
@@ -609,6 +722,27 @@
 						"npc_id" => $npc_id,
 						"gebiet_id" => $gebiet_id,
 						"wkt" => $wkt);
+					$count++;
+				}
+				return $daten;
+				
+			# NPC-Items, Wahrscheinlichkeiten und Anzahl-Min/Max aus $_POST auslesen und in separates Array schreiben
+			case "npc_items":
+				$count = 0;
+				$daten = array();
+				$npc_id = $_POST["npc_id"];
+				while (array_key_exists("npc_item_auswahl_".$count, $_POST)){
+					$items_id = $_POST["npc_item_auswahl_".$count];
+					$wkt = $_POST["npc_item_wkt_".$count];
+					$min = $_POST["npc_item_min_".$count];
+					$max = $_POST["npc_item_max_".$count];
+					$daten[$count] = array(
+						"id" => get_npc_items_id($npc_id, $items_id),
+						"npc_id" => $npc_id,
+						"items_id" => $items_id,
+						"wkt" => $wkt,
+						"min" => $min,
+						"max" => $max);
 					$count++;
 				}
 				return $daten;

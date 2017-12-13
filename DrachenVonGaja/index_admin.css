@@ -30,19 +30,26 @@ input[type=button]
 	min-width:75px;
 }
 
+input[type=input]
+{
+    width:50px;
+	text-align:right;
+}
+
+
 #allg_info_eingabe
 {
-	min-width:160px;
+	min-width:100px;
 	text-align:right;
 }
 
 #allg_info_eingabe_text
 {
-	min-width:160px;
+	min-width:100px;
 	text-align:left;
 }
 
-#eingabe_gebiete_wkt
+#eingabe_wkt
 {
 	width:50px;
 	text-align:right;
