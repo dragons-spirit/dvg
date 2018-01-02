@@ -1,5 +1,6 @@
     <!--
     
+    
     Beispiel: Wenn Button Lehm gedrŸckt wurde, prŸfe ob Erdpunkte 2 und Wasserpunkte 1 ist.
     Wenn Ja, dann erstelle Lehm und schiebe es in den Rucksack rein.
     Wenn Nein, gebe Meldung aus, dass Lehm nicht erstellt wurden konnte.

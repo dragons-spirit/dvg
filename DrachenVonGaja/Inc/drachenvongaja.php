@@ -249,7 +249,7 @@
 								case "Jagen":
 									update_aktion_spieler($spieler_id, $aktion_text);
 									$npc_id = $aktion_any_id_1;
-									zeige_erbeutete_items($spieler_id, $npc_id, "Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen,<br>dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
+									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen,<br>dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -262,7 +262,7 @@
 								case "Sammeln":
 									update_aktion_spieler($spieler_id, $aktion_text);
 									$npc_id = $aktion_any_id_1;
-									zeige_erbeutete_items($spieler_id, $npc_id, "Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
+									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -322,7 +322,7 @@
 									{	
 										$counter = 0;
 										?>
-										<table border="1px" border-color="white" align="center" style="margin-top:75px;" width="500px" >
+										<table border="1px" border-color="white" align="center" style="margin-top:100px;" width="500px" >
 											<tr>
 												<td>Item</td>
 												<td>Beschreibung</td>

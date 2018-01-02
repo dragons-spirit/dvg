@@ -105,7 +105,7 @@ input[type=button]
 #untere_Leiste
 {
     position:absolute;
-    bottom:30px;
+    bottom:-100px;
     left:0px;
     height:30px;
     width:100%;
@@ -248,7 +248,7 @@ input[type=button]
     padding:10px;
     top:-90px;
     width:600px;
-    height:390px;
+    height:400px;
     display:none;  
 }
 
@@ -268,7 +268,7 @@ input[type=button]
     padding:10px;
     top:-190px;
     width:600px;
-    height:800px;
+    height:830px;
     display:none;  
 }
 
@@ -288,7 +288,7 @@ input[type=button]
     padding:10px;
     top:-90px;
     width:600px;
-    height:430px;
+    height:450px;
     display:none;  
 }
 
@@ -308,13 +308,9 @@ input[type=button]
     padding:10px;
     top:-90px;
     width:600px;
-    height:550px;
+    height:575px;
     display:none;  
 }
-
-
-
-
 
 
 /* Einzel-Divs */
