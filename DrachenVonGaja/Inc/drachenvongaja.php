@@ -45,7 +45,7 @@
 			global $debug;
 			
 			#Aktivieren/Deaktivieren von Anzeigen
-			$levelbilder_anzeigen = true;
+			$levelbilder_anzeigen = false;
 			
 # Ist der Spieler auch eingeloggt?
 # "nein"	-> zurück zur Anmeldung
@@ -284,7 +284,7 @@
 							if(isset($_POST["button_feuer"])) $elementebutton = 3;
 							if(isset($_POST["button_luft"])) $elementebutton = 4;
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR isset($_POST["button_elemente"]) OR $elementebutton > 0);
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0);
 							
 							######################
 							# Start von Aktionen #
@@ -361,11 +361,15 @@
 									}
 								}
 								
-								if(isset($_POST["button_elemente"]) OR $elementebutton > 0)
+								if($elementebutton > 0)
 								{
 									include('Elemente.inc.php');
 									?>
-									<script>sichtbar(<?php echo $elementebutton; ?>);</script>
+									<script>sichtbar_elemente(<?php echo $elementebutton; ?>);</script>
+									<?php
+								} else {
+									?>
+									<script>sichtbar_elemente("false");</script>
 									<?php
 								}
 								
@@ -379,20 +383,7 @@
 							}
 						}
 						?>
-						
-						<!-- Anzeige des Spielmenüs -->
-					<div id="spielmenü">
-						
-							<div id="menu1" style="background:url(./../Bilder/feuerbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuer Speien"></div>
-							<div id="menu2" style="background:url(./../Bilder/flugbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_fliegen" value="Fliegen"></div>
-							<div id="menu3" style="background:url(./../Bilder/erkundenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
-							<div id="menu4" style="background:url(./../Bilder/gepäckbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="menu5" style="background:url(./../Bilder/elementbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
-							
 					</div>
-					</div>
-					
-					
 				</div>
 				
 				<div id="mitte_links">
@@ -427,6 +418,36 @@
 						?>
 					</div>
 					
+					<!-- Anzeige des Spielmenüs -->
+					<div id="spielmenü_2">
+						<div id="erde"><input id="menu2_button_gross" type="submit" name="button_erde" value="Erdelemente"></div>
+						<div id="wasser"><input id="menu2_button_gross" type="submit" name="button_wasser" value="Wasserelemente"></div>
+						<div id="feuer"><input id="menu2_button_gross" type="submit" name="button_feuer" value="Feuerelemente"></div>
+						<div id="luft"><input id="menu2_button_gross" type="submit" name="button_luft" value="Luftelemente"></div>
+					</div>
+					
+					<div id="spielmenü_1">
+						<?php	
+						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"])){
+							?>
+							<script>sichtbar_elemente("menü");</script>
+							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_feuer" value="Feuer Speien"></div>
+							<div id="menu2"><input id="menu_button_klein" type="submit" name="button_fliegen" value="Fliegen"></div>
+							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
+							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+						<?php	
+						} else {
+						?>
+							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_feuer" value="Feuer Speien"></div>
+							<div id="menu2"><input id="menu_button_gross" type="submit" name="button_fliegen" value="Fliegen"></div>
+							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
+							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+						<?php
+						}
+						?>
+					</div>
 				</div>
 				
 				<div id="mitte_rechts">

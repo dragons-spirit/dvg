@@ -1,8 +1,4 @@
-
 <!-- Erdelemente -->
-<div id="erde" style="background:url(../Bilder/erdelemente.png); background-repeat:no-repeat;">
-	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_erde" value="Erdelemente"> 
-
 <div id="erdinhalt" name="erdinhalt">
 <table id="Erdelemente" cellspacing="5px">
     <tr>
@@ -54,18 +50,15 @@
         <td></td>
         <td></td>
     </tr>
-    
+	<tr>
+		<td><br></td>
+	</tr>
 </table>
-</div>
 </div>
 
 <!-- Wasserelemente -->
-<div id="wasser" style="background:url(../Bilder/wasserelemente.png); background-repeat:no-repeat;">
-	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_wasser" value="Wasserelemente">
-
 <div id="wasserinhalt">
 <table id="Wasserelemente">
-    
     <tr>
         <td><span title="Schlamm"><input type="button" style="background:url(../Bilder/Elemente/Schlamm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_schlamm" value=""></span></td>
         <td><span title="Salzwasser"><input type="button" style="background:url(../Bilder/Elemente/Salzwasser.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_salzwasser" value=""></span></td>
@@ -170,17 +163,15 @@
         <td></td>
         <td></td>
     </tr>
-    
+	<tr>
+		<td><br></td>
+	</tr>
 </table>
-</div>
 </div>
 
 <!-- Feuerelemente -->
-<div id="feuer" style="background:url(../Bilder/feuerelemente.png); background-repeat:no-repeat;">
-	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_feuer" value="Feuerelemente">
-
 <div id="feuerinhalt">
-    <table id="Feuerelemente">
+<table id="Feuerelemente">
     <tr>
         <td><span title="Asche"><input type="button" style="background:url(../Bilder/Elemente/Asche.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_asche" value=""></span></td>
         <td>---------------></td>
@@ -237,18 +228,15 @@
         <td></td>
         <td></td>
     </tr>
-    
+	<tr>
+		<td><br></td>
+	</tr>
 </table>
-</div>
 </div>
 
 <!-- Luftelemente -->
-<div id="luft" style="background:url(../Bilder/luftelemente.png); background-repeat:no-repeat;">
-	<input type="submit" style="height:100px; width:200px; opacity: 0.0;" name="button_luft" value="Luftelemente">
-
 <div id="luftinhalt">
 <table id="Luftelemente">
-    
     <tr>
         <td>---------------></td>
         <td><span title="Korrosion"><input type="button" style="background:url(../Bilder/Elemente/Korrosion.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_korrosion" value=""></span></td>
@@ -320,9 +308,10 @@
         <td>---------------></td>
         <td><span title="Sandsturm"><input type="button" style="background:url(../Bilder/Elemente/Sandsturm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_sandsturm" value=""></span></td>
     </tr>
-     
+	<tr>
+		<td><br></td>
+	</tr>
 </table>
-</div>
 </div>
 
 

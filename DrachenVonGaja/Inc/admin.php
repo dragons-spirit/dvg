@@ -620,10 +620,10 @@
 							<input id="<?php echo 'npc_item_wkt_'.$count; ?>" type="input" name="<?php echo 'npc_item_wkt_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 						</td>
 						<td>
-							<input id="<?php echo 'npc_item_min_'.$count; ?>" type="input" name="<?php echo 'npc_item_min_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+							<input id="<?php echo 'npc_item_min_'.$count; ?>" type="input" name="<?php echo 'npc_item_min_'.$count; ?>" value="<?php echo $npc_item[2]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 						</td>
 						<td>
-							<input id="<?php echo 'npc_item_max_'.$count; ?>" type="input" name="<?php echo 'npc_item_max_'.$count; ?>" value="<?php echo $npc_item[1]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
+							<input id="<?php echo 'npc_item_max_'.$count; ?>" type="input" name="<?php echo 'npc_item_max_'.$count; ?>" value="<?php echo $npc_item[3]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);">
 						</td>
 					</tr>
 					<?php

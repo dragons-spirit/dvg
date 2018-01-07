@@ -77,8 +77,8 @@ input[type=button]
     left: 0px;
     width:100%;
     height:100%;
-    min-height:890px;
-    min-width:1250px;
+    min-height:600px;
+    min-width:1024px;
 }
 #obere_Leiste
 {
@@ -105,7 +105,7 @@ input[type=button]
 #untere_Leiste
 {
     position:absolute;
-    bottom:-100px;
+    bottom:0px;
     left:0px;
     height:30px;
     width:100%;
@@ -148,14 +148,14 @@ input[type=button]
 #zur_spielerauswahl
 {
     position:absolute;
-    top:50px;
-    left:50px;
+    top:30px;
+    left:20px;
     z-index: 1;
 }
 #zielgebiete{
 	position:absolute;
-	left:10px;
-	top:200px;
+	left:20px;
+	top:100px;
 	width:50px;
 	height:100px;
 	color:#ffffff;
@@ -163,28 +163,24 @@ input[type=button]
 #levelanzeige{
 	
 }
-
+#spielmenü_1
+{
+	position:absolute;
+	top:200px;
+	left:20px;
+}
+#spielmenü_2
+{
+	position:absolute;
+	top:200px;
+	left:120px;
+	display:none;
+}
 
 /* Mitte Zentral */
 #hauptfenster{
 	
 }
-#elemente{
-    position:absolute;
-    left:10px;
-    top:300px;
-    width:200px;
-    height:200px;
-    display:none;
-    bottom:0px;
-}
-#spielmenü
-{
-	position:absolute;
-	top:0px;
-	left:0px;
-}
-
 
 /* Mitte Rechts */
 #charakter
@@ -196,119 +192,144 @@ input[type=button]
     transform: translate(-50%, 0%);
 }
 
-
 #aktionenrahmen
 {
 	position:absolute;
-	bottom:100px;
+	bottom:50px;
 	left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
 }
 
+/* Menü */
+#menu_button_gross
+{
+	height:75px;
+	width:150px;
+	opacity:0.0;
+}
+
+#menu_button_klein
+{
+	height:50px;
+	width:100px;
+	opacity:0.0;
+}
+
+#menu2_button_gross
+{
+	height:75px;
+	width:150px;
+	opacity:0.0;
+}
 
 #menu1
 {
-    position:absolute;
+    background:url(././Bilder/feuerbutton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 #menu2
 {
-    position:absolute;
-    left:180px;
+    background:url(././Bilder/flugbutton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 #menu3
 {
-    position:absolute;
-    left:360px;
+    background:url(././Bilder/erkundenbutton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 #menu4
 {
-    position:absolute;
-    left:540px;
+    background:url(././Bilder/gepaeckbutton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 #menu5
 {
-    position:absolute;
-    left:720px;
+	background:url(././Bilder/elementbutton.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 
 #erde
 {
-    position:absolute;
-    top:100px;
-    left:-60px;
-}
-
-#erdinhalt
-{
-    background-color:#3B170B;
-    position:absolute;
-    margin-top:100px;
-    margin-left:190px;
-    padding:10px;
-    top:-90px;
-    width:600px;
-    height:400px;
-    display:none;  
+	background:url(././Bilder/erdelemente.png);
+	background-repeat:no-repeat;
+	background-size:100%;
 }
 
 #wasser
 {
+	background:url(./Bilder/wasserelemente.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+
+#feuer
+{
+	background:url(./Bilder/feuerelemente.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+
+#luft
+{
+	background:url(./Bilder/luftelemente.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+
+
+/* Elemente */
+#erdinhalt
+{
+    background-color:#3B170B;
     position:absolute;
-    top:200px;
-    left:-60px;
+    padding:10px;
+    width:100%;
+	height:100%;
+	/*width:600px;
+    height:400px;*/
+    display:none;
 }
 
 #wasserinhalt
 {
     background-color:#0B2161;
     position:absolute;
-    margin-top:100px;
-    margin-left:190px;
     padding:10px;
-    top:-190px;
-    width:600px;
-    height:830px;
-    display:none;  
-}
-
-#feuer
-{
-    position:absolute;
-    top:300px;
-    left:-60px;
+	width:100%;
+	height:100%;
+	/*width:600px;
+    height:830px;*/
+    display:none;
+	overflow-y: scroll;
 }
 
 #feuerinhalt
 {
     background-color:#3B0B0B;
     position:absolute;
-    margin-top:-100px;
-    margin-left:190px;
     padding:10px;
-    top:-90px;
-    width:600px;
-    height:450px;
-    display:none;  
-}
-
-#luft
-{
-    position:absolute;
-    top:400px;
-    left:-60px;
+    width:100%;
+	height:100%;
+	/*width:600px;
+    height:450px;*/
+    display:none;
 }
 
 #luftinhalt
 {
     background-color:#088A85;
     position:absolute;
-    margin-top:-200px;
-    margin-left:190px;
     padding:10px;
-    top:-90px;
-    width:600px;
-    height:575px;
+    width:100%;
+	height:100%;
+	/*width:600px;
+    height:575px;*/
     display:none;  
 }
 

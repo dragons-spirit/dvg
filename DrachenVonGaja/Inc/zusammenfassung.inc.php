@@ -131,20 +131,20 @@
 
 
 <!--
-############
-#  Logout  #
-############
+##########################
+#  Logout & Adminbereich #
+##########################
 -->
 <?php
 	if (isset($_SESSION['login_name']))
 	{
 ?>
 		<p align="right">
+			<input type="submit" name="button_admin" value="Adminbereich">
 			<input type="submit" name="button_logout" value="Logout">
 		</p>
 <?php
 	}
-
 
 ###################################
 #	Vorhandenen Spieler löschen   #
@@ -170,18 +170,16 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		Benutzername: <input type="text" name="login_user" size="15">
 		Passwort: <input type="password" name="login_pswd" size="15">
 		<input type="submit" name="button_login" value="anmelden">
-		<br />
-		<br />
-		<p align="center"><img src="Bilder/Deckblatt.png" height=500px“/></p>
 <?php
 		if (!isset($_SESSION['registrierung_ok']))
 		{
 ?>
 			<input id="temp2" type="submit" name="button_acc_neu" value="Neuer Account">
-			<br />
-			<br />
 <?php
 		}
+?>
+		<p align="center"><img src="Bilder/Deckblatt.png" height="500px"/></p>
+<?php
 	}
 	
 	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht"))
@@ -405,19 +403,6 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 <?php
 	}
 	
-
-##################
-#  Adminbereich  #
-##################
-
-	if (isset($_SESSION['login_name']))
-	{
-?>
-		<p align="right">
-			<input type="submit" name="button_admin" value="Adminbereich">
-		</p>
-<?php
-	}
 	
 	
 	if ($debug)

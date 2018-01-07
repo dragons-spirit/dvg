@@ -333,41 +333,48 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 	}
 	
 	/* Anzeige Elemente umschalten */
-	function sichtbar(wert)
+	function sichtbar_elemente(wert)
 	{
 		switch(wert)
 		{
 			case 1:
-                            document.getElementById('erdinhalt').style.display = 'block';
-                            document.getElementById('wasserinhalt').style.display = 'none';
-                            document.getElementById('feuerinhalt').style.display = 'none';
-                            document.getElementById('luftinhalt').style.display = 'none';
+                document.getElementById('erdinhalt').style.display = 'block';
+                document.getElementById('wasserinhalt').style.display = 'none';
+                document.getElementById('feuerinhalt').style.display = 'none';
+                document.getElementById('luftinhalt').style.display = 'none';
 			break;
 			case 2:
-                            document.getElementById('erdinhalt').style.display = 'none';
-                            document.getElementById('wasserinhalt').style.display = 'block';
-                            document.getElementById('feuerinhalt').style.display = 'none';
-                            document.getElementById('luftinhalt').style.display = 'none';
-                     
+                document.getElementById('erdinhalt').style.display = 'none';
+                document.getElementById('wasserinhalt').style.display = 'block';
+                document.getElementById('feuerinhalt').style.display = 'none';
+                document.getElementById('luftinhalt').style.display = 'none';     
 			break;
 			case 3:
-                            document.getElementById('erdinhalt').style.display = 'none';
-                            document.getElementById('wasserinhalt').style.display = 'none';
-                            document.getElementById('feuerinhalt').style.display = 'block';
-                            document.getElementById('luftinhalt').style.display = 'none';
-                            
+                document.getElementById('erdinhalt').style.display = 'none';
+                document.getElementById('wasserinhalt').style.display = 'none';
+                document.getElementById('feuerinhalt').style.display = 'block';
+                document.getElementById('luftinhalt').style.display = 'none';
 			break;
 			case 4:
-                            document.getElementById('erdinhalt').style.display = 'none';
-                            document.getElementById('wasserinhalt').style.display = 'none';
-                            document.getElementById('feuerinhalt').style.display = 'none';
-                            document.getElementById('luftinhalt').style.display = 'block';                                
+                document.getElementById('erdinhalt').style.display = 'none';
+                document.getElementById('wasserinhalt').style.display = 'none';
+                document.getElementById('feuerinhalt').style.display = 'none';
+                document.getElementById('luftinhalt').style.display = 'block';                                
+			break;
+			case 'false':		
+				document.getElementById('erdinhalt').style.display = 'none';
+                document.getElementById('wasserinhalt').style.display = 'none';
+                document.getElementById('feuerinhalt').style.display = 'none';
+                document.getElementById('luftinhalt').style.display = 'none';
+			break;
+			case 'menü':		
+				document.getElementById('spielmenü_2').style.display = 'block';
 			break;
 			default:		
-							document.getElementById('erdinhalt').style.display = 'none';
-                            document.getElementById('wasserinhalt').style.display = 'none';
-                            document.getElementById('feuerinhalt').style.display = 'none';
-                            document.getElementById('luftinhalt').style.display = 'none';
+				document.getElementById('erdinhalt').style.display = 'none';
+                document.getElementById('wasserinhalt').style.display = 'none';
+                document.getElementById('feuerinhalt').style.display = 'none';
+                document.getElementById('luftinhalt').style.display = 'none';
 			break;
 		}
 	}
