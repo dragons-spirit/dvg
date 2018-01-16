@@ -294,6 +294,44 @@ function get_items_titel()
 }
 
 
+#----------------------------------- SELECT npc.* (auswahl) -----------------------------------
+#	-> npc.titel (str)
+#	-> npc.beschreibung (str)
+#	-> npc.typ (str)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] titel
+#	<- [2] beschreibung
+#	<- [3] typ
+#	<- [4] bilder_id
+
+function suche_items($titel, $beschreibung, $typ)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	*
+			FROM 	items
+			WHERE 	items.titel like ?
+				and items.beschreibung like ?
+				and items.typ like ?"))
+	{
+		$stmt->bind_param('sss', $titel, $beschreibung, $typ);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItems geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in suche_items()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+
 #***************************************************************************************************************
 #***************************************************** NPC *****************************************************
 #***************************************************************************************************************

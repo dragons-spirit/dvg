@@ -111,12 +111,6 @@
 						zurueckButton();
 						break;
 					
-					# NPCs anlegen			
-					case "NPCsAnlegen":
-						echo "# Lege neue NPCs an<br>"; 
-						zurueckButton();
-						break;
-										
 					# NPCs ändern
 					case "NPCsSuchen":
 						$titel = "";
@@ -278,17 +272,74 @@
 						zurueckButton("NPCsSuchen");
 						break;
 					
-					# Items anlegen					
-					case "ItemsAnlegen":
-						echo "# Lege neue Items an<br>"; 
+					# Items ändern
+					case "ItemsSuchen":
+						$titel = "";
+						$familie = "";
+						$beschreibung = "";
+						$typ = "";
+						if(isset($_POST['filter_titel'])) $titel = $_POST['filter_titel'];
+						if(isset($_POST['filter_familie'])) $familie = $_POST['filter_familie'];
+						if(isset($_POST['filter_beschreibung'])) $beschreibung = $_POST['filter_beschreibung'];
+						if(isset($_POST['filter_typ'])) $typ = $_POST['filter_typ'];
+						?>
+						<h2>Items</h2>
+						<br>
+						<?php
+						if($items = suche_items("%".$titel."%", "%".$beschreibung."%", "%".$typ."%"))
+						{
+							?>
+							<table border="1px" border-color="white">
+								<tr align="left" style="margin:5px;">
+									<th>Aktionen</th>
+									<th>Id</th>
+									<th>Titel</th>
+									<th>Beschreibung</th>
+									<th>Typ</th>
+									<th>Bild</th>
+								</tr>
+								<tr align="left" style="margin:5px;">
+									<td><input type="button" name="button_ItemBearbeiten" value="hinzufügen" onclick="set_button_submit('ItemBearbeiten',0);"></td>
+									<td></td>
+									<td><input type="input" name="filter_titel" value="<?php echo $titel ?>" autofocus onFocus="set_button('ItemsSuchen','titel');"></td>
+									<td><input type="input" name="filter_beschreibung" value="<?php echo $beschreibung ?>" onFocus="set_button('ItemsSuchen','beschreibung');"></td>
+									<td><input type="input" name="filter_typ" value="<?php echo $typ ?>" onFocus="set_button('ItemsSuchen','typ');"></td>
+									<td></td>
+								</tr>   
+							<?php
+							$anz_gesamt = 0;
+							while($row = $items->fetch_array(MYSQLI_NUM))
+							{
+								$anz_gesamt = $anz_gesamt + 1;
+								?>
+								<tr>
+									<td><input type="button" name="button_ItemBearbeiten" value="bearbeiten" onclick="set_button_submit('ItemBearbeiten',<?php echo $row[0]; ?>);"></td>
+									<?php
+									$i = 0;
+									$i_max = count($row) - 1;
+									while($i <= $i_max)
+									{
+										
+											?>
+											<td><?php echo $row[$i]; ?></td>
+											<?php
+										
+										$i = $i + 1;
+									}
+									?>
+								</tr>
+								<?php
+							}
+							?>
+							</table>
+							<?php
+							echo "<br>Das dürfte(n) ".$anz_gesamt." Item(s) sein.<br>";
+						} else {
+							echo "<br>Kein Item gefunden.<br>";
+						}
 						zurueckButton();
 						break;
 					
-					# Items ändern			
-					case "ItemsAendern":
-						echo "# Ändere Items<br>"; 
-						zurueckButton();
-						break;
 					
 					case "AdminStart":
 						?>
@@ -298,13 +349,11 @@
 						</div>
 						<div id="NPCs" style="padding-top:20px;">
 							<h3>NPCs</h3>
-							<input type="button" name="button_NPCsAnlegen" value="Neu anlegen" onclick="set_button_submit('NPCsAnlegen');"> (ohne Funktion)<br>
-							<input type="button" name="button_NPCsSuchen" value="Ändern" onclick="set_button_submit('NPCsSuchen'); this.form.submit();">
+							<input type="button" name="button_NPCsSuchen" value="Hinzufügen/Ändern" onclick="set_button_submit('NPCsSuchen'); this.form.submit();">
 						</div>
 						<div id="Items" style="padding-top:20px;">
 							<h3>Items</h3>
-							<input type="button" name="button_ItemsAnlegen" value="Neu anlegen" onclick="set_button_submit('ItemsAnlegen');"> (ohne Funktion)<br>
-							<input type="button" name="button_ItemsAendern" value="Ändern" onclick="set_button_submit('ItemsAendern');"> (ohne Funktion)
+							<input type="button" name="button_ItemsSuchen" value="Hinzufügen/Ändern" onclick="set_button_submit('ItemsSuchen'); this.form.submit();">
 						</div>
 						<?php
 						break;
