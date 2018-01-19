@@ -178,7 +178,11 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 <?php
 		}
 ?>
-		<p align="center"><img src="Bilder/Deckblatt.png" height="500px"/></p>
+		<!-- Hintergrundbild der Startseite-->
+                
+                <p align="center"><img src="Bilder/Deckblatt.png" height="500px"/></p>
+<p align="center"><a class="storylink" href="inc/story.php" alt="Storylink"/>Wer sind die Drachen von Gaja ?</a></p>
+
 <?php
 	}
 	
