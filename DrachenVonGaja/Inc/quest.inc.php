@@ -31,6 +31,7 @@
     left:41px;
     right:45px;
     bottom:11px;
+	color:black;
 }
 
 

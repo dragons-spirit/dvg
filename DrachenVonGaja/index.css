@@ -204,7 +204,10 @@ a:active
 
 /* Mitte Zentral */
 #hauptfenster{
-	
+	position:absolute;
+    width:100%;
+	height:100%;
+	overflow-y: auto;
 }
 
 /* Mitte Rechts */
@@ -279,6 +282,13 @@ a:active
 	background-size:100%;
 }
 
+#menu6
+{
+	background:url(././Bilder/Tagebuch.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+
 #erde
 {
 	background:url(././Bilder/erdelemente.png);
@@ -319,6 +329,7 @@ a:active
 	/*width:600px;
     height:400px;*/
     display:none;
+	overflow-y: auto;
 }
 
 #wasserinhalt
@@ -331,7 +342,7 @@ a:active
 	/*width:600px;
     height:830px;*/
     display:none;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 #feuerinhalt
@@ -344,6 +355,7 @@ a:active
 	/*width:600px;
     height:450px;*/
     display:none;
+	overflow-y: auto;
 }
 
 #luftinhalt
@@ -355,109 +367,18 @@ a:active
 	height:100%;
 	/*width:600px;
     height:575px;*/
-    display:none;  
+    display:none;
+	overflow-y: auto;
 }
 
 
 /* Einzel-Divs */
 
 /*Gebietsverlinkungsbildchen*/
-#sumpf
+#gebietslinks
 {
-  position:absolute;
-  margin-top:11%;
-  float:left;
-  width:50px;
+  width:120px;
   height:25px;
-  color:white;
-}
-#vulkan
-{
-  position:absolute;
-  margin-top:12%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#eissee
-{
-  position:absolute;
-  margin-top:13%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#dschungel
-{
-  position:absolute;
-  margin-top:14%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#klippen{
-  position:absolute;
-  margin-top:15%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#kristall
-{
-  position:absolute;
-  margin-top:16%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#wueste
-{
-  position:absolute;
-  margin-top:17%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#mammut
-{
-  position:absolute;
-  margin-top:18%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#wald
-{
-  position:absolute;
-  margin-top:19%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#oase
-{
-  position:absolute;
-  margin-top:20%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
-}
-#steppe{
-  position:absolute;
-  margin-top:21%;
-  float:left;
-  width:50px;
-  height:25px;
-  color:white;
 }
 
 

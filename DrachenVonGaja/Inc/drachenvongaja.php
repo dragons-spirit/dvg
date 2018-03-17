@@ -205,6 +205,7 @@
 											?>
 												<tr align="center">
 													<td width="25px"><?php echo $row[0] ?></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" width="75px" alt=""/></td>
 													<td width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
 													<td width="25px"><?php echo $row[3] ?></td>
 													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $row[0];?>"></td>
@@ -223,6 +224,7 @@
 											?>
 												<tr align="center">
 													<td	width="25px"><?php echo $row[0] ?></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" width="75px" alt=""/></td>
 													<td	width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
 													<td	width="25px"><?php echo $row[3] ?></td>
 													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $row[0];?>"></td>
@@ -283,7 +285,7 @@
 							if(isset($_POST["button_feuer"])) $elementebutton = 3;
 							if(isset($_POST["button_luft"])) $elementebutton = 4;
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0);
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]));
 							
 							######################
 							# Start von Aktionen #
@@ -321,9 +323,10 @@
 									{	
 										$counter = 0;
 										?>
-										<table border="1px" border-color="white" align="center" style="margin-top:100px;" width="500px" >
+										<table border="1px" border-color="white" align="center" style="margin-top:100px;" width="700px" >
 											<tr>
 												<td>Item</td>
+												<td>Bild</td>
 												<td>Beschreibung</td>
 												<td>Typ</td>
 												<td>Anzahl</td>
@@ -335,6 +338,7 @@
 											?>
 											<tr>
 												<td align="left"><?php echo $row[1] ?></td>
+												<td align="center"><img src="<?php echo get_bild_zu_id($row[5]) ?>" width="75px" alt=""/></td>
 												<td align="left"><?php echo $row[2] ?></td>
 												<td align="left"><?php echo $row[3] ?></td>
 												<td align="right"><?php echo $row[4] ?></td>
@@ -370,6 +374,11 @@
 									?>
 									<script>sichtbar_elemente("false");</script>
 									<?php
+								}
+								
+								if(isset($_POST["button_tagebuch"]))
+								{
+									include('quest.inc.php');
 								}
 								
 							}
@@ -435,6 +444,7 @@
 							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php	
 						} else {
 						?>
@@ -443,6 +453,7 @@
 							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php
 						}
 						?>

@@ -83,7 +83,7 @@ function zeige_gebietslinks($gebiet_id)
 		while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
 		{
 	?>			
-		<input style="height: 25px; width: 80px;"  type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
+		<input id="gebietslinks" type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
 	<?php
 		}
 	}

@@ -282,6 +282,33 @@ function get_bild_zu_titel($titel)
 }
 
 
+#----------------------------------------------- SELECT bilder.pfad (id) ----------------------------------------------
+# 	-> bilder.id (int)
+#	<- bild.pfad(str)
+
+function get_bild_zu_id($id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	pfad
+			FROM 	bilder
+			WHERE 	bilder.id = ?")){
+		$stmt->bind_param('d', $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
+	} else {
+		echo "<br />\nQuerryfehler in get_bild_zu_id()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
 
 #***************************************************************************************************************
 #*************************************************** GATTUNG ***************************************************
@@ -504,6 +531,7 @@ function get_items_npc($npc_id)
 #	<- [2] beschreibung
 #	<- [3] typ
 #	<- [4] anzahl
+#	<- [5] bilder_id
 
 function get_all_items_spieler($spieler_id)
 {
@@ -516,7 +544,8 @@ function get_all_items_spieler($spieler_id)
 				items.titel,
 				items.beschreibung,
 				items.typ,
-				items_spieler.anzahl
+				items_spieler.anzahl,
+				items.bilder_id
 			FROM
 				items
 				JOIN items_spieler ON items.id = items_spieler.items_id
@@ -662,6 +691,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 #	<- [1] titel
 #	<- [2] beschreibung
 #	<- [3] wahrscheinlichkeit
+#	<- [4] bilder_id
 
 function get_npcs_gebiet($gebiet_id, $npc_typ)
 {
@@ -672,7 +702,8 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 			SELECT 	npc.id,
 				npc.titel,
 				npc.beschreibung,
-				npc_gebiet.wahrscheinlichkeit
+				npc_gebiet.wahrscheinlichkeit,
+				npc.bilder_id
 			FROM 	npc
 				JOIN npc_gebiet ON npc.id = npc_gebiet.npc_id
 			WHERE 	npc_gebiet.gebiet_id = ?
