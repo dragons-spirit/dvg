@@ -44,7 +44,7 @@
 				<h1 align="center" style="font-family:Elementary Gothic,EG Dragon Caps;">Drachen von Gaja</h1>  
 			</div>
 			
-			<div id="anmeldung" > <!-- style="overflow:scroll;" -->
+			<div id="anmeldung" style="overflow-y: scroll;">
 
 <?php
                 
