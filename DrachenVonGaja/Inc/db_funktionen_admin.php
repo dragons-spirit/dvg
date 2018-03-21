@@ -294,11 +294,11 @@ function get_items_titel()
 }
 
 
-#----------------------------------- SELECT npc.* (auswahl) -----------------------------------
-#	-> npc.titel (str)
-#	-> npc.beschreibung (str)
-#	-> npc.typ (str)
-#	Array mit npc-Daten [Position]
+#----------------------------------- SELECT items.* (auswahl) -----------------------------------
+#	-> items.titel (str)
+#	-> items.beschreibung (str)
+#	-> items.typ (str)
+#	Array mit item-Daten [Position]
 #	<- [0] id
 #	<- [1] titel
 #	<- [2] beschreibung
@@ -372,6 +372,36 @@ function get_npc_by_id($npc_id)
 		$result = $stmt->get_result();
 		close_connection($connect_db_dvg);
 		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_by_id()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+
+#----------------------------------- SELECT npc.id (einzel) -----------------------------------
+# 	-> npc.titel (str)
+#	<- npc.id (int)
+
+function get_npc_id_by_titel($npc_titel)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id
+			FROM 	npc
+			WHERE 	npc.titel = ?"))
+	{
+		$stmt->bind_param('s', $npc_titel);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPC-Id für: [npc_titel=" . $npc_titel . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		close_connection($connect_db_dvg);
+		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_npc_by_id()<br />\n";
 		close_connection($connect_db_dvg);

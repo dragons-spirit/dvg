@@ -224,16 +224,12 @@
 						echo "<br><br>";
 						break;
 					
+					/* Ausführung von Änderungen am NPC */
 					case "NPCaendern":
-						$npc_id = $button_value;
-						$npc_daten = daten_aus_post("npc");
-						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
-						ausgabe_array($npc_gebiet_daten,2);
-						$npc_item_daten = daten_aus_post("npc_items");
-						ausgabe_array($npc_item_daten,2);
-						echo "<br>";echo "<br>";
 						
 						#Update NPC-Daten
+						$npc_id = $button_value;
+						$npc_daten = daten_aus_post("npc");
 						if($npc_id > 0){
 							if (updateNPC($npc_daten))
 								echo "NPC erfolgreich geändert";
@@ -241,13 +237,15 @@
 								echo "Keine Änderungen an NPC vorgenommen";
 						} else {
 							if (insertNPC($npc_daten))
-								echo "NPC erfolgreich hinzugefügt";
+								echo "NPC erfolgreich hinzugefügt";								
 							else
 								echo "Fehler beim Hinzufügen des NPCs";
 						}
 						echo "<br><br>";
 						
 						#Update NPC_Gebiet-Daten
+						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
+						#ausgabe_array($npc_gebiet_daten,2);
 						$anz_delete = deleteNPCgebiete($npc_id);
 						$anz_insert = 0;
 						foreach ($npc_gebiet_daten as $ds){
@@ -259,6 +257,8 @@
 						echo "<br><br>";
 						
 						#Update NPC_Item-Daten
+						$npc_item_daten = daten_aus_post("npc_items");
+						#ausgabe_array($npc_item_daten,2);
 						$anz_delete = deleteNPCitems($npc_id);
 						$anz_insert = 0;
 						foreach ($npc_item_daten as $ds){
@@ -535,19 +535,17 @@
 	{
 		?>
 		<table>
+			<tr>
+				<td colspan="2" align="left"><h2>Zu finden in</h2></td>
+			</tr>
+			<tr>
+				<th>Gebiet</th>
+				<th>Wkt in %</th>
+			</tr>
 			<?php
+			$count = 0;
 			if($npc_gebiete)
 			{
-				?>
-				<tr>
-					<td colspan="2" align="left"><h2>Zu finden in</h2></td>
-				</tr>
-				<tr>
-					<th>Gebiet</th>
-					<th>Wkt in %</th>
-				</tr>
-				<?php
-				$count = 0;
 				while($npc_gebiet = $npc_gebiete->fetch_array(MYSQLI_NUM))
 				{
 					?>
@@ -623,21 +621,19 @@
 	{
 		?>
 		<table>
+			<tr>
+				<td colspan="4" align="left"><h2>Mögliche Items</h2></td>
+			</tr>
+			<tr>
+				<th>Item</th>
+				<th>Wkt in %</th>
+				<th>Minimum</th>
+				<th>Maximum</th>
+			</tr>
 			<?php
+			$count = 0;
 			if($npc_items)
 			{
-				?>
-				<tr>
-					<td colspan="4" align="left"><h2>Mögliche Items</h2></td>
-				</tr>
-				<tr>
-					<th>Item</th>
-					<th>Wkt in %</th>
-					<th>Minimum</th>
-					<th>Maximum</th>
-				</tr>
-				<?php
-				$count = 0;
 				while($npc_item = $npc_items->fetch_array(MYSQLI_NUM))
 				{
 					?>
@@ -763,6 +759,7 @@
 				$count = 0;
 				$daten = array();
 				$npc_id = $_POST["npc_id"];
+				if(!$npc_id) $npc_id = get_npc_id_by_titel($_POST["npc_titel"]);
 				while (array_key_exists("npc_gebiet_auswahl_".$count, $_POST)){
 					$gebiet_id = $_POST["npc_gebiet_auswahl_".$count];
 					$wkt = $_POST["npc_gebiet_wkt_".$count];
@@ -780,6 +777,7 @@
 				$count = 0;
 				$daten = array();
 				$npc_id = $_POST["npc_id"];
+				if(!$npc_id) $npc_id = get_npc_id_by_titel($_POST["npc_titel"]);
 				while (array_key_exists("npc_item_auswahl_".$count, $_POST)){
 					$items_id = $_POST["npc_item_auswahl_".$count];
 					$wkt = $_POST["npc_item_wkt_".$count];
