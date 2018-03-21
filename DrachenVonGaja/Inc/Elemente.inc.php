@@ -1,6 +1,6 @@
 <!-- Erdelemente -->
 <div id="erdinhalt" name="erdinhalt">
-<table id="Erdelemente" cellspacing="5px">
+<table id="elemente_tabelle" cellspacing="5px">
     <tr>
         <td><span title="Lehm"><input type="button" style="background:url(../Bilder/Elemente/Lehm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lehm" value=""></span></td>
 	    
@@ -58,7 +58,7 @@
 
 <!-- Wasserelemente -->
 <div id="wasserinhalt">
-<table id="Wasserelemente">
+<table id="elemente_tabelle" cellspacing="5px">
     <tr>
         <td><span title="Schlamm"><input type="button" style="background:url(../Bilder/Elemente/Schlamm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_schlamm" value=""></span></td>
         <td><span title="Salzwasser"><input type="button" style="background:url(../Bilder/Elemente/Salzwasser.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_salzwasser" value=""></span></td>
@@ -171,7 +171,7 @@
 
 <!-- Feuerelemente -->
 <div id="feuerinhalt">
-<table id="Feuerelemente">
+<table id="elemente_tabelle" cellspacing="5px">
     <tr>
         <td><span title="Asche"><input type="button" style="background:url(../Bilder/Elemente/Asche.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_asche" value=""></span></td>
         <td>---------------></td>
@@ -236,7 +236,7 @@
 
 <!-- Luftelemente -->
 <div id="luftinhalt">
-<table id="Luftelemente">
+<table id="elemente_tabelle" cellspacing="5px">
     <tr>
         <td>---------------></td>
         <td><span title="Korrosion"><input type="button" style="background:url(../Bilder/Elemente/Korrosion.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_korrosion" value=""></span></td>

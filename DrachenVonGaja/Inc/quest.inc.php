@@ -8,7 +8,6 @@
     top:0px;
     left:0px;
     bottom:0px;
-    /*padding:0.1em;*/
 }
 
 #right
@@ -19,8 +18,6 @@
     top:0px;
     right:0px;
     bottom:0px;
-
-    /*padding:0.1em;*/
 }
 
 #questinhalt
@@ -28,8 +25,8 @@
     position:absolute;
     background-color:#F5D0A9;
     top:18px;
-    left:41px;
-    right:45px;
+    left:43px;
+    right:43px;
     bottom:11px;
 	color:black;
 }
@@ -40,44 +37,46 @@
     position:absolute;
     top:0px;
     left:0px;
-    width:187px;
-    height:54px;
+	width:100%;
+	height:5%;
     background-Image: url("../Bilder/kap_o.png");
     background-repeat:no-repeat;
-    background-size:30%;   
+    background-size:100%;
+	background-position:top center;
 }
 #kap_o_r
 {
     position:absolute;
     top:0px;
-    left:0px;
-    width:187px;
-    height:54px;
+    right:0px;
+    width:100%;
+    height:5%;
     background-Image: url("../Bilder/kap_o.png");
     background-repeat:no-repeat;
-    background-size:30%;
+    background-size:100%;
+	background-position:top center;
 }
 #kap_u_l
 {
     position:absolute;
     bottom:0px;
-    left:3px;
-    width:150px;
-    height:19px;
+	width:100%;
+    height:5%;
     background-Image: url("../Bilder/kap_u.png");
     background-repeat:no-repeat;
-    background-size:30%;
+    background-size:80%;
+	background-position:bottom center;
 }
 #kap_u_r
 {
     position:absolute;
     bottom:0px;
-    left:3px;
-    width:150px;
-    height:19px;
+    width:100%;
+    height:5%;
     background-Image: url("../Bilder/kap_u.png");
     background-repeat:no-repeat;
-    background-size:30%;
+    background-size:80%;
+	background-position:bottom center;
 }
 
 #streifen_links
@@ -85,11 +84,11 @@
     position:absolute;
     background-image: url("../Bilder/streifen.png");
     background-repeat:repeat-y;
-    background-size:30%;
+    background-size:56%;
     top:0px;
-    width:100px;
+    width:100%;
     height:99%;
-    left:11px;
+    background-position:bottom center;
 }
 
 #streifen_rechts
@@ -97,11 +96,11 @@
     position:absolute;
     background-image: url("../Bilder/streifen.png");
     background-repeat:repeat-y;
-    background-size:30%;
+    background-size:56%;
     top:0px;
-    width:100px;
+    width:100%;
     height:99%;
-    left:11px;
+    background-position:bottom center;
 }
 
 </style>
@@ -114,12 +113,12 @@
     
 </div>
 
-           
 <div id="right">
     <div id="streifen_rechts"></div>
     <div id="kap_o_r"></div>
      <div id="kap_u_r"></div>
 </div>
+
 <div id="questinhalt">
     
     <h1 align="center">Titel</h1>
