@@ -282,7 +282,10 @@
 							$elementebutton = 0;
 							if(isset($_POST["button_erde"])) $elementebutton = 1;
 							if(isset($_POST["button_wasser"])) $elementebutton = 2;
-							if(isset($_POST["button_feuer"])) $elementebutton = 3;
+							if(isset($_POST["button_feuer"])){
+								elemente_anzeigen("Feuer"); 
+								$elementebutton = 3;
+							}
 							if(isset($_POST["button_luft"])) $elementebutton = 4;
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
 							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]));

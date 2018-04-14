@@ -156,6 +156,19 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 	}
 }
 
+
+function elemente_anzeigen($hauptelement)
+{
+	?>
+	<p align="center">
+		<?php
+			echo "Super! Das Hauptelement " . $hauptelement . " soll angezeigt werden, aber nichts passiert. <br /><br /> \n Echt toll!";
+		?>
+	</p> 
+	<?php
+}
+
+
 ?>
 
 <script>

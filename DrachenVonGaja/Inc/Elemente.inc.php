@@ -215,7 +215,7 @@
     <tr>
         <td>----------------</td>
         <td>---------------></td>
-        <td><span title="Feuerball><input type="button" style="background:url(../Bilder/Elemente/Feuerball.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuerball" value=""></span></td>
+        <td><span title="Feuerball"><input type="button" style="background:url(../Bilder/Elemente/Feuerball.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuerball" value=""></span></td>
         <td>---------------></td>
         <td><span title="Blitz"><input type="button" style="background:url(../Bilder/Elemente/Blitz.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_blitz" value=""></span></td>
         <td><span title="Feuersturm"><input type="button" style="background:url(../Bilder/Elemente/Feuersturm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuersturm" value=""></span></td>
