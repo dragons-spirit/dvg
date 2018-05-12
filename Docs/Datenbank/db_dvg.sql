@@ -1,13 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 12. Mai 2018 um 10:09
--- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 5.6.30
+-- Erstellungszeit: 12. Mai 2018 um 17:49
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 5.6.21
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -21,7 +20,7 @@ SET time_zone = "+00:00";
 -- Datenbank: `db_dvg`
 --
 
-DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
+DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
 
 -- --------------------------------------------------------
 
@@ -395,34 +394,34 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 (205, 'streifen', '../Bilder/streifen.png'),
 (207, 'Osterei_gruen', '../Bilder/NPC/Osterei_gruen.png'),
 (208, 'Osterei_lila', '../Bilder/NPC/Osterei_lila.png'),
-(209, 'L1_erde', '../Bilder/Alle Drachen/L1_erde.png'),
-(210, 'L1_feuer', '../Bilder/Alle Drachen/L1_feuer.png'),
-(211, 'L1_himmel', '../Bilder/Alle Drachen/L1_himmel.png'),
-(212, 'L1_wasser', '../Bilder/Alle Drachen/L1_wasser.png'),
-(213, 'L2_erde', '../Bilder/Alle Drachen/L2_erde.png'),
-(214, 'L2_feuer', '../Bilder/Alle Drachen/L2_feuer.png'),
-(215, 'L2_himmel', '../Bilder/Alle Drachen/L2_himmel.png'),
-(216, 'L2_wasser', '../Bilder/Alle Drachen/L2_wasser.png'),
-(217, 'L3_erde', '../Bilder/Alle Drachen/L3_erde.png'),
-(218, 'L3_feuer', '../Bilder/Alle Drachen/L3_feuer.png'),
-(219, 'L3_himmel', '../Bilder/Alle Drachen/L3_himmel.png'),
-(220, 'L3_wasser', '../Bilder/Alle Drachen/L3_wasser.png'),
-(221, 'L4_erde', '../Bilder/Alle Drachen/L4_erde.png'),
-(222, 'L4_feuer', '../Bilder/Alle Drachen/L4_feuer.png'),
-(223, 'L4_himmel', '../Bilder/Alle Drachen/L4_himmel.png'),
-(224, 'L4_wasser', '../Bilder/Alle Drachen/L4_wasser.png'),
-(225, 'L5_erde', '../Bilder/Alle Drachen/L5_erde.png'),
-(226, 'L5_feuer', '../Bilder/Alle Drachen/L5_feuer.png'),
-(227, 'L5_himmel', '../Bilder/Alle Drachen/L5_himmel.png'),
-(228, 'L5_wasser', '../Bilder/Alle Drachen/L5_wasser.png'),
-(229, 'L6_erde', '../Bilder/Alle Drachen/L6_erde.png'),
-(230, 'L6_feuer', '../Bilder/Alle Drachen/L6_feuer.png'),
-(231, 'L6_himmel', '../Bilder/Alle Drachen/L6_himmel.png'),
-(232, 'L6_wasser', '../Bilder/Alle Drachen/L6_wasser.png'),
-(233, 'L7_erde', '../Bilder/Alle Drachen/L7_erde.png'),
-(234, 'L7_feuer', '../Bilder/Alle Drachen/L7_feuer.png'),
-(235, 'L7_himmel', '../Bilder/Alle Drachen/L7_himmel.png'),
-(236, 'L7_wasser', '../Bilder/Alle Drachen/L7_wasser.png'),
+(209, 'L1_erde', '../Bilder/AlleDrachen/L1_erde.png'),
+(210, 'L1_feuer', '../Bilder/AlleDrachen/L1_feuer.png'),
+(211, 'L1_himmel', '../Bilder/AlleDrachen/L1_himmel.png'),
+(212, 'L1_wasser', '../Bilder/AlleDrachen/L1_wasser.png'),
+(213, 'L2_erde', '../Bilder/AlleDrachen/L2_erde.png'),
+(214, 'L2_feuer', '../Bilder/AlleDrachen/L2_feuer.png'),
+(215, 'L2_himmel', '../Bilder/AlleDrachen/L2_himmel.png'),
+(216, 'L2_wasser', '../Bilder/AlleDrachen/L2_wasser.png'),
+(217, 'L3_erde', '../Bilder/AlleDrachen/L3_erde.png'),
+(218, 'L3_feuer', '../Bilder/AlleDrachen/L3_feuer.png'),
+(219, 'L3_himmel', '../Bilder/AlleDrachen/L3_himmel.png'),
+(220, 'L3_wasser', '../Bilder/AlleDrachen/L3_wasser.png'),
+(221, 'L4_erde', '../Bilder/AlleDrachen/L4_erde.png'),
+(222, 'L4_feuer', '../Bilder/AlleDrachen/L4_feuer.png'),
+(223, 'L4_himmel', '../Bilder/AlleDrachen/L4_himmel.png'),
+(224, 'L4_wasser', '../Bilder/AlleDrachen/L4_wasser.png'),
+(225, 'L5_erde', '../Bilder/AlleDrachen/L5_erde.png'),
+(226, 'L5_feuer', '../Bilder/AlleDrachen/L5_feuer.png'),
+(227, 'L5_himmel', '../Bilder/AlleDrachen/L5_himmel.png'),
+(228, 'L5_wasser', '../Bilder/AlleDrachen/L5_wasser.png'),
+(229, 'L6_erde', '../Bilder/AlleDrachen/L6_erde.png'),
+(230, 'L6_feuer', '../Bilder/AlleDrachen/L6_feuer.png'),
+(231, 'L6_himmel', '../Bilder/AlleDrachen/L6_himmel.png'),
+(232, 'L6_wasser', '../Bilder/AlleDrachen/L6_wasser.png'),
+(233, 'L7_erde', '../Bilder/AlleDrachen/L7_erde.png'),
+(234, 'L7_feuer', '../Bilder/AlleDrachen/L7_feuer.png'),
+(235, 'L7_himmel', '../Bilder/AlleDrachen/L7_himmel.png'),
+(236, 'L7_wasser', '../Bilder/AlleDrachen/L7_wasser.png'),
 (237, 'apfel', '../Bilder/NPC/apfel.png'),
 (238, 'apfelbaum', '../Bilder/NPC/apfelbaum.png');
 
@@ -517,10 +516,10 @@ CREATE TABLE `gattung` (
 --
 
 INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intelligenz`, `start_magie`, `start_element_feuer`, `start_element_wasser`, `start_element_erde`, `start_element_luft`, `beschreibung`) VALUES
-(1, 1, 'Feuerdrache', 10, 5, 0, 5, 1, 1, 1, ''),
-(2, 1, 'Wasserdrache', 10, 5, 0, 1, 5, 1, 1, ''),
-(3, 1, 'Erddrache', 10, 5, 0, 1, 1, 5, 1, ''),
-(4, 1, 'Luftdrache', 10, 5, 0, 1, 1, 1, 5, ''),
+(1, 210, 'Feuerdrache', 10, 5, 0, 5, 1, 1, 1, ''),
+(2, 212, 'Wasserdrache', 10, 5, 0, 1, 5, 1, 1, ''),
+(3, 209, 'Erddrache', 10, 5, 0, 1, 1, 5, 1, ''),
+(4, 211, 'Luftdrache', 10, 5, 0, 1, 1, 1, 5, ''),
 (5, 1, 'Zayine', 10, 10, 10, 10, 10, 10, 10, ''),
 (6, 1, 'Fisch', 2, 1, 0, 0, 30, 0, 0, ''),
 (7, 1, 'Paarhufer', 5, 4, 1, 0, 5, 10, 10, ''),
@@ -557,7 +556,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
 (12, 1, '---ohne---', '---ohne---');
 
 -- --------------------------------------------------------
@@ -627,7 +626,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 237),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 'Pflanze', 1),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 1),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
 (5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 1),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
@@ -702,6 +701,54 @@ INSERT INTO `level` (`id`, `voraussetzung`, `titel`, `stufe`, `modifikator`, `be
 (5, '', 'Level 5', 5, 0, ''),
 (6, '', 'Level 6', 6, 0, ''),
 (7, '', 'Level 7', 7, 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `level_bilder`
+--
+
+DROP TABLE IF EXISTS `level_bilder`;
+CREATE TABLE `level_bilder` (
+  `id` int(10) NOT NULL,
+  `bilder_id` int(10) NOT NULL,
+  `level_id` int(10) NOT NULL,
+  `gattung_id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Daten für Tabelle `level_bilder`
+--
+
+INSERT INTO `level_bilder` (`id`, `bilder_id`, `level_id`, `gattung_id`) VALUES
+(1, 209, 1, 3),
+(2, 210, 1, 1),
+(3, 211, 1, 4),
+(4, 212, 1, 2),
+(5, 213, 2, 3),
+(6, 214, 2, 1),
+(7, 215, 2, 4),
+(8, 216, 2, 2),
+(9, 217, 3, 3),
+(10, 218, 3, 1),
+(11, 219, 3, 4),
+(12, 220, 3, 2),
+(13, 221, 4, 3),
+(14, 222, 4, 1),
+(15, 223, 4, 4),
+(16, 224, 4, 2),
+(17, 225, 5, 3),
+(18, 226, 5, 1),
+(19, 227, 5, 4),
+(20, 228, 5, 2),
+(21, 229, 6, 3),
+(22, 230, 6, 1),
+(23, 231, 6, 4),
+(24, 232, 6, 2),
+(25, 233, 7, 3),
+(26, 234, 7, 1),
+(27, 235, 7, 4),
+(28, 236, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -902,7 +949,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
-(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht\'s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
+(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht''s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
 
 -- --------------------------------------------------------
 
@@ -956,20 +1003,24 @@ CREATE TABLE `spieler` (
 --
 
 INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `balance`, `zuletzt_gespielt`) VALUES
-(7, 17, 1, 2, 1, 3, 'Saphira', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(8, 17, 1, 1, 1, 7, 'Drako', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(9, 17, 1, 4, 1, 5, 'Luftikuss', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:43:57'),
-(10, 31, 1, 3, 1, 6, 'Testdrachin', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(11, 32, 1, 3, 1, 4, 'Heino', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 16:18:43'),
-(12, 36, 1, 1, 1, 2, 'Quiecker', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(13, 36, 1, 2, 1, 1, 'Lambadina', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(14, 11, 1, 4, 1, 8, 'Baldrian', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:49:15'),
-(15, 11, 1, 3, 1, 8, 'Cecilia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2016-12-18 17:46:48'),
-(16, 17, 1, 2, 1, 3, 'Blauer Enzian', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(17, 17, 1, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2017-03-12 20:27:17'),
-(18, 17, 1, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2016-12-18 16:14:44'),
-(19, 11, 1, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-04-14 15:41:39'),
-(26, 10, 1, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-03-17 16:38:15');
+(7, 17, 212, 2, 1, 3, 'Saphira', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:55:01'),
+(8, 17, 210, 1, 1, 7, 'Drako', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:55:15'),
+(9, 17, 211, 4, 1, 5, 'Luftikuss', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 08:55:30'),
+(10, 31, 209, 3, 1, 6, 'Testdrachin', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:55:50'),
+(11, 32, 209, 3, 1, 4, 'Heino', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:56:10'),
+(12, 36, 210, 1, 1, 2, 'Quiecker', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:56:24'),
+(13, 36, 212, 2, 1, 1, 'Lambadina', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:56:39'),
+(14, 11, 211, 4, 1, 8, 'Baldrian', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 08:56:52'),
+(15, 11, 209, 3, 1, 8, 'Cecilia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:57:08'),
+(16, 17, 212, 2, 1, 3, 'Blauer Enzian', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:57:25'),
+(17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:57:58'),
+(18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 08:58:12'),
+(19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:59:13'),
+(26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 10:44:42'),
+(32, 10, 211, 4, 1, 8, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 11:13:47'),
+(33, 11, 210, 1, 1, 2, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:31:51'),
+(36, 11, 211, 4, 1, 5, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 15:36:31'),
+(37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59');
 
 -- --------------------------------------------------------
 
@@ -1213,6 +1264,15 @@ ALTER TABLE `level`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indizes für die Tabelle `level_bilder`
+--
+ALTER TABLE `level_bilder`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_bilder_id_level_bilder` (`bilder_id`) USING BTREE,
+  ADD KEY `FK_level_id_level_bilder` (`level_id`) USING BTREE,
+  ADD KEY `FK_gattung_id_level_bilder` (`gattung_id`) USING BTREE;
+
+--
 -- Indizes für die Tabelle `npc`
 --
 ALTER TABLE `npc`
@@ -1358,6 +1418,11 @@ ALTER TABLE `items_spieler`
 ALTER TABLE `level`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
+-- AUTO_INCREMENT für Tabelle `level_bilder`
+--
+ALTER TABLE `level_bilder`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+--
 -- AUTO_INCREMENT für Tabelle `npc`
 --
 ALTER TABLE `npc`
@@ -1386,7 +1451,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --
@@ -1465,6 +1530,14 @@ ALTER TABLE `items_spieler`
   ADD CONSTRAINT `FK_spieler_id_items_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE;
 
 --
+-- Constraints der Tabelle `level_bilder`
+--
+ALTER TABLE `level_bilder`
+  ADD CONSTRAINT `FK_bilder_id_level_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`),
+  ADD CONSTRAINT `FK_gattung_id_level_bilder` FOREIGN KEY (`gattung_id`) REFERENCES `gattung` (`id`),
+  ADD CONSTRAINT `FK_level_id_level_bilder` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`);
+
+--
 -- Constraints der Tabelle `npc`
 --
 ALTER TABLE `npc`
@@ -1523,7 +1596,6 @@ ALTER TABLE `zauber`
 ALTER TABLE `zauber_spieler`
   ADD CONSTRAINT `FK_spieler_id_zauber_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_zauber_id_zauber_spieler` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE;
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

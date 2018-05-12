@@ -193,7 +193,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
-			$count = 0;
+			$count = 0; 
 ?>			
 			<table align="center" border="1px" color="black">
 				<tr>
@@ -213,8 +213,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 ?>			
 				<tr>
 					<td><?php echo $count ?></td>
-					<td><?php echo $row[6] . "<br />\n"; ?></td>
-                    <td style="background-image:url(./Bilder/<?php bild_zu_spielerlevel($row[4]); ?>); background-repeat:no-repeat;">
+					<td><?php echo $row[6] . "<br />\n";?></td>
+                    <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($row[2])); ?>); background-repeat:no-repeat; background-size:contain;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
 					</td>
 					<td><?php echo $row[3] . "<br />\n"; ?></td>
@@ -395,9 +395,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		$_SESSION['letzte_seite'] = "neuer_spieler_name_geschlecht";
 ?>
         <!-- Spielername & Geschlecht -->
-		<table align="center">  
-			<tr><td>Bild von Element</td><td>Bild von Gebiet</td></tr>
-			<tr><td>Name:<input type="text" name="playname" size="15"></td><td>
+		<table align="center">
+			<tr><td>Name: <input type="text" name="playname" size="15"></td><td>
 			<select name="geschlecht">
 				<option value="Weiblich" name="gesch1">Weiblich</option>
 				<option value="Maennlich" name="gesch2">Männlich</option>

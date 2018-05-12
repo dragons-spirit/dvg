@@ -28,32 +28,9 @@ function berechne_max_energie($start_element_feuer, $start_element_wasser, $star
 	return ($start_element_feuer + $start_element_wasser + $start_element_erde + $start_element_luft);	
 }
 
-function bild_zu_spielerlevel($level){
-	switch ($level) {
-    case 1:
-        $bild = "Babydrache.png";
-        break;
-    case 2:
-        $bild = "Drachenkind.png";
-        break;
-    case 3:
-        $bild = "JugendlicherDrache.png";
-        break;
-	case 4:
-        $bild = "ErwachsenerDrache.png";
-        break;
-	case 5:
-        $bild = "AusgewachsenerDrache.png";
-        break;
-	case 6:
-        $bild = "ErfahrenerDrache.png";
-        break;
-	case 7:
-        $bild = "AlterDrache.png";
-        break;
-	}
-	echo $bild;
-	return;
+function bild_zu_spielerlevel($bilder_id)
+{
+	return get_bild_zu_id($bilder_id);
 }
 
 
@@ -67,12 +44,10 @@ function check_wkt($wkt)
 
 function zeige_hintergrundbild($gebiet_id)
 {
-	?>
-	<p align="center" style="margin-top:100px; margin-bottom:0px; font-size:14pt;">
+	?><p align="center" style="margin-top:100px; margin-bottom:0px; font-size:14pt;">
 		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="100%" height="60%" alt=""/><br><br>
 		<?php echo get_gebiet($gebiet_id)[3]; ?>
-	</p> 
-	<?php
+	</p><?php
 }
 
 
@@ -159,15 +134,40 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 
 function elemente_anzeigen($hauptelement)
 {
-	?>
-	<p align="center">
+	?><p align="center">
 		<?php
 			echo "Super! Das Hauptelement " . $hauptelement . " soll angezeigt werden, aber nichts passiert. <br /><br /> \n Echt toll!";
 		?>
-	</p> 
-	<?php
+	</p><?php
 }
 
+function scanneNeueBilder($ordner)
+{
+	global $endungen_bilder, $neue_dateien;
+	$alle_dateien = scandir($ordner); # array für alle Dateien im Ordner
+	foreach ($alle_dateien as $datei)
+	{
+		$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
+		$titel = utf8_encode($dateiinfo['filename']); # ersten Bildtitel aus Dateiname erzeugen
+		$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
+		if(array_key_exists('extension', $dateiinfo))
+			$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
+		else $endung = 'none';
+		# Datei merken, wenn Dateipfad noch nicht in DB bekannt und Endung einer Bilddatei entspricht
+		if (!check_bild_vorhanden($pfad))
+		{	
+			if (in_array($endung, $endungen_bilder))
+				$neue_dateien[] = array('titel' => $titel, 'pfad' => $pfad);
+			elseif (is_dir($ordner."/".$titel) && $titel<>"." && $titel<>"")
+				scanneNeueBilder($ordner."/".$titel);
+		}
+	}
+}
+
+function pfad_fuer_style($pfad)
+{
+	return substr($pfad,1);	
+}
 
 ?>
 
@@ -391,4 +391,29 @@ function elemente_anzeigen($hauptelement)
 			break;
 		}
 	}
+	
+	/* Löschfunktion für Spieler */
+	function buttonwechsel(spieler_id)
+	{
+		document.getElementById("b_sp_loe_" + spieler_id + "_1").style.visibility="hidden";
+		document.getElementById("b_sp_loe_" + spieler_id + "_2").style.visibility="visible";
+	}
+	
+	function set_button(button_name, button_value="")
+	{
+		document.getElementById("button_name_id").value=button_name;
+		document.getElementById("button_value_id").value=button_value;
+	}
+	
+	function set_button_submit(button_name, button_value="")
+	{
+		document.getElementById("button_name_id").value=button_name;
+		document.getElementById("button_value_id").value=button_value;
+		document.getElementById("dvg_admin").submit();
+	}
+	
+	
+	
+	
+	
 </script>

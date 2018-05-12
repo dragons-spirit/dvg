@@ -84,6 +84,7 @@
 				$energie = $spielerdaten[17];
 				$max_energie = $spielerdaten[18];
 				$balance = $spielerdaten[19];
+				$zuletzt_gespielt = $spielerdaten[20];
 			}
 			else
 			{
@@ -96,20 +97,6 @@
 ######################################################################################
 			$speipunkte = 5;
 			$flugpunkte = 5;
-			
-			$level7 = 7;
-			$level6 = 6;
-			$level5 = 5;
-			$level4 = 4;
-			$level3 = 3;
-			$level2 = 2;
-			$level1 = 1;
-			
-			$erd1 = 1; $wasser1 = 1; $feuer1 = 1; $luft1 = 1;
-			$erd2 = 2; $wasser2 = 2; $feuer2 = 2; $luft2 = 2;
-			$erd3 = 3; $wasser3 = 3; $feuer3 = 3; $luft3 = 3;
-			$erd4 = 4; $wasser4 = 4; $feuer4 = 4; $luft4 = 4;
-			$erd5 = 5; $wasser5 = 5; $feuer5 = 5; $luft5 = 5;
 
 		?>
 		
@@ -469,7 +456,7 @@
 					<div id="charakter">
 						<table style="margin-top:20px;">
 							<tr>
-								<td colspan="2"><img align="center" src="../Bilder/<?php bild_zu_spielerlevel($level_id); ?>" width="200px" alt="Spielerbild"/></td>
+								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
