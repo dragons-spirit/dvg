@@ -38,7 +38,7 @@
 	<form id="dvg_admin" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 		#header("Content-Type: text/html; charset=utf-8");
-		include("db_funktionen_login.php");
+		include("db_funktionen.php");
 		include("db_funktionen_admin.php");
 		include("funktionen_system.php");
 		

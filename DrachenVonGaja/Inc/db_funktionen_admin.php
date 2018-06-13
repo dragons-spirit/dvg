@@ -74,33 +74,6 @@ function get_spalten($tabellenname)
 #***************************************************************************************************************
 
 
-#----------------------------------------------- SELECT bilder.pfad (id) ----------------------------------------------
-# 	-> bilder.id (int)
-#	<- bild.pfad(str)
-
-function get_bild_zu_id($id)
-{
-	global $debug;
-	$connect_db_dvg = open_connection();
-	
-	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	pfad
-			FROM 	bilder
-			WHERE 	bilder.id = ?")){
-		$stmt->bind_param('d', $id);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
-		return $row[0];
-	} else {
-		echo "<br />\nQuerryfehler in get_bild_zu_id()<br />\n";
-		close_connection($connect_db_dvg);
-		return false;
-	}
-}
-
-
 #----------------------------------------------- Bildernamen ----------------------------------------------
 #	-> pfad (str) - nur relevante Bilder
 #	Array mit Bilder-Daten [Position]
