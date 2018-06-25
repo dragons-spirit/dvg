@@ -2,10 +2,10 @@
 -- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 12. Mai 2018 um 17:49
--- Server-Version: 10.1.13-MariaDB
--- PHP-Version: 5.6.21
+-- Host: localhost
+-- Erstellungszeit: 25. Jun 2018 um 18:22
+-- Server-Version: 10.0.17-MariaDB
+-- PHP-Version: 5.6.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -20,15 +20,12 @@ SET time_zone = "+00:00";
 -- Datenbank: `db_dvg`
 --
 
-DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
-
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `account`
 --
 
-DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id` int(10) NOT NULL,
   `login` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -65,7 +62,6 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 -- Tabellenstruktur für Tabelle `aktion`
 --
 
-DROP TABLE IF EXISTS `aktion`;
 CREATE TABLE `aktion` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -96,7 +92,6 @@ INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `st
 -- Tabellenstruktur für Tabelle `aktion_spieler`
 --
 
-DROP TABLE IF EXISTS `aktion_spieler`;
 CREATE TABLE `aktion_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -195,7 +190,27 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 (80, 19, 2, '2018-04-14 15:41:42', '2018-04-14 15:41:47', 'abgeschlossen', 0, 0),
 (81, 19, 2, '2018-04-14 15:41:53', '2018-04-14 15:41:58', 'abgeschlossen', 0, 0),
 (82, 19, 2, '2018-04-14 15:42:03', '2018-04-14 15:42:08', 'abgeschlossen', 0, 0),
-(83, 19, 7, '2018-04-14 15:42:12', '2018-04-14 15:42:17', 'abgeschlossen', 6, 0);
+(83, 19, 7, '2018-04-14 15:42:12', '2018-04-14 15:42:17', 'abgeschlossen', 6, 0),
+(84, 32, 10, '2018-06-25 11:53:12', '2018-06-25 11:53:22', 'abgeschlossen', 4, 0),
+(85, 32, 2, '2018-06-25 11:53:27', '2018-06-25 11:53:32', 'abgeschlossen', 0, 0),
+(86, 32, 6, '2018-06-25 11:53:36', '2018-06-25 11:53:41', 'abgeschlossen', 11, 0),
+(87, 26, 10, '2018-06-25 12:04:07', '2018-06-25 12:04:17', 'abgeschlossen', 11, 0),
+(88, 26, 2, '2018-06-25 12:04:20', '2018-06-25 12:04:25', 'abgeschlossen', 0, 0),
+(89, 26, 2, '2018-06-25 12:04:31', '2018-06-25 12:04:36', 'abgeschlossen', 0, 0),
+(90, 26, 10, '2018-06-25 12:04:40', '2018-06-25 12:04:50', 'abgeschlossen', 4, 0),
+(91, 26, 2, '2018-06-25 12:04:52', '2018-06-25 12:04:57', 'abgeschlossen', 0, 0),
+(92, 26, 7, '2018-06-25 12:05:01', '2018-06-25 12:05:06', 'abgeschlossen', 14, 0),
+(93, 26, 2, '2018-06-25 12:05:10', '2018-06-25 12:05:15', 'abgeschlossen', 0, 0),
+(94, 26, 2, '2018-06-25 12:05:20', '2018-06-25 12:05:25', 'abgeschlossen', 0, 0),
+(95, 26, 6, '2018-06-25 12:05:29', '2018-06-25 12:05:34', 'abgeschlossen', 24, 0),
+(96, 26, 10, '2018-06-25 12:05:49', '2018-06-25 12:05:59', 'abgeschlossen', 11, 0),
+(97, 26, 2, '2018-06-25 12:06:04', '2018-06-25 12:06:09', 'abgeschlossen', 0, 0),
+(98, 26, 6, '2018-06-25 12:06:12', '2018-06-25 12:06:17', 'abgeschlossen', 22, 0),
+(99, 26, 10, '2018-06-25 12:06:43', '2018-06-25 12:06:53', 'abgeschlossen', 4, 0),
+(100, 26, 2, '2018-06-25 12:06:55', '2018-06-25 12:07:00', 'abgeschlossen', 0, 0),
+(101, 26, 2, '2018-06-25 12:07:04', '2018-06-25 12:07:09', 'abgeschlossen', 0, 0),
+(102, 26, 2, '2018-06-25 12:07:13', '2018-06-25 12:07:18', 'abgeschlossen', 0, 0),
+(103, 26, 6, '2018-06-25 12:07:20', '2018-06-25 12:07:25', 'abgeschlossen', 11, 0);
 
 -- --------------------------------------------------------
 
@@ -203,7 +218,6 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 -- Tabellenstruktur für Tabelle `bilder`
 --
 
-DROP TABLE IF EXISTS `bilder`;
 CREATE TABLE `bilder` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -423,7 +437,21 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 (235, 'L7_himmel', '../Bilder/AlleDrachen/L7_himmel.png'),
 (236, 'L7_wasser', '../Bilder/AlleDrachen/L7_wasser.png'),
 (237, 'apfel', '../Bilder/NPC/apfel.png'),
-(238, 'apfelbaum', '../Bilder/NPC/apfelbaum.png');
+(238, 'apfelbaum', '../Bilder/NPC/apfelbaum.png'),
+(239, 'GuÌrteltier', '../Bilder/NPC/GuÌrteltier.png'),
+(240, 'Ratte', '../Bilder/NPC/Ratte.png'),
+(241, 'catfish', '../Bilder/NPC/catfish.png'),
+(242, 'eisbaÌr', '../Bilder/NPC/eisbaÌr.png'),
+(243, 'erdmaÌnnchen', '../Bilder/NPC/erdmaÌnnchen.png'),
+(244, 'fleisch', '../Bilder/NPC/fleisch.png'),
+(245, 'gorilla', '../Bilder/NPC/gorilla.png'),
+(246, 'hyaÌne', '../Bilder/NPC/hyaÌne.png'),
+(247, 'knochen', '../Bilder/NPC/knochen.png'),
+(248, 'kuÌrbis', '../Bilder/NPC/kuÌrbis.png'),
+(249, 'loÌwe', '../Bilder/NPC/loÌwe.png'),
+(250, 'marienkaÌfer', '../Bilder/NPC/marienkaÌfer.png'),
+(251, 'plueschdrache', '../Bilder/NPC/plueschdrache.png'),
+(252, 'zebra', '../Bilder/NPC/zebra.png');
 
 -- --------------------------------------------------------
 
@@ -431,7 +459,6 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 -- Tabellenstruktur für Tabelle `element`
 --
 
-DROP TABLE IF EXISTS `element`;
 CREATE TABLE `element` (
   `id` int(10) NOT NULL,
   `element_id` int(10) NOT NULL,
@@ -454,10 +481,42 @@ INSERT INTO `element` (`id`, `element_id`, `bilder_id`, `titel`, `beschreibung`)
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `element_bedingungen`
+--
+
+CREATE TABLE `element_bedingungen` (
+  `id` int(10) NOT NULL,
+  `elementaktion` varchar(50) NOT NULL,
+  `erdpunkte` varchar(5) DEFAULT NULL,
+  `wasserpunkte` varchar(5) DEFAULT NULL,
+  `feuerpunkte` varchar(5) DEFAULT NULL,
+  `luftpunkte` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `element_bedingungen`
+--
+
+INSERT INTO `element_bedingungen` (`id`, `elementaktion`, `erdpunkte`, `wasserpunkte`, `feuerpunkte`, `luftpunkte`) VALUES
+(1, 'Lehm', '2', '1', '0', '0'),
+(2, 'Tropfstein', '3', '1', '0', '0'),
+(3, 'Treibsand', '3', '2', '0', '0'),
+(4, 'Sandstein', '4', '1', '0', '0'),
+(5, 'Kreide', '4', '2', '0', '0'),
+(6, 'Gerölllawine', '4', '3', '0', '0'),
+(7, 'Schlamm', '1', '2', '0', '0'),
+(8, 'Salzwasser', '1', '3', '0', '0'),
+(9, 'Gletscher', '2', '3', '0', '0'),
+(10, 'Tsunami', '1', '4', '0', '0'),
+(11, 'Wasserfall', '2', '4', '0', '0'),
+(12, 'Muräne', '3', '4', '0', '0');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `faehigkeiten`
 --
 
-DROP TABLE IF EXISTS `faehigkeiten`;
 CREATE TABLE `faehigkeiten` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -481,7 +540,6 @@ INSERT INTO `faehigkeiten` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `faehigkeiten_spieler`
 --
 
-DROP TABLE IF EXISTS `faehigkeiten_spieler`;
 CREATE TABLE `faehigkeiten_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -496,7 +554,6 @@ CREATE TABLE `faehigkeiten_spieler` (
 -- Tabellenstruktur für Tabelle `gattung`
 --
 
-DROP TABLE IF EXISTS `gattung`;
 CREATE TABLE `gattung` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -533,7 +590,6 @@ INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intel
 -- Tabellenstruktur für Tabelle `gebiet`
 --
 
-DROP TABLE IF EXISTS `gebiet`;
 CREATE TABLE `gebiet` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -565,7 +621,6 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `gebiet_gebiet`
 --
 
-DROP TABLE IF EXISTS `gebiet_gebiet`;
 CREATE TABLE `gebiet_gebiet` (
   `id` int(10) NOT NULL,
   `von_gebiet_id` int(10) NOT NULL,
@@ -610,7 +665,6 @@ INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
 -- Tabellenstruktur für Tabelle `items`
 --
 
-DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` int(10) NOT NULL,
   `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -626,15 +680,15 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 237),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 1),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 84),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
-(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 1),
+(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 95),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
 (7, 'Messer', 'Ein kleines scharfes Messer. Nützlich um so allerlei Dinge zu ernten, zu teilen, zu filetieren oder was man sonst noch damit anstellen kann. Auf jeden Fall präziser als eine klobige Drachenkralle.', 'Werkzeug', 1),
-(8, 'Knochen', 'Grau, staubig, schaurig ... ein Knochen wie er im Buche steht.', 'Material', 1),
+(8, 'Knochen', 'Grau, staubig, schaurig ... ein Knochen wie er im Buche steht.', 'Material', 247),
 (9, 'Schokoladendrache', 'Süßer Drache zum Vernaschen', 'Nahrung', 1),
 (10, 'Drachenfigur', 'Nicht zum Verzehr geeignet!', 'Spielzeug', 1),
-(11, 'Plüschdrache', 'Einfach zum Knuddeln ... für einsame Stunden', 'Spielzeug', 1),
+(11, 'Plüschdrache', 'Einfach zum Knuddeln ... für einsame Stunden', 'Spielzeug', 251),
 (12, 'Drachenpuzzleteil 1', 'Das 1. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (13, 'Drachenpuzzleteil 2', 'Das 2. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (14, 'Drachenpuzzleteil 3', 'Das 3. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
@@ -646,7 +700,6 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 -- Tabellenstruktur für Tabelle `items_spieler`
 --
 
-DROP TABLE IF EXISTS `items_spieler`;
 CREATE TABLE `items_spieler` (
   `id` int(10) NOT NULL,
   `items_id` int(10) NOT NULL,
@@ -669,9 +722,11 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (8, 8, 26, 1),
 (9, 5, 26, 5),
 (10, 11, 26, 2),
-(11, 1, 26, 3),
+(11, 1, 26, 4),
 (12, 2, 26, 1),
-(13, 14, 26, 1);
+(13, 14, 26, 1),
+(14, 2, 32, 1),
+(15, 15, 26, 1);
 
 -- --------------------------------------------------------
 
@@ -679,7 +734,6 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 -- Tabellenstruktur für Tabelle `level`
 --
 
-DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
   `id` int(10) NOT NULL,
   `voraussetzung` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -708,7 +762,6 @@ INSERT INTO `level` (`id`, `voraussetzung`, `titel`, `stufe`, `modifikator`, `be
 -- Tabellenstruktur für Tabelle `level_bilder`
 --
 
-DROP TABLE IF EXISTS `level_bilder`;
 CREATE TABLE `level_bilder` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -756,7 +809,6 @@ INSERT INTO `level_bilder` (`id`, `bilder_id`, `level_id`, `gattung_id`) VALUES
 -- Tabellenstruktur für Tabelle `npc`
 --
 
-DROP TABLE IF EXISTS `npc`;
 CREATE TABLE `npc` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -782,7 +834,7 @@ CREATE TABLE `npc` (
 
 INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `beschreibung`, `typ`) VALUES
 (1, 1, 2, 'Wymar (Name von der Redaktion geändert)', 'Drache', 75, 100, 50, 100, 20, 20, 20, 1000, 100, 'Wymar ist einer der ältesten bekannten Drachen und wird für seine Weisheit hoch geschätzt. Ihr tut gut daran, seinen Ratschlägen aufs genauste zu folgen.', 'ansprechbar'),
-(2, 1, 4, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. ', 'angreifbar'),
+(2, 240, 4, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. ', 'angreifbar'),
 (3, 1, 1, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Einen Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.', 'angreifbar'),
 (4, 77, 4, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
 (5, 77, 4, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
@@ -793,7 +845,18 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 (11, 91, 4, 'Großer Panda', 'Bär', 10, 5, 100, 0, 0, 20, 5, 50, 20, 'Ein großer knuddeliger Bär mit traurigen schwarzen Augen. Er knabbert gemütlich an einem Bambuszweig.', 'angreifbar'),
 (12, 208, 5, 'Osterei lila', 'Ei', 0, 0, 1, 0, 0, 0, 1, 1, 1, 'Nicht ganz rund aber trotzdem perfekt geformt. Ein tolles Souvenir.', 'sammelbar'),
 (14, 207, 4, 'Osterei grün', 'Ei', 0, 0, 1, 0, 0, 1, 0, 1, 1, 'Nicht ganz rund aber trotzdem perfekt geformt. Ein tolles Souvenir.', 'sammelbar'),
-(21, 90, 2, 'Feuerteufel', 'Elementarteilchen', 0, 0, 100, 100, 0, 0, 0, 1000, 1000, 'Ein kleines heißes Kerlchen, was mit Feuer umzugehen weiß. Vorsicht!', 'angreifbar');
+(21, 90, 2, 'Feuerteufel', 'Elementarteilchen', 0, 0, 100, 100, 0, 0, 0, 1000, 1000, 'Ein kleines heißes Kerlchen, was mit Feuer umzugehen weiß. Vorsicht!', 'angreifbar'),
+(22, 46, 4, 'Erdmännchen', '---ohne---', 5, 20, 5, 0, 0, 10, 0, 10, 30, 'Ein sehr guter Beobachter !', 'angreifbar'),
+(23, 39, 4, 'Hase', 'Löffeltier', 10, 10, 5, 0, 0, 5, 0, 20, 30, 'Ein Hase !', 'angreifbar'),
+(24, 88, 4, 'Löwe', 'Katzen', 80, 20, 10, 0, 0, 20, 0, 50, 40, 'Ein großer starker Löwe !', 'angreifbar'),
+(25, 96, 3, 'Stockente', 'Vogel', 10, 20, 10, 0, 10, 0, 0, 20, 30, '---ohne---', 'angreifbar'),
+(26, 37, 3, 'Pinguin', 'Vogel', 5, 15, 10, 0, 30, 0, 0, 15, 30, '---ohne---', 'angreifbar'),
+(27, 241, 3, 'Katzenfisch', 'Fisch', 5, 10, 5, 0, 10, 0, 0, 20, 10, '---ohne---', 'angreifbar'),
+(28, 43, 5, 'Ara', 'Vogel', 10, 40, 10, 0, 0, 0, 20, 30, 20, '---ohne---', 'angreifbar'),
+(29, 86, 4, 'Kürbis', 'Gemüse', 2, 0, 5, 0, 0, 2, 0, 2, 0, '---ohne---', 'sammelbar'),
+(30, 94, 2, 'Skorpion', 'Insekten', 10, 5, 0, 20, 0, 0, 0, 20, 10, 'Vorsicht Stachel !', 'angreifbar'),
+(31, 78, 4, 'Sonnenblume', 'Pflanzen', 0, 0, 10, 0, 0, 10, 0, 2, 10, '---ohne---', 'sammelbar'),
+(32, 40, 1, 'Hibiskus', 'Pflanze', 0, 0, 0, 0, 0, 10, 0, 10, 10, 'Irgendeine Pflanze mit schönen roten Blüten, wenn sie denn mal blühen !', 'sammelbar');
 
 -- --------------------------------------------------------
 
@@ -801,7 +864,6 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 -- Tabellenstruktur für Tabelle `npc_gebiet`
 --
 
-DROP TABLE IF EXISTS `npc_gebiet`;
 CREATE TABLE `npc_gebiet` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -814,16 +876,6 @@ CREATE TABLE `npc_gebiet` (
 --
 
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
-(1, 2, 1, 50),
-(2, 2, 2, 50),
-(3, 2, 3, 50),
-(4, 2, 4, 50),
-(6, 2, 6, 50),
-(7, 2, 7, 50),
-(8, 2, 8, 50),
-(9, 2, 9, 50),
-(10, 2, 10, 50),
-(11, 2, 11, 50),
 (12, 1, 5, 100),
 (13, 4, 4, 40),
 (14, 5, 4, 10),
@@ -872,7 +924,41 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (121, 6, 8, 10),
 (122, 6, 9, 70),
 (123, 6, 10, 50),
-(124, 6, 11, 20);
+(124, 6, 11, 20),
+(125, 22, 11, 50),
+(126, 22, 9, 20),
+(127, 22, 9, 5),
+(128, 23, 9, 60),
+(129, 24, 11, 20),
+(130, 24, 4, 10),
+(131, 24, 7, 5),
+(132, 24, 9, 5),
+(133, 25, 4, 5),
+(134, 25, 9, 10),
+(135, 25, 3, 10),
+(136, 26, 3, 20),
+(137, 27, 3, 20),
+(138, 27, 1, 40),
+(139, 27, 10, 10),
+(140, 28, 4, 30),
+(141, 28, 10, 10),
+(143, 30, 7, 20),
+(144, 30, 10, 30),
+(145, 2, 1, 50),
+(146, 2, 2, 50),
+(147, 2, 3, 50),
+(148, 2, 4, 50),
+(149, 2, 6, 50),
+(150, 2, 7, 50),
+(151, 2, 8, 50),
+(152, 2, 9, 50),
+(153, 2, 10, 50),
+(154, 2, 11, 50),
+(155, 31, 9, 10),
+(156, 31, 4, 5),
+(157, 29, 9, 5),
+(158, 32, 9, 50),
+(159, 32, 4, 30);
 
 -- --------------------------------------------------------
 
@@ -880,7 +966,6 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 -- Tabellenstruktur für Tabelle `npc_items`
 --
 
-DROP TABLE IF EXISTS `npc_items`;
 CREATE TABLE `npc_items` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -902,9 +987,6 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (7, 4, 8, 85, 2, 3),
 (8, 4, 4, 75, 1, 1),
 (9, 4, 6, 5, 1, 1),
-(10, 2, 1, 45, 1, 1),
-(11, 2, 7, 10, 1, 1),
-(12, 2, 8, 50, 1, 1),
 (14, 10, 7, 10, 0, 1),
 (15, 11, 2, 10, 0, 3),
 (28, 12, 10, 10, 1, 1),
@@ -922,7 +1004,16 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (50, 21, 6, 10, 1, 1),
 (51, 21, 8, 5, 1, 1),
 (52, 6, 1, 100, 1, 3),
-(53, 6, 2, 25, 1, 1);
+(53, 6, 2, 25, 1, 1),
+(54, 22, 8, 10, 1, 2),
+(55, 23, 8, 20, 1, 2),
+(56, 24, 6, 5, 1, 1),
+(57, 24, 7, 10, 1, 1),
+(58, 24, 1, 10, 1, 1),
+(59, 24, 1, 10, 1, 1),
+(60, 2, 1, 45, 1, 1),
+(61, 2, 7, 10, 1, 1),
+(62, 2, 8, 50, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -930,7 +1021,6 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 -- Tabellenstruktur für Tabelle `quest`
 --
 
-DROP TABLE IF EXISTS `quest`;
 CREATE TABLE `quest` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -957,7 +1047,6 @@ INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzu
 -- Tabellenstruktur für Tabelle `quest_spieler`
 --
 
-DROP TABLE IF EXISTS `quest_spieler`;
 CREATE TABLE `quest_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -973,7 +1062,6 @@ CREATE TABLE `quest_spieler` (
 -- Tabellenstruktur für Tabelle `spieler`
 --
 
-DROP TABLE IF EXISTS `spieler`;
 CREATE TABLE `spieler` (
   `id` int(10) NOT NULL,
   `account_id` int(10) NOT NULL,
@@ -1016,8 +1104,8 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:57:58'),
 (18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 08:58:12'),
 (19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:59:13'),
-(26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 10:44:42'),
-(32, 10, 211, 4, 1, 8, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 11:13:47'),
+(26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-06-25 12:06:53'),
+(32, 10, 211, 4, 1, 4, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-25 11:53:22'),
 (33, 11, 210, 1, 1, 2, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:31:51'),
 (36, 11, 211, 4, 1, 5, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 15:36:31'),
 (37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59');
@@ -1028,7 +1116,6 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 -- Tabellenstruktur für Tabelle `zauber`
 --
 
-DROP TABLE IF EXISTS `zauber`;
 CREATE TABLE `zauber` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1129,7 +1216,6 @@ INSERT INTO `zauber` (`id`, `bilder_id`, `zauberart_id`, `titel`, `hauptelement_
 -- Tabellenstruktur für Tabelle `zauberart`
 --
 
-DROP TABLE IF EXISTS `zauberart`;
 CREATE TABLE `zauberart` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -1155,7 +1241,6 @@ INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `zauber_spieler`
 --
 
-DROP TABLE IF EXISTS `zauber_spieler`;
 CREATE TABLE `zauber_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -1201,6 +1286,16 @@ ALTER TABLE `element`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `titel` (`titel`),
   ADD KEY `FK_bilder_id_element` (`bilder_id`);
+
+--
+-- Indizes für die Tabelle `element_bedingungen`
+--
+ALTER TABLE `element_bedingungen`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `elementaktion` (`elementaktion`),
+  ADD KEY `erdpunkte` (`erdpunkte`),
+  ADD KEY `wasserpunkte` (`wasserpunkte`),
+  ADD KEY `luftpunkte` (`luftpunkte`);
 
 --
 -- Indizes für die Tabelle `faehigkeiten`
@@ -1366,12 +1461,12 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=239;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -1411,7 +1506,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -1426,17 +1521,17 @@ ALTER TABLE `level_bilder`
 -- AUTO_INCREMENT für Tabelle `npc`
 --
 ALTER TABLE `npc`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT für Tabelle `npc_gebiet`
 --
 ALTER TABLE `npc_gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=160;
 --
 -- AUTO_INCREMENT für Tabelle `npc_items`
 --
 ALTER TABLE `npc_items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
