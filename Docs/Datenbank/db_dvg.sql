@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 -- Datenbank: `db_dvg`
 --
 
+DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `element_bedingungen`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
+
 -- --------------------------------------------------------
 
 --
