@@ -216,7 +216,7 @@
 								<td valign="top" style="padding-left:20px;">
 									<?php eingabemaskeNPCitems($npc_items, $npc_id); ?>
 								</td>
-							<tr>
+							</tr>
 						</table>
 						<?php
 						updateButton("NPCaendern",$npc_id);
@@ -340,6 +340,102 @@
 						zurueckButton();
 						break;
 					
+					# Items anlegen
+					case "ItemBearbeiten":
+						$item_id = $button_value;
+						?>
+						<!-- Standardaktion - Seite neu laden mit selber Item_Id -->
+						<?php
+						$item = false;
+						if($item_id > 0){
+							if($item_result = get_item_by_id($item_id)){
+								$item = $item_result->fetch_array(MYSQLI_NUM);
+						}}
+						/*
+						$npc_gebiete = false;
+						if($npc_id > 0){
+							$npc_gebiete = get_npc_gebiete($npc_id);
+						}
+						$npc_items = false;
+						if($npc_id > 0){
+							$npc_items = get_npc_items($npc_id);
+						}
+						*/
+						?>
+						<table>
+							<tr>
+								<td>
+									<?php eingabemaskeItem($item, $item_id); ?>
+								</td>
+								<td valign="top" style="padding-top:50px;">
+									<img src="<?php echo get_bild_zu_id($item[1]) ?>" width="75px" alt=""/><br>
+								</td>
+								<!--
+								<td valign="top">
+									<?php #eingabemaskeNPCgebiete($npc_gebiete, $npc_id); ?>
+								</td>
+								<td valign="top" style="padding-left:20px;">
+									<?php #eingabemaskeNPCitems($npc_items, $npc_id); ?>
+								</td>
+								-->
+							</tr>
+						</table>
+						<?php
+						updateButton("ItemAendern",$item_id);
+						zurueckButton("ItemsSuchen");
+						echo "<br><br>";
+						break;
+						
+					/* Ausführung von Änderungen am Item */
+					case "ItemAendern":
+						
+						#Update Item-Daten
+						$item_id = $button_value;
+						$item_daten = daten_aus_post("item");
+						if($item_id > 0){
+							if (updateItem($item_daten))
+								echo "Item erfolgreich geändert";
+							else
+								echo "Keine Änderungen an Item vorgenommen";
+						} else {
+							if (insertItem($item_daten))
+								echo "Item erfolgreich hinzugefügt";								
+							else
+								echo "Fehler beim Hinzufügen des Items";
+						}
+						echo "<br><br>";
+						
+						/*
+						#Update NPC_Gebiet-Daten
+						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
+						#ausgabe_array($npc_gebiet_daten,2);
+						$anz_delete = deleteNPCgebiete($npc_id);
+						$anz_insert = 0;
+						foreach ($npc_gebiet_daten as $ds){
+							if ($ds["wkt"]>0 and $ds["gebiet_id"]<>12){ #Wahrscheinlichkeit größer 0 und Gebiet ungleich ---ohne---
+								$anz_insert += insertNPCgebiet($ds);
+							}
+						}
+						echo "Alle Vorkommen des NPC in Gebieten wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
+						echo "<br><br>";
+						
+						#Update NPC_Item-Daten
+						$npc_item_daten = daten_aus_post("npc_items");
+						#ausgabe_array($npc_item_daten,2);
+						$anz_delete = deleteNPCitems($npc_id);
+						$anz_insert = 0;
+						foreach ($npc_item_daten as $ds){
+							if ($ds["wkt"]>0 and $ds["items_id"]<>9){ #Wahrscheinlichkeit größer 0 und Item ungleich ---ohne---
+								$anz_insert += insertNPCitem($ds);
+							}
+						}
+						echo "Alle Vorkommen von Items beim NPC wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
+						echo "<br><br>";
+						*/
+						
+						zurueckButton("ItemsSuchen");
+						break;
+						
 					
 					case "AdminStart":
 						?>
@@ -503,7 +599,7 @@
 				<td>Typ</td>
 				<td>
 					<?php
-					if($typen = get_typen_titel())
+					if($typen = get_npc_typen_titel())
 					{
 						?>
 						<select name="npc_typ">
@@ -717,6 +813,83 @@
 	}
 	
 	
+	function eingabemaskeItem($row, $item_id)
+	{
+		?>
+		<table>
+			<tr>
+				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
+			</tr>
+			<tr>
+				<td>Id</td>
+				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="item_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
+			</tr>
+			<tr>
+				<td>Bild</td>
+				<td align="top">
+					<?php
+					if($bilder = get_bilder_titel("../Bilder/NPC/"))
+					{
+						?>
+						<select name="item_bild">
+						<?php
+						while($bild = $bilder->fetch_array(MYSQLI_NUM))
+						{
+							if($row[1] != $bild[0]){
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item_id.");\">".$bild[1]."</option>";
+							} else {
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item_id.");\" selected>".$bild[1]."</option>";
+							}
+						}
+						?>
+						</select>
+						<?php
+					} else {
+						echo "Fehler beim Laden von Bildern.";
+					}
+					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Titel</td>
+				<td><input id="allg_info_eingabe_text" type="input" name="item_titel" value="<?php if($row) echo $row[2]; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Beschreibung</td>
+				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="item_beschreibung" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"><?php if($row) echo $row[3]; ?></textarea></td>
+			</tr>
+			<tr>
+				<td>Typ</td>
+				<td>
+					<?php
+					if($typen = get_item_typen_titel())
+					{
+						?>
+						<select name="item_typ">
+						<?php
+						while($typ = $typen->fetch_array(MYSQLI_NUM))
+						{
+							if($row[4] != $typ[0]){
+								echo "<option value='".$typ[0]."' onFocus=\"set_button('ItemAendern',".$npc_id.");\">".$typ[0]."</option>";
+							} else {
+								echo "<option value='".$typ[0]."' onFocus=\"set_button('ItemAendern',".$npc_id.");\" selected>".$typ[0]."</option>";
+							}
+						}
+						?>
+						</select> 
+					<?php
+					} else {
+						echo "Fehler beim Laden von Typen.";
+					}
+					?>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<?php
+	}
+	
+	
 	function daten_aus_post($daten_art)
 	{
 		switch($daten_art)
@@ -800,7 +973,15 @@
 			####################
 			# Item-Daten aus $_POST auslesen und in separates Array schreiben
 			case "item":
-				return false;
+				$daten = array(
+					"item_id" => $_POST["item_id"],
+					"item_bild" => $_POST["item_bild"]);
+				if($_POST["item_titel"] != "") $daten["item_titel"] = $_POST["item_titel"];
+				else $daten["item_titel"] = "---ohne---";
+				if($_POST["item_beschreibung"] != "") $daten["item_beschreibung"] = $_POST["item_beschreibung"];
+				else $daten["item_beschreibung"] = "---ohne---";
+				$daten["item_typ"] = $_POST["item_typ"];
+				return $daten;
 			
 			# Keine Ahnung
 			default:

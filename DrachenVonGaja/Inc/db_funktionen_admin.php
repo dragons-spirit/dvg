@@ -241,6 +241,42 @@ function get_gebiete_titel()
 #**************************************************** ITEM *****************************************************
 #***************************************************************************************************************
 
+#----------------------------------- SELECT item.* (einzel) -----------------------------------
+# 	-> item.id (int)
+#	Array mit item-Daten [Position]
+#	<- [0] id
+#	<- [1] bilder_id
+#	<- [2] titel
+#	<- [3] beschreibung
+#	<- [4] typ
+
+function get_item_by_id($item_id)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id,
+				bilder_id,
+				titel,
+				beschreibung,
+				typ
+			FROM 	items
+			WHERE 	items.id = ?"))
+	{
+		$stmt->bind_param('d', $item_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem-Daten für: [item_id=" . $item_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_item_by_id()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
 #-------------------------------------------------- Itemnamen --------------------------------------------------
 #	Array mit Item-Daten [Position]
 #	<- [0] id
@@ -303,6 +339,113 @@ function suche_items($titel, $beschreibung, $typ)
 	}
 }
 
+
+#----------------------------------------------- Typennamen ----------------------------------------------
+#	<- titel (str)
+
+function get_item_typen_titel()
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT	typ
+			FROM 	items
+			ORDER BY typ")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_item_typen_titel()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- UPDATE item -----------------------------------
+#	Array mit item-Daten [Position]
+#	-> [0] id
+#	-> [1] bilder_id
+#	-> [2] titel
+#	-> [3] beschreibung
+#	-> [4] typ
+#	<- true/false
+
+function updateItem($item_daten)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE items
+			SET bilder_id = ?,
+				titel = ?,
+				beschreibung = ?,
+				typ = ?				
+			WHERE id = ?")){
+		$stmt->bind_param('sssss', 
+			$item_daten["item_bild"], 
+			$item_daten["item_titel"], 
+			$item_daten["item_beschreibung"], 
+			$item_daten["item_typ"], 
+			$item_daten["item_id"]);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		close_connection($connect_db_dvg);
+		if($result == 1)
+			return true;
+		else
+			return false;
+	} else {
+		echo "<br>\nQuerryfehler in updateItem()<br>\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
+
+
+#----------------------------------- INSERT item -----------------------------------
+#	Array mit item-Daten [Position]
+#	-> [0] id
+#	-> [1] bilder_id
+#	-> [2] titel
+#	-> [3] beschreibung
+#	-> [4] typ
+#	<- true/false
+
+function insertItem($item_daten)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO items (
+				bilder_id,
+				titel,
+				beschreibung,
+				typ)				
+			VALUES (?, ?, ?, ?)")){
+		$stmt->bind_param('ssss', 
+			$item_daten["item_bild"], 
+			$item_daten["item_titel"], 
+			$item_daten["item_beschreibung"], 
+			$item_daten["item_typ"]);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		close_connection($connect_db_dvg);
+		if($result == 1)
+			return true;
+		else
+			return false;
+	} else {
+		echo $connect_db_dvg->error;
+		echo "<br />\nQuerryfehler in insertItem()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}
+}
 
 
 #***************************************************************************************************************
@@ -560,7 +703,7 @@ function get_npc_items_id($npc_id, $items_id)
 #----------------------------------------------- Typennamen ----------------------------------------------
 #	<- titel (str)
 
-function get_typen_titel()
+function get_npc_typen_titel()
 {
 	global $debug;
 	$connect_db_dvg = open_connection();

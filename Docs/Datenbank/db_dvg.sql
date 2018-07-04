@@ -1,12 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Erstellungszeit: 25. Jun 2018 um 18:45
--- Server-Version: 10.0.17-MariaDB
--- PHP-Version: 5.6.14
+-- Host: 127.0.0.1
+-- Erstellungszeit: 04. Jul 2018 um 21:05
+-- Server-Version: 10.1.21-MariaDB
+-- PHP-Version: 5.6.30
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -20,7 +21,7 @@ SET time_zone = "+00:00";
 -- Datenbank: `db_dvg`
 --
 
-DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `element_bedingungen`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
+DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
 
 -- --------------------------------------------------------
 
@@ -28,6 +29,7 @@ DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`,
 -- Tabellenstruktur für Tabelle `account`
 --
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id` int(10) NOT NULL,
   `login` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -64,6 +66,7 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 -- Tabellenstruktur für Tabelle `aktion`
 --
 
+DROP TABLE IF EXISTS `aktion`;
 CREATE TABLE `aktion` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -94,6 +97,7 @@ INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `st
 -- Tabellenstruktur für Tabelle `aktion_spieler`
 --
 
+DROP TABLE IF EXISTS `aktion_spieler`;
 CREATE TABLE `aktion_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -263,7 +267,84 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 (151, 26, 2, '2018-06-25 16:43:51', '2018-06-25 16:43:56', 'abgeschlossen', 0, 0),
 (152, 26, 6, '2018-06-25 16:43:59', '2018-06-25 16:44:04', 'abgeschlossen', 2, 0),
 (153, 26, 2, '2018-06-25 16:44:10', '2018-06-25 16:44:15', 'abgeschlossen', 0, 0),
-(154, 26, 6, '2018-06-25 16:44:17', '2018-06-25 16:44:22', 'abgeschlossen', 2, 0);
+(154, 26, 6, '2018-06-25 16:44:17', '2018-06-25 16:44:22', 'abgeschlossen', 2, 0),
+(155, 36, 10, '2018-06-27 14:51:05', '2018-06-27 14:51:15', 'abgeschlossen', 2, 0),
+(156, 36, 10, '2018-06-27 14:51:41', '2018-06-27 14:51:51', 'abgeschlossen', 6, 0),
+(157, 36, 10, '2018-06-27 14:52:03', '2018-06-27 14:52:13', 'abgeschlossen', 9, 0),
+(158, 36, 2, '2018-06-27 14:53:03', '2018-06-27 14:53:08', 'abgeschlossen', 0, 0),
+(159, 36, 6, '2018-06-27 14:53:19', '2018-06-27 14:53:24', 'abgeschlossen', 23, 0),
+(160, 36, 2, '2018-06-27 14:53:37', '2018-06-27 14:53:42', 'abgeschlossen', 0, 0),
+(161, 36, 6, '2018-06-27 14:53:52', '2018-06-27 14:53:57', 'abgeschlossen', 2, 0),
+(162, 36, 2, '2018-06-27 14:54:05', '2018-06-27 14:54:10', 'abgeschlossen', 0, 0),
+(163, 36, 7, '2018-06-27 14:54:30', '2018-06-27 14:54:35', 'abgeschlossen', 32, 0),
+(164, 36, 2, '2018-06-27 14:54:42', '2018-06-27 14:54:47', 'abgeschlossen', 0, 0),
+(165, 36, 7, '2018-06-27 14:54:57', '2018-06-27 14:55:02', 'abgeschlossen', 31, 0),
+(166, 36, 2, '2018-06-27 14:55:08', '2018-06-27 14:55:13', 'abgeschlossen', 0, 0),
+(167, 36, 6, '2018-06-27 14:55:17', '2018-06-27 14:55:22', 'abgeschlossen', 23, 0),
+(168, 36, 10, '2018-06-27 14:55:28', '2018-06-27 14:55:38', 'abgeschlossen', 1, 0),
+(169, 36, 2, '2018-06-27 14:55:42', '2018-06-27 14:55:47', 'abgeschlossen', 0, 0),
+(170, 36, 7, '2018-06-27 14:55:51', '2018-06-27 14:55:56', 'abgeschlossen', 14, 0),
+(171, 36, 2, '2018-06-27 14:56:00', '2018-06-27 14:56:05', 'abgeschlossen', 0, 0),
+(172, 36, 7, '2018-06-27 14:56:07', '2018-06-27 14:56:12', 'abgeschlossen', 6, 0),
+(173, 36, 2, '2018-06-27 14:56:15', '2018-06-27 14:56:20', 'abgeschlossen', 0, 0),
+(174, 36, 6, '2018-06-27 14:56:22', '2018-06-27 14:56:27', 'abgeschlossen', 2, 0),
+(175, 36, 2, '2018-06-27 14:56:30', '2018-06-27 14:56:35', 'abgeschlossen', 0, 0),
+(176, 36, 6, '2018-06-27 14:56:37', '2018-06-27 14:56:42', 'abgeschlossen', 27, 0),
+(177, 36, 2, '2018-06-27 14:56:46', '2018-06-27 14:56:51', 'abgeschlossen', 0, 0),
+(178, 36, 7, '2018-06-27 14:56:53', '2018-06-27 14:56:58', 'abgeschlossen', 12, 0),
+(179, 36, 2, '2018-06-27 14:57:02', '2018-06-27 14:57:07', 'abgeschlossen', 0, 0),
+(180, 36, 7, '2018-06-27 14:57:09', '2018-06-27 14:57:14', 'abgeschlossen', 14, 0),
+(181, 36, 10, '2018-06-27 14:57:28', '2018-06-27 14:57:38', 'abgeschlossen', 4, 0),
+(182, 36, 10, '2018-06-27 14:57:43', '2018-06-27 14:57:53', 'abgeschlossen', 11, 0),
+(183, 36, 2, '2018-06-27 14:58:06', '2018-06-27 14:58:11', 'abgeschlossen', 0, 0),
+(184, 36, 6, '2018-06-27 14:58:16', '2018-06-27 14:58:21', 'abgeschlossen', 4, 0),
+(185, 36, 2, '2018-06-27 14:58:26', '2018-06-27 14:58:31', 'abgeschlossen', 0, 0),
+(186, 36, 6, '2018-06-27 14:58:33', '2018-06-27 14:58:38', 'abgeschlossen', 22, 0),
+(187, 36, 2, '2018-06-27 14:58:41', '2018-06-27 14:58:46', 'abgeschlossen', 0, 0),
+(188, 36, 7, '2018-06-27 14:58:49', '2018-06-27 14:58:54', 'abgeschlossen', 14, 0),
+(189, 36, 2, '2018-06-27 14:58:58', '2018-06-27 14:59:03', 'abgeschlossen', 0, 0),
+(190, 36, 7, '2018-06-27 14:59:05', '2018-06-27 14:59:10', 'abgeschlossen', 14, 0),
+(191, 36, 2, '2018-06-27 14:59:13', '2018-06-27 14:59:18', 'abgeschlossen', 0, 0),
+(192, 36, 6, '2018-06-27 14:59:20', '2018-06-27 14:59:25', 'abgeschlossen', 22, 0),
+(193, 36, 2, '2018-06-27 14:59:28', '2018-06-27 14:59:33', 'abgeschlossen', 0, 0),
+(194, 36, 6, '2018-06-27 14:59:36', '2018-06-27 14:59:41', 'abgeschlossen', 22, 0),
+(195, 36, 2, '2018-06-27 14:59:45', '2018-06-27 14:59:50', 'abgeschlossen', 0, 0),
+(196, 36, 6, '2018-06-27 14:59:53', '2018-06-27 14:59:58', 'abgeschlossen', 24, 0),
+(197, 36, 10, '2018-06-27 15:00:05', '2018-06-27 15:00:15', 'abgeschlossen', 4, 0),
+(198, 36, 2, '2018-06-27 15:00:19', '2018-06-27 15:00:24', 'abgeschlossen', 0, 0),
+(199, 36, 6, '2018-06-27 15:00:26', '2018-06-27 15:00:31', 'abgeschlossen', 2, 0),
+(200, 36, 2, '2018-06-27 15:00:34', '2018-06-27 15:00:39', 'abgeschlossen', 0, 0),
+(201, 36, 6, '2018-06-27 15:00:46', '2018-06-27 15:00:51', 'abgeschlossen', 28, 0),
+(202, 36, 2, '2018-06-27 15:00:54', '2018-06-27 15:00:59', 'abgeschlossen', 0, 0),
+(203, 36, 6, '2018-06-27 15:01:03', '2018-06-27 15:01:08', 'abgeschlossen', 28, 0),
+(204, 36, 2, '2018-06-27 15:01:11', '2018-06-27 15:01:16', 'abgeschlossen', 0, 0),
+(205, 36, 6, '2018-06-27 15:01:18', '2018-06-27 15:01:23', 'abgeschlossen', 11, 0),
+(206, 36, 2, '2018-06-27 15:01:27', '2018-06-27 15:01:32', 'abgeschlossen', 0, 0),
+(207, 36, 6, '2018-06-27 15:01:38', '2018-06-27 15:01:43', 'abgeschlossen', 11, 0),
+(208, 36, 10, '2018-06-27 15:02:01', '2018-06-27 15:02:11', 'abgeschlossen', 11, 0),
+(209, 36, 10, '2018-06-27 15:02:54', '2018-06-27 15:03:04', 'abgeschlossen', 7, 0),
+(210, 36, 2, '2018-06-27 15:03:08', '2018-06-27 15:03:13', 'abgeschlossen', 0, 0),
+(211, 36, 7, '2018-06-27 15:03:15', '2018-06-27 15:03:20', 'abgeschlossen', 14, 0),
+(212, 36, 2, '2018-06-27 15:03:23', '2018-06-27 15:03:28', 'abgeschlossen', 0, 0),
+(213, 36, 6, '2018-06-27 15:03:30', '2018-06-27 15:03:35', 'abgeschlossen', 30, 0),
+(214, 36, 2, '2018-06-27 15:03:40', '2018-06-27 15:03:45', 'abgeschlossen', 0, 0),
+(215, 36, 10, '2018-06-27 15:03:51', '2018-06-27 15:04:01', 'abgeschlossen', 10, 0),
+(216, 36, 10, '2018-06-27 15:04:05', '2018-06-27 15:04:15', 'abgeschlossen', 7, 0),
+(217, 36, 10, '2018-06-27 15:04:19', '2018-06-27 15:04:29', 'abgeschlossen', 5, 0),
+(218, 36, 10, '2018-06-27 15:04:33', '2018-06-27 15:04:43', 'abgeschlossen', 3, 0),
+(219, 36, 2, '2018-06-27 15:04:45', '2018-06-27 15:04:50', 'abgeschlossen', 0, 0),
+(220, 36, 6, '2018-06-27 15:04:56', '2018-06-27 15:05:01', 'abgeschlossen', 26, 0),
+(221, 36, 2, '2018-06-27 15:05:05', '2018-06-27 15:05:10', 'abgeschlossen', 0, 0),
+(222, 36, 6, '2018-06-27 15:05:13', '2018-06-27 15:05:18', 'abgeschlossen', 27, 0),
+(223, 36, 2, '2018-06-27 15:05:23', '2018-06-27 15:05:28', 'abgeschlossen', 0, 0),
+(224, 36, 6, '2018-06-27 15:05:30', '2018-06-27 15:05:35', 'abgeschlossen', 10, 0),
+(225, 36, 2, '2018-06-27 15:05:40', '2018-06-27 15:05:45', 'abgeschlossen', 0, 0),
+(226, 36, 6, '2018-06-27 15:05:48', '2018-06-27 15:05:53', 'abgeschlossen', 10, 0),
+(227, 36, 2, '2018-06-27 15:05:56', '2018-06-27 15:06:01', 'abgeschlossen', 0, 0),
+(228, 36, 2, '2018-06-27 15:06:06', '2018-06-27 15:06:11', 'abgeschlossen', 0, 0),
+(229, 36, 6, '2018-06-27 15:06:13', '2018-06-27 15:06:18', 'abgeschlossen', 2, 0),
+(230, 36, 2, '2018-06-27 15:06:21', '2018-06-27 15:06:26', 'abgeschlossen', 0, 0),
+(231, 36, 6, '2018-06-27 15:06:28', '2018-06-27 15:06:33', 'abgeschlossen', 27, 0);
 
 -- --------------------------------------------------------
 
@@ -271,6 +352,7 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 -- Tabellenstruktur für Tabelle `bilder`
 --
 
+DROP TABLE IF EXISTS `bilder`;
 CREATE TABLE `bilder` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -491,18 +573,11 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 (236, 'L7_wasser', '../Bilder/AlleDrachen/L7_wasser.png'),
 (237, 'apfel', '../Bilder/NPC/apfel.png'),
 (238, 'apfelbaum', '../Bilder/NPC/apfelbaum.png'),
-(239, 'GuÌrteltier', '../Bilder/NPC/GuÌrteltier.png'),
 (240, 'Ratte', '../Bilder/NPC/Ratte.png'),
 (241, 'catfish', '../Bilder/NPC/catfish.png'),
-(242, 'eisbaÌr', '../Bilder/NPC/eisbaÌr.png'),
-(243, 'erdmaÌnnchen', '../Bilder/NPC/erdmaÌnnchen.png'),
 (244, 'fleisch', '../Bilder/NPC/fleisch.png'),
 (245, 'gorilla', '../Bilder/NPC/gorilla.png'),
-(246, 'hyaÌne', '../Bilder/NPC/hyaÌne.png'),
 (247, 'knochen', '../Bilder/NPC/knochen.png'),
-(248, 'kuÌrbis', '../Bilder/NPC/kuÌrbis.png'),
-(249, 'loÌwe', '../Bilder/NPC/loÌwe.png'),
-(250, 'marienkaÌfer', '../Bilder/NPC/marienkaÌfer.png'),
 (251, 'plueschdrache', '../Bilder/NPC/plueschdrache.png'),
 (252, 'zebra', '../Bilder/NPC/zebra.png');
 
@@ -512,6 +587,7 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 -- Tabellenstruktur für Tabelle `element`
 --
 
+DROP TABLE IF EXISTS `element`;
 CREATE TABLE `element` (
   `id` int(10) NOT NULL,
   `element_id` int(10) NOT NULL,
@@ -534,42 +610,10 @@ INSERT INTO `element` (`id`, `element_id`, `bilder_id`, `titel`, `beschreibung`)
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `element_bedingungen`
---
-
-CREATE TABLE `element_bedingungen` (
-  `id` int(10) NOT NULL,
-  `elementaktion` varchar(50) NOT NULL,
-  `erdpunkte` varchar(5) DEFAULT NULL,
-  `wasserpunkte` varchar(5) DEFAULT NULL,
-  `feuerpunkte` varchar(5) DEFAULT NULL,
-  `luftpunkte` varchar(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `element_bedingungen`
---
-
-INSERT INTO `element_bedingungen` (`id`, `elementaktion`, `erdpunkte`, `wasserpunkte`, `feuerpunkte`, `luftpunkte`) VALUES
-(1, 'Lehm', '2', '1', '0', '0'),
-(2, 'Tropfstein', '3', '1', '0', '0'),
-(3, 'Treibsand', '3', '2', '0', '0'),
-(4, 'Sandstein', '4', '1', '0', '0'),
-(5, 'Kreide', '4', '2', '0', '0'),
-(6, 'Gerölllawine', '4', '3', '0', '0'),
-(7, 'Schlamm', '1', '2', '0', '0'),
-(8, 'Salzwasser', '1', '3', '0', '0'),
-(9, 'Gletscher', '2', '3', '0', '0'),
-(10, 'Tsunami', '1', '4', '0', '0'),
-(11, 'Wasserfall', '2', '4', '0', '0'),
-(12, 'Muräne', '3', '4', '0', '0');
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `faehigkeiten`
 --
 
+DROP TABLE IF EXISTS `faehigkeiten`;
 CREATE TABLE `faehigkeiten` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -593,6 +637,7 @@ INSERT INTO `faehigkeiten` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `faehigkeiten_spieler`
 --
 
+DROP TABLE IF EXISTS `faehigkeiten_spieler`;
 CREATE TABLE `faehigkeiten_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -607,6 +652,7 @@ CREATE TABLE `faehigkeiten_spieler` (
 -- Tabellenstruktur für Tabelle `gattung`
 --
 
+DROP TABLE IF EXISTS `gattung`;
 CREATE TABLE `gattung` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -643,6 +689,7 @@ INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intel
 -- Tabellenstruktur für Tabelle `gebiet`
 --
 
+DROP TABLE IF EXISTS `gebiet`;
 CREATE TABLE `gebiet` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -665,7 +712,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
 (12, 1, '---ohne---', '---ohne---');
 
 -- --------------------------------------------------------
@@ -674,6 +721,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `gebiet_gebiet`
 --
 
+DROP TABLE IF EXISTS `gebiet_gebiet`;
 CREATE TABLE `gebiet_gebiet` (
   `id` int(10) NOT NULL,
   `von_gebiet_id` int(10) NOT NULL,
@@ -718,6 +766,7 @@ INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
 -- Tabellenstruktur für Tabelle `items`
 --
 
+DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` int(10) NOT NULL,
   `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -731,9 +780,9 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
-(1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Pflanze', 237),
+(1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Nahrung', 237),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 84),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 'Pflanze', 84),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
 (5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 95),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
@@ -746,7 +795,8 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (13, 'Drachenpuzzleteil 2', 'Das 2. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (14, 'Drachenpuzzleteil 3', 'Das 3. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (15, 'Drachenpuzzleteil 4', 'Das 4. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
-(18, 'Fleisch', 'Ein Stück Fleisch !', 'Nahrung', 244);
+(18, 'Fleisch', 'Ein Stück Fleisch !', 'Nahrung', 244),
+(19, 'Kürbis', 'Ekliges gelbes Ding. So manch einem soll das schmecken. Unglaublich!', 'Nahrung', 86);
 
 -- --------------------------------------------------------
 
@@ -754,6 +804,7 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 -- Tabellenstruktur für Tabelle `items_spieler`
 --
 
+DROP TABLE IF EXISTS `items_spieler`;
 CREATE TABLE `items_spieler` (
   `id` int(10) NOT NULL,
   `items_id` int(10) NOT NULL,
@@ -781,7 +832,16 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (13, 14, 26, 1),
 (14, 2, 32, 1),
 (15, 15, 26, 1),
-(16, 18, 26, 1);
+(16, 18, 26, 1),
+(17, 8, 36, 9),
+(18, 18, 36, 2),
+(19, 1, 36, 4),
+(20, 2, 36, 2),
+(21, 13, 36, 2),
+(22, 15, 36, 1),
+(23, 11, 36, 1),
+(24, 4, 36, 1),
+(25, 7, 36, 1);
 
 -- --------------------------------------------------------
 
@@ -789,6 +849,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 -- Tabellenstruktur für Tabelle `level`
 --
 
+DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
   `id` int(10) NOT NULL,
   `voraussetzung` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -817,6 +878,7 @@ INSERT INTO `level` (`id`, `voraussetzung`, `titel`, `stufe`, `modifikator`, `be
 -- Tabellenstruktur für Tabelle `level_bilder`
 --
 
+DROP TABLE IF EXISTS `level_bilder`;
 CREATE TABLE `level_bilder` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -864,6 +926,7 @@ INSERT INTO `level_bilder` (`id`, `bilder_id`, `level_id`, `gattung_id`) VALUES
 -- Tabellenstruktur für Tabelle `npc`
 --
 
+DROP TABLE IF EXISTS `npc`;
 CREATE TABLE `npc` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -919,6 +982,7 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 -- Tabellenstruktur für Tabelle `npc_gebiet`
 --
 
+DROP TABLE IF EXISTS `npc_gebiet`;
 CREATE TABLE `npc_gebiet` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -931,7 +995,6 @@ CREATE TABLE `npc_gebiet` (
 --
 
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
-(12, 1, 5, 100),
 (13, 4, 4, 40),
 (14, 5, 4, 10),
 (15, 4, 7, 40),
@@ -980,10 +1043,6 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (157, 29, 9, 5),
 (158, 32, 9, 50),
 (159, 32, 4, 30),
-(160, 24, 11, 20),
-(161, 24, 4, 10),
-(162, 24, 7, 5),
-(163, 24, 9, 5),
 (164, 6, 1, 30),
 (165, 6, 4, 30),
 (166, 6, 5, 30),
@@ -1013,7 +1072,12 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (190, 22, 9, 5),
 (191, 23, 9, 60),
 (192, 28, 4, 30),
-(193, 28, 10, 10);
+(193, 28, 10, 10),
+(198, 24, 11, 20),
+(199, 24, 4, 10),
+(200, 24, 7, 5),
+(201, 24, 9, 5),
+(203, 1, 5, 100);
 
 -- --------------------------------------------------------
 
@@ -1021,6 +1085,7 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 -- Tabellenstruktur für Tabelle `npc_items`
 --
 
+DROP TABLE IF EXISTS `npc_items`;
 CREATE TABLE `npc_items` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -1058,10 +1123,6 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (45, 14, 11, 5, 1, 1),
 (50, 21, 6, 10, 1, 1),
 (51, 21, 8, 5, 1, 1),
-(63, 24, 6, 5, 1, 1),
-(64, 24, 7, 10, 1, 1),
-(65, 24, 8, 10, 1, 1),
-(66, 24, 1, 10, 1, 1),
 (67, 6, 1, 100, 1, 3),
 (68, 6, 2, 25, 1, 1),
 (69, 27, 18, 10, 1, 1),
@@ -1076,7 +1137,11 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (78, 22, 18, 10, 1, 1),
 (79, 23, 8, 20, 1, 2),
 (80, 23, 18, 30, 1, 1),
-(81, 28, 18, 10, 1, 1);
+(81, 28, 18, 10, 1, 1),
+(86, 24, 6, 5, 1, 1),
+(87, 24, 7, 10, 1, 1),
+(88, 24, 8, 10, 1, 1),
+(89, 24, 1, 10, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1084,6 +1149,7 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 -- Tabellenstruktur für Tabelle `quest`
 --
 
+DROP TABLE IF EXISTS `quest`;
 CREATE TABLE `quest` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1102,7 +1168,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
-(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht''s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
+(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht\'s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
 
 -- --------------------------------------------------------
 
@@ -1110,6 +1176,7 @@ INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzu
 -- Tabellenstruktur für Tabelle `quest_spieler`
 --
 
+DROP TABLE IF EXISTS `quest_spieler`;
 CREATE TABLE `quest_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -1125,6 +1192,7 @@ CREATE TABLE `quest_spieler` (
 -- Tabellenstruktur für Tabelle `spieler`
 --
 
+DROP TABLE IF EXISTS `spieler`;
 CREATE TABLE `spieler` (
   `id` int(10) NOT NULL,
   `account_id` int(10) NOT NULL,
@@ -1170,7 +1238,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-06-25 16:43:25'),
 (32, 10, 211, 4, 1, 4, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-25 11:53:22'),
 (33, 11, 210, 1, 1, 2, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:31:51'),
-(36, 11, 211, 4, 1, 5, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 15:36:31'),
+(36, 11, 211, 4, 1, 3, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-27 15:04:43'),
 (37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59');
 
 -- --------------------------------------------------------
@@ -1179,6 +1247,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 -- Tabellenstruktur für Tabelle `zauber`
 --
 
+DROP TABLE IF EXISTS `zauber`;
 CREATE TABLE `zauber` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1279,6 +1348,7 @@ INSERT INTO `zauber` (`id`, `bilder_id`, `zauberart_id`, `titel`, `hauptelement_
 -- Tabellenstruktur für Tabelle `zauberart`
 --
 
+DROP TABLE IF EXISTS `zauberart`;
 CREATE TABLE `zauberart` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -1304,11 +1374,12 @@ INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `zauber_spieler`
 --
 
+DROP TABLE IF EXISTS `zauber_spieler`;
 CREATE TABLE `zauber_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
   `zauber_id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung Zauber zu Spieler' ROW_FORMAT=COMPACT;
 
 --
 -- Indizes der exportierten Tabellen
@@ -1349,16 +1420,6 @@ ALTER TABLE `element`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `titel` (`titel`),
   ADD KEY `FK_bilder_id_element` (`bilder_id`);
-
---
--- Indizes für die Tabelle `element_bedingungen`
---
-ALTER TABLE `element_bedingungen`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `elementaktion` (`elementaktion`),
-  ADD KEY `erdpunkte` (`erdpunkte`),
-  ADD KEY `wasserpunkte` (`wasserpunkte`),
-  ADD KEY `luftpunkte` (`luftpunkte`);
 
 --
 -- Indizes für die Tabelle `faehigkeiten`
@@ -1524,12 +1585,12 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=155;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -1564,12 +1625,12 @@ ALTER TABLE `gebiet_gebiet`
 -- AUTO_INCREMENT für Tabelle `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -1589,12 +1650,12 @@ ALTER TABLE `npc`
 -- AUTO_INCREMENT für Tabelle `npc_gebiet`
 --
 ALTER TABLE `npc_gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
 --
 -- AUTO_INCREMENT für Tabelle `npc_items`
 --
 ALTER TABLE `npc_items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
@@ -1609,7 +1670,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --
@@ -1754,6 +1815,7 @@ ALTER TABLE `zauber`
 ALTER TABLE `zauber_spieler`
   ADD CONSTRAINT `FK_spieler_id_zauber_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_zauber_id_zauber_spieler` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE;
+SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
