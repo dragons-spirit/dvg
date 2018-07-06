@@ -137,8 +137,121 @@ function elemente_anzeigen($hauptelement)
 	?><p align="center">
 		<?php
 			echo "Super! Das Hauptelement " . $hauptelement . " soll angezeigt werden, aber nichts passiert. <br /><br /> \n Echt toll!";
-		?>
-	</p><?php
+			?>
+			<!-- Feuerelemente -->
+			<div id="feuerinhalt" style="display:block;">
+			
+			<table id="zauberarten">
+				<?php
+				$zauberarten = get_zauberarten_zu_hauptelement($hauptelement);
+				while($row = $zauberarten->fetch_array(MYSQLI_NUM))
+				{
+					$zauberart = $row[1];
+					?>
+					<tr><td align="left" style="padding-top:10px">
+						<p><b><?php echo $zauberart ?></b></p>
+						
+						<table id="nebenelemente" border="1pt solid">
+							<?php
+							$nebenelemente = get_nebenelement_zu_hauptelement_zauberart($hauptelement, $zauberart);
+							while($row = $nebenelemente->fetch_array(MYSQLI_NUM))
+							{
+								$nebenelement = $row[0];
+								?>
+									<tr>
+										<?php
+										$zauber = get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement, $nebenelement, $zauberart);
+										while($row = $zauber->fetch_array(MYSQLI_NUM))
+										{
+											$zauber_id = $row[0];
+											$zauber_titel = $row[2];
+											$zauber_beschreibung = $row[5];
+											$zauber_bilder_id = $row[1];
+											?>
+											<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain;" align="left">
+												<span title="<?php echo $zauber_titel ?>" >
+													<input type="button" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
+												</span>
+											</td>
+											<?php
+										}
+										?>
+									</tr>
+								<?php
+							}
+							?>
+						</table>
+					</td></tr>
+					<?php
+				}
+				?>
+			</table>
+			
+			
+			<table id="elemente_tabelle" cellspacing="5px" style="padding-top:200px;">
+				<tr>
+					<td><span title="Asche"><input type="button" style="background:url(../Bilder/Elemente/Asche.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_asche" value=""></span></td>
+					<td>---------------></td>
+					<td><span title="Glas"><input type="button" style="background:url(../Bilder/Elemente/Glas.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_glas" value=""></span></td>
+					<td><span title="Metall"><input type="button" style="background:url(../Bilder/Elemente/Metall.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_metall" value=""></span></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><span title="Alkohol"><input type="button" style="background:url(../Bilder/Elemente/Alkohol.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_alkohol" value=""></span></td>
+					<td>---------------></td>
+					<td><span title="S&auml;ure"><input type="button" style="background:url(../Bilder/Elemente/Saeure.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_saeure" value=""></span></td>
+					<td>---------------></td>
+					<td><span title="Gift"><input type="button" style="background:url(../Bilder/Elemente/Gift.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_gift" value=""></span></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><span title="Funke"><input type="button" style="background:url(../Bilder/Elemente/Funke.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_funke" value=""></td>
+					<td><span title="Flamme"><input type="button" style="background:url(../Bilder/Elemente/Flamme.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_flamme" value=""></td>
+					<td>---------------></td>
+					<td><span title="Lichtstrahl"><input type="button" style="background:url(../Bilder/Elemente/Lichtstrahl.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lichtstrahl" value=""></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>----------------</td>
+					<td>----------------</td>
+					<td>----------------</td>
+					<td>----------------</td>
+					<td>---------------></td>
+					<td><span title="Explosion"><input type="button" style="background:url(../Bilder/Elemente/Explosion.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_explosion" value=""></span></td>
+				</tr>
+				<tr>
+					<td><span title="Schwellbrand"><input type="button" style="background:url(../Bilder/Elemente/Schwelbrand.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_schwelbrand" value=""></span></td>
+					<td><span title="Lava"><input type="button" style="background:url(../Bilder/Elemente/Lava.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lava" value=""></span></td>
+					<td>----------------</td>
+					<td>---------------></td>
+					<td><span title="Magma"><input type="button" style="background:url(../Bilder/Elemente/Magma.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_magma" value=""></span></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>----------------</td>
+					<td>---------------></td>
+					<td><span title="Feuerball"><input type="button" style="background:url(../Bilder/Elemente/Feuerball.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuerball" value=""></span></td>
+					<td>---------------></td>
+					<td><span title="Blitz"><input type="button" style="background:url(../Bilder/Elemente/Blitz.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_blitz" value=""></span></td>
+					<td><span title="Feuersturm"><input type="button" style="background:url(../Bilder/Elemente/Feuersturm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuersturm" value=""></span></td>
+				</tr>
+				<tr>
+					<td>---------------></td>
+					<td><span title="Glut"><input type="button" style="background:url(../Bilder/Elemente/Glut.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_glut" value=""></span></td>
+					<td>---------------></td>
+					<td><span title="&Ouml;lbrand"><input type="button" style="background:url(../Bilder/Elemente/Oelbrand.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_oelbrand" value=""></span></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
+			</table>
+			</div>
+		</p>
+	<?php
 }
 
 function scanneNeueBilder($ordner)
@@ -383,12 +496,14 @@ function pfad_fuer_style($pfad)
 			case 'menü':		
 				document.getElementById('spielmenü_2').style.display = 'block';
 			break;
+			/*
 			default:		
 				document.getElementById('erdinhalt').style.display = 'none';
                 document.getElementById('wasserinhalt').style.display = 'none';
                 document.getElementById('feuerinhalt').style.display = 'none';
                 document.getElementById('luftinhalt').style.display = 'none';
 			break;
+			*/
 		}
 	}
 	

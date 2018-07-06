@@ -271,7 +271,7 @@
 							if(isset($_POST["button_wasser"])) $elementebutton = 2;
 							if(isset($_POST["button_feuer"])){
 								elemente_anzeigen("Feuer"); 
-								$elementebutton = 3;
+								$elementebutton = 5;
 							}
 							if(isset($_POST["button_luft"])) $elementebutton = 4;
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));

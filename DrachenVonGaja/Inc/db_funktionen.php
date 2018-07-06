@@ -1230,4 +1230,138 @@ function gebietswechsel($spieler_id, $gebiet_id)
 	}
 }
 
+
+#***************************************************************************************************************
+#*************************************************** ZAUBER ****************************************************
+#***************************************************************************************************************
+
+
+#----------------------------------------- SELECT zauberart.* (Hauptelement) -----------------------------------------
+# 	-> element.titel (str)
+#	<- zauberart.id (int)
+#	<- zauberart.titel (str)
+
+function get_zauberarten_zu_hauptelement($hauptelement_titel)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				zauberart.id,
+				zauberart.titel
+			FROM
+				zauber
+				join zauberart on zauberart.id = zauber.zauberart_id
+				join element on element.id = zauber.hauptelement_id
+			WHERE
+				element.titel = ?")){
+		$stmt->bind_param('s', $hauptelement_titel);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_zauberarten_zu_hauptelement()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#----------------------------------------- SELECT element.* (Hauptelement, Zauberart) -----------------------------------------
+# 	-> element.titel (str)
+#	-> zauberart.titel (str)
+#	<- element.titel (str)
+
+function get_nebenelement_zu_hauptelement_zauberart($hauptelement_titel, $zauberart)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				element2.titel
+			FROM
+				zauber
+				join zauberart on zauberart.id = zauber.zauberart_id
+				join element element1 on element1.id = zauber.hauptelement_id
+				join element element2 on element2.id = zauber.nebenelement_id
+			WHERE
+				element1.titel = ?
+				and zauberart.titel = ?
+			ORDER BY
+				element2.titel")){
+		$stmt->bind_param('ss', $hauptelement_titel, $zauberart);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_nebenelement_zu_hauptelement_zauberart()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
+#----------------------------------------- SELECT zauber.* (Hauptelement, Nebenelment, Zauberart) -----------------------------------------
+# 	-> element1.titel (str)
+# 	-> element2.titel (str)
+#	-> zauberart.titel (str)
+#	<- zauber.id (int)
+#	<- zauber.bilder_id (int)
+#	<- zauber.titel (str)
+#	<- zauber.feuer/wasser/erde/luft (int) Hauptelement
+#	<- zauber.feuer/wasser/erde/luft (int) Nebenelement
+#	<- zauber.beschreibung
+
+function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, $nebenelement_titel, $zauberart)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				zauber.id,
+				zauber.bilder_id,
+				zauber.titel,
+				CASE element1.id
+					WHEN 2 THEN zauber.feuer
+					WHEN 3 THEN zauber.wasser
+					WHEN 4 THEN zauber.erde
+					WHEN 5 THEN zauber.luft
+				END AS hauptelement_wert,
+				CASE element2.id
+					WHEN 2 THEN zauber.feuer
+					WHEN 3 THEN zauber.wasser
+					WHEN 4 THEN zauber.erde
+					WHEN 5 THEN zauber.luft
+				END AS nebenelement_wert,
+				zauber.beschreibung
+			FROM
+				zauber
+				join zauberart on zauberart.id = zauber.zauberart_id
+				join element element1 on element1.id = zauber.hauptelement_id
+				join element element2 on element2.id = zauber.nebenelement_id
+			WHERE
+				element1.titel = ?
+				and element2.titel = ?
+				and zauberart.titel = ?
+			ORDER BY
+				hauptelement_wert,
+				nebenelement_wert")){
+		$stmt->bind_param('sss', $hauptelement_titel, $nebenelement_titel, $zauberart);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_nebenelement_zu_hauptelement_zauberart()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
+
 ?>
