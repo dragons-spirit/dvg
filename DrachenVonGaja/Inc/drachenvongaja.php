@@ -237,7 +237,7 @@
 								case "Jagen":
 									update_aktion_spieler($spieler_id, $aktion_text);
 									$npc_id = $aktion_any_id_1;
-									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen,<br>dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
+									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -265,15 +265,24 @@
 									break;
 							}
 						} else {
-							# Elementebuttons auswerten
+							# Elementebuttons auswerten Parameter zur Anzeige übergeben
 							$elementebutton = 0;
-							if(isset($_POST["button_erde"])) $elementebutton = 1;
-							if(isset($_POST["button_wasser"])) $elementebutton = 2;
-							if(isset($_POST["button_feuer"])){
-								elemente_anzeigen("Feuer"); 
-								$elementebutton = 5;
+							if(isset($_POST["button_erde"])){
+								elemente_anzeigen("Erde","3B170B");
+								$elementebutton = true;
 							}
-							if(isset($_POST["button_luft"])) $elementebutton = 4;
+							if(isset($_POST["button_wasser"])){
+								elemente_anzeigen("Wasser","0B2161");
+								$elementebutton = true;
+							}
+							if(isset($_POST["button_feuer"])){
+								elemente_anzeigen("Feuer","3B0B0B");
+								$elementebutton = true;
+							}
+							if(isset($_POST["button_luft"])){
+								elemente_anzeigen("Luft","088A85");
+								$elementebutton = true;
+							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
 							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]));
 							
@@ -283,18 +292,10 @@
 							if($aktion_starten)
 							{				
 								# Hintergrundbild einblenden, wenn neue Aktion gestartet werden soll
-								zeige_hintergrundbild($gebiet_id);
-								if ($aktion_titel)
-								{
-								?>
-									<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-										Ihr seid noch beschäftigt!<br>
-									</p>
-									<p align="center">
-										<input type="submit" name="zurueck" value="zurück">
-									</p>
-								<?php
-								} else {	
+								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
+								zeige_hintergrundbild($gebiet_id, $aktion_titel);
+								if (!$aktion_titel)
+								{	
 									if(isset($_POST["button_gebiet_erkunden"])) insert_aktion_spieler($spieler_id, "erkunden_kurz");
 									if(isset($_POST["button_zum_zielgebiet"])) insert_aktion_spieler($spieler_id, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
 									if(isset($_POST["button_jagen"])) insert_aktion_spieler($spieler_id, "jagen_normal", $_POST["button_jagen"]);
@@ -313,7 +314,7 @@
 									{	
 										$counter = 0;
 										?>
-										<table border="1px" border-color="white" align="center" style="margin-top:100px;" width="700px" >
+										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="700px" >
 											<tr>
 												<td>Item</td>
 												<td>Bild</td>
@@ -354,18 +355,6 @@
 									}
 								}
 								
-								if($elementebutton > 0)
-								{
-									include('Elemente.inc.php');
-									?>
-									<script>sichtbar_elemente(<?php echo $elementebutton; ?>);</script>
-									<?php
-								} else {
-									?>
-									<script>sichtbar_elemente("false");</script>
-									<?php
-								}
-								
 								if(isset($_POST["button_tagebuch"]))
 								{
 									include('quest.inc.php');
@@ -389,13 +378,6 @@
 					<!-- Button zur Spielerauswahl -->
 					<div id="zur_spielerauswahl">
 						<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
-					</div>
-					
-					<!-- Links Zielgebiete -->
-					<div id="zielgebiete">
-						<?php
-						zeige_gebietslinks($gebiet_id);
-						?>
 					</div>
 					
 					<!-- Level-/Zahlenzeichen -->
@@ -454,7 +436,7 @@
 					
 					<!-- Anzeige für Spielerdaten -->
 					<div id="charakter">
-						<table style="margin-top:20px;">
+						<table>
 							<tr>
 								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
@@ -585,6 +567,11 @@
 					
 					</div>
 				
+					
+					<div id="musik">
+						<u><a href="musik.php" target="_blank" style="margin-left:20px; color:white;">Starte Musik</a></u>
+					</div>
+					
 				</div>
 				
 			</div>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 04. Jul 2018 um 21:05
+-- Erstellungszeit: 11. Jul 2018 um 17:31
 -- Server-Version: 10.1.21-MariaDB
 -- PHP-Version: 5.6.30
 
@@ -344,7 +344,76 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 (228, 36, 2, '2018-06-27 15:06:06', '2018-06-27 15:06:11', 'abgeschlossen', 0, 0),
 (229, 36, 6, '2018-06-27 15:06:13', '2018-06-27 15:06:18', 'abgeschlossen', 2, 0),
 (230, 36, 2, '2018-06-27 15:06:21', '2018-06-27 15:06:26', 'abgeschlossen', 0, 0),
-(231, 36, 6, '2018-06-27 15:06:28', '2018-06-27 15:06:33', 'abgeschlossen', 27, 0);
+(231, 36, 6, '2018-06-27 15:06:28', '2018-06-27 15:06:33', 'abgeschlossen', 27, 0),
+(232, 33, 10, '2018-07-09 18:50:35', '2018-07-09 18:50:45', 'abgeschlossen', 6, 0),
+(233, 33, 2, '2018-07-09 18:50:55', '2018-07-09 18:51:00', 'abgeschlossen', 0, 0),
+(234, 33, 7, '2018-07-09 18:51:06', '2018-07-09 18:51:11', 'abgeschlossen', 7, 0),
+(235, 33, 2, '2018-07-09 19:21:07', '2018-07-09 19:21:12', 'abgeschlossen', 0, 0),
+(236, 33, 7, '2018-07-09 19:21:30', '2018-07-09 19:21:35', 'abgeschlossen', 7, 0),
+(237, 33, 2, '2018-07-09 20:32:51', '2018-07-09 20:32:56', 'abgeschlossen', 0, 0),
+(238, 33, 2, '2018-07-09 20:34:22', '2018-07-09 20:34:27', 'abgeschlossen', 0, 0),
+(239, 33, 7, '2018-07-09 20:34:29', '2018-07-09 20:34:34', 'abgeschlossen', 7, 0),
+(240, 33, 10, '2018-07-10 16:55:05', '2018-07-10 16:55:15', 'abgeschlossen', 3, 0),
+(241, 33, 10, '2018-07-10 16:55:54', '2018-07-10 16:56:04', 'abgeschlossen', 5, 0),
+(242, 33, 10, '2018-07-10 16:56:42', '2018-07-10 16:56:52', 'abgeschlossen', 7, 0),
+(243, 33, 10, '2018-07-10 16:57:06', '2018-07-10 16:57:16', 'abgeschlossen', 11, 0),
+(244, 33, 10, '2018-07-10 16:57:51', '2018-07-10 16:58:01', 'abgeschlossen', 4, 0),
+(245, 33, 10, '2018-07-10 16:58:43', '2018-07-10 16:58:53', 'abgeschlossen', 1, 0),
+(246, 33, 10, '2018-07-10 16:59:09', '2018-07-10 16:59:19', 'abgeschlossen', 9, 0),
+(247, 33, 10, '2018-07-10 17:00:27', '2018-07-10 17:00:37', 'abgeschlossen', 8, 0),
+(248, 33, 10, '2018-07-10 19:24:51', '2018-07-10 19:25:01', 'abgeschlossen', 9, 0),
+(249, 33, 10, '2018-07-11 10:08:52', '2018-07-11 10:09:02', 'abgeschlossen', 1, 0),
+(250, 33, 2, '2018-07-11 10:23:00', '2018-07-11 10:23:05', 'abgeschlossen', 0, 0),
+(251, 33, 6, '2018-07-11 10:23:20', '2018-07-11 10:23:25', 'abgeschlossen', 2, 0),
+(252, 33, 2, '2018-07-11 10:33:04', '2018-07-11 10:33:09', 'abgeschlossen', 0, 0),
+(253, 33, 7, '2018-07-11 10:33:23', '2018-07-11 10:33:28', 'abgeschlossen', 12, 0),
+(254, 33, 2, '2018-07-11 10:38:36', '2018-07-11 10:38:41', 'abgeschlossen', 0, 0),
+(255, 33, 6, '2018-07-11 10:38:52', '2018-07-11 10:38:57', 'abgeschlossen', 27, 0),
+(256, 33, 2, '2018-07-11 10:39:30', '2018-07-11 10:39:35', 'abgeschlossen', 0, 0),
+(257, 33, 6, '2018-07-11 10:39:37', '2018-07-11 10:39:42', 'abgeschlossen', 2, 0),
+(258, 33, 2, '2018-07-11 10:39:50', '2018-07-11 10:39:55', 'abgeschlossen', 0, 0),
+(259, 33, 6, '2018-07-11 10:40:01', '2018-07-11 10:40:06', 'abgeschlossen', 2, 0),
+(260, 33, 2, '2018-07-11 10:41:16', '2018-07-11 10:41:21', 'abgeschlossen', 0, 0),
+(261, 33, 7, '2018-07-11 10:41:23', '2018-07-11 10:41:28', 'abgeschlossen', 6, 0),
+(262, 33, 2, '2018-07-11 10:41:43', '2018-07-11 10:41:48', 'abgeschlossen', 0, 0),
+(263, 33, 6, '2018-07-11 10:41:51', '2018-07-11 10:41:56', 'abgeschlossen', 2, 0),
+(264, 33, 10, '2018-07-11 11:04:59', '2018-07-11 11:05:09', 'abgeschlossen', 4, 0),
+(265, 33, 10, '2018-07-11 11:41:03', '2018-07-11 11:41:13', 'abgeschlossen', 9, 0),
+(266, 33, 10, '2018-07-11 12:10:33', '2018-07-11 12:10:43', 'abgeschlossen', 9, 0),
+(267, 33, 10, '2018-07-11 12:28:32', '2018-07-11 12:28:42', 'abgeschlossen', 1, 0),
+(268, 33, 10, '2018-07-11 12:32:33', '2018-07-11 12:32:43', 'abgeschlossen', 4, 0),
+(269, 33, 10, '2018-07-11 12:38:50', '2018-07-11 12:39:00', 'abgeschlossen', 8, 0),
+(270, 33, 10, '2018-07-11 12:44:00', '2018-07-11 12:44:10', 'abgeschlossen', 9, 0),
+(271, 33, 10, '2018-07-11 12:44:22', '2018-07-11 12:44:32', 'abgeschlossen', 6, 0),
+(272, 33, 10, '2018-07-11 12:46:34', '2018-07-11 12:46:44', 'abgeschlossen', 2, 0),
+(273, 33, 10, '2018-07-11 12:51:19', '2018-07-11 12:51:29', 'abgeschlossen', 5, 0),
+(274, 33, 10, '2018-07-11 14:36:22', '2018-07-11 14:36:32', 'abgeschlossen', 7, 0),
+(275, 33, 10, '2018-07-11 14:44:47', '2018-07-11 14:44:57', 'abgeschlossen', 11, 0),
+(276, 33, 10, '2018-07-11 14:45:04', '2018-07-11 14:45:14', 'abgeschlossen', 7, 0),
+(277, 33, 10, '2018-07-11 14:53:58', '2018-07-11 14:54:08', 'abgeschlossen', 10, 0),
+(278, 33, 10, '2018-07-11 14:56:26', '2018-07-11 14:56:36', 'abgeschlossen', 7, 0),
+(279, 33, 10, '2018-07-11 14:56:39', '2018-07-11 14:56:49', 'abgeschlossen', 11, 0),
+(280, 33, 10, '2018-07-11 15:01:46', '2018-07-11 15:01:56', 'abgeschlossen', 4, 0),
+(281, 33, 10, '2018-07-11 15:02:02', '2018-07-11 15:02:12', 'abgeschlossen', 8, 0),
+(282, 33, 10, '2018-07-11 15:02:18', '2018-07-11 15:02:28', 'abgeschlossen', 9, 0),
+(283, 33, 10, '2018-07-11 15:02:31', '2018-07-11 15:02:41', 'abgeschlossen', 6, 0),
+(284, 33, 10, '2018-07-11 15:02:45', '2018-07-11 15:02:55', 'abgeschlossen', 3, 0),
+(285, 33, 10, '2018-07-11 15:13:27', '2018-07-11 15:13:37', 'abgeschlossen', 5, 0),
+(286, 33, 10, '2018-07-11 15:13:42', '2018-07-11 15:13:52', 'abgeschlossen', 2, 0),
+(287, 33, 10, '2018-07-11 15:21:52', '2018-07-11 15:22:02', 'abgeschlossen', 6, 0),
+(288, 33, 10, '2018-07-11 15:22:19', '2018-07-11 15:22:29', 'abgeschlossen', 9, 0),
+(289, 33, 10, '2018-07-11 15:22:35', '2018-07-11 15:22:45', 'abgeschlossen', 8, 0),
+(290, 33, 10, '2018-07-11 15:22:55', '2018-07-11 15:23:05', 'abgeschlossen', 4, 0),
+(291, 33, 10, '2018-07-11 15:23:17', '2018-07-11 15:23:27', 'abgeschlossen', 1, 0),
+(292, 33, 10, '2018-07-11 15:23:34', '2018-07-11 15:23:44', 'abgeschlossen', 9, 0),
+(293, 33, 10, '2018-07-11 15:23:50', '2018-07-11 15:24:00', 'abgeschlossen', 6, 0),
+(294, 33, 10, '2018-07-11 15:24:09', '2018-07-11 15:24:19', 'abgeschlossen', 3, 0),
+(295, 33, 2, '2018-07-11 15:24:26', '2018-07-11 15:24:31', 'abgeschlossen', 0, 0),
+(296, 33, 2, '2018-07-11 15:24:38', '2018-07-11 15:24:43', 'abgeschlossen', 0, 0),
+(297, 33, 7, '2018-07-11 15:24:51', '2018-07-11 15:24:56', 'abgeschlossen', 14, 0),
+(298, 33, 10, '2018-07-11 15:26:50', '2018-07-11 15:27:00', 'abgeschlossen', 5, 0),
+(299, 33, 2, '2018-07-11 15:27:06', '2018-07-11 15:27:11', 'abgeschlossen', 0, 0),
+(300, 33, 7, '2018-07-11 15:27:17', '2018-07-11 15:27:22', 'abgeschlossen', 8, 0);
 
 -- --------------------------------------------------------
 
@@ -707,8 +776,8 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (3, 4, 'Eissee', 'Ein schöner großer See lädt euch zum Baden gehen ein. An die Hacke, fertig, los!'),
 (4, 5, 'Dschungel', 'Gestrüpp soweit das Auge reicht. Was hier alles kreucht und fleucht, wollt ihr euch gar nicht erst ausmalen.'),
 (5, 6, 'Klippe', 'Ihr schaut in den Abgrund und sogleich juckt es euch in den Flügeln. Traut euch!'),
-(6, 7, 'Kristallhoehle', 'Funkelnde Steine weit und breit. Ein wahres Paradies ... wenn man es kalt, muffig und feucht mag.'),
-(7, 8, 'Wueste', 'Naaaa, wollt ihr etwas zu trinken? Hier ganz sicher nicht!'),
+(6, 7, 'Kristallhöhle', 'Funkelnde Steine weit und breit. Ein wahres Paradies ... wenn man es kalt, muffig und feucht mag.'),
+(7, 8, 'Wüste', 'Naaaa, wollt ihr etwas zu trinken? Hier ganz sicher nicht!'),
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
@@ -725,40 +794,42 @@ DROP TABLE IF EXISTS `gebiet_gebiet`;
 CREATE TABLE `gebiet_gebiet` (
   `id` int(10) NOT NULL,
   `von_gebiet_id` int(10) NOT NULL,
-  `nach_gebiet_id` int(10) NOT NULL
+  `nach_gebiet_id` int(10) NOT NULL,
+  `pos_x` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  `pos_y` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Verbindungen von Gebieten untereinander';
 
 --
 -- Daten für Tabelle `gebiet_gebiet`
 --
 
-INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`) VALUES
-(1, 1, 4),
-(2, 1, 9),
-(3, 2, 5),
-(4, 2, 6),
-(5, 3, 5),
-(6, 3, 6),
-(7, 4, 1),
-(8, 4, 8),
-(9, 4, 11),
-(10, 5, 2),
-(11, 5, 3),
-(12, 5, 7),
-(13, 6, 2),
-(14, 6, 3),
-(15, 6, 9),
-(16, 7, 5),
-(17, 7, 10),
-(18, 7, 11),
-(19, 8, 4),
-(20, 8, 9),
-(21, 9, 1),
-(22, 9, 6),
-(23, 9, 8),
-(24, 10, 7),
-(25, 11, 4),
-(26, 11, 7);
+INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`, `pos_x`, `pos_y`) VALUES
+(1, 1, 4, 0, 51),
+(2, 1, 9, 75, 32),
+(3, 2, 5, 17, 56),
+(4, 2, 6, 88, 29),
+(5, 3, 5, 39, 51),
+(6, 3, 6, 69, 88),
+(7, 4, 1, 11, 69),
+(8, 4, 8, 47, 59),
+(9, 4, 11, 85, 28),
+(10, 5, 2, 11, 79),
+(11, 5, 3, 47, 45),
+(12, 5, 7, 10, 2),
+(13, 6, 2, 88, 88),
+(14, 6, 3, 0, 88),
+(15, 6, 9, 15, 45),
+(16, 7, 5, 9, 29),
+(17, 7, 10, 65, 23),
+(18, 7, 11, 88, 26),
+(19, 8, 4, 0, 88),
+(20, 8, 9, 85, 75),
+(21, 9, 1, 0, 60),
+(22, 9, 6, 57, 52),
+(23, 9, 8, 16, 0),
+(24, 10, 7, 88, 25),
+(25, 11, 4, 0, 55),
+(26, 11, 7, 58, 59);
 
 -- --------------------------------------------------------
 
@@ -841,7 +912,15 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (22, 15, 36, 1),
 (23, 11, 36, 1),
 (24, 4, 36, 1),
-(25, 7, 36, 1);
+(25, 7, 36, 1),
+(26, 5, 33, 3),
+(27, 1, 33, 6),
+(28, 8, 33, 4),
+(29, 12, 33, 1),
+(30, 7, 33, 1),
+(31, 18, 33, 1),
+(32, 15, 33, 1),
+(33, 3, 33, 1);
 
 -- --------------------------------------------------------
 
@@ -1237,7 +1316,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:59:13'),
 (26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-06-25 16:43:25'),
 (32, 10, 211, 4, 1, 4, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-25 11:53:22'),
-(33, 11, 210, 1, 1, 2, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:31:51'),
+(33, 11, 210, 1, 1, 5, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-07-11 15:27:01'),
 (36, 11, 211, 4, 1, 3, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-27 15:04:43'),
 (37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59');
 
@@ -1585,12 +1664,12 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=232;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=255;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -1630,7 +1709,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --

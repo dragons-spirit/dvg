@@ -42,23 +42,66 @@ function check_wkt($wkt)
 }
 
 
-function zeige_hintergrundbild($gebiet_id)
+# Hintergrundbild: Bilderpfad (großes Bild) auf Bilderpfad (kleines Bild) ändern
+function hintergrundbild_klein($gebiet_id)
 {
-	?><p align="center" style="margin-top:100px; margin-bottom:0px; font-size:14pt;">
-		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" width="100%" height="60%" alt=""/><br><br>
-		<?php echo get_gebiet($gebiet_id)[3]; ?>
-	</p><?php
+	return str_replace(array("/Gross/",".jpg"), array("/Klein/","_klein.jpg"), get_bild_zu_gebiet($gebiet_id));
+}
+
+
+function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
+{
+	?>
+	<!-- Links Zielgebiete -->
+	<div id="hintergrundbild">
+		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" style="max-width: 100%;" height="100%" alt=""/>
+		<div id="hintergrundbild_gebietslinks">
+			<?php zeige_gebietslinks($gebiet_id); ?>
+		</div>
+	</div>
+	
+	<!-- Beschreibungstext Hintergrundbild -->
+	<div id="hintergrundbild_text" align="center">
+		<p style="font-size:14pt;">
+			<?php echo get_gebiet($gebiet_id)[3]; ?>
+		</p>
+		<?php
+		# Hinweis, falls Spieler eine noch nicht abgeschlossene Aktion hat
+		if ($aktion_titel)
+		{?>
+			<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+				Ihr seid noch beschäftigt!<br>
+			</p>
+			<p align="center">
+				<input type="submit" name="zurueck" value="zurück">
+			</p>
+		<?php
+		}?>
+	</div>
+	<?php
 }
 
 
 function zeige_gebietslinks($gebiet_id)
 {
 	if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
-	{		
+	{
 		while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
 		{
 	?>			
-		<input id="gebietslinks" type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>"/><br>
+		<div style="background-image:url(<?php echo hintergrundbild_klein($row[2]) ?>);
+					background-repeat:no-repeat;
+					background-size:contain;
+					position:absolute;
+					left:<?php echo $row[4] ?>%;
+					top:<?php echo $row[5] ?>%;
+					width:12%;
+					height:12%;">
+			<span title="<?php echo $row[3]; ?>" >
+				<input type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>" style="width:100%; height:100%; opacity:0.0;" />
+			</span>
+		</div>
+	
 	<?php
 		}
 	}
@@ -75,7 +118,7 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 		while($row = $npc->fetch_array(MYSQLI_NUM))
 		{
 			?>
-			<p align="center" style="margin-top:75px; margin-bottom:0px; font-size:14pt;">
+			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
 				<?php echo $text1 . $row[1] . $text2; ?>
 			</p>
 			<?php
@@ -88,7 +131,7 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 	{		
 		$counter = 0;
 		?>
-		<table border="1px" border-color="white" align="center" style="margin-top:75px;" width="500px" >
+		<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="500px" >
 			<tr>
 				<td>Item</td>
 				<td>Beschreibung</td>
@@ -132,125 +175,59 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 }
 
 
-function elemente_anzeigen($hauptelement)
+function elemente_anzeigen($hauptelement, $hintergrundfarbe)
 {
-	?><p align="center">
-		<?php
-			echo "Super! Das Hauptelement " . $hauptelement . " soll angezeigt werden, aber nichts passiert. <br /><br /> \n Echt toll!";
-			?>
-			<!-- Feuerelemente -->
-			<div id="feuerinhalt" style="display:block;">
-			
-			<table id="zauberarten">
-				<?php
-				$zauberarten = get_zauberarten_zu_hauptelement($hauptelement);
-				while($row = $zauberarten->fetch_array(MYSQLI_NUM))
-				{
-					$zauberart = $row[1];
-					?>
-					<tr><td align="left" style="padding-top:10px">
-						<p><b><?php echo $zauberart ?></b></p>
-						
-						<table id="nebenelemente" border="1pt solid">
-							<?php
-							$nebenelemente = get_nebenelement_zu_hauptelement_zauberart($hauptelement, $zauberart);
-							while($row = $nebenelemente->fetch_array(MYSQLI_NUM))
-							{
-								$nebenelement = $row[0];
-								?>
-									<tr>
-										<?php
-										$zauber = get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement, $nebenelement, $zauberart);
-										while($row = $zauber->fetch_array(MYSQLI_NUM))
-										{
-											$zauber_id = $row[0];
-											$zauber_titel = $row[2];
-											$zauber_beschreibung = $row[5];
-											$zauber_bilder_id = $row[1];
-											?>
-											<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain;" align="left">
-												<span title="<?php echo $zauber_titel ?>" >
-													<input type="button" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
-												</span>
-											</td>
-											<?php
-										}
-										?>
-									</tr>
-								<?php
-							}
-							?>
-						</table>
-					</td></tr>
-					<?php
-				}
+	?>
+	<div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
+		<table>
+			<?php
+			# Für Tabellenstruktur Anzeigedaten nacheinander abholen
+			# 1. Alle veschiedenen Zauberarten zum gewählten Element (Schaden, Heilung, usw. )
+			$zauberarten = get_zauberarten_zu_hauptelement($hauptelement);
+			while($row = $zauberarten->fetch_array(MYSQLI_NUM))
+			{
+				$zauberart = $row[1];
 				?>
-			</table>
-			
-			
-			<table id="elemente_tabelle" cellspacing="5px" style="padding-top:200px;">
-				<tr>
-					<td><span title="Asche"><input type="button" style="background:url(../Bilder/Elemente/Asche.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_asche" value=""></span></td>
-					<td>---------------></td>
-					<td><span title="Glas"><input type="button" style="background:url(../Bilder/Elemente/Glas.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_glas" value=""></span></td>
-					<td><span title="Metall"><input type="button" style="background:url(../Bilder/Elemente/Metall.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_metall" value=""></span></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><span title="Alkohol"><input type="button" style="background:url(../Bilder/Elemente/Alkohol.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_alkohol" value=""></span></td>
-					<td>---------------></td>
-					<td><span title="S&auml;ure"><input type="button" style="background:url(../Bilder/Elemente/Saeure.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_saeure" value=""></span></td>
-					<td>---------------></td>
-					<td><span title="Gift"><input type="button" style="background:url(../Bilder/Elemente/Gift.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_gift" value=""></span></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><span title="Funke"><input type="button" style="background:url(../Bilder/Elemente/Funke.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_funke" value=""></td>
-					<td><span title="Flamme"><input type="button" style="background:url(../Bilder/Elemente/Flamme.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_flamme" value=""></td>
-					<td>---------------></td>
-					<td><span title="Lichtstrahl"><input type="button" style="background:url(../Bilder/Elemente/Lichtstrahl.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lichtstrahl" value=""></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>----------------</td>
-					<td>----------------</td>
-					<td>----------------</td>
-					<td>----------------</td>
-					<td>---------------></td>
-					<td><span title="Explosion"><input type="button" style="background:url(../Bilder/Elemente/Explosion.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_explosion" value=""></span></td>
-				</tr>
-				<tr>
-					<td><span title="Schwellbrand"><input type="button" style="background:url(../Bilder/Elemente/Schwelbrand.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_schwelbrand" value=""></span></td>
-					<td><span title="Lava"><input type="button" style="background:url(../Bilder/Elemente/Lava.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_lava" value=""></span></td>
-					<td>----------------</td>
-					<td>---------------></td>
-					<td><span title="Magma"><input type="button" style="background:url(../Bilder/Elemente/Magma.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_magma" value=""></span></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>----------------</td>
-					<td>---------------></td>
-					<td><span title="Feuerball"><input type="button" style="background:url(../Bilder/Elemente/Feuerball.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuerball" value=""></span></td>
-					<td>---------------></td>
-					<td><span title="Blitz"><input type="button" style="background:url(../Bilder/Elemente/Blitz.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_blitz" value=""></span></td>
-					<td><span title="Feuersturm"><input type="button" style="background:url(../Bilder/Elemente/Feuersturm.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_feuersturm" value=""></span></td>
-				</tr>
-				<tr>
-					<td>---------------></td>
-					<td><span title="Glut"><input type="button" style="background:url(../Bilder/Elemente/Glut.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_glut" value=""></span></td>
-					<td>---------------></td>
-					<td><span title="&Ouml;lbrand"><input type="button" style="background:url(../Bilder/Elemente/Oelbrand.png);height:60px;width:60px;background-repeat:no-repeat;" name="button_oelbrand" value=""></span></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td><br></td>
-				</tr>
-			</table>
-			</div>
-		</p>
+				<tr><td align="left" style="padding-top:10px">
+					<p><b><?php echo $zauberart ?></b></p>
+					<table cellspacing="5px">
+						<?php
+						# 2. Alle Nebenelemente die bei dem gewählten Element und der Zauberart vorkommen (relevant für Anzahl Zeilen pro Zauberart)
+						$nebenelemente = get_nebenelement_zu_hauptelement_zauberart($hauptelement, $zauberart);
+						while($row = $nebenelemente->fetch_array(MYSQLI_NUM))
+						{
+							$nebenelement = $row[0];
+							?>
+								<tr>
+									<?php
+									# 3. Alle Zauber zum gewählten Element und aktuell betrachteter Zauberart und Nebenelement
+									$zauber = get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement, $nebenelement, $zauberart);
+									while($row = $zauber->fetch_array(MYSQLI_NUM))
+									{
+										$zauber_id = $row[0];
+										$zauber_titel = $row[2];
+										$zauber_beschreibung = $row[5];
+										$zauber_bilder_id = $row[1];
+										?>
+										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain;" align="left">
+											<span title="<?php echo $zauber_titel ?>" >
+												<input type="button" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
+											</span>
+										</td>
+										<?php
+									}
+									?>
+								</tr>
+							<?php
+						}
+						?>
+					</table>
+				</td></tr>
+				<?php
+			}
+			?>
+		</table>
+	</div>
 	<?php
 }
 
@@ -463,47 +440,9 @@ function pfad_fuer_style($pfad)
 	{
 		switch(wert)
 		{
-			case 1:
-                document.getElementById('erdinhalt').style.display = 'block';
-                document.getElementById('wasserinhalt').style.display = 'none';
-                document.getElementById('feuerinhalt').style.display = 'none';
-                document.getElementById('luftinhalt').style.display = 'none';
-			break;
-			case 2:
-                document.getElementById('erdinhalt').style.display = 'none';
-                document.getElementById('wasserinhalt').style.display = 'block';
-                document.getElementById('feuerinhalt').style.display = 'none';
-                document.getElementById('luftinhalt').style.display = 'none';     
-			break;
-			case 3:
-                document.getElementById('erdinhalt').style.display = 'none';
-                document.getElementById('wasserinhalt').style.display = 'none';
-                document.getElementById('feuerinhalt').style.display = 'block';
-                document.getElementById('luftinhalt').style.display = 'none';
-			break;
-			case 4:
-                document.getElementById('erdinhalt').style.display = 'none';
-                document.getElementById('wasserinhalt').style.display = 'none';
-                document.getElementById('feuerinhalt').style.display = 'none';
-                document.getElementById('luftinhalt').style.display = 'block';                                
-			break;
-			case 'false':		
-				document.getElementById('erdinhalt').style.display = 'none';
-                document.getElementById('wasserinhalt').style.display = 'none';
-                document.getElementById('feuerinhalt').style.display = 'none';
-                document.getElementById('luftinhalt').style.display = 'none';
-			break;
 			case 'menü':		
 				document.getElementById('spielmenü_2').style.display = 'block';
 			break;
-			/*
-			default:		
-				document.getElementById('erdinhalt').style.display = 'none';
-                document.getElementById('wasserinhalt').style.display = 'none';
-                document.getElementById('feuerinhalt').style.display = 'none';
-                document.getElementById('luftinhalt').style.display = 'none';
-			break;
-			*/
 		}
 	}
 	

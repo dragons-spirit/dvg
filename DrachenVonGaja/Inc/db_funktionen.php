@@ -646,7 +646,8 @@ function get_gebiet($gebiet_id)
 #	<- [1] von_gebiet_id
 #	<- [2] nach_gebiet_id
 #	<- [3] nach_gebiet_titel
-
+#	<- [4] pos_x
+#	<- [5] pos_y
 
 function get_gebiet_gebiet($von_gebiet_id)
 {
@@ -657,7 +658,9 @@ function get_gebiet_gebiet($von_gebiet_id)
 			SELECT gebiet_gebiet.id, 
 				gebiet_gebiet.von_gebiet_id, 
 				gebiet_gebiet.nach_gebiet_id, 
-				gebiet.titel AS nach_gebiet_titel 
+				gebiet.titel AS nach_gebiet_titel,
+				gebiet_gebiet.pos_x,
+				gebiet_gebiet.pos_y
 			FROM gebiet_gebiet 
 				LEFT JOIN gebiet ON (gebiet_gebiet.nach_gebiet_id = gebiet.id) 
 			WHERE gebiet_gebiet.von_gebiet_id = ?")){
