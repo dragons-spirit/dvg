@@ -19,9 +19,27 @@
 	
 	<body>
 
-		<audio id="audio" controls autoplay src="../Musik/Geheimnisse-der-Geschichte.mp3" type="audio/mp3">
+		<!--<audio id="audio" controls autoplay loop>
+			<source src="../Musik/Geheimnisse-der-Geschichte.mp3" type="audio/mp3"/>
+			<source src="../Musik/mystik.mp3" type="audio/mp3"/>
 			Ihr Browser kann dieses Tondokument nicht wiedergeben.
-		</audio>
+		</audio>-->
+		
+		<audio id="audio" controls autoplay controlsList="nodownload"></audio>
+		<script>
+		    var idx = 0;
+		    var tracks = ["../Musik/Geheimnisse-der-Geschichte.mp3", "../Musik/mystik.mp3", "../Musik/film.mp3"];
+		    audio.addEventListener("ended", playnext);
+		    function playnext() {
+			idx = Math.floor(Math.random() * tracks.length);
+			if (idx < tracks.length) {
+			    audio.pause();
+			    audio.src = tracks[idx];
+			    audio.play();
+			}
+		    }
+		    playnext();
+		</script>
 	
 	</body>
 </html>

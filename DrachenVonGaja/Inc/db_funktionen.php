@@ -708,7 +708,7 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 
 
 #***************************************************************************************************************
-#**************************************************** ITMES ****************************************************
+#**************************************************** ITEMS ****************************************************
 #***************************************************************************************************************
 
 
@@ -741,7 +741,8 @@ function get_items_npc($npc_id)
 				items
 				JOIN npc_items ON items.id = npc_items.items_id
 			WHERE
-				npc_items.npc_id = ?"))
+				npc_items.npc_id = ?
+			ORDER BY items.titel"))
 	{
 		$stmt->bind_param('d', $npc_id);
 		$stmt->execute();
@@ -784,7 +785,8 @@ function get_all_items_spieler($spieler_id)
 				items
 				JOIN items_spieler ON items.id = items_spieler.items_id
 			WHERE
-				items_spieler.spieler_id = ?"))
+				items_spieler.spieler_id = ?
+			ORDER BY items.titel"))
 	{
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();
@@ -941,7 +943,8 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 			FROM 	npc
 				JOIN npc_gebiet ON npc.id = npc_gebiet.npc_id
 			WHERE 	npc_gebiet.gebiet_id = ?
-				AND npc.typ = ?"))
+				AND npc.typ = ?
+			ORDER BY npc.titel"))
 	{
 		$stmt->bind_param('ds', $gebiet_id, $npc_typ);
 		$stmt->execute();

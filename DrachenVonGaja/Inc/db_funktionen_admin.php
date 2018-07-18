@@ -324,7 +324,8 @@ function suche_items($titel, $beschreibung, $typ)
 			FROM 	items
 			WHERE 	items.titel like ?
 				and items.beschreibung like ?
-				and items.typ like ?"))
+				and items.typ like ?
+			ORDER BY titel"))
 	{
 		$stmt->bind_param('sss', $titel, $beschreibung, $typ);
 		$stmt->execute();
@@ -560,7 +561,8 @@ function suche_npcs($titel, $familie, $beschreibung, $typ)
 			WHERE 	npc.titel like ?
 				and npc.familie like ?
 				and npc.beschreibung like ?
-				and npc.typ like ?"))
+				and npc.typ like ?
+			ORDER BY titel"))
 	{
 		$stmt->bind_param('ssss', $titel, $familie, $beschreibung, $typ);
 		$stmt->execute();
