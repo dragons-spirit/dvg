@@ -284,7 +284,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]));
 							
 							######################
 							# Start von Aktionen #
@@ -359,6 +359,15 @@
 								{
 									include('quest.inc.php');
 								}
+								if(isset($_POST["button_drachenkampf"]))
+								{
+									include('drachenkampf.inc.php');
+								}
+								if(isset($_POST["button_handwerk"]))
+								{
+									include('handwerk.inc.php');
+								}
+								
 								
 							}
 							else {
@@ -411,21 +420,23 @@
 						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"])){
 							?>
 							<script>sichtbar_elemente("menü");</script>
-							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_feuer" value="Feuer Speien"></div>
+							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="Drachenkampf"></div>
 							<div id="menu2"><input id="menu_button_klein" type="submit" name="button_fliegen" value="Fliegen"></div>
 							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
-							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_tagebuch" value="Tagebuch"></div>
+							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_handwerk" value="Handwerk"></div>
+							<div id="menu7"><input id="menu_button_klein" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php	
 						} else {
 						?>
-							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_feuer" value="Feuer Speien"></div>
+							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_drachenkampf" value="Drachenkampf"></div>
 							<div id="menu2"><input id="menu_button_gross" type="submit" name="button_fliegen" value="Fliegen"></div>
 							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
-							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_tagebuch" value="Tagebuch"></div>
+							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_handwerk" value="Handwerk"></div>
+							<div id="menu7"><input id="menu_button_gross" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php
 						}
 						?>
@@ -590,6 +601,7 @@
 		
 		
 	</body>
+	<script language="javascript" type="text/javascript" src="zauber.js"></script>
 </html>   
     
 </form>

@@ -61,6 +61,13 @@ a:active
     text-decoration:none;
 }
 
+.zauberdiv
+{
+position:absolute;
+left:0px;
+top:0px;
+}
+
 /* Divs Anmeldung */
 #header
 {
@@ -239,7 +246,7 @@ a:active
 {
     position:absolute;
     top:20px;
-	left: 50%;
+    left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
 }
@@ -284,7 +291,7 @@ a:active
 
 #menu1
 {
-    background:url(././Bilder/feuerbutton.png);
+    background:url(././Bilder/drachenkampf.png);
 	background-repeat:no-repeat;
 	background-size:100%;
 }
@@ -313,12 +320,20 @@ a:active
 	background-size:100%;
 }
 
+
 #menu6
+{
+	background:url(././Bilder/Handwerk.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+#menu7
 {
 	background:url(././Bilder/Tagebuch.png);
 	background-repeat:no-repeat;
 	background-size:100%;
 }
+
 
 #erde
 {
@@ -469,3 +484,4 @@ a:active
 	display: none;
 	text-align: center;
 }
+

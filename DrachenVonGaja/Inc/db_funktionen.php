@@ -1370,4 +1370,42 @@ function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, 
 }
 
 
+
+#----------------------------------------- SELECT zauber.* (Spieler) -----------------------------------------
+# 	-> spieler.id (int)
+# 	<- zauber.id (int)
+#	<- zauber.bilder_id (int)
+#	<- zauber.titel (str)
+#	<- zauber.beschreibung
+
+function get_zauber_von_spieler($spieler)
+{
+	global $debug;
+	$connect_db_dvg = open_connection();
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				zauber.id,
+				zauber.bilder_id,
+				zauber.titel,
+				zauber.beschreibung
+			FROM
+				zauber
+				join zauber_spieler on zauber_spieler.zauber_id = zauber.id
+			WHERE
+				zauber_spieler.spieler_id = ?
+			ORDER BY
+				zauber.id")){
+		$stmt->bind_param('d', $spieler);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		close_connection($connect_db_dvg);
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_zauber_von_spieler()<br />\n";
+		close_connection($connect_db_dvg);
+		return false;
+	}	
+}
+
 ?>
