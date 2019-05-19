@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.1
+-- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Erstellungszeit: 11. Jul 2018 um 17:31
--- Server-Version: 10.1.21-MariaDB
--- PHP-Version: 5.6.30
+-- Host: localhost
+-- Erstellungszeit: 19. Mai 2019 um 11:58
+-- Server-Version: 10.0.17-MariaDB
+-- PHP-Version: 5.6.14
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `db_dvg`
 --
-
-DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
 
 -- --------------------------------------------------------
 
@@ -413,7 +411,125 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 (297, 33, 7, '2018-07-11 15:24:51', '2018-07-11 15:24:56', 'abgeschlossen', 14, 0),
 (298, 33, 10, '2018-07-11 15:26:50', '2018-07-11 15:27:00', 'abgeschlossen', 5, 0),
 (299, 33, 2, '2018-07-11 15:27:06', '2018-07-11 15:27:11', 'abgeschlossen', 0, 0),
-(300, 33, 7, '2018-07-11 15:27:17', '2018-07-11 15:27:22', 'abgeschlossen', 8, 0);
+(300, 33, 7, '2018-07-11 15:27:17', '2018-07-11 15:27:22', 'abgeschlossen', 8, 0),
+(301, 26, 2, '2018-08-01 16:45:09', '2018-08-01 16:45:14', 'abgeschlossen', 0, 0),
+(302, 26, 6, '2018-08-01 16:45:18', '2018-08-01 16:45:23', 'abgeschlossen', 11, 0),
+(303, 26, 10, '2018-08-01 17:01:53', '2018-08-01 17:02:03', 'abgeschlossen', 1, 0),
+(304, 26, 2, '2018-08-01 17:02:06', '2018-08-01 17:02:11', 'abgeschlossen', 0, 0),
+(305, 26, 6, '2018-08-01 17:02:25', '2018-08-01 17:02:30', 'abgeschlossen', 27, 0),
+(306, 26, 10, '2018-08-01 17:03:01', '2018-08-01 17:03:11', 'abgeschlossen', 9, 0),
+(307, 26, 2, '2018-08-01 17:03:22', '2018-08-01 17:03:27', 'abgeschlossen', 0, 0),
+(308, 26, 6, '2018-08-01 17:03:29', '2018-08-01 17:03:34', 'abgeschlossen', 23, 0),
+(309, 26, 2, '2018-08-01 17:03:38', '2018-08-01 17:03:43', 'abgeschlossen', 0, 0),
+(310, 26, 6, '2018-08-01 17:03:45', '2018-08-01 17:03:50', 'abgeschlossen', 4, 0),
+(311, 26, 10, '2018-08-01 17:03:58', '2018-08-01 17:04:08', 'abgeschlossen', 6, 0),
+(312, 26, 10, '2019-03-23 13:10:57', '2019-03-23 13:11:07', 'abgeschlossen', 2, 0),
+(313, 26, 2, '2019-03-23 13:11:16', '2019-03-23 13:11:21', 'abgeschlossen', 0, 0),
+(314, 26, 2, '2019-03-23 13:11:28', '2019-03-23 13:11:33', 'abgeschlossen', 0, 0),
+(315, 26, 6, '2019-03-23 13:11:36', '2019-03-23 13:11:41', 'abgeschlossen', 21, 0),
+(316, 26, 2, '2019-03-23 13:11:49', '2019-03-23 13:11:54', 'abgeschlossen', 0, 0),
+(317, 26, 7, '2019-03-23 13:11:57', '2019-03-23 13:12:02', 'abgeschlossen', 7, 0),
+(318, 26, 2, '2019-03-23 13:12:13', '2019-03-23 13:12:18', 'abgeschlossen', 0, 0),
+(319, 26, 2, '2019-03-23 13:12:35', '2019-03-23 13:12:40', 'abgeschlossen', 0, 0),
+(320, 26, 2, '2019-03-23 13:12:44', '2019-03-23 13:12:49', 'abgeschlossen', 0, 0),
+(321, 26, 2, '2019-03-23 13:12:54', '2019-03-23 13:12:59', 'abgeschlossen', 0, 0),
+(322, 26, 10, '2019-03-23 13:13:47', '2019-03-23 13:13:57', 'abgeschlossen', 5, 0),
+(323, 26, 10, '2019-03-23 13:14:16', '2019-03-23 13:14:26', 'abgeschlossen', 7, 0),
+(324, 26, 2, '2019-03-23 13:14:34', '2019-03-23 13:14:39', 'abgeschlossen', 0, 0),
+(325, 26, 7, '2019-03-23 13:14:45', '2019-03-23 13:14:50', 'abgeschlossen', 12, 0),
+(326, 26, 2, '2019-03-23 13:14:55', '2019-03-23 13:15:00', 'abgeschlossen', 0, 0),
+(327, 26, 6, '2019-03-23 13:15:02', '2019-03-23 13:15:07', 'abgeschlossen', 4, 0),
+(328, 26, 10, '2019-03-23 13:15:24', '2019-03-23 13:15:34', 'abgeschlossen', 11, 0),
+(329, 26, 2, '2019-03-23 13:15:36', '2019-03-23 13:15:41', 'abgeschlossen', 0, 0),
+(330, 26, 6, '2019-03-23 13:15:43', '2019-03-23 13:15:48', 'abgeschlossen', 24, 0),
+(331, 26, 2, '2019-03-23 13:16:06', '2019-03-23 13:16:11', 'abgeschlossen', 0, 0),
+(332, 26, 6, '2019-03-23 13:16:14', '2019-03-23 13:16:19', 'abgeschlossen', 22, 0),
+(333, 26, 2, '2019-03-23 13:16:44', '2019-03-23 13:16:49', 'abgeschlossen', 0, 0),
+(334, 26, 6, '2019-03-23 13:16:51', '2019-03-23 13:16:56', 'abgeschlossen', 22, 0),
+(335, 26, 10, '2019-03-23 13:16:59', '2019-03-23 13:17:09', 'abgeschlossen', 7, 0),
+(336, 26, 10, '2019-03-23 13:17:13', '2019-03-23 13:17:23', 'abgeschlossen', 5, 0),
+(339, 39, 10, '2019-04-06 13:06:01', '2019-04-06 13:06:11', 'abgeschlossen', 4, 0),
+(340, 39, 10, '2019-04-06 13:06:32', '2019-04-06 13:06:42', 'abgeschlossen', 11, 0),
+(341, 39, 10, '2019-04-06 13:06:45', '2019-04-06 13:06:55', 'abgeschlossen', 7, 0),
+(342, 39, 10, '2019-04-06 13:06:58', '2019-04-06 13:07:08', 'abgeschlossen', 5, 0),
+(343, 39, 10, '2019-04-06 13:07:10', '2019-04-06 13:07:20', 'abgeschlossen', 2, 0),
+(344, 39, 2, '2019-04-06 13:07:55', '2019-04-06 13:08:00', 'abgeschlossen', 0, 0),
+(345, 39, 6, '2019-04-06 13:08:08', '2019-04-06 13:08:13', 'abgeschlossen', 2, 0),
+(346, 39, 10, '2019-04-06 13:10:43', '2019-04-06 13:10:53', 'abgeschlossen', 6, 0),
+(347, 26, 2, '2019-04-06 13:13:41', '2019-04-06 13:13:46', 'abgeschlossen', 0, 0),
+(348, 26, 7, '2019-04-06 13:13:49', '2019-04-06 13:13:54', 'abgeschlossen', 8, 0),
+(349, 26, 2, '2019-04-06 13:14:00', '2019-04-06 13:14:05', 'abgeschlossen', 0, 0),
+(350, 26, 7, '2019-04-06 13:14:10', '2019-04-06 13:14:15', 'abgeschlossen', 8, 0),
+(351, 26, 2, '2019-04-06 13:14:19', '2019-04-06 13:14:24', 'abgeschlossen', 0, 0),
+(352, 26, 7, '2019-04-06 13:14:31', '2019-04-06 13:14:36', 'abgeschlossen', 12, 0),
+(353, 26, 10, '2019-04-06 13:47:18', '2019-04-06 13:47:28', 'abgeschlossen', 3, 0),
+(354, 26, 2, '2019-04-06 13:47:33', '2019-04-06 13:47:38', 'abgeschlossen', 0, 0),
+(355, 26, 6, '2019-04-06 13:47:48', '2019-04-06 13:47:53', 'abgeschlossen', 25, 0),
+(356, 26, 2, '2019-04-06 13:49:17', '2019-04-06 13:49:22', 'abgeschlossen', 0, 0),
+(357, 26, 2, '2019-04-06 13:49:29', '2019-04-06 13:49:34', 'abgeschlossen', 0, 0),
+(358, 26, 6, '2019-04-06 13:49:40', '2019-04-06 13:49:45', 'abgeschlossen', 27, 0),
+(359, 26, 10, '2019-04-06 13:50:43', '2019-04-06 13:50:53', 'abgeschlossen', 5, 0),
+(360, 26, 2, '2019-04-06 13:51:01', '2019-04-06 13:51:06', 'abgeschlossen', 0, 0),
+(361, 26, 2, '2019-04-06 13:51:31', '2019-04-06 13:51:36', 'abgeschlossen', 0, 0),
+(362, 26, 7, '2019-04-06 13:51:47', '2019-04-06 13:51:52', 'abgeschlossen', 6, 0),
+(363, 26, 2, '2019-04-06 13:52:01', '2019-04-06 13:52:06', 'abgeschlossen', 0, 0),
+(364, 26, 10, '2019-04-06 13:52:20', '2019-04-06 13:52:30', 'abgeschlossen', 7, 0),
+(365, 26, 2, '2019-04-06 13:52:43', '2019-04-06 13:52:48', 'abgeschlossen', 0, 0),
+(366, 26, 10, '2019-04-06 13:52:55', '2019-04-06 13:53:05', 'abgeschlossen', 10, 0),
+(367, 26, 10, '2019-04-06 13:53:13', '2019-04-06 13:53:23', 'abgeschlossen', 7, 0),
+(368, 26, 10, '2019-04-06 13:53:28', '2019-04-06 13:53:38', 'abgeschlossen', 11, 0),
+(369, 26, 10, '2019-04-06 13:53:49', '2019-04-06 13:53:59', 'abgeschlossen', 7, 0),
+(370, 26, 10, '2019-04-06 13:54:10', '2019-04-06 13:54:20', 'abgeschlossen', 10, 0),
+(371, 26, 2, '2019-04-06 13:54:31', '2019-04-06 13:54:36', 'abgeschlossen', 0, 0),
+(372, 26, 2, '2019-04-06 13:54:48', '2019-04-06 13:54:53', 'abgeschlossen', 0, 0),
+(373, 26, 6, '2019-04-06 13:55:09', '2019-04-06 13:55:14', 'abgeschlossen', 36, 0),
+(374, 26, 2, '2019-04-06 13:55:27', '2019-04-06 13:55:32', 'abgeschlossen', 0, 0),
+(375, 26, 6, '2019-04-06 13:55:37', '2019-04-06 13:55:42', 'abgeschlossen', 30, 0),
+(376, 26, 10, '2019-04-06 13:55:45', '2019-04-06 13:55:55', 'abgeschlossen', 7, 0),
+(377, 26, 10, '2019-04-06 13:55:58', '2019-04-06 13:56:08', 'abgeschlossen', 5, 0),
+(378, 26, 10, '2019-04-06 13:56:16', '2019-04-06 13:56:26', 'abgeschlossen', 2, 0),
+(379, 26, 10, '2019-04-06 13:56:29', '2019-04-06 13:56:39', 'abgeschlossen', 6, 0),
+(380, 26, 10, '2019-04-06 13:56:43', '2019-04-06 13:56:53', 'abgeschlossen', 9, 0),
+(381, 26, 2, '2019-04-06 13:56:55', '2019-04-06 13:57:00', 'abgeschlossen', 0, 0),
+(382, 26, 7, '2019-04-06 13:57:22', '2019-04-06 13:57:27', 'abgeschlossen', 29, 0),
+(383, 26, 2, '2019-04-06 13:57:52', '2019-04-06 13:57:57', 'abgeschlossen', 0, 0),
+(384, 26, 6, '2019-04-06 13:58:20', '2019-04-06 13:58:25', 'abgeschlossen', 33, 0),
+(385, 26, 10, '2019-04-06 13:58:31', '2019-04-06 13:58:41', 'abgeschlossen', 1, 0),
+(386, 26, 2, '2019-04-06 13:58:43', '2019-04-06 13:58:48', 'abgeschlossen', 0, 0),
+(387, 26, 6, '2019-04-06 13:59:00', '2019-04-06 13:59:05', 'abgeschlossen', 27, 0),
+(388, 26, 2, '2019-04-06 13:59:08', '2019-04-06 13:59:13', 'abgeschlossen', 0, 0),
+(389, 26, 7, '2019-04-06 13:59:18', '2019-04-06 13:59:23', 'abgeschlossen', 14, 0),
+(390, 26, 10, '2019-04-06 13:59:51', '2019-04-06 14:00:01', 'abgeschlossen', 4, 0),
+(391, 26, 2, '2019-04-06 14:00:04', '2019-04-06 14:00:09', 'abgeschlossen', 0, 0),
+(392, 26, 6, '2019-04-06 14:00:18', '2019-04-06 14:00:23', 'abgeschlossen', 11, 0),
+(393, 26, 2, '2019-04-06 14:00:28', '2019-04-06 14:00:33', 'abgeschlossen', 0, 0),
+(394, 26, 2, '2019-04-06 14:00:45', '2019-04-06 14:00:50', 'abgeschlossen', 0, 0),
+(395, 26, 2, '2019-04-06 14:00:59', '2019-04-06 14:01:04', 'abgeschlossen', 0, 0),
+(396, 26, 2, '2019-04-06 14:01:08', '2019-04-06 14:01:13', 'abgeschlossen', 0, 0),
+(397, 26, 2, '2019-04-06 14:01:18', '2019-04-06 14:01:23', 'abgeschlossen', 0, 0),
+(398, 26, 2, '2019-04-06 14:01:27', '2019-04-06 14:01:32', 'abgeschlossen', 0, 0),
+(399, 26, 2, '2019-04-06 14:01:37', '2019-04-06 14:01:42', 'abgeschlossen', 0, 0),
+(400, 26, 2, '2019-04-06 14:01:48', '2019-04-06 14:01:53', 'abgeschlossen', 0, 0),
+(401, 26, 2, '2019-04-06 14:02:00', '2019-04-06 14:02:05', 'abgeschlossen', 0, 0),
+(402, 26, 2, '2019-04-06 14:02:12', '2019-04-06 14:02:17', 'abgeschlossen', 0, 0),
+(403, 26, 2, '2019-04-06 14:02:24', '2019-04-06 14:02:29', 'abgeschlossen', 0, 0),
+(404, 26, 2, '2019-04-06 14:02:32', '2019-04-06 14:02:37', 'abgeschlossen', 0, 0),
+(405, 26, 2, '2019-04-06 14:02:41', '2019-04-06 14:02:46', 'abgeschlossen', 0, 0),
+(406, 26, 2, '2019-04-06 14:02:49', '2019-04-06 14:02:54', 'abgeschlossen', 0, 0),
+(407, 26, 2, '2019-04-06 14:02:58', '2019-04-06 14:03:03', 'abgeschlossen', 0, 0),
+(408, 26, 6, '2019-04-06 14:03:29', '2019-04-06 14:03:34', 'abgeschlossen', 35, 0),
+(409, 26, 10, '2019-04-06 14:03:40', '2019-04-06 14:03:50', 'abgeschlossen', 8, 0),
+(410, 26, 2, '2019-04-06 14:04:02', '2019-04-06 14:04:07', 'abgeschlossen', 0, 0),
+(411, 26, 2, '2019-04-06 14:04:13', '2019-04-06 14:04:18', 'abgeschlossen', 0, 0),
+(412, 26, 2, '2019-04-06 14:04:24', '2019-04-06 14:04:29', 'abgeschlossen', 0, 0),
+(413, 26, 2, '2019-04-06 14:04:33', '2019-04-06 14:04:38', 'abgeschlossen', 0, 0),
+(414, 26, 2, '2019-05-09 15:25:37', '2019-05-09 15:25:42', 'abgeschlossen', 0, 0),
+(415, 26, 2, '2019-05-09 15:25:52', '2019-05-09 15:25:57', 'abgeschlossen', 0, 0),
+(416, 26, 6, '2019-05-09 15:26:01', '2019-05-09 15:26:06', 'abgeschlossen', 2, 0),
+(417, 39, 2, '2019-05-19 08:42:12', '2019-05-19 08:42:17', 'abgeschlossen', 0, 0),
+(418, 39, 2, '2019-05-19 08:43:04', '2019-05-19 08:43:09', 'abgeschlossen', 0, 0),
+(419, 39, 2, '2019-05-19 08:43:12', '2019-05-19 08:43:17', 'abgeschlossen', 0, 0),
+(420, 39, 6, '2019-05-19 08:43:38', '2019-05-19 08:43:43', 'abgeschlossen', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -648,7 +764,22 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 (245, 'gorilla', '../Bilder/NPC/gorilla.png'),
 (247, 'knochen', '../Bilder/NPC/knochen.png'),
 (251, 'plueschdrache', '../Bilder/NPC/plueschdrache.png'),
-(252, 'zebra', '../Bilder/NPC/zebra.png');
+(252, 'zebra', '../Bilder/NPC/zebra.png'),
+(253, 'GuÌrteltier', '../Bilder/NPC/GuÌrteltier.png'),
+(254, 'eisbaÌr', '../Bilder/NPC/eisbaÌr.png'),
+(255, 'erdmaÌnnchen', '../Bilder/NPC/erdmaÌnnchen.png'),
+(256, 'hyaÌne', '../Bilder/NPC/hyaÌne.png'),
+(257, 'kuÌrbis', '../Bilder/NPC/kuÌrbis.png'),
+(258, 'loÌwe', '../Bilder/NPC/loÌwe.png'),
+(259, 'marienkaÌfer', '../Bilder/NPC/marienkaÌfer.png'),
+(260, 'Adler', '../Bilder/NPC/Adler.png'),
+(261, 'Buckelwal', '../Bilder/NPC/Buckelwal.png'),
+(262, 'Delphin', '../Bilder/NPC/Delphin.png'),
+(263, 'Schaf', '../Bilder/NPC/Schaf.png'),
+(264, 'flamingo', '../Bilder/NPC/flamingo.png'),
+(265, 'koala', '../Bilder/NPC/koala.png'),
+(266, 'schwan', '../Bilder/NPC/schwan.png'),
+(267, 'Elemente_inaktiv', '../Bilder/Elemente/Elemente_inaktiv.png');
 
 -- --------------------------------------------------------
 
@@ -675,6 +806,100 @@ INSERT INTO `element` (`id`, `element_id`, `bilder_id`, `titel`, `beschreibung`)
 (3, 0, 1, 'Wasser', ''),
 (4, 0, 1, 'Erde', ''),
 (5, 0, 1, 'Luft', '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `element_bedingungen`
+--
+
+DROP TABLE IF EXISTS `element_bedingungen`;
+CREATE TABLE `element_bedingungen` (
+  `id` int(10) NOT NULL,
+  `elementaktion` varchar(50) NOT NULL,
+  `erdpunkte` varchar(5) DEFAULT NULL,
+  `wasserpunkte` varchar(5) DEFAULT NULL,
+  `feuerpunkte` varchar(5) DEFAULT NULL,
+  `luftpunkte` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Daten für Tabelle `element_bedingungen`
+--
+
+INSERT INTO `element_bedingungen` (`id`, `elementaktion`, `erdpunkte`, `wasserpunkte`, `feuerpunkte`, `luftpunkte`) VALUES
+(1, 'Lehm', '2', '1', '0', '0'),
+(2, 'Tropfstein', '3', '1', '0', '0'),
+(3, 'Treibsand', '3', '2', '0', '0'),
+(4, 'Sandstein', '4', '1', '0', '0'),
+(5, 'Kreide', '4', '2', '0', '0'),
+(6, 'Gerölllawine', '4', '3', '0', '0'),
+(7, 'Schlamm', '1', '2', '0', '0'),
+(8, 'Salzwasser', '1', '3', '0', '0'),
+(9, 'Gletscher', '2', '3', '0', '0'),
+(10, 'Tsunami', '1', '4', '0', '0'),
+(11, 'Wasserfall', '2', '4', '0', '0'),
+(12, 'Muräne', '3', '4', '0', '0'),
+(13, 'Böe', '0', '1', '0', '2'),
+(14, 'Windhose', '0', '1', '0', '3'),
+(15, 'Gewitter', '0', '2', '0', '3'),
+(16, 'Tornado', '0', '1', '0', '4'),
+(17, 'Orkan', '0', '2', '0', '4'),
+(18, 'Eissturm', '0', '3', '0', '4'),
+(19, 'Regenschauer', '0', '2', '0', '1'),
+(20, 'Wasserstrahl', '0', '3', '0', '1'),
+(21, 'Wasserfall', '0', '3', '0', '2'),
+(22, 'Monsun', '0', '4', '0', '1'),
+(23, 'Hurrikan', '0', '4', '0', '2'),
+(24, 'Schneesturm', '0', '4', '0', '3'),
+(25, 'Funke', '0', '0', '2', '1'),
+(26, 'Flamme', '0', '0', '3', '1'),
+(27, 'Feuerball', '0', '0', '3', '2'),
+(28, 'Lichtstrahl', '0', '0', '4', '1'),
+(29, 'Blitz', '0', '0', '4', '2'),
+(30, 'Feuersturm', '0', '0', '4', '3'),
+(31, 'Feuerhauch', '0', '0', '1', '2'),
+(32, 'Feueratem', '0', '0', '1', '3'),
+(33, 'Lichtwelle', '0', '0', '2', '3'),
+(34, 'Funkenflug', '0', '0', '1', '4'),
+(35, 'Wüstenwind', '0', '0', '2', '4'),
+(36, 'Feuerschneise', '0', '0', '3', '4'),
+(37, 'Alkohol', '0', '1', '2', '0'),
+(38, 'Glut', '0', '1', '3', '0'),
+(39, 'Säure', '0', '2', '3', '0'),
+(40, 'Ölbrand', '0', '1', '4', '0'),
+(41, 'Gift', '0', '2', '4', '0'),
+(42, 'Explosion', '0', '3', '4', '0'),
+(43, 'Wasserdampf', '0', '2', '1', '0'),
+(44, 'Nebel', '0', '2', '1', '0'),
+(45, 'Regenbogen', '0', '3', '2', '0'),
+(46, 'Wolke', '0', '4', '1', '0'),
+(47, 'Heiße Quelle', '0', '4', '2', '0'),
+(48, 'Geysir', '0', '4', '3', '0'),
+(49, 'Asche', '1', '0', '2', '0'),
+(50, 'Schwelbrand', '1', '0', '3', '0'),
+(51, 'Lava', '2', '0', '3', '0'),
+(52, 'Glas', '1', '0', '4', '0'),
+(53, 'Metall', '2', '0', '4', '0'),
+(54, 'Magma', '3', '0', '4', '0'),
+(55, 'Kohle', '3', '0', '1', '0'),
+(56, 'Erdöl', '3', '0', '1', '0'),
+(57, 'Ton', '3', '0', '2', '0'),
+(58, 'Keramik', '4', '0', '1', '0'),
+(59, 'Kristall', '4', '0', '2', '0'),
+(60, 'Erdbeben', '4', '0', '3', '0'),
+(61, 'Donner', '1', '0', '0', '2'),
+(62, 'Korrosion', '1', '0', '0', '3'),
+(63, 'Smog', '2', '0', '0', '3'),
+(64, 'Windstoß', '1', '0', '0', '4'),
+(65, 'Erdloch', '2', '0', '0', '4'),
+(66, 'Sandsturm', '3', '0', '0', '4'),
+(67, 'Staub', '2', '0', '0', '1'),
+(68, 'Sandhöhle', '3', '0', '0', '0'),
+(69, 'Erdgas', '3', '0', '0', '2'),
+(70, 'Wanderdüne', '4', '0', '0', '1'),
+(71, 'Steinschlag', '4', '0', '0', '2'),
+(72, 'Asteroid', '4', '0', '0', '3');
 
 -- --------------------------------------------------------
 
@@ -781,7 +1006,7 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 (8, 9, 'Mammutbaum', 'Ein mächtiger Stamm, gewaltiges Blattwerk und die schier endlose Höhe lassen auf einen Mammutbaum schließen.'),
 (9, 10, 'Wald', 'Manchereins sieht den Wald vor lauter Bäumen nicht. Hinweis: Ihr steht gerade in einem!'),
 (10, 11, 'Oase', 'Träumt ihr oder halluziniert ihr nur? Wasser und Grün mitten in der Wüste. Das kann doch nicht mit rechten Dingen zugehen.'),
-(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: \'Wenn man es wenigstens rauchen könnte ...\''),
+(11, 12, 'Steppe', 'Gras überall Gras. Ihr schlagt die Hände über dem Kopf zusammen und denkt: ''Wenn man es wenigstens rauchen könnte ...'''),
 (12, 1, '---ohne---', '---ohne---');
 
 -- --------------------------------------------------------
@@ -853,7 +1078,7 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 'Nahrung', 237),
 (2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 'Material', 1),
-(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 'Pflanze', 84),
+(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die''s wissen.', 'Pflanze', 84),
 (4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 'Material', 1),
 (5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 'Pilz', 95),
 (6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 'Kleidung', 1),
@@ -867,7 +1092,10 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 (14, 'Drachenpuzzleteil 3', 'Das 3. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (15, 'Drachenpuzzleteil 4', 'Das 4. Teil des 4-Teile Puzzles', 'Spielzeug', 1),
 (18, 'Fleisch', 'Ein Stück Fleisch !', 'Nahrung', 244),
-(19, 'Kürbis', 'Ekliges gelbes Ding. So manch einem soll das schmecken. Unglaublich!', 'Nahrung', 86);
+(19, 'Kürbis', 'Ekliges gelbes Ding. So manch einem soll das schmecken. Unglaublich!', 'Nahrung', 86),
+(20, 'Kürbis', 'Orangenes Riesengemüse.', 'Pflanze', 86),
+(21, 'Katzenfisch', 'Eine Katze die im Wasser zu finden ist.', 'Nahrung', 241),
+(22, 'Koala', 'Ein Haustier zum knuddeln.', 'Spielzeug', 265);
 
 -- --------------------------------------------------------
 
@@ -888,22 +1116,22 @@ CREATE TABLE `items_spieler` (
 --
 
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
-(1, 3, 26, 5),
+(1, 3, 26, 6),
 (2, 6, 26, 1),
 (3, 7, 26, 2),
 (4, 1, 19, 7),
 (5, 2, 19, 1),
 (6, 8, 19, 1),
 (7, 5, 14, 1),
-(8, 8, 26, 3),
-(9, 5, 26, 6),
+(8, 8, 26, 9),
+(9, 5, 26, 7),
 (10, 11, 26, 2),
-(11, 1, 26, 6),
+(11, 1, 26, 9),
 (12, 2, 26, 1),
 (13, 14, 26, 1),
 (14, 2, 32, 1),
 (15, 15, 26, 1),
-(16, 18, 26, 1),
+(16, 18, 26, 2),
 (17, 8, 36, 9),
 (18, 18, 36, 2),
 (19, 1, 36, 4),
@@ -920,7 +1148,15 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 (30, 7, 33, 1),
 (31, 18, 33, 1),
 (32, 15, 33, 1),
-(33, 3, 33, 1);
+(33, 3, 33, 1),
+(34, 4, 26, 1),
+(35, 1, 39, 1),
+(36, 8, 39, 2),
+(37, 10, 26, 1),
+(38, 21, 26, 1),
+(39, 19, 26, 0),
+(40, 12, 26, 1),
+(41, 18, 39, 1);
 
 -- --------------------------------------------------------
 
@@ -1032,7 +1268,7 @@ CREATE TABLE `npc` (
 INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `beschreibung`, `typ`) VALUES
 (1, 1, 2, 'Wymar (Name von der Redaktion geändert)', 'Drache', 75, 100, 50, 100, 20, 20, 20, 1000, 100, 'Wymar ist einer der ältesten bekannten Drachen und wird für seine Weisheit hoch geschätzt. Ihr tut gut daran, seinen Ratschlägen aufs genauste zu folgen.', 'ansprechbar'),
 (2, 240, 4, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. ', 'angreifbar'),
-(3, 1, 1, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Einen Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.', 'angreifbar'),
+(3, 1, 1, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 'Ein Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.', 'angreifbar'),
 (4, 77, 4, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
 (5, 77, 4, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar'),
 (6, 238, 3, 'Apfelbaum', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 'Ein stattlicher Apfelbaum mit einer Menge Äpfeln in der Krone. Verlockend!', 'sammelbar'),
@@ -1053,7 +1289,15 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 (29, 86, 4, 'Kürbis', 'Gemüse', 2, 0, 5, 0, 0, 2, 0, 2, 0, '---ohne---', 'sammelbar'),
 (30, 94, 2, 'Skorpion', 'Insekten', 10, 5, 0, 20, 0, 0, 0, 20, 10, 'Vorsicht Stachel !', 'angreifbar'),
 (31, 78, 4, 'Sonnenblume', 'Pflanzen', 0, 0, 10, 0, 0, 10, 0, 2, 10, '---ohne---', 'sammelbar'),
-(32, 40, 1, 'Hibiskus', 'Pflanze', 0, 0, 0, 0, 0, 10, 0, 10, 10, 'Irgendeine Pflanze mit schönen roten Blüten, wenn sie denn mal blühen !', 'sammelbar');
+(32, 40, 1, 'Hibiskus', 'Pflanze', 0, 0, 0, 0, 0, 10, 0, 10, 10, 'Irgendeine Pflanze mit schönen roten Blüten, wenn sie denn mal blühen !', 'sammelbar'),
+(33, 93, 4, 'Schwein', 'Allesfresser', 5, 10, 0, 0, 0, 1, 0, 20, 10, 'Eine Steckdose auf 4 Beinen.', 'angreifbar'),
+(34, 39, 4, 'Osterhase', 'Pflanzenfresser', 2, 10, 10, 1, 1, 1, 1, 10, 30, 'Wird häufig mit einem Korb voller Eier gesichtet.', 'angreifbar'),
+(35, 245, 4, 'Gorilla', 'Pflanzenfresser', 50, 20, 0, 0, 0, 10, 0, 30, 10, 'So selten wie ein Bigfoot. ', 'angreifbar'),
+(36, 41, 3, 'Alligator', 'Fleischfresser', 30, 0, 0, 0, 10, 0, 0, 30, 10, 'Tick Tack ! Ein Maul voller Zähne bedroht dich, zum Glück ohne viel Grips dahinter.', 'angreifbar'),
+(37, 97, 3, 'Tapir', 'Pflanzenfresser', 10, 5, 0, 0, 5, 5, 0, 20, 10, 'Ein sehr seltenes Rüsseltier.', 'angreifbar'),
+(40, 262, 3, 'Delphin', 'Fleischfresser', 20, 40, 0, 0, 20, 0, 0, 20, 50, 'Ein sehr intelligenter Meeresbewohner.', 'angreifbar'),
+(41, 261, 3, 'Buckelwal', 'Fleischfresser', 100, 20, 0, 0, 30, 0, 0, 50, 20, 'Eine Riese des Eismeeres.', 'angreifbar'),
+(42, 265, 5, 'Koala', 'Beuteltier', 5, 0, 0, 0, 0, 0, 1, 10, 5, 'Ein plüschiges süßes Tierchen, dass man nicht gerne fressen wöllte.', 'sammelbar');
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1363,6 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (144, 30, 10, 30),
 (155, 31, 9, 10),
 (156, 31, 4, 5),
-(157, 29, 9, 5),
 (158, 32, 9, 50),
 (159, 32, 4, 30),
 (164, 6, 1, 30),
@@ -1133,9 +1376,6 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (172, 27, 1, 40),
 (173, 27, 10, 10),
 (174, 26, 3, 20),
-(175, 25, 4, 5),
-(176, 25, 9, 10),
-(177, 25, 3, 10),
 (178, 2, 1, 50),
 (179, 2, 2, 50),
 (180, 2, 3, 50),
@@ -1156,7 +1396,31 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 (199, 24, 4, 10),
 (200, 24, 7, 5),
 (201, 24, 9, 5),
-(203, 1, 5, 100);
+(203, 1, 5, 100),
+(206, 33, 9, 20),
+(207, 33, 4, 5),
+(208, 35, 9, 10),
+(209, 35, 4, 5),
+(210, 36, 4, 10),
+(211, 36, 1, 20),
+(212, 36, 9, 1),
+(213, 36, 10, 20),
+(214, 37, 4, 5),
+(215, 37, 9, 1),
+(216, 37, 1, 10),
+(220, 29, 9, 5),
+(221, 29, 9, 5),
+(222, 29, 4, 1),
+(223, 29, 5, 1),
+(224, 27, 3, 30),
+(225, 27, 1, 50),
+(226, 27, 4, 10),
+(227, 25, 4, 5),
+(228, 25, 9, 10),
+(229, 40, 3, 20),
+(230, 41, 3, 10),
+(233, 42, 4, 10),
+(234, 42, 9, 5);
 
 -- --------------------------------------------------------
 
@@ -1206,8 +1470,6 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (68, 6, 2, 25, 1, 1),
 (69, 27, 18, 10, 1, 1),
 (70, 26, 18, 20, 1, 2),
-(71, 25, 18, 10, 1, 1),
-(72, 25, 8, 10, 1, 1),
 (73, 2, 1, 45, 1, 1),
 (74, 2, 7, 10, 1, 1),
 (75, 2, 8, 50, 1, 1),
@@ -1220,7 +1482,18 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 (86, 24, 6, 5, 1, 1),
 (87, 24, 7, 10, 1, 1),
 (88, 24, 8, 10, 1, 1),
-(89, 24, 1, 10, 1, 1);
+(89, 24, 1, 10, 1, 1),
+(90, 33, 18, 10, 0, 1),
+(91, 35, 1, 50, 0, 1),
+(92, 36, 8, 50, 0, 2),
+(93, 37, 18, 50, 0, 1),
+(94, 29, 19, 100, 0, 1),
+(95, 27, 21, 100, 0, 1),
+(96, 25, 18, 10, 1, 1),
+(97, 25, 8, 10, 1, 1),
+(98, 40, 18, 50, 0, 1),
+(99, 41, 18, 100, 0, 5),
+(100, 42, 22, 100, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1247,7 +1520,7 @@ CREATE TABLE `quest` (
 --
 
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
-(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht\'s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
+(1, 1, 'Mein erstes Abenteuer', '', 1, 10, 'Los geht''s. Das erste Abenteuer wartet auf euch.', 'Das Leben leben, die Welt erkunden. So ist das Leben eines Abenteurers.', 'Kopfstand, Rückwärtssalto, Feuerspucken im freien Fall, 100-zeiligen Zungenbrecher fehlerfrei vortragen, ein Spiel programmieren ... Ihr hättet wirklich eine Herausforderung erwartet und nicht solch Kinderkram.', 'Eine Runde um den Block und schon schleppt ihr euch keuchend und ächzend zum nächsten Heiler? Gaja scheint euch nicht wohlgesonnen zu sein.');
 
 -- --------------------------------------------------------
 
@@ -1314,11 +1587,12 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 (17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 08:57:58'),
 (18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 08:58:12'),
 (19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 08:59:13'),
-(26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-06-25 16:43:25'),
+(26, 10, 212, 2, 1, 8, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2019-04-06 14:03:54'),
 (32, 10, 211, 4, 1, 4, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-25 11:53:22'),
 (33, 11, 210, 1, 1, 5, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-07-11 15:27:01'),
 (36, 11, 211, 4, 1, 3, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-27 15:04:43'),
-(37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59');
+(37, 11, 212, 2, 1, 3, 'Ceifiro', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 15:36:59'),
+(39, 10, 211, 4, 1, 6, 'Kristalldrache', 'W', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2019-04-06 13:10:54');
 
 -- --------------------------------------------------------
 
@@ -1501,6 +1775,16 @@ ALTER TABLE `element`
   ADD KEY `FK_bilder_id_element` (`bilder_id`);
 
 --
+-- Indizes für die Tabelle `element_bedingungen`
+--
+ALTER TABLE `element_bedingungen`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `elementaktion` (`elementaktion`),
+  ADD KEY `erdpunkte` (`erdpunkte`),
+  ADD KEY `wasserpunkte` (`wasserpunkte`),
+  ADD KEY `luftpunkte` (`luftpunkte`);
+
+--
 -- Indizes für die Tabelle `faehigkeiten`
 --
 ALTER TABLE `faehigkeiten`
@@ -1664,12 +1948,12 @@ ALTER TABLE `aktion`
 -- AUTO_INCREMENT für Tabelle `aktion_spieler`
 --
 ALTER TABLE `aktion_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=421;
 --
 -- AUTO_INCREMENT für Tabelle `bilder`
 --
 ALTER TABLE `bilder`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=253;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=268;
 --
 -- AUTO_INCREMENT für Tabelle `element`
 --
@@ -1704,12 +1988,12 @@ ALTER TABLE `gebiet_gebiet`
 -- AUTO_INCREMENT für Tabelle `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT für Tabelle `items_spieler`
 --
 ALTER TABLE `items_spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 --
 -- AUTO_INCREMENT für Tabelle `level`
 --
@@ -1724,17 +2008,17 @@ ALTER TABLE `level_bilder`
 -- AUTO_INCREMENT für Tabelle `npc`
 --
 ALTER TABLE `npc`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 --
 -- AUTO_INCREMENT für Tabelle `npc_gebiet`
 --
 ALTER TABLE `npc_gebiet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=235;
 --
 -- AUTO_INCREMENT für Tabelle `npc_items`
 --
 ALTER TABLE `npc_items`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT für Tabelle `quest`
 --
@@ -1749,7 +2033,7 @@ ALTER TABLE `quest_spieler`
 -- AUTO_INCREMENT für Tabelle `spieler`
 --
 ALTER TABLE `spieler`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 --
 -- AUTO_INCREMENT für Tabelle `zauber`
 --
