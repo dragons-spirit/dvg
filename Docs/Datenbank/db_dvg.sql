@@ -2,10 +2,10 @@
 -- version 4.5.1
 -- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Erstellungszeit: 19. Mai 2019 um 11:58
--- Server-Version: 10.0.17-MariaDB
--- PHP-Version: 5.6.14
+-- Host: 127.0.0.1
+-- Erstellungszeit: 19. Mai 2019 um 13:16
+-- Server-Version: 10.1.13-MariaDB
+-- PHP-Version: 5.6.21
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -21,15 +21,12 @@ SET time_zone = "+00:00";
 -- Datenbank: `db_dvg`
 --
 
-DROP TABLE IF EXISTS `account`, `aktion`, `aktion_spieler`, `bilder`, `element`, `faehigkeiten`, `faehigkeiten_spieler`, `gattung`, `gebiet`, `gebiet_gebiet`, `items`, `items_spieler`, `level`, `level_bilder`, `npc`, `npc_gebiet`, `npc_items`, `quest`, `quest_spieler`, `spieler`, `zauber`, `zauberart`, `zauber_spieler`;
-
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `account`
 --
 
-DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id` int(10) NOT NULL,
   `login` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -66,7 +63,6 @@ INSERT INTO `account` (`id`, `login`, `passwort`, `email`, `aktiv`, `Rolle`, `le
 -- Tabellenstruktur für Tabelle `aktion`
 --
 
-DROP TABLE IF EXISTS `aktion`;
 CREATE TABLE `aktion` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -97,7 +93,6 @@ INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `st
 -- Tabellenstruktur für Tabelle `aktion_spieler`
 --
 
-DROP TABLE IF EXISTS `aktion_spieler`;
 CREATE TABLE `aktion_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -539,7 +534,6 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 -- Tabellenstruktur für Tabelle `bilder`
 --
 
-DROP TABLE IF EXISTS `bilder`;
 CREATE TABLE `bilder` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -789,7 +783,6 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 -- Tabellenstruktur für Tabelle `element`
 --
 
-DROP TABLE IF EXISTS `element`;
 CREATE TABLE `element` (
   `id` int(10) NOT NULL,
   `element_id` int(10) NOT NULL,
@@ -812,104 +805,9 @@ INSERT INTO `element` (`id`, `element_id`, `bilder_id`, `titel`, `beschreibung`)
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `element_bedingungen`
---
-
-DROP TABLE IF EXISTS `element_bedingungen`;
-CREATE TABLE `element_bedingungen` (
-  `id` int(10) NOT NULL,
-  `elementaktion` varchar(50) NOT NULL,
-  `erdpunkte` varchar(5) DEFAULT NULL,
-  `wasserpunkte` varchar(5) DEFAULT NULL,
-  `feuerpunkte` varchar(5) DEFAULT NULL,
-  `luftpunkte` varchar(5) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Daten für Tabelle `element_bedingungen`
---
-
-INSERT INTO `element_bedingungen` (`id`, `elementaktion`, `erdpunkte`, `wasserpunkte`, `feuerpunkte`, `luftpunkte`) VALUES
-(1, 'Lehm', '2', '1', '0', '0'),
-(2, 'Tropfstein', '3', '1', '0', '0'),
-(3, 'Treibsand', '3', '2', '0', '0'),
-(4, 'Sandstein', '4', '1', '0', '0'),
-(5, 'Kreide', '4', '2', '0', '0'),
-(6, 'Gerölllawine', '4', '3', '0', '0'),
-(7, 'Schlamm', '1', '2', '0', '0'),
-(8, 'Salzwasser', '1', '3', '0', '0'),
-(9, 'Gletscher', '2', '3', '0', '0'),
-(10, 'Tsunami', '1', '4', '0', '0'),
-(11, 'Wasserfall', '2', '4', '0', '0'),
-(12, 'Muräne', '3', '4', '0', '0'),
-(13, 'Böe', '0', '1', '0', '2'),
-(14, 'Windhose', '0', '1', '0', '3'),
-(15, 'Gewitter', '0', '2', '0', '3'),
-(16, 'Tornado', '0', '1', '0', '4'),
-(17, 'Orkan', '0', '2', '0', '4'),
-(18, 'Eissturm', '0', '3', '0', '4'),
-(19, 'Regenschauer', '0', '2', '0', '1'),
-(20, 'Wasserstrahl', '0', '3', '0', '1'),
-(21, 'Wasserfall', '0', '3', '0', '2'),
-(22, 'Monsun', '0', '4', '0', '1'),
-(23, 'Hurrikan', '0', '4', '0', '2'),
-(24, 'Schneesturm', '0', '4', '0', '3'),
-(25, 'Funke', '0', '0', '2', '1'),
-(26, 'Flamme', '0', '0', '3', '1'),
-(27, 'Feuerball', '0', '0', '3', '2'),
-(28, 'Lichtstrahl', '0', '0', '4', '1'),
-(29, 'Blitz', '0', '0', '4', '2'),
-(30, 'Feuersturm', '0', '0', '4', '3'),
-(31, 'Feuerhauch', '0', '0', '1', '2'),
-(32, 'Feueratem', '0', '0', '1', '3'),
-(33, 'Lichtwelle', '0', '0', '2', '3'),
-(34, 'Funkenflug', '0', '0', '1', '4'),
-(35, 'Wüstenwind', '0', '0', '2', '4'),
-(36, 'Feuerschneise', '0', '0', '3', '4'),
-(37, 'Alkohol', '0', '1', '2', '0'),
-(38, 'Glut', '0', '1', '3', '0'),
-(39, 'Säure', '0', '2', '3', '0'),
-(40, 'Ölbrand', '0', '1', '4', '0'),
-(41, 'Gift', '0', '2', '4', '0'),
-(42, 'Explosion', '0', '3', '4', '0'),
-(43, 'Wasserdampf', '0', '2', '1', '0'),
-(44, 'Nebel', '0', '2', '1', '0'),
-(45, 'Regenbogen', '0', '3', '2', '0'),
-(46, 'Wolke', '0', '4', '1', '0'),
-(47, 'Heiße Quelle', '0', '4', '2', '0'),
-(48, 'Geysir', '0', '4', '3', '0'),
-(49, 'Asche', '1', '0', '2', '0'),
-(50, 'Schwelbrand', '1', '0', '3', '0'),
-(51, 'Lava', '2', '0', '3', '0'),
-(52, 'Glas', '1', '0', '4', '0'),
-(53, 'Metall', '2', '0', '4', '0'),
-(54, 'Magma', '3', '0', '4', '0'),
-(55, 'Kohle', '3', '0', '1', '0'),
-(56, 'Erdöl', '3', '0', '1', '0'),
-(57, 'Ton', '3', '0', '2', '0'),
-(58, 'Keramik', '4', '0', '1', '0'),
-(59, 'Kristall', '4', '0', '2', '0'),
-(60, 'Erdbeben', '4', '0', '3', '0'),
-(61, 'Donner', '1', '0', '0', '2'),
-(62, 'Korrosion', '1', '0', '0', '3'),
-(63, 'Smog', '2', '0', '0', '3'),
-(64, 'Windstoß', '1', '0', '0', '4'),
-(65, 'Erdloch', '2', '0', '0', '4'),
-(66, 'Sandsturm', '3', '0', '0', '4'),
-(67, 'Staub', '2', '0', '0', '1'),
-(68, 'Sandhöhle', '3', '0', '0', '0'),
-(69, 'Erdgas', '3', '0', '0', '2'),
-(70, 'Wanderdüne', '4', '0', '0', '1'),
-(71, 'Steinschlag', '4', '0', '0', '2'),
-(72, 'Asteroid', '4', '0', '0', '3');
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `faehigkeiten`
 --
 
-DROP TABLE IF EXISTS `faehigkeiten`;
 CREATE TABLE `faehigkeiten` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -933,7 +831,6 @@ INSERT INTO `faehigkeiten` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `faehigkeiten_spieler`
 --
 
-DROP TABLE IF EXISTS `faehigkeiten_spieler`;
 CREATE TABLE `faehigkeiten_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -948,7 +845,6 @@ CREATE TABLE `faehigkeiten_spieler` (
 -- Tabellenstruktur für Tabelle `gattung`
 --
 
-DROP TABLE IF EXISTS `gattung`;
 CREATE TABLE `gattung` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -985,7 +881,6 @@ INSERT INTO `gattung` (`id`, `bilder_id`, `titel`, `start_staerke`, `start_intel
 -- Tabellenstruktur für Tabelle `gebiet`
 --
 
-DROP TABLE IF EXISTS `gebiet`;
 CREATE TABLE `gebiet` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1017,7 +912,6 @@ INSERT INTO `gebiet` (`id`, `bilder_id`, `titel`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `gebiet_gebiet`
 --
 
-DROP TABLE IF EXISTS `gebiet_gebiet`;
 CREATE TABLE `gebiet_gebiet` (
   `id` int(10) NOT NULL,
   `von_gebiet_id` int(10) NOT NULL,
@@ -1064,7 +958,6 @@ INSERT INTO `gebiet_gebiet` (`id`, `von_gebiet_id`, `nach_gebiet_id`, `pos_x`, `
 -- Tabellenstruktur für Tabelle `items`
 --
 
-DROP TABLE IF EXISTS `items`;
 CREATE TABLE `items` (
   `id` int(10) NOT NULL,
   `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
@@ -1105,7 +998,6 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 -- Tabellenstruktur für Tabelle `items_spieler`
 --
 
-DROP TABLE IF EXISTS `items_spieler`;
 CREATE TABLE `items_spieler` (
   `id` int(10) NOT NULL,
   `items_id` int(10) NOT NULL,
@@ -1166,7 +1058,6 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 -- Tabellenstruktur für Tabelle `level`
 --
 
-DROP TABLE IF EXISTS `level`;
 CREATE TABLE `level` (
   `id` int(10) NOT NULL,
   `voraussetzung` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -1195,7 +1086,6 @@ INSERT INTO `level` (`id`, `voraussetzung`, `titel`, `stufe`, `modifikator`, `be
 -- Tabellenstruktur für Tabelle `level_bilder`
 --
 
-DROP TABLE IF EXISTS `level_bilder`;
 CREATE TABLE `level_bilder` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1243,7 +1133,6 @@ INSERT INTO `level_bilder` (`id`, `bilder_id`, `level_id`, `gattung_id`) VALUES
 -- Tabellenstruktur für Tabelle `npc`
 --
 
-DROP TABLE IF EXISTS `npc`;
 CREATE TABLE `npc` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1307,7 +1196,6 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 -- Tabellenstruktur für Tabelle `npc_gebiet`
 --
 
-DROP TABLE IF EXISTS `npc_gebiet`;
 CREATE TABLE `npc_gebiet` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -1430,7 +1318,6 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 -- Tabellenstruktur für Tabelle `npc_items`
 --
 
-DROP TABLE IF EXISTS `npc_items`;
 CREATE TABLE `npc_items` (
   `id` int(10) NOT NULL,
   `npc_id` int(10) NOT NULL,
@@ -1503,7 +1390,6 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 -- Tabellenstruktur für Tabelle `quest`
 --
 
-DROP TABLE IF EXISTS `quest`;
 CREATE TABLE `quest` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1530,7 +1416,6 @@ INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzu
 -- Tabellenstruktur für Tabelle `quest_spieler`
 --
 
-DROP TABLE IF EXISTS `quest_spieler`;
 CREATE TABLE `quest_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -1546,7 +1431,6 @@ CREATE TABLE `quest_spieler` (
 -- Tabellenstruktur für Tabelle `spieler`
 --
 
-DROP TABLE IF EXISTS `spieler`;
 CREATE TABLE `spieler` (
   `id` int(10) NOT NULL,
   `account_id` int(10) NOT NULL,
@@ -1602,7 +1486,6 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 -- Tabellenstruktur für Tabelle `zauber`
 --
 
-DROP TABLE IF EXISTS `zauber`;
 CREATE TABLE `zauber` (
   `id` int(10) NOT NULL,
   `bilder_id` int(10) NOT NULL,
@@ -1703,7 +1586,6 @@ INSERT INTO `zauber` (`id`, `bilder_id`, `zauberart_id`, `titel`, `hauptelement_
 -- Tabellenstruktur für Tabelle `zauberart`
 --
 
-DROP TABLE IF EXISTS `zauberart`;
 CREATE TABLE `zauberart` (
   `id` int(10) NOT NULL,
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
@@ -1729,7 +1611,6 @@ INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES
 -- Tabellenstruktur für Tabelle `zauber_spieler`
 --
 
-DROP TABLE IF EXISTS `zauber_spieler`;
 CREATE TABLE `zauber_spieler` (
   `id` int(10) NOT NULL,
   `spieler_id` int(10) NOT NULL,
@@ -1775,16 +1656,6 @@ ALTER TABLE `element`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `titel` (`titel`),
   ADD KEY `FK_bilder_id_element` (`bilder_id`);
-
---
--- Indizes für die Tabelle `element_bedingungen`
---
-ALTER TABLE `element_bedingungen`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `elementaktion` (`elementaktion`),
-  ADD KEY `erdpunkte` (`erdpunkte`),
-  ADD KEY `wasserpunkte` (`wasserpunkte`),
-  ADD KEY `luftpunkte` (`luftpunkte`);
 
 --
 -- Indizes für die Tabelle `faehigkeiten`
