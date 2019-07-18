@@ -11,7 +11,7 @@ $debug_connection = false;
 /**********************************/
 /* Datenbankverbindung herstellen */
 /**********************************/
-function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "localhost", $db = "db_dvg")
+function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "192.168.22.49", $db = "db_dvg")
 {
 	global $debug_connection;
 	
