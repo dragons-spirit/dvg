@@ -1,9 +1,11 @@
 <?php
 
-$default_host = "localhost";
-$default_user = "dragons";
-$default_pswd = "ti19nahend88rik";
-$default_db = "db_dvg";
+# Testumgebung auf bei Bedarf auf localhost
+$umgebung_localhost = false;
+
+if ($umgebung_localhost) $default_host = "localhost";
+else $default_host = "192.168.22.49";
+
 
 $debug = false;
 $debug_connection = false;
@@ -11,7 +13,7 @@ $debug_connection = false;
 /**********************************/
 /* Datenbankverbindung herstellen */
 /**********************************/
-function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = "192.168.22.49", $db = "db_dvg")
+function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = $default_host, $db = "db_dvg")
 {
 	global $debug_connection;
 	
@@ -46,7 +48,15 @@ function close_connection($connection)
 }
 
 
+
+
+
 /*
+$default_host = "localhost";
+$default_user = "dragons";
+$default_pswd = "ti19nahend88rik";
+$default_db = "db_dvg";
+
 $host = "localhost";
 $user ="1t9i8na8";
 $pswd ="d04m08k19u97b";
