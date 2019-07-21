@@ -1,6 +1,5 @@
 ﻿<?php
 
-include("connect.inc.php");
 include("funktionen.php");
 
 /* 
@@ -21,7 +20,7 @@ Eine Übersicht zu den verfügbaren Funktionen findet sich unter ../dvg/Docs/Üb
 function get_account_id($login)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	id 
@@ -32,11 +31,9 @@ function get_account_id($login)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nAccount_id abgeholt für: [" . $login . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_account_id()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -56,7 +53,7 @@ function get_account_id($login)
 function get_anmeldung($login)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	*
@@ -67,11 +64,9 @@ function get_anmeldung($login)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nAnmeldedaten abgeholt für: [" . $login . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_anmeldung()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -90,7 +85,7 @@ function get_anmeldung($login)
 function get_anmeldung_email($email)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	* 
@@ -101,11 +96,9 @@ function get_anmeldung_email($email)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nAnmeldedaten abgeholt für: [" . $email . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_anmeldung_email()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -120,7 +113,7 @@ function get_anmeldung_email($email)
 function insert_registrierung($login, $passwort, $email)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	$log = false;
 	
 	if ($account_existiert = get_anmeldung($login)){
@@ -140,7 +133,6 @@ function insert_registrierung($login, $passwort, $email)
 		}
 	}
 	if ($log){
-		close_connection($connect_db_dvg);
 		return false;
 	}
 	
@@ -155,11 +147,9 @@ function insert_registrierung($login, $passwort, $email)
 		$stmt->bind_param('sss', $login, $passwort, $email);
 		$stmt->execute();
 		if ($debug) echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return true;
 	} else {
 		echo "<br />\nQuerryfehler in insert_registrierung<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -180,7 +170,7 @@ function insert_registrierung($login, $passwort, $email)
 function get_aktion_dauer($aktion_titel)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	dauer
@@ -190,11 +180,9 @@ function get_aktion_dauer($aktion_titel)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_aktion_dauer()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -210,7 +198,7 @@ function get_aktion_dauer($aktion_titel)
 function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_id_2 = 0)
 {                                                          
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO aktion_spieler(
@@ -225,11 +213,9 @@ function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_i
 		$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
 		$stmt->execute();
 		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return true;
 	} else {
 		echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -252,7 +238,7 @@ function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_i
 function get_aktion_spieler($spieler_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
@@ -277,11 +263,9 @@ function get_aktion_spieler($spieler_id)
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_aktion_spieler<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -294,7 +278,7 @@ function get_aktion_spieler($spieler_id)
 function get_aktion_spieler_aktiv($spieler_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	
@@ -309,11 +293,9 @@ function get_aktion_spieler_aktiv($spieler_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_aktion_spieler_aktiv<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -327,7 +309,7 @@ function get_aktion_spieler_aktiv($spieler_id)
 function update_aktion_spieler($spieler_id, $aktion_text)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			UPDATE aktion_spieler
@@ -338,12 +320,10 @@ function update_aktion_spieler($spieler_id, $aktion_text)
 		$stmt->bind_param('ds', $spieler_id, $aktion_text);
 		$stmt->execute();
 		if ($debug) echo "<br />\nAktion: [" . $aktion_text . " von Spieler " . $spieler_id . "] wurde abgeschlossen<br />\n";
-		close_connection($connect_db_dvg);
 		$result = $stmt->get_result();
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in update_aktion_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -361,7 +341,7 @@ function update_aktion_spieler($spieler_id, $aktion_text)
 function get_bild_zu_gebiet($gebiet_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	pfad 
@@ -372,11 +352,9 @@ function get_bild_zu_gebiet($gebiet_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bild_zu_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -393,7 +371,7 @@ function get_bild_zu_gebiet($gebiet_id)
 function get_bilder($bilder_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	* 
@@ -403,11 +381,9 @@ function get_bilder($bilder_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bilder()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -420,7 +396,7 @@ function get_bilder($bilder_id)
 function get_bild_zu_titel($titel)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	pfad 
@@ -430,11 +406,9 @@ function get_bild_zu_titel($titel)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bild_zu_titel()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -447,7 +421,7 @@ function get_bild_zu_titel($titel)
 function get_bild_zu_id($bilder_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	pfad
@@ -458,11 +432,9 @@ function get_bild_zu_id($bilder_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bild_zu_id()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -476,7 +448,7 @@ function get_bild_zu_id($bilder_id)
 function get_bild_zu_gattung_level($gattung_id, $level_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	bilder_id 
@@ -487,11 +459,9 @@ function get_bild_zu_gattung_level($gattung_id, $level_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_bild_zu_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -517,7 +487,7 @@ function get_bild_zu_gattung_level($gattung_id, $level_id)
 function get_start_gattung($gattung)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	id, 
@@ -535,11 +505,9 @@ function get_start_gattung($gattung)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGattungsdaten abgeholt für: [" . $gattung . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_start_gattung()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -552,7 +520,7 @@ function get_start_gattung($gattung)
 function get_gattung_titel($gattung_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	titel
@@ -563,11 +531,9 @@ function get_gattung_titel($gattung_id)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_gattung_titel()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -585,7 +551,7 @@ function get_gattung_titel($gattung_id)
 function get_gebiet_id($gebiet_titel)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	id 
@@ -596,11 +562,9 @@ function get_gebiet_id($gebiet_titel)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGebiet_id abgeholt für: [" . $gebiet_titel . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_gebiet_id()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -618,7 +582,7 @@ function get_gebiet_id($gebiet_titel)
 function get_gebiet($gebiet_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	* 
@@ -629,11 +593,9 @@ function get_gebiet($gebiet_id)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGebietsdaten abgeholt für: [" . $gebiet_id . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -652,7 +614,7 @@ function get_gebiet($gebiet_id)
 function get_gebiet_gebiet($von_gebiet_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT gebiet_gebiet.id, 
@@ -667,11 +629,9 @@ function get_gebiet_gebiet($von_gebiet_id)
 		$stmt->bind_param('d', $von_gebiet_id);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_gebiet_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -685,7 +645,7 @@ function get_gebiet_gebiet($von_gebiet_id)
 function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	count(id)
@@ -697,11 +657,9 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($debug and $row) echo "<br />\nGebietsverlinkung getestet für: [" . $von_gebiet_id . " -> " . $von_gebiet_id . "]<br />\n";
-		close_connection($connect_db_dvg);
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in exist_gebiet_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -726,7 +684,7 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 function get_items_npc($npc_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
@@ -748,11 +706,9 @@ function get_items_npc($npc_id)
 		$stmt->execute();
 		if ($debug) echo "<br />\nItems für: [npc_id=" . $npc_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_items_npc()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -771,7 +727,7 @@ function get_items_npc($npc_id)
 function get_all_items_spieler($spieler_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
@@ -792,11 +748,9 @@ function get_all_items_spieler($spieler_id)
 		$stmt->execute();
 		if ($debug) echo "<br />\nItems für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_all_items_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -810,7 +764,7 @@ function get_all_items_spieler($spieler_id)
 function get_items_spieler($spieler_id, $items_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
@@ -825,7 +779,6 @@ function get_items_spieler($spieler_id, $items_id)
 		$stmt->execute();
 		if ($debug) echo "<br />\nAnzahl von Item " . $items_id . " für Spieler " . $spieler_id . " geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		$row = $result->fetch_array(MYSQLI_NUM);
 		if ($row)
 		{
@@ -835,7 +788,6 @@ function get_items_spieler($spieler_id, $items_id)
 		}
 	} else {
 		echo "<br />\nQuerryfehler in get_items_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -855,7 +807,7 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 	#	* Wenn Item-Anzahl = negativer Anzahl -> Datensatz löschen
 	
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if(get_items_spieler($spieler_id, $items_id) == 0)
 	{
@@ -868,13 +820,11 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 			$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
 			$stmt->execute();
 			if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
-			close_connection($connect_db_dvg);
 			$result = $stmt->get_result();
 			return $result;
 		} else {
 			echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
 			echo "<br />\n" . $spieler_id . " | " . $items_id . " | " . $anzahl . "<br />\n";
-			close_connection($connect_db_dvg);
 			return false;
 		}
 	} else {
@@ -892,7 +842,7 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 function update_items_spieler($spieler_id, $items_id, $anzahl)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			UPDATE items_spieler
@@ -903,12 +853,10 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
-		close_connection($connect_db_dvg);
 		$result = $stmt->get_result();
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in update_items_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -932,7 +880,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 function get_npcs_gebiet($gebiet_id, $npc_typ)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	npc.id,
@@ -950,11 +898,9 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 		$stmt->execute();
 		if ($debug) echo "<br />\nNPC-Daten für: [gebiet_id=" . $gebiet_id . "] und [npc_typ=" . $npc_typ . "]geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_npcs_gebiet()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -970,7 +916,7 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 function get_npc($npc_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	npc.id,
@@ -983,11 +929,9 @@ function get_npc($npc_id)
 		$stmt->execute();
 		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_npc()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1012,7 +956,7 @@ function get_npc($npc_id)
 function get_spieler_login($login)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	spieler.id,
@@ -1033,11 +977,9 @@ function get_spieler_login($login)
 		$stmt->execute();
 		if ($debug) echo "<br />\nSpieler für: [" . $login . "] geladen.<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_spieler_login()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1071,7 +1013,7 @@ function get_spieler_login($login)
 function get_spieler($spieler_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT 	spieler.*
@@ -1083,11 +1025,9 @@ function get_spieler($spieler_id)
 		if ($debug) echo "<br />\nSpielerdaten für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		close_connection($connect_db_dvg);
 		return $row;
 	} else {
 		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1104,7 +1044,7 @@ function get_spieler($spieler_id)
 function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO spieler (
@@ -1130,13 +1070,11 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 			VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
 		if (! $account_id = get_account_id($login))
 		{
-			close_connection($connect_db_dvg);
 			echo "<br />\nLogin nicht gefunden<br />\n";
 			return false;
 		}
 		if (! $gebiet_id = get_gebiet_id($gebiet))
 		{
-			close_connection($connect_db_dvg);
 			echo "<br />\nGebiet nicht gefunden<br />\n";
 			return false;
 		}
@@ -1151,7 +1089,6 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 			$start_element_luft = $gattung_data[7];
 		}
 		else{
-			close_connection($connect_db_dvg);
 			echo "<br />\nGattung nicht gefunden<br />\n";
 			return false;
 		}
@@ -1163,12 +1100,10 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 		$stmt->bind_param('ddddssddddddddddd', $account_id, $bilder_id, $gattung_id, $gebiet_id, $name, $geschlecht, $start_staerke, $start_intelligenz, $start_magie, $start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft, $max_gesundheit, $max_gesundheit, $max_energie, $max_energie);
 		$stmt->execute();
 		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $account_id . " | " . $name . " | " . $geschlecht . " | " . $gattung . " | " . $gebiet . "]<br />\n";
-		close_connection($connect_db_dvg);
 		$result = $stmt->get_result();
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in insert_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1180,11 +1115,10 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 function delete_spieler($spieler_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if (!$spieler_zum_loeschen = get_spieler($spieler_id))
 	{
-		close_connection($connect_db_dvg);
 		echo "<br />\nLogin nicht gefunden<br />\n";
 		return false;
 	}
@@ -1198,12 +1132,10 @@ function delete_spieler($spieler_id)
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();
 		echo "<br />\nSpieler: " . $spieler_zum_loeschen[6] . " wurde gelöscht.<br />\n";
-		close_connection($connect_db_dvg);
 		$result = $stmt->get_result();
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in delete_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1216,7 +1148,7 @@ function delete_spieler($spieler_id)
 function gebietswechsel($spieler_id, $gebiet_id)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			UPDATE spieler
@@ -1227,11 +1159,9 @@ function gebietswechsel($spieler_id, $gebiet_id)
 		$stmt->execute();
 		if ($debug) echo "<br />\nSpieler [" . $spieler_id . "] ist nun im Gebiet [" . $gebiet_id . "].<br />\n";
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in gebietswechsel()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}
 }
@@ -1250,7 +1180,7 @@ function gebietswechsel($spieler_id, $gebiet_id)
 function get_zauberarten_zu_hauptelement($hauptelement_titel)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT DISTINCT
@@ -1265,11 +1195,9 @@ function get_zauberarten_zu_hauptelement($hauptelement_titel)
 		$stmt->bind_param('s', $hauptelement_titel);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_zauberarten_zu_hauptelement()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -1283,7 +1211,7 @@ function get_zauberarten_zu_hauptelement($hauptelement_titel)
 function get_nebenelement_zu_hauptelement_zauberart($hauptelement_titel, $zauberart)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT DISTINCT
@@ -1301,11 +1229,9 @@ function get_nebenelement_zu_hauptelement_zauberart($hauptelement_titel, $zauber
 		$stmt->bind_param('ss', $hauptelement_titel, $zauberart);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_nebenelement_zu_hauptelement_zauberart()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -1325,7 +1251,7 @@ function get_nebenelement_zu_hauptelement_zauberart($hauptelement_titel, $zauber
 function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, $nebenelement_titel, $zauberart)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT DISTINCT
@@ -1360,11 +1286,9 @@ function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, 
 		$stmt->bind_param('sss', $hauptelement_titel, $nebenelement_titel, $zauberart);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_nebenelement_zu_hauptelement_zauberart()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }
@@ -1381,7 +1305,7 @@ function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, 
 function get_zauber_von_spieler($spieler)
 {
 	global $debug;
-	$connect_db_dvg = open_connection();
+	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT DISTINCT
@@ -1399,11 +1323,9 @@ function get_zauber_von_spieler($spieler)
 		$stmt->bind_param('d', $spieler);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		close_connection($connect_db_dvg);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in get_zauber_von_spieler()<br />\n";
-		close_connection($connect_db_dvg);
 		return false;
 	}	
 }

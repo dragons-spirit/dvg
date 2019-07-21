@@ -4,6 +4,8 @@
 	session_start();
 	include("Inc/funktionen_system.php");
 	$_SESSION['browser'] = get_browser_name($_SERVER['HTTP_USER_AGENT']);
+	include("Inc/connect.inc.php");
+	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>
 
 <html>
@@ -47,9 +49,9 @@
 			<div id="anmeldung" style="overflow-y: auto;">
 
 <?php
-                
 		include("Inc/db_funktionen.php");
 		include("Inc/zusammenfassung.inc.php");
+		close_connection($connect_db_dvg);
 ?>	
 			</div>
 			

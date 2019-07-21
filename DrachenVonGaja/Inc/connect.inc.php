@@ -3,17 +3,22 @@
 # Testumgebung auf bei Bedarf auf localhost
 $umgebung_localhost = false;
 
+$debug = false;
+$debug_connection = false;
+
+
 if ($umgebung_localhost) $default_host = "localhost";
 else $default_host = "192.168.22.49";
 
+$default_user = "dragons";
+$default_pswd = "ti19nahend88rik";
+$default_db = "db_dvg";
 
-$debug = false;
-$debug_connection = false;
 
 /**********************************/
 /* Datenbankverbindung herstellen */
 /**********************************/
-function open_connection($user = "dragons", $pswd = "ti19nahend88rik", $host = $default_host, $db = "db_dvg")
+function open_connection($user, $pswd, $host, $db)
 {
 	global $debug_connection;
 	

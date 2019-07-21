@@ -2,6 +2,8 @@
 
 <?php
 	session_start();
+	include("connect.inc.php");
+	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>
 
 <html>
@@ -996,4 +998,8 @@
 		<input type="button" name="update" value="Hinzufügen/Ändern" style="float:left;" onclick="set_button_submit('<?php echo $topic ?>','<?php echo $id ?>');">
 		<?php
 	}
+?>
+
+<?php
+	close_connection($connect_db_dvg);
 ?>

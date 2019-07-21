@@ -2,6 +2,8 @@
 
 <?php
 	session_start();
+	include("connect.inc.php");
+	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>
 
 <html>
@@ -601,6 +603,9 @@
 		
 		
 	</body>
+	<?php
+		close_connection($connect_db_dvg);
+	?>
 	<script language="javascript" type="text/javascript" src="zauber.js"></script>
 </html>   
     
