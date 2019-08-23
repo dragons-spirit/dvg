@@ -41,6 +41,7 @@
 	<body style="background-color:black;">
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
+			include("klassen.php");
 			include("db_funktionen.php");
 			
 			global $debug;
