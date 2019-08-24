@@ -16,7 +16,7 @@
 					echo "weiblich";
 					break;
 				default:
-					echo "mŠnnlich";
+					echo "mÃ¤nnlich";
 					break;
 				}
 			?>
@@ -56,6 +56,7 @@
 	
 	$count=0;
 	$zauber = get_zauber_von_spieler($spieler_id);
+	
 	while($row = $zauber->fetch_array(MYSQLI_NUM))
 	{
 		$zauber_id = $row[0];
@@ -63,15 +64,49 @@
 		$zauber_beschreibung = $row[3];
 		$zauber_bilder_id = $row[1];
 		?>
-		<div onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;left:<?php echo $count*60 ?>px;top:444px;" >
-		    
-		</div>
+		
 		<span title="<?php echo $zauber_titel ?>" >
-		    <img src="<?php echo get_bild_zu_id($zauber_bilder_id) ?>" alt=" <?php echo $zauber_titel ?>" />
+		    <img id="<?php echo "elemente_top_".$count ?>" src="<?php echo get_bild_zu_id($zauber_bilder_id) ?>" alt="<?php echo $zauber_titel ?>" />
 		</span>
+		
+		<div onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" >
+		</div>
 		
 		<?php
 		$count+=1;
 	}
-		?>
+	?>
+	
+<script type="text/javascript"> 
+
+function getPosition(elementId){
+  var elem=document.getElementById(elementId), tagname="", tagid="", top=0, left=0;
+  while ((typeof(elem)=="object")&&(typeof(elem.tagName)!="undefined")){
+    top+=elem.offsetTop;
+	left+=elem.offsetLeft;
+    tagname=elem.tagName.toUpperCase();
+	tagid=elem.id;
+    if (tagname=="BODY")
+      elem=0;
+    if (typeof(elem)=="object")
+      if (typeof(elem.offsetParent)=="object")
+        elem=elem.offsetParent;
+  }
+  return [top-document.getElementById("obere_Leiste").offsetHeight, left-document.getElementById("mitte_zentral").offsetLeft];
+}
+
+
+var x = document.getElementsByClassName("zauberdiv");
+var i, f;
+for (i = 0; i < x.length; i++) {
+  f = getPosition("elemente_top_"+i);
+  x[i].style.top = f[0];
+  x[i].style.left = f[1];
+}
+
+</script>
+	
 </div>
+
+
+
