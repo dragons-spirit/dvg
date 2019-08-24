@@ -583,7 +583,7 @@
 				
 					
 					<div id="musik">
-						<u><a href="musik.php" target="_blank" style="margin-left:20px; color:white;">Starte Musik</a></u>
+						<u><a href="musik.php" target="_blank" style="color:white;">Starte Musik</a></u>
 					</div>
 					
 				</div>

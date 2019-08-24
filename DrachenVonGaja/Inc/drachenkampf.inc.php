@@ -79,29 +79,13 @@
 	
 <script type="text/javascript"> 
 
-function getPosition(elementId){
-  var elem=document.getElementById(elementId), tagname="", tagid="", top=0, left=0;
-  while ((typeof(elem)=="object")&&(typeof(elem.tagName)!="undefined")){
-    top+=elem.offsetTop;
-	left+=elem.offsetLeft;
-    tagname=elem.tagName.toUpperCase();
-	tagid=elem.id;
-    if (tagname=="BODY")
-      elem=0;
-    if (typeof(elem)=="object")
-      if (typeof(elem.offsetParent)=="object")
-        elem=elem.offsetParent;
-  }
-  return [top-document.getElementById("obere_Leiste").offsetHeight, left-document.getElementById("mitte_zentral").offsetLeft];
-}
-
-
 var x = document.getElementsByClassName("zauberdiv");
 var i, f;
 for (i = 0; i < x.length; i++) {
   f = getPosition("elemente_top_"+i);
   x[i].style.top = f[0];
   x[i].style.left = f[1];
+  x[i].style.display = "block";
 }
 
 </script>
