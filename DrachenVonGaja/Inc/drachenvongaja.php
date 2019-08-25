@@ -24,7 +24,7 @@
 		<title>Drachen von Gaja</title>
 		<?php
 		if($_SESSION['browser'] == "Opera"){
-		?>
+			?>
 			<style>
 				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
@@ -32,7 +32,7 @@
                                 input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 			</style>
-		<?php
+			<?php
 		}
 		?>
 		
@@ -41,66 +41,40 @@
 	<body style="background-color:black;">
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
-			include("klassen.php");
-			include("db_funktionen.php");
-			
-			global $debug;
-			
-			#Aktivieren/Deaktivieren von Anzeigen
-			$levelbilder_anzeigen = false;
+		include("klassen.php");
+		include("db_funktionen.php");
+		
+		global $debug;
+		
+		#Aktivieren/Deaktivieren von Anzeigen
+		$levelbilder_anzeigen = false;
 			
 # Ist der Spieler auch eingeloggt?
 # "nein"	-> zurück zur Anmeldung
 # "ja" 		-> Charakterdaten laden/setzen
-			if (!isset($_SESSION['login_name']) OR isset($_POST["button_zur_spielerauswahl"]))
-			{
+		if (!isset($_SESSION['login_name']) OR isset($_POST["button_zur_spielerauswahl"])){
 		?>
-				<!-- Zurück zur Anmeldung -->
-				<script type="text/javascript">
-					window.location.href = "../index.php"
-				</script>
+			<!-- Zurück zur Anmeldung -->
+			<script type="text/javascript">
+				window.location.href = "../index.php"
+			</script>
 		<?php
-			}
-				
+		}
+			
 ########################################
 # Spielerdaten aus der Datenbank laden #
 ########################################
-			if ($spielerdaten = get_spieler($_SESSION['spieler_id']))
-			{
-				$spieler_id = $spielerdaten[0]; 
-				$account_id = $spielerdaten[1]; 
-				$bilder_id = $spielerdaten[2]; 
-				$gattung_id = $spielerdaten[3]; 
-				$level_id = $spielerdaten[4]; 
-				$gebiet_id = $spielerdaten[5]; 
-				$name = $spielerdaten[6]; 
-				$geschlecht = $spielerdaten[7]; 
-				$staerke = $spielerdaten[8]; 
-				$intelligenz = $spielerdaten[9]; 
-				$magie = $spielerdaten[10];
-				$element_feuer = $spielerdaten[11];
-				$element_wasser = $spielerdaten[12];
-				$element_erde = $spielerdaten[13];
-				$element_luft = $spielerdaten[14];
-				$gesundheit = $spielerdaten[15];
-				$max_gesundheit = $spielerdaten[16];
-				$energie = $spielerdaten[17];
-				$max_energie = $spielerdaten[18];
-				$balance = $spielerdaten[19];
-				$zuletzt_gespielt = $spielerdaten[20];
-			}
-			else
-			{
-				echo "Keine Spielerdaten gefunden.<br/>";
-			}
-			
-
+		if ($spielerdaten = get_spieler($_SESSION['spieler_id'])){
+			$spieler = new Spieler($spielerdaten);
+		} else {
+			echo "Keine Spielerdaten gefunden.<br/>";
+		}
+		
 ######################################################################################
 # Weitere fiktive Spielerdaten setzen || sollten später mit aus der Datenbank kommen #
 ######################################################################################
-			$speipunkte = 5;
-			$flugpunkte = 5;
-
+		$speipunkte = 5;
+		$flugpunkte = 5;
 		?>
 		
 <!--
@@ -110,26 +84,13 @@
 -->
 
 		<div id="rahmen">
-			
 			<!-- Initialisierung von Aktionen (Aktueller Status des Spielers) -->
 			<?php 
-			if($aktionen = get_aktion_spieler($spieler_id))
-			{
-				$aktion_titel = null;
-				$aktion_text = "keine aktuelle Aktion";
-				$aktion_start = 0;
-				$aktion_ende = 0;
-				$aktion_statusbild = null;
-				$aktion_any_id_1 = 0;
+			if($aktionen = get_aktion_spieler($spieler->spieler_id)){
+				$aktion_spieler = new AktionSpieler();
 				
-				while($row = $aktionen->fetch_array(MYSQLI_NUM))
-				{
-					$aktion_titel = $row[0];
-					$aktion_text = $row[1];
-					$aktion_start = $row[4];
-					$aktion_ende = $row[5];
-					$aktion_statusbild = $row[6];
-					$aktion_any_id_1 = $row[8];
+				while($row = $aktionen->fetch_array(MYSQLI_NUM)){
+					$aktion_spieler->set($row);
 				}
 			} else {
 				echo "<br />\nKeine Aktionen gefunden.<br />\n";
@@ -139,58 +100,52 @@
 			<div id="obere_Leiste">
 				<table align="center">
 					<tr>
-						<td>Stärke <?php echo $staerke ?></td>
-						<td>Intelligenz <?php echo $intelligenz ?></td>
-						<td>Magie <?php echo $magie ?></td>
+						<td>Stärke <?php echo $spieler->staerke ?></td>
+						<td>Intelligenz <?php echo $spieler->intelligenz ?></td>
+						<td>Magie <?php echo $spieler->magie ?></td>
 					</tr>
 				</table>
 			</div>
 			
 			<!-- Hauptseite -->
 			<div id="mitte">
-
 				<div id="mitte_zentral">
-					
 					<!-- Hauptanzeigefenster Mitte -->
 					<div id="hauptfenster" align="center">
 					<?php
 					##########################
 					# Abschluss von Aktionen #
 					##########################
-						if(isset($_POST["aktion_abgeschlossen"]))
-						{
+						if(isset($_POST["aktion_abgeschlossen"])){
 							# Abschluss Gebietswechsel		
-							switch($aktion_text)
-							{
+							switch($aktion_spieler->text){
 								#################################################################
 								case "Laufen":
-									update_aktion_spieler($spieler_id, $aktion_text);
-									gebietswechsel($_SESSION['spieler_id'], $aktion_any_id_1);
-									zeige_hintergrundbild($aktion_any_id_1);
-									$gebiet_id = $aktion_any_id_1;
+									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
+									gebietswechsel($_SESSION['spieler_id'], $aktion_spieler->any_id_1);
+									zeige_hintergrundbild($aktion_spieler->any_id_1);
+									$spieler->gebiet_id = $aktion_spieler->any_id_1;
 									break;
 								
 								#################################################################
 								case "Fliegen":
-									update_aktion_spieler($spieler_id, $aktion_text);
-									gebietswechsel($_SESSION['spieler_id'], $aktion_any_id_1);
-									zeige_hintergrundbild($aktion_any_id_1);
-									$gebiet_id = $aktion_any_id_1;
+									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
+									gebietswechsel($_SESSION['spieler_id'], $aktion_spieler->any_id_1);
+									zeige_hintergrundbild($aktion_spieler->any_id_1);
+									$spieler->gebiet_id = $aktion_spieler->any_id_1;
 									break;
 								
 								#################################################################
 								case "Gegend erkunden":
-									update_aktion_spieler($spieler_id, $aktion_text);
+									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
 									?>
 									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
 										Ihr habt das Gebiet erkundet und folgende Dinge entdeckt:
 									</p>
 									<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
 									<?php
-									if ($npcs_gebiet = get_npcs_gebiet($gebiet_id, "angreifbar"))
-									{		
-										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
-										{
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar")){		
+										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
 											if(check_wkt($row[3])){
 											?>
 												<tr align="center">
@@ -206,12 +161,10 @@
 									} else {
 										echo "<br />\nKeine NPCs gefunden.<br />\n";
 									}
-									if ($npcs_gebiet = get_npcs_gebiet($gebiet_id, "sammelbar"))
-									{		
-										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM))
-										{
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar")){		
+										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
 											if(check_wkt($row[3])){
-											?>
+												?>
 												<tr align="center">
 													<td	width="25px"><?php echo $row[0] ?></td>
 													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" width="75px" alt=""/></td>
@@ -219,7 +172,7 @@
 													<td	width="25px"><?php echo $row[3] ?></td>
 													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $row[0];?>"></td>
 												</tr>
-											<?php
+												<?php
 											}
 										}
 									} else {
@@ -238,9 +191,9 @@
 								
 								#################################################################
 								case "Jagen":
-									update_aktion_spieler($spieler_id, $aktion_text);
-									$npc_id = $aktion_any_id_1;
-									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
+									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
+									$npc_id = $aktion_spieler->any_id_1;
+									zeige_erbeutete_items($spieler->spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -251,9 +204,9 @@
 								
 								#################################################################
 								case "Sammeln":
-									update_aktion_spieler($spieler_id, $aktion_text);
-									$npc_id = $aktion_any_id_1;
-									zeige_erbeutete_items($spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
+									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
+									$npc_id = $aktion_spieler->any_id_1;
+									zeige_erbeutete_items($spieler->spieler_id, $npc_id, "<br><br><br>Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -264,7 +217,7 @@
 								#################################################################
 								default:
 									# Hintergrundbild einblenden, wenn Aktion schon verarbeitet
-									zeige_hintergrundbild($gebiet_id);
+									zeige_hintergrundbild($spieler->gebiet_id);
 									break;
 							}
 						} else {
@@ -292,29 +245,24 @@
 							######################
 							# Start von Aktionen #
 							######################
-							if($aktion_starten)
-							{				
+							if($aktion_starten){				
 								# Hintergrundbild einblenden, wenn neue Aktion gestartet werden soll
 								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
-								zeige_hintergrundbild($gebiet_id, $aktion_titel);
-								if (!$aktion_titel)
-								{	
-									if(isset($_POST["button_gebiet_erkunden"])) insert_aktion_spieler($spieler_id, "erkunden_kurz");
-									if(isset($_POST["button_zum_zielgebiet"])) insert_aktion_spieler($spieler_id, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
-									if(isset($_POST["button_jagen"])) insert_aktion_spieler($spieler_id, "jagen_normal", $_POST["button_jagen"]);
-									if(isset($_POST["button_sammeln"])) insert_aktion_spieler($spieler_id, "sammeln_normal", $_POST["button_sammeln"]);
+								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->titel);
+								if (!$aktion_spieler->titel){	
+									if(isset($_POST["button_gebiet_erkunden"])) insert_aktion_spieler($spieler->spieler_id, "erkunden_kurz");
+									if(isset($_POST["button_zum_zielgebiet"])) insert_aktion_spieler($spieler->spieler_id, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
+									if(isset($_POST["button_jagen"])) insert_aktion_spieler($spieler->spieler_id, "jagen_normal", $_POST["button_jagen"]);
+									if(isset($_POST["button_sammeln"])) insert_aktion_spieler($spieler->spieler_id, "sammeln_normal", $_POST["button_sammeln"]);
 								}
 							}
 							
 							####################
 							# Weitere Anzeigen #
 							####################
-							if($dinge_anzeigen)
-							{
-								if(isset($_POST["button_inventar"]))
-								{
-									if ($items = get_all_items_spieler($spieler_id))
-									{	
+							if($dinge_anzeigen){
+								if(isset($_POST["button_inventar"])){
+									if ($items = get_all_items_spieler($spieler->spieler_id)){	
 										$counter = 0;
 										?>
 										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="700px" >
@@ -326,8 +274,7 @@
 												<td>Anzahl</td>
 											</tr>
 										<?php
-										while($row = $items->fetch_array(MYSQLI_NUM))
-										{
+										while($row = $items->fetch_array(MYSQLI_NUM)){
 											$counter = $counter + 1;
 											?>
 											<tr>
@@ -339,8 +286,7 @@
 											</tr>
 											<?php
 										}
-										if($counter == 0)
-										{
+										if($counter == 0){
 											?>
 											<tr>
 												<td colspan=4>Keine Items gefunden.</td>
@@ -354,30 +300,24 @@
 										</p>
 										<?php
 									} else {
-										echo "<br />\nItems für den Spieler mit id=[" . $spieler_id . "] konnten nicht abgerufen werden.<br />\n";
+										echo "<br />\nItems für den Spieler mit id=[" . $spieler->spieler_id . "] konnten nicht abgerufen werden.<br />\n";
 									}
 								}
 								
-								if(isset($_POST["button_tagebuch"]))
-								{
+								if(isset($_POST["button_tagebuch"])){
 									include('quest.inc.php');
 								}
-								if(isset($_POST["button_drachenkampf"]))
-								{
+								if(isset($_POST["button_drachenkampf"])){
 									include('drachenkampf.inc.php');
 								}
-								if(isset($_POST["button_handwerk"]))
-								{
+								if(isset($_POST["button_handwerk"])){
 									include('handwerk.inc.php');
 								}
-								
-								
 							}
 							else {
-								if(!$aktion_starten)
-								{
+								if(!$aktion_starten){
 									# Hintergrundbild einblenden, wenn nichts los ist
-									zeige_hintergrundbild($gebiet_id);
+									zeige_hintergrundbild($spieler->gebiet_id);
 								}
 							}
 						}
@@ -395,8 +335,7 @@
 					<!-- Level-/Zahlenzeichen -->
 					<div id="levelanzeige">
 						<?php 
-						if($levelbilder_anzeigen)
-						{
+						if($levelbilder_anzeigen){
 							?>
 							<div id="l7"><?php echo $level7 ?></div>
 							<div id="l6"><?php echo $level6 ?></div>
@@ -452,79 +391,66 @@
 					<div id="charakter">
 						<table>
 							<tr>
-								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
+								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($spieler->bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
 							<tr>
-								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($gattung_id) . " " . $name;?></p></td>
+								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($spieler->gattung_id) . " " . $spieler->name;?></p></td>
 							</tr>
 							<tr><td><br/>    </td></tr>
 							<tr>
 								<td><p align="left">Geschlecht</p></td>
 								<td><p align="left">
 								<?php 
-									switch ($geschlecht){
+								switch ($spieler->geschlecht){
 									case "W":
 										echo "weiblich";
 										break;
 									default:
 										echo "männlich";
 										break;
-									}
+								}
 								?>
 								</p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Element Feuer</p></td>
-								<td><p align="left"><?php echo $element_feuer;?></p></td>
+								<td><p align="left"><?php echo $spieler->element_feuer;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Element Erde</p></td>
-								<td><p align="left"><?php echo $element_erde;?></p></td>
+								<td><p align="left"><?php echo $spieler->element_erde;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Element Wasser</p></td>
-								<td><p align="left"><?php echo $element_wasser;?></p></td>
+								<td><p align="left"><?php echo $spieler->element_wasser;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Element Luft</p></td>
-								<td><p align="left"><?php echo $element_luft;?></p></td>
+								<td><p align="left"><?php echo $spieler->element_luft;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Gesundheit</p></td>
-								<td><p align="left"><?php echo $gesundheit . "/" . $max_gesundheit;?></p></td>
+								<td><p align="left"><?php echo $spieler->gesundheit . "/" . $spieler->max_gesundheit;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Energie</p></td>
-								<td><p align="left"><?php echo $energie . "/" . $max_energie;?></p></td>
+								<td><p align="left"><?php echo $spieler->energie . "/" . $spieler->max_energie;?></p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Balance</p></td>
-								<td><p align="left"><?php echo $balance;?></p></td>
+								<td><p align="left"><?php echo $spieler->balance;?></p></td>
 							</tr>
 						</table>
 					</div>
 					
 					
-									
 					<!-- Anzeige für laufende Aktionen (Clientzeit, Animation, Ladebalken) -->
 					<div id="aktionenrahmen">
 						<?php
-						$aktion_titel = null;
-						$aktion_text = "keine aktuelle Aktion";
-						$aktion_start = 0;
-						$aktion_ende = 0;
-						$aktion_statusbild = null;
-						$aktion_any_id_1 = 0;
-						if($aktionen = get_aktion_spieler($spieler_id))
-						{
-							while($row = $aktionen->fetch_array(MYSQLI_NUM))
-							{
-								$aktion_titel = $row[0];
-								$aktion_text = $row[1];
-								$aktion_start = $row[4];
-								$aktion_ende = $row[5];
-								$aktion_statusbild = $row[6];
-								$aktion_any_id_1 = $row[8];
+						$aktion_spieler->set_null();
+						if($aktionen = get_aktion_spieler($spieler->spieler_id)){
+							while($row = $aktionen->fetch_array(MYSQLI_NUM)){
+								$aktion_spieler->set($row);
 							}
 						} else {
 							echo "<br />\nKeine Aktionen gefunden.<br />\n";
@@ -540,15 +466,15 @@
 							<tr>
 								<td>
 									<?php
-										$asb_breite = "100px";
-										$asb_hoehe = "100px";
+									$asb_breite = "100px";
+									$asb_hoehe = "100px";
 									?>
 									<div id="aktion_status_wartend"><img src="<?php echo get_bild_zu_titel('Drache_wartend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
 									<div id="aktion_status_kaempfend"><img src="<?php echo get_bild_zu_titel('Drache_kaempfend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
 									<div id="aktion_status_laufend"><img src="<?php echo get_bild_zu_titel('Drache_laufend'); ?>" width="<?php echo $asb_breite; ?>" height="<?php echo $asb_hoehe; ?>"/></div>
 									<p align="center">
 										<b id="aktion_text">
-											<?php echo $aktion_text; ?>
+											<?php echo $aktion_spieler->text; ?>
 										</b><br>
 									</p>
 										
@@ -566,10 +492,10 @@
 							</tr>
 							<tr>
 								<td>
-									<input style="display:none;" id="startzeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_start); ?>"/>
-									<input style="display:none;" id="endezeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_ende); ?>"/>
-									<input style="display:none;" id="titel_temp" value="<?php echo $aktion_titel; ?>"/>
-									<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_statusbild; ?>"/>
+									<input style="display:none;" id="startzeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_spieler->start); ?>"/>
+									<input style="display:none;" id="endezeit_temp" value="<?php echo str_replace('-' , '/' , $aktion_spieler->ende); ?>"/>
+									<input style="display:none;" id="titel_temp" value="<?php echo $aktion_spieler->titel; ?>"/>
+									<input style="display:none;" id="statusbild_temp" value="<?php echo $aktion_spieler->statusbild; ?>"/>
 								</td>
 							</tr>
 						</table>
@@ -580,14 +506,12 @@
 						</script>
 					
 					</div>
-				
 					
 					<div id="musik">
 						<u><a href="musik.php" target="_blank" style="color:white;">Starte Musik</a></u>
 					</div>
 					
 				</div>
-				
 			</div>
 			
 			<!-- Untere Leiste -->
