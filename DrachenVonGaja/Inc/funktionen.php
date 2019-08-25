@@ -384,8 +384,14 @@ function pfad_fuer_style($pfad)
 			}
 			if (!aktion_beendet) {
 				var zeit_prozent = (zeit_temp / zeit_gesamt) * 100;
-    		    document.getElementById('balken').style.width = runde(zeit_prozent, 1).toString() + "%";
-				document.getElementById('prozent').innerHTML = convert_to_time(zeit_ende);
+    		    /* Wenn Aktionsdauer länger als 1 Jahr dann Text anzeigen statt Zeit bis Ende */
+				if (zeit_ende - zeit_temp > 32000000000) {
+					document.getElementById('balken').style.width = "0.0%";
+					document.getElementById('prozent').innerHTML = "Offenes Ende";
+				} else {
+					document.getElementById('balken').style.width = runde(zeit_prozent, 1).toString() + "%";
+					document.getElementById('prozent').innerHTML = convert_to_time(zeit_ende);
+				}
 				switch (aktion_statusbild)
 				{
 				case 'laufend':

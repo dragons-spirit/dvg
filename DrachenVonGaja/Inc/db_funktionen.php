@@ -196,11 +196,12 @@ function get_aktion_dauer($aktion_titel)
 #	<- true/false
 
 function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_id_2 = 0)
-{                                                          
+{
 	global $debug;
 	global $connect_db_dvg;
 	
-	if ($stmt = $connect_db_dvg->prepare("
+	if ($aktion_titel != "kampf"){
+		if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO aktion_spieler(
 				spieler_id, 
 				aktion_id, 
@@ -210,13 +211,33 @@ function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_i
 				any_id_1,
 				any_id_2) 
 			VALUES (?, (SELECT id FROM aktion WHERE titel = ?), NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE titel = ?)), 'gestartet', ?, ?)")){
-		$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
-		$stmt->execute();
-		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
-		return true;
+			$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
+			$stmt->execute();
+			if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
+			return false;
+		}
 	} else {
-		echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
-		return false;
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO aktion_spieler(
+				spieler_id, 
+				aktion_id, 
+				start, 
+				ende,
+				status,
+				any_id_1,
+				any_id_2) 
+			VALUES (?, (SELECT id FROM aktion WHERE titel = ?), NOW(), '2037-12-31 23-59-59', 'gestartet', ?, ?)")){
+			$stmt->bind_param('dsdd', $spieler_id, $aktion_titel, $any_id_1, $any_id_2);
+			$stmt->execute();
+			if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
+			return false;
+		}
 	}
 }
 
