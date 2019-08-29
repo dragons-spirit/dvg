@@ -120,4 +120,37 @@ class AktionSpieler {
 	}
 }
 
+
+class KampfTeilnehmer {
+	public $name;
+	public $bilder_id;
+	public $id;
+	public $typ;
+	public $seite;
+	public $gesundheit;
+	public $gesundheit_max;
+	public $zauberpunkte;
+	public $zauberpunkte_max;
+	public $staerke;
+	public $intelligenz;
+	public $magie;
+	public $element_feuer;
+	public $element_wasser;
+	public $element_erde;
+	public $element_luft;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
+	public $timer;
+
+	public function __construct($ds=null) {
+		if ($ds = null) $this->name = null;
+			else $this->set($ds);
+	}
+	
+	public function set($ds) {
+		$this->name = $ds[0];
+	}
+}
+
 ?>

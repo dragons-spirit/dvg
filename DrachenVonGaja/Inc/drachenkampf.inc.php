@@ -6,7 +6,7 @@
 #######################################
 
 	/* Kampf laufend? */
-	if ($aktion_spieler->titel == "kampf") $im_kampf = true;
+	if ($aktion_spieler->titel == "kampf" OR isset($_POST["button_kampf"])) $im_kampf = true;
 		else $im_kampf = false;
 	
 	/* Kampf vorbei? */

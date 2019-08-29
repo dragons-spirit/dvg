@@ -193,14 +193,28 @@
 								case "Jagen":
 									update_aktion_spieler($spieler->spieler_id, $aktion_spieler->text);
 									$npc_id = $aktion_spieler->any_id_1;
+									if ($npc = get_npc($npc_id)){		
+										while($row = $npc->fetch_array(MYSQLI_NUM)){
+											?>
+											<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+												<?php echo "Ihr habt das NPC " . $row[1] . " gestellt und macht euch für den Kampf bereit."; ?>
+											</p>
+											<?php
+										}
+									} else {
+										echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
+									}
 									?>
-									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-										<?php echo "Ihr habt das NPC " . $row[1] . " gestellt und macht euch für den Kampf bereit."; ?>
-									</p>
-									<p align="center" style="padding-top:10pt;">
-										<input type="submit" alt="kampfbutton" name="button_kampf" value="Zum Kampf">
-									</p>
+									<table style="margin:auto;margin-top:20px;">
+										<tr align="center">
+											<td style="background:url(./../Bilder/drachenkampf.png); background-repeat:no-repeat;">
+												<input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="kampfbutton" name="button_kampf" value="<?php echo $npc_id;?>">
+											</td>
+										</tr>
+									</table>
 									<?php
+									insert_aktion_spieler($spieler->spieler_id, "kampf", $npc_id);
+									insert_kampf($spieler->gebiet_id);
 									break;
 									
 								
@@ -254,8 +268,8 @@
 								elemente_anzeigen("Luft","088A85");
 								$elementebutton = true;
 							}
-							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_kampf"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]));
+							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]));
 							
 							######################
 							# Start von Aktionen #
@@ -269,7 +283,6 @@
 									if(isset($_POST["button_zum_zielgebiet"])) insert_aktion_spieler($spieler->spieler_id, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
 									if(isset($_POST["button_jagen"])) insert_aktion_spieler($spieler->spieler_id, "jagen_normal", $_POST["button_jagen"]);
 									if(isset($_POST["button_sammeln"])) insert_aktion_spieler($spieler->spieler_id, "sammeln_normal", $_POST["button_sammeln"]);
-									if(isset($_POST["button_kampf"])) insert_aktion_spieler($spieler->spieler_id, "kampf", $_POST["button_kampf"]);
 								}
 							}
 							

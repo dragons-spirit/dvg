@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `aktion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die ausgeführt werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion: ~8 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion: ~9 rows (ungefähr)
 DELETE FROM `aktion`;
 /*!40000 ALTER TABLE `aktion` DISABLE KEYS */;
 INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `statusbild`) VALUES
@@ -96,9 +96,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=530 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=615 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~488 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~612 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -628,7 +628,92 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(526, 26, 11, '2019-08-25 17:02:50', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
 	(527, 26, 2, '2019-08-25 17:10:10', '2019-08-25 17:10:15', 'abgeschlossen', 0, 0),
 	(528, 26, 6, '2019-08-25 17:10:18', '2019-08-25 17:10:23', 'abgeschlossen', 2, 0),
-	(529, 26, 11, '2019-08-25 17:10:28', '2037-12-31 23:59:59', 'gestartet', 0, 0);
+	(529, 26, 11, '2019-08-25 17:10:28', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(530, 26, 2, '2019-08-26 18:13:28', '2019-08-26 18:13:33', 'abgeschlossen', 0, 0),
+	(531, 26, 6, '2019-08-26 18:13:37', '2019-08-26 18:13:42', 'abgeschlossen', 2, 0),
+	(532, 26, 11, '2019-08-26 18:13:50', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(533, 26, 2, '2019-08-26 18:22:59', '2019-08-26 18:23:04', 'abgeschlossen', 0, 0),
+	(534, 26, 6, '2019-08-26 18:23:06', '2019-08-26 18:23:11', 'abgeschlossen', 23, 0),
+	(535, 26, 11, '2019-08-26 18:23:15', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(536, 26, 2, '2019-08-26 18:26:10', '2019-08-26 18:26:15', 'abgeschlossen', 0, 0),
+	(537, 26, 6, '2019-08-26 18:26:16', '2019-08-26 18:26:21', 'abgeschlossen', 4, 0),
+	(538, 26, 11, '2019-08-26 18:26:26', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(539, 26, 2, '2019-08-26 18:26:31', '2019-08-26 18:26:36', 'abgeschlossen', 0, 0),
+	(540, 26, 6, '2019-08-26 18:26:41', '2019-08-26 18:26:46', 'abgeschlossen', 4, 0),
+	(541, 26, 11, '2019-08-26 18:26:49', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(542, 26, 2, '2019-08-26 18:31:05', '2019-08-26 18:31:10', 'abgeschlossen', 0, 0),
+	(543, 26, 6, '2019-08-26 18:31:12', '2019-08-26 18:31:17', 'abgeschlossen', 2, 0),
+	(544, 26, 11, '2019-08-26 18:31:23', '2037-12-31 23:59:59', 'abgeschlossen', 0, 0),
+	(545, 26, 2, '2019-08-26 18:34:53', '2019-08-26 18:34:58', 'abgeschlossen', 0, 0),
+	(546, 26, 6, '2019-08-26 18:34:59', '2019-08-26 18:35:04', 'abgeschlossen', 2, 0),
+	(547, 26, 11, '2019-08-26 18:35:08', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(548, 26, 2, '2019-08-26 18:36:54', '2019-08-26 18:36:59', 'abgeschlossen', 0, 0),
+	(549, 26, 6, '2019-08-26 18:37:01', '2019-08-26 18:37:06', 'abgeschlossen', 2, 0),
+	(550, 26, 11, '2019-08-26 18:37:15', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(551, 26, 2, '2019-08-26 18:43:18', '2019-08-26 18:43:23', 'abgeschlossen', 0, 0),
+	(552, 26, 6, '2019-08-26 18:43:25', '2019-08-26 18:43:30', 'abgeschlossen', 4, 0),
+	(553, 26, 11, '2019-08-26 18:43:36', '2037-12-31 23:59:59', 'abgeschlossen', 4, 0),
+	(554, 26, 2, '2019-08-26 18:45:02', '2019-08-26 18:45:07', 'abgeschlossen', 0, 0),
+	(555, 26, 7, '2019-08-26 18:45:10', '2019-08-26 18:45:15', 'abgeschlossen', 6, 0),
+	(556, 26, 2, '2019-08-26 18:45:20', '2019-08-26 18:45:25', 'abgeschlossen', 0, 0),
+	(557, 26, 6, '2019-08-26 18:45:27', '2019-08-26 18:45:32', 'abgeschlossen', 2, 0),
+	(558, 26, 11, '2019-08-26 18:45:43', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(559, 26, 10, '2019-08-26 18:51:22', '2019-08-26 18:51:32', 'abgeschlossen', 8, 0),
+	(560, 26, 2, '2019-08-26 18:51:31', '2019-08-26 18:51:36', 'abgeschlossen', 0, 0),
+	(561, 26, 7, '2019-08-26 18:51:43', '2019-08-26 18:51:48', 'abgeschlossen', 12, 0),
+	(562, 26, 2, '2019-08-26 18:51:50', '2019-08-26 18:51:55', 'abgeschlossen', 0, 0),
+	(563, 26, 6, '2019-08-26 18:51:59', '2019-08-26 18:52:04', 'abgeschlossen', 2, 0),
+	(564, 26, 11, '2019-08-26 18:52:07', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(565, 26, 2, '2019-08-26 18:53:16', '2019-08-26 18:53:21', 'abgeschlossen', 0, 0),
+	(566, 26, 6, '2019-08-26 18:53:23', '2019-08-26 18:53:28', 'abgeschlossen', 2, 0),
+	(567, 26, 11, '2019-08-26 18:53:29', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(568, 26, 10, '2019-08-28 16:41:37', '2019-08-28 16:41:47', 'abgeschlossen', 9, 0),
+	(569, 26, 2, '2019-08-28 16:41:50', '2019-08-28 16:41:55', 'abgeschlossen', 0, 0),
+	(570, 26, 7, '2019-08-28 16:42:01', '2019-08-28 16:42:06', 'abgeschlossen', 6, 0),
+	(571, 26, 2, '2019-08-28 16:42:09', '2019-08-28 16:42:14', 'abgeschlossen', 0, 0),
+	(572, 26, 6, '2019-08-28 16:42:18', '2019-08-28 16:42:23', 'abgeschlossen', 22, 0),
+	(573, 26, 2, '2019-08-28 16:48:18', '2019-08-28 16:48:23', 'abgeschlossen', 0, 0),
+	(574, 26, 6, '2019-08-28 16:48:24', '2019-08-28 16:48:29', 'abgeschlossen', 4, 0),
+	(575, 26, 2, '2019-08-28 16:51:11', '2019-08-28 16:51:16', 'abgeschlossen', 0, 0),
+	(576, 26, 6, '2019-08-28 16:51:18', '2019-08-28 16:51:23', 'abgeschlossen', 23, 0),
+	(577, 26, 11, '2019-08-28 16:51:23', '2037-12-31 23:59:59', 'abgeschlossen', 23, 0),
+	(578, 26, 2, '2019-08-28 16:51:45', '2019-08-28 16:51:50', 'abgeschlossen', 0, 0),
+	(579, 26, 6, '2019-08-28 16:51:51', '2019-08-28 16:51:56', 'abgeschlossen', 4, 0),
+	(580, 26, 11, '2019-08-28 16:51:56', '2037-12-31 23:59:59', 'abgeschlossen', 4, 0),
+	(581, 26, 2, '2019-08-28 16:52:12', '2019-08-28 16:52:17', 'abgeschlossen', 0, 0),
+	(582, 26, 6, '2019-08-28 16:52:20', '2019-08-28 16:52:25', 'abgeschlossen', 5, 0),
+	(583, 26, 11, '2019-08-28 16:52:25', '2037-12-31 23:59:59', 'abgeschlossen', 5, 0),
+	(584, 26, 2, '2019-08-28 16:52:34', '2019-08-28 16:52:39', 'abgeschlossen', 0, 0),
+	(585, 26, 6, '2019-08-28 16:52:40', '2019-08-28 16:52:45', 'abgeschlossen', 4, 0),
+	(586, 26, 11, '2019-08-28 16:52:45', '2037-12-31 23:59:59', 'abgeschlossen', 4, 0),
+	(587, 26, 2, '2019-08-28 17:27:38', '2019-08-28 17:27:43', 'abgeschlossen', 0, 0),
+	(588, 26, 6, '2019-08-28 17:27:45', '2019-08-28 17:27:50', 'abgeschlossen', 4, 0),
+	(589, 26, 11, '2019-08-28 17:27:50', '2037-12-31 23:59:59', 'abgeschlossen', 4, 0),
+	(590, 26, 2, '2019-08-28 17:30:09', '2019-08-28 17:30:14', 'abgeschlossen', 0, 0),
+	(591, 26, 6, '2019-08-28 17:30:15', '2019-08-28 17:30:20', 'abgeschlossen', 2, 0),
+	(592, 26, 11, '2019-08-28 17:30:20', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(593, 26, 2, '2019-08-28 18:05:41', '2019-08-28 18:05:46', 'abgeschlossen', 0, 0),
+	(594, 26, 6, '2019-08-28 18:05:48', '2019-08-28 18:05:53', 'abgeschlossen', 23, 0),
+	(595, 26, 11, '2019-08-28 18:05:53', '2037-12-31 23:59:59', 'abgeschlossen', 23, 0),
+	(596, 26, 2, '2019-08-28 18:08:23', '2019-08-28 18:08:28', 'abgeschlossen', 0, 0),
+	(597, 26, 6, '2019-08-28 18:08:30', '2019-08-28 18:08:35', 'abgeschlossen', 5, 0),
+	(598, 26, 11, '2019-08-28 18:08:35', '2037-12-31 23:59:59', 'abgeschlossen', 5, 0),
+	(599, 26, 2, '2019-08-28 18:13:14', '2019-08-28 18:13:19', 'abgeschlossen', 0, 0),
+	(600, 26, 6, '2019-08-28 18:13:20', '2019-08-28 18:13:25', 'abgeschlossen', 5, 0),
+	(601, 26, 11, '2019-08-28 18:13:25', '2037-12-31 23:59:59', 'abgeschlossen', 5, 0),
+	(602, 26, 2, '2019-08-28 18:21:45', '2019-08-28 18:21:50', 'abgeschlossen', 0, 0),
+	(603, 26, 6, '2019-08-28 18:21:51', '2019-08-28 18:21:56', 'abgeschlossen', 2, 0),
+	(604, 26, 11, '2019-08-28 18:21:56', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(605, 26, 2, '2019-08-28 18:22:53', '2019-08-28 18:22:58', 'abgeschlossen', 0, 0),
+	(606, 26, 2, '2019-08-28 18:32:05', '2019-08-28 18:32:10', 'abgeschlossen', 0, 0),
+	(607, 26, 6, '2019-08-28 18:32:30', '2019-08-28 18:32:35', 'abgeschlossen', 5, 0),
+	(608, 26, 11, '2019-08-28 18:32:39', '2037-12-31 23:59:59', 'abgeschlossen', 5, 0),
+	(609, 26, 2, '2019-08-28 18:33:54', '2019-08-28 18:33:59', 'abgeschlossen', 0, 0),
+	(610, 26, 6, '2019-08-28 18:34:03', '2019-08-28 18:34:08', 'abgeschlossen', 2, 0),
+	(611, 26, 11, '2019-08-28 18:34:08', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0),
+	(612, 26, 2, '2019-08-28 18:35:04', '2019-08-28 18:35:09', 'abgeschlossen', 0, 0),
+	(613, 26, 6, '2019-08-28 18:35:12', '2019-08-28 18:35:17', 'abgeschlossen', 2, 0),
+	(614, 26, 11, '2019-08-28 18:35:18', '2037-12-31 23:59:59', 'abgeschlossen', 2, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -640,7 +725,7 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=275 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
--- Exportiere Daten aus Tabelle db_dvg.bilder: ~231 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bilder: ~229 rows (ungefähr)
 DELETE FROM `bilder`;
 /*!40000 ALTER TABLE `bilder` DISABLE KEYS */;
 INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
@@ -1111,7 +1196,7 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~50 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~51 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
@@ -1122,15 +1207,15 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 	(5, 2, 19, 1),
 	(6, 8, 19, 1),
 	(7, 5, 14, 1),
-	(8, 8, 26, 9),
+	(8, 8, 26, 22),
 	(9, 5, 26, 9),
 	(10, 11, 26, 3),
-	(11, 1, 26, 9),
+	(11, 1, 26, 20),
 	(12, 2, 26, 1),
 	(13, 14, 26, 1),
 	(14, 2, 32, 1),
 	(15, 15, 26, 1),
-	(16, 18, 26, 3),
+	(16, 18, 26, 4),
 	(17, 8, 36, 9),
 	(18, 18, 36, 2),
 	(19, 1, 36, 4),
@@ -1148,13 +1233,13 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 	(31, 18, 33, 1),
 	(32, 15, 33, 1),
 	(33, 3, 33, 1),
-	(34, 4, 26, 1),
+	(34, 4, 26, 3),
 	(35, 1, 39, 1),
 	(36, 8, 39, 2),
 	(37, 10, 26, 2),
 	(38, 21, 26, 1),
 	(39, 19, 26, 0),
-	(40, 12, 26, 1),
+	(40, 12, 26, 2),
 	(41, 18, 39, 1),
 	(42, 8, 14, 1),
 	(43, 10, 15, 1),
@@ -1172,12 +1257,24 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 DROP TABLE IF EXISTS `kampf`;
 CREATE TABLE IF NOT EXISTS `kampf` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+  `gebiet_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `gebiet_id` (`gebiet_id`),
+  CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~8 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
+INSERT INTO `kampf` (`id`, `gebiet_id`) VALUES
+	(1, 9),
+	(2, 9),
+	(3, 9),
+	(4, 9),
+	(5, 9),
+	(6, 9),
+	(7, 9),
+	(8, 9);
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -1262,7 +1359,7 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_npc` FOREIGN KEY (`teilnehmer_id`) REFERENCES `npc` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_spieler` FOREIGN KEY (`teilnehmer_id`) REFERENCES `spieler` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere AKtionen temporär geändert werden können';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
 -- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~0 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
@@ -1623,7 +1720,7 @@ CREATE TABLE IF NOT EXISTS `quest` (
   CONSTRAINT `FK_quest_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Quests';
 
--- Exportiere Daten aus Tabelle db_dvg.quest: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.quest: ~1 rows (ungefähr)
 DELETE FROM `quest`;
 /*!40000 ALTER TABLE `quest` DISABLE KEYS */;
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
@@ -1705,7 +1802,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 	(17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-05-12 10:57:58'),
 	(18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-05-12 10:58:12'),
 	(19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 0, 1, 1, 5, 1, 60, 60, 8, 8, 0, '2018-05-12 10:59:13'),
-	(26, 10, 212, 2, 1, 9, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2019-07-21 12:32:55'),
+	(26, 10, 212, 2, 1, 9, 'Rashiel', 'W', 10, 5, 0, 1, 5, 1, 1, 60, 60, 8, 8, 0, '2019-08-28 16:41:47'),
 	(32, 10, 211, 4, 1, 4, 'Willy', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-25 13:53:22'),
 	(33, 11, 210, 1, 1, 5, 'Thylanna', 'W', 10, 5, 0, 5, 1, 1, 1, 60, 60, 8, 8, 0, '2018-07-11 17:27:01'),
 	(36, 11, 211, 4, 1, 3, 'Kurt', 'M', 10, 5, 0, 1, 1, 1, 5, 60, 60, 8, 8, 0, '2018-06-27 17:04:43'),
@@ -1829,7 +1926,7 @@ CREATE TABLE IF NOT EXISTS `zauberart` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Details zu Zaubern um verschiedenste Wirkungen abbilden zu können.';
 
--- Exportiere Daten aus Tabelle db_dvg.zauberart: ~6 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauberart: ~5 rows (ungefähr)
 DELETE FROM `zauberart`;
 /*!40000 ALTER TABLE `zauberart` DISABLE KEYS */;
 INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES

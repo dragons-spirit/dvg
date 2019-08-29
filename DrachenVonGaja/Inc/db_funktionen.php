@@ -340,7 +340,7 @@ function update_aktion_spieler($spieler_id, $aktion_text)
 				AND aktion_id IN (SELECT id FROM aktion WHERE text = ?)")){
 		$stmt->bind_param('ds', $spieler_id, $aktion_text);
 		$stmt->execute();
-		if ($debug) echo "<br />\nAktion: [" . $aktion_text . " von Spieler " . $spieler_id . "] wurde abgeschlossen<br />\n";
+		if ($debug) echo "<br />\nAktion: [" . $aktion_text . "] von Spieler [" . $spieler_id . "] wurde abgeschlossen<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {
@@ -551,7 +551,7 @@ function get_gattung_titel($gattung_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung . "]<br />\n";
+		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung_id . "]<br />\n";
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_gattung_titel()<br />\n";
@@ -873,7 +873,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 				AND spieler_id = ?")){
 		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
 		$stmt->execute();
-		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+		if ($debug) echo "<br />\nItem " . $items_id . " wurde Spieler " . $spieler_id . " genau " . $anzahl . " mal hinzugefügt.<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {
@@ -881,6 +881,100 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 		return false;
 	}
 }
+
+
+#**************************************************************************************************************
+#*************************************************** KAMPF ****************************************************
+#**************************************************************************************************************
+
+
+#--------------------------------------------- INSERT kampf.* ---------------------------------------------
+# 	-> OPTIONAL gebiet.id (int)
+
+function insert_kampf($gebiet_id=null)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO kampf(
+				gebiet_id) 
+			VALUES (?)")){
+		$stmt->bind_param('d', $gebiet_id);
+		$stmt->execute();
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM kampf");
+		$stmt->execute();
+		$kampf_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $gebiet_id . "] wurde hinzugefügt.<br />\n";
+		return $kampf_id;
+	} else {
+		echo "<br />\nQuerryfehler in insert_kampf()<br />\n";
+		return false;
+	}
+}
+
+
+#--------------------------------------------- INSERT kampf_teilnehmer.* ---------------------------------------------
+# 	-> kampf.id (int)
+# 	-> teilnehmer_id (int)
+# 	-> teilnehmer_typ (str)
+# 	-> seite (int)
+
+
+function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $seite)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO kampf_teilnehmer(
+				gebiet_id) 
+			VALUES (?)")){
+		$stmt->bind_param('d', $gebiet_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nKampf im Gebiet [" . $gebiet_id . " wurde hinzugefügt.<br />\n";
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in insert_kampf()<br />\n";
+		return false;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #***************************************************************************************************************
