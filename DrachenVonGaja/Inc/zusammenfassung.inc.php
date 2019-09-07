@@ -378,11 +378,11 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 	}
 
 	if(isset($_POST["button_dschungel"])) $_SESSION['startgebiet'] = "Dschungel";
-	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Kristallhoehle";
+	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Kristallhöhle";
 	if(isset($_POST["button_eissee"])) $_SESSION['startgebiet'] = "Eissee";
 	if(isset($_POST["button_sumpf"])) $_SESSION['startgebiet'] = "Sumpf";
 	if(isset($_POST["button_vulkan"])) $_SESSION['startgebiet'] = "Vulkan";
-	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wueste";
+	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wüste";
     if(isset($_POST["button_klippe"])) $_SESSION['startgebiet'] = "Klippe";
 	if(isset($_POST["button_mammutbaum"])) $_SESSION['startgebiet'] = "Mammutbaum"; 
 

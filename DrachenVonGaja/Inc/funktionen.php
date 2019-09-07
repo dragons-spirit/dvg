@@ -3,6 +3,11 @@
 # Zeitzone setzen
 date_default_timezone_set("Europe/Berlin");
 
+# Kampfparameter setzen
+$gew_elem = 0.2;
+$gew_attr = 0.5;
+
+
 # Zeitstempel erzeugen
 function timestamp()
 {
@@ -11,6 +16,7 @@ function timestamp()
 	return $tstamp;
 }
 
+
 # Zeitumrechnung
 function time_to_timestamp($time_unix)
 {
@@ -18,16 +24,46 @@ function time_to_timestamp($time_unix)
 	return $tstamp;
 }
 
+
 # Maximale Gesundheit berechnen
-function berechne_max_gesundheit($start_staerke, $start_intelligenz, $start_magie){
-	return (4*$start_staerke + 4*$start_intelligenz + 4*$start_magie);
+function berechne_max_gesundheit($akteur){
+	global $gew_attr;
+	return intval(floor($gew_attr*(5*$akteur->staerke + 3*$akteur->intelligenz + 1*$akteur->magie)));
 }
+
 
 # Maximale Energie berechnen
-function berechne_max_energie($start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft){
-	return ($start_element_feuer + $start_element_wasser + $start_element_erde + $start_element_luft);	
+function berechne_max_energie($akteur){
+	global $gew_attr;
+	return intval(floor($gew_attr*(1*$akteur->staerke + 1*$akteur->intelligenz + 1*$akteur->magie)));
 }
 
+
+# Maximale Zauberpunkte berechnen
+function berechne_max_zauberpunkte($akteur){
+	global $gew_attr, $gew_elem;
+	$summe_elemente = ($akteur->element_feuer + $akteur->element_wasser + $akteur->element_erde + $akteur->element_luft);
+	return intval(floor($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente)));
+}
+
+
+# Schneidet analog zu floor alle Nachkommastellen bis zur angegebenen Stelle ab
+function floor_x($zahl,$nachkommastellen=3){   
+     return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
+}
+
+
+# Aktualisiert den Kampftimer beim KampfTeilnehmer
+function berechne_initiative($obj) {
+	if ($obj == null or $obj->initiative == null or $obj->initiative < 0) $wert = 0;
+	if ($obj->initiative == 0) $wert = 9999999;
+		else $wert = floor_x((10000/$obj->initiative),3);
+	return $wert;
+}
+
+
+
+# Passendes Drachenbild zum Level des Spielers ermitteln
 function bild_zu_spielerlevel($bilder_id)
 {
 	return get_bild_zu_id($bilder_id);
@@ -49,10 +85,11 @@ function hintergrundbild_klein($gebiet_id)
 }
 
 
+# Aufbau des Hintergrundbildes mit Gebietslinks
 function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
 {
 	?>
-	<!-- Links Zielgebiete -->
+	<!-- # Links Zielgebiete -->
 	<div id="hintergrundbild">
 		<img src="<?php echo get_bild_zu_gebiet($gebiet_id) ?>" style="max-width: 100%;" height="100%" alt=""/>
 		<div id="hintergrundbild_gebietslinks">
@@ -77,11 +114,11 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
 			</p>
 		<?php
 		}?>
-	</div>
-	<?php
+	</div><?php
 }
 
 
+# Unterfunktion für einzeln positionierte Gebietslinks auf Hintergrundbild
 function zeige_gebietslinks($gebiet_id)
 {
 	if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
@@ -111,6 +148,7 @@ function zeige_gebietslinks($gebiet_id)
 }
 
 
+# Aufbau der Seite mit erhaltenen Items
 function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 {
 	if ($npc = get_npc($npc_id))
@@ -175,10 +213,10 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 }
 
 
+# Aufbau der Seite für Elementbäume
 function elemente_anzeigen($hauptelement, $hintergrundfarbe)
 {
-	?>
-	<div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
+	?><div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
 		<table>
 			<?php
 			# Für Tabellenstruktur Anzeigedaten nacheinander abholen
@@ -227,10 +265,11 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe)
 			}
 			?>
 		</table>
-	</div>
-	<?php
+	</div><?php
 }
 
+
+# Funktion zum Einlesen aller neuen oder verschobenen Bilder inklusive ihrer Pfade in die Datenbank
 function scanneNeueBilder($ordner)
 {
 	global $endungen_bilder, $neue_dateien;
@@ -254,6 +293,8 @@ function scanneNeueBilder($ordner)
 	}
 }
 
+
+# Entfernen des 1. Zeichens von Bilderpfaden (notwendig für Pfadangaben im Style-Bereich)
 function pfad_fuer_style($pfad)
 {
 	return substr($pfad,1);	

@@ -32,7 +32,7 @@
 		<?php
 		
 		$count=0;
-		$zauber = get_zauber_von_spieler($spieler->spieler_id);
+		$zauber = get_zauber_von_spieler($spieler->id);
 		
 		while($row = $zauber->fetch_array(MYSQLI_NUM))
 		{

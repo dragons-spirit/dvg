@@ -47,11 +47,16 @@ class Spieler {
 	public $max_gesundheit; 
 	public $energie; 
 	public $max_energie; 
+	public $zauberpunkte; 
+	public $max_zauberpunkte; 
 	public $balance;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
 	public $zuletzt_gespielt;
 
 	public function __construct($ds=null) {
-		$this->spieler_id = $ds[0];
+		$this->id = $ds[0];
 		$this->account_id = $ds[1];
 		$this->bilder_id = $ds[2];
 		$this->gattung_id = $ds[3];
@@ -70,8 +75,88 @@ class Spieler {
 		$this->max_gesundheit = $ds[16];
 		$this->energie = $ds[17];
 		$this->max_energie = $ds[18];
-		$this->balance = $ds[19];
-		$this->zuletzt_gespielt = $ds[20];
+		$this->zauberpunkte = $ds[19];
+		$this->max_zauberpunkte = $ds[20];
+		$this->balance = $ds[21];
+		$this->initiative = $ds[22];
+		$this->abwehr = $ds[23];
+		$this->ausweichen = $ds[24];
+		$this->zuletzt_gespielt = $ds[25];
+	}
+}
+
+
+class NPC {
+	public $id;
+	public $bilder_id;
+	public $element_id;
+	public $name;
+	public $familie;
+	public $staerke;
+	public $intelligenz;
+	public $magie;
+	public $element_feuer;
+	public $element_wasser;
+	public $element_erde;
+	public $element_luft;
+	public $gesundheit;
+	public $energie;
+	public $zauberpunkte;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
+	public $beschreibung;
+	public $typ;
+
+	public function __construct($ds=null) {
+		if ($ds == null) $this->set_null();
+			else $this->set($ds);
+	}
+	
+	public function set($ds) {
+		$this->id = $ds[0];
+		$this->bilder_id = $ds[1];
+		$this->element_id = $ds[2];
+		$this->name = $ds[3];
+		$this->familie = $ds[4];
+		$this->staerke = $ds[5];
+		$this->intelligenz = $ds[6];
+		$this->magie = $ds[7];
+		$this->element_feuer = $ds[8];
+		$this->element_wasser = $ds[9];
+		$this->element_erde = $ds[10];
+		$this->element_luft = $ds[11];
+		$this->gesundheit = $ds[12];
+		$this->energie = $ds[13];
+		$this->zauberpunkte = $ds[14];
+		$this->initiative = $ds[15];
+		$this->abwehr = $ds[16];
+		$this->ausweichen = $ds[17];
+		$this->beschreibung = $ds[18];
+		$this->typ = $ds[19];
+	}
+	
+	public function set_null() {
+		$this->id = null;
+		$this->bilder_id = null;
+		$this->element_id = null;
+		$this->name = "kein NPC gefunden";
+		$this->familie = null;
+		$this->staerke = 0;
+		$this->intelligenz = 0;
+		$this->magie = 0;
+		$this->element_feuer = 0;
+		$this->element_wasser = 0;
+		$this->element_erde = 0;
+		$this->element_luft = 0;
+		$this->gesundheit = 0;
+		$this->energie = 0;
+		$this->zauberpunkte = 0;
+		$this->initiative = 100;
+		$this->abwehr = 0;
+		$this->ausweichen = 0;
+		$this->beschreibung = "kein NPC gefunden";
+		$this->typ = null;
 	}
 }
 
@@ -142,14 +227,84 @@ class KampfTeilnehmer {
 	public $abwehr;
 	public $ausweichen;
 	public $timer;
-
-	public function __construct($ds=null) {
-		if ($ds = null) $this->name = null;
-			else $this->set($ds);
+	
+	public function __construct($ds=null, $typ=null, $seite=null) {
+		if ($ds == null){
+			$this->name = null;
+			$this->bilder_id = null;
+			$this->id = null;
+			$this->typ = null;
+			$this->seite = null;
+			$this->gesundheit = null;
+			$this->gesundheit_max = null;
+			$this->zauberpunkte = null;
+			$this->zauberpunkte_max = null;
+			$this->staerke = null;
+			$this->intelligenz = null;
+			$this->magie = null;
+			$this->element_feuer = null;
+			$this->element_wasser = null;
+			$this->element_erde = null;
+			$this->element_luft = null;
+			$this->initiative = null;
+			$this->abwehr = null;
+			$this->ausweichen = null;
+			$this->timer = null;
+		} else {
+			$this->name = $ds->name;
+			$this->bilder_id = $ds->bilder_id;
+			$this->id = $ds->id;
+			$this->typ = $typ;
+			$this->seite = $seite;
+			$this->gesundheit = $ds->gesundheit;
+			if ($typ == "npc") {$this->gesundheit_max = $ds->gesundheit;
+				} else {$this->gesundheit_max = $ds->max_gesundheit;}
+			$this->zauberpunkte = $ds->zauberpunkte;
+			if ($typ == "npc") {$this->zauberpunkte_max = $ds->zauberpunkte;
+				} else {$this->zauberpunkte_max = $ds->max_zauberpunkte;}
+			$this->staerke = $ds->staerke;
+			$this->intelligenz = $ds->intelligenz;
+			$this->magie = $ds->magie;
+			$this->element_feuer = $ds->element_feuer;
+			$this->element_wasser = $ds->element_wasser;
+			$this->element_erde = $ds->element_erde;
+			$this->element_luft = $ds->element_luft;
+			$this->initiative = $ds->initiative;
+			$this->abwehr = $ds->abwehr;
+			$this->ausweichen = $ds->ausweichen;
+			$this->timer = berechne_initiative($ds);
+		}
 	}
 	
 	public function set($ds) {
-		$this->name = $ds[0];
+		
+	}
+	
+	public function erhoehe_timer($wert){
+		$this->timer = $this->timer + $wert;
+	}
+	
+	public function ausgabe(){
+		echo "name : " . $this->name . "<br>";
+		echo "bilder_id : " . $this->bilder_id . "<br>";
+		echo "id : " . $this->id . "<br>";
+		echo "typ : " . $this->typ . "<br>";
+		echo "seite : " . $this->seite . "<br>";
+		echo "gesundheit : " . $this->gesundheit . "<br>";
+		echo "gesundheit_max : " . $this->gesundheit_max . "<br>";
+		echo "zauberpunkte : " . $this->zauberpunkte . "<br>";
+		echo "zauberpunkte_max : " . $this->zauberpunkte_max . "<br>";
+		echo "staerke : " . $this->staerke . "<br>";
+		echo "intelligenz : " . $this->intelligenz . "<br>";
+		echo "magie : " . $this->magie . "<br>";
+		echo "element_feuer : " . $this->element_feuer . "<br>";
+		echo "element_wasser : " . $this->element_wasser . "<br>";
+		echo "element_erde : " . $this->element_erde . "<br>";
+		echo "element_luft : " . $this->element_luft . "<br>";
+		echo "initiative : " . $this->initiative . "<br>";
+		echo "abwehr : " . $this->abwehr . "<br>";
+		echo "ausweichen : " . $this->ausweichen . "<br>";
+		echo "timer : " . $this->timer . "<br>";
 	}
 }
 

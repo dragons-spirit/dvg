@@ -1,12 +1,5 @@
 <?php
 
-/* Funktionsübersicht
-
-get_spieler()
-
-*/
-
-
 #***************************************************************************************************************
 #************************************************* ALLGEMEINES *************************************************
 #***************************************************************************************************************
@@ -444,8 +437,12 @@ function insertItem($item_daten)
 #	<- [11] element_luft
 #	<- [12] gesundheit
 #	<- [13] energie
-#	<- [14] beschreibung
-#	<- [15] typ
+#	<- [14] zauberpunkte
+#	<- [15] initiative
+#	<- [16] abwehr
+#	<- [17] ausweichen
+#	<- [18] beschreibung
+#	<- [19] typ
 
 function get_npc_by_id($npc_id)
 {
@@ -517,8 +514,12 @@ function get_npc_id_by_titel($npc_titel)
 #	<- [11] element_luft
 #	<- [12] gesundheit
 #	<- [13] energie
-#	<- [14] beschreibung
-#	<- [15] typ
+#	<- [14] zauberpunkte
+#	<- [15] initiative
+#	<- [16] abwehr
+#	<- [17] ausweichen
+#	<- [18] beschreibung
+#	<- [19] typ
 
 function suche_npcs($titel, $familie, $beschreibung, $typ)
 {
@@ -700,8 +701,12 @@ function get_npc_typen_titel()
 #	-> [11] element_luft
 #	-> [12] gesundheit
 #	-> [13] energie
-#	-> [14] beschreibung
-#	-> [15] typ
+#	-> [14] zauberpunkte
+#	-> [15] initiative
+#	-> [16] abwehr
+#	-> [17] ausweichen
+#	-> [18] beschreibung
+#	-> [19] typ
 #	<- true/false
 
 function updateNPC($npc_daten)
@@ -724,10 +729,14 @@ function updateNPC($npc_daten)
 				element_luft = ?,
 				gesundheit = ?,
 				energie = ?,
+				zauberpunkte = ?,
+				initiative = ?,
+				abwehr = ?,
+				ausweichen = ?,
 				beschreibung = ?,
 				typ = ?				
 			WHERE id = ?")){
-		$stmt->bind_param('ssssssssssssssss', 
+		$stmt->bind_param('ssssssssssssssssssss', 
 			$npc_daten["npc_bild"], 
 			$npc_daten["npc_element"], 
 			$npc_daten["npc_titel"], 
@@ -740,7 +749,11 @@ function updateNPC($npc_daten)
 			$npc_daten["npc_erde"], 
 			$npc_daten["npc_luft"], 
 			$npc_daten["npc_gesundheit"], 
-			$npc_daten["npc_energie"], 
+			$npc_daten["npc_energie"],
+			$npc_daten["npc_zauberpunkte"],
+			$npc_daten["npc_initiative"],
+			$npc_daten["npc_abwehr"],
+			$npc_daten["npc_ausweichen"],			
 			$npc_daten["npc_beschreibung"], 
 			$npc_daten["npc_typ"], 
 			$npc_daten["npc_id"]);
@@ -773,8 +786,12 @@ function updateNPC($npc_daten)
 #	-> [11] element_luft
 #	-> [12] gesundheit
 #	-> [13] energie
-#	-> [14] beschreibung
-#	-> [15] typ
+#	-> [14] zauberpunkte
+#	-> [15] initiative
+#	-> [16] abwehr
+#	-> [17] ausweichen
+#	-> [18] beschreibung
+#	-> [19] typ
 #	<- true/false
 
 function insertNPC($npc_daten)
@@ -797,10 +814,14 @@ function insertNPC($npc_daten)
 				element_luft,
 				gesundheit,
 				energie,
+				zauberpunkte,
+				initiative,
+				abwehr,
+				ausweichen,
 				beschreibung,
 				typ)				
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
-		$stmt->bind_param('sssssssssssssss', 
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+		$stmt->bind_param('ssssssssssssssssss', 
 			$npc_daten["npc_bild"], 
 			$npc_daten["npc_element"], 
 			$npc_daten["npc_titel"], 
@@ -813,7 +834,11 @@ function insertNPC($npc_daten)
 			$npc_daten["npc_erde"], 
 			$npc_daten["npc_luft"], 
 			$npc_daten["npc_gesundheit"], 
-			$npc_daten["npc_energie"], 
+			$npc_daten["npc_energie"],
+			$npc_daten["npc_zauberpunkte"],
+			$npc_daten["npc_initiative"],
+			$npc_daten["npc_abwehr"],
+			$npc_daten["npc_ausweichen"],
 			$npc_daten["npc_beschreibung"], 
 			$npc_daten["npc_typ"]);
 		$stmt->execute();
