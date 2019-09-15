@@ -227,57 +227,89 @@ class KampfTeilnehmer {
 	public $abwehr;
 	public $ausweichen;
 	public $timer;
+	public $kt_id;
 	
 	public function __construct($ds=null, $typ=null, $seite=null) {
-		if ($ds == null){
-			$this->name = null;
-			$this->bilder_id = null;
-			$this->id = null;
-			$this->typ = null;
-			$this->seite = null;
-			$this->gesundheit = null;
-			$this->gesundheit_max = null;
-			$this->zauberpunkte = null;
-			$this->zauberpunkte_max = null;
-			$this->staerke = null;
-			$this->intelligenz = null;
-			$this->magie = null;
-			$this->element_feuer = null;
-			$this->element_wasser = null;
-			$this->element_erde = null;
-			$this->element_luft = null;
-			$this->initiative = null;
-			$this->abwehr = null;
-			$this->ausweichen = null;
-			$this->timer = null;
-		} else {
-			$this->name = $ds->name;
-			$this->bilder_id = $ds->bilder_id;
-			$this->id = $ds->id;
-			$this->typ = $typ;
-			$this->seite = $seite;
-			$this->gesundheit = $ds->gesundheit;
-			if ($typ == "npc") {$this->gesundheit_max = $ds->gesundheit;
-				} else {$this->gesundheit_max = $ds->max_gesundheit;}
-			$this->zauberpunkte = $ds->zauberpunkte;
-			if ($typ == "npc") {$this->zauberpunkte_max = $ds->zauberpunkte;
-				} else {$this->zauberpunkte_max = $ds->max_zauberpunkte;}
-			$this->staerke = $ds->staerke;
-			$this->intelligenz = $ds->intelligenz;
-			$this->magie = $ds->magie;
-			$this->element_feuer = $ds->element_feuer;
-			$this->element_wasser = $ds->element_wasser;
-			$this->element_erde = $ds->element_erde;
-			$this->element_luft = $ds->element_luft;
-			$this->initiative = $ds->initiative;
-			$this->abwehr = $ds->abwehr;
-			$this->ausweichen = $ds->ausweichen;
-			$this->timer = berechne_initiative($ds);
-		}
+		if ($ds == null AND $typ == null AND $seite == null) $this->set_null();
+		if ($ds != null AND $typ == null AND $seite == null) $this->set($ds);
+		if ($ds != null AND $typ != null AND $seite > -1) $this->init($ds, $typ, $seite);
 	}
 	
+	# Initialisierung bei Kampfbeginn
+	public function init($ds, $typ, $seite) {
+		$this->name = $ds->name;
+		$this->bilder_id = $ds->bilder_id;
+		$this->id = $ds->id;
+		$this->typ = $typ;
+		$this->seite = $seite;
+		$this->gesundheit = $ds->gesundheit;
+		if ($typ == "npc") {$this->gesundheit_max = $ds->gesundheit;
+			} else {$this->gesundheit_max = $ds->max_gesundheit;}
+		$this->zauberpunkte = $ds->zauberpunkte;
+		if ($typ == "npc") {$this->zauberpunkte_max = $ds->zauberpunkte;
+			} else {$this->zauberpunkte_max = $ds->max_zauberpunkte;}
+		$this->staerke = $ds->staerke;
+		$this->intelligenz = $ds->intelligenz;
+		$this->magie = $ds->magie;
+		$this->element_feuer = $ds->element_feuer;
+		$this->element_wasser = $ds->element_wasser;
+		$this->element_erde = $ds->element_erde;
+		$this->element_luft = $ds->element_luft;
+		$this->initiative = $ds->initiative;
+		$this->abwehr = $ds->abwehr;
+		$this->ausweichen = $ds->ausweichen;
+		$this->timer = berechne_initiative($ds);
+		$this->kt_id = null;
+	}
+	
+	# Kampfteilnehmer mit Datensatz aus DB erstellen
 	public function set($ds) {
-		
+		$this->name = $ds[0];
+		$this->bilder_id = $ds[1];
+		$this->id = $ds[2];
+		$this->typ = $ds[3];
+		$this->seite = $ds[4];
+		$this->gesundheit = $ds[5];
+		$this->gesundheit_max = $ds[6];
+		$this->zauberpunkte = $ds[7];
+		$this->zauberpunkte_max = $ds[8];
+		$this->staerke = $ds[9];
+		$this->intelligenz = $ds[10];
+		$this->magie = $ds[11];
+		$this->element_feuer = $ds[12];
+		$this->element_wasser = $ds[13];
+		$this->element_erde = $ds[14];
+		$this->element_luft = $ds[15];
+		$this->initiative = $ds[16];
+		$this->abwehr = $ds[17];
+		$this->ausweichen = $ds[18];
+		$this->timer = $ds[19];
+		$this->kt_id = $ds[20];
+	}
+	
+	# Initialisierung mit NULL
+	public function set_null(){
+		$this->name = null;
+		$this->bilder_id = null;
+		$this->id = null;
+		$this->typ = null;
+		$this->seite = null;
+		$this->gesundheit = null;
+		$this->gesundheit_max = null;
+		$this->zauberpunkte = null;
+		$this->zauberpunkte_max = null;
+		$this->staerke = null;
+		$this->intelligenz = null;
+		$this->magie = null;
+		$this->element_feuer = null;
+		$this->element_wasser = null;
+		$this->element_erde = null;
+		$this->element_luft = null;
+		$this->initiative = null;
+		$this->abwehr = null;
+		$this->ausweichen = null;
+		$this->timer = null;
+		$this->kt_id = null;
 	}
 	
 	public function erhoehe_timer($wert){
@@ -305,6 +337,69 @@ class KampfTeilnehmer {
 		echo "abwehr : " . $this->abwehr . "<br>";
 		echo "ausweichen : " . $this->ausweichen . "<br>";
 		echo "timer : " . $this->timer . "<br>";
+		echo "kt_id : " . $this->kt_id . "<br>";
+	}
+	
+	public function ausgabe_kampf(){
+		echo "Gesundheit : " . $this->gesundheit . "/" . $this->gesundheit_max . "<br>";
+		echo "Zauberpunkte : " . $this->zauberpunkte . "/" . $this->zauberpunkte_max . "<br>";
+		echo "Staerke : " . $this->staerke . "<br>";
+		echo "Intelligenz : " . $this->intelligenz . "<br>";
+		echo "Magie : " . $this->magie . "<br>";
+		echo "Feuer : " . $this->element_feuer . "<br>";
+		echo "Wasser : " . $this->element_wasser . "<br>";
+		echo "Erde : " . $this->element_erde . "<br>";
+		echo "Luft : " . $this->element_luft . "<br>";
+		echo "Initiative : " . $this->initiative . "<br>";
+		echo "Abwehr : " . $this->abwehr . "<br>";
+		echo "Ausweichen : " . $this->ausweichen . "<br>";
+		echo "Timer : " . $this->timer . "<br>";
+	}
+}
+
+
+class KampfZauber {
+	public $id;
+	public $titel;
+	public $bilder_id;
+	public $zauberart_id;
+	public $zauberart;
+	public $hauptelement_id;
+	public $nebenelement_id;
+	public $verbrauch;
+	public $beschreibung;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->titel = $ds[1];
+		$this->bilder_id = $ds[2];
+		$this->zauberart_id = $ds[3];
+		$this->zauberart = $ds[4];
+		$this->hauptelement_id = $ds[5];
+		$this->nebenelement_id = $ds[6];
+		$this->verbrauch = $ds[7];
+		$this->beschreibung = $ds[8];
+	}
+}
+
+
+class KampfZauberEffekt {
+	public $id;
+	public $zauber_id;
+	public $art;
+	public $attribut;
+	public $wert;
+	public $runden;
+	public $jede_runde;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->zauber_id = $ds[1];
+		$this->art = $ds[2];
+		$this->attribut = $ds[3];
+		$this->wert = $ds[4];
+		$this->runden = $ds[5];
+		$this->jede_runde = $ds[6];
 	}
 }
 

@@ -216,7 +216,9 @@
 									$kampf_id = insert_kampf($spieler->gebiet_id);
 									insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
 									insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 0);
+									#insert_kampf_teilnehmer($kampf_id, 26, "spieler", 0); # Rashiel
 									insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
+									#insert_kampf_teilnehmer($kampf_id, 2, "npc", 1); # Ratte
 									break;
 									
 								
@@ -234,15 +236,33 @@
 								
 								#################################################################
 								case "Kampf":
-									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
-									$npc_id = $aktion_spieler->any_id_1;
-									zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
-									?>
-									<p align="center" style="padding-top:10pt;">
-										<input type="submit" name="weiter" value="weiter">
-									</p>
-									<?php
+									if ($_POST["aktion_abgeschlossen"] == "Kampf beenden"){
+										update_aktion_spieler($spieler->id, $aktion_spieler->titel);
+										$gewinner_seite = ist_kampf_beendet(array_merge($kt_0, $kt_1));
+										if ($gewinner_seite == 0){
+											$npc_ids = get_all_npcs_kampf($aktion_spieler->any_id_1);
+											foreach ($npc_ids as $npc_id){
+												zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
+												echo "<br>";
+											}
+										} else {
+										?>
+											<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
+												Ihr wurdet besiegt!
+											</p>
+										<?php
+										}
+										?>
+										<p align="center" style="padding-top:10pt;">
+											<input type="submit" name="weiter" value="weiter">
+										</p>
+										<?php
+									} else {
+										# Backup falls Kampf nicht sauber beendet wurde // F5-Bug nach Aktion "Jagen"
+										zeige_hintergrundbild($spieler->gebiet_id);
+									}
 									break;
+									
 									
 								
 								#################################################################
@@ -271,7 +291,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR isset($_POST["kt_id_value"]));
 							
 							######################
 							# Start von Aktionen #
@@ -338,7 +358,7 @@
 								if(isset($_POST["button_tagebuch"])){
 									include('quest.inc.php');
 								}
-								if(isset($_POST["button_drachenkampf"]) OR isset($_POST["button_kampf"])){
+								if(isset($_POST["button_drachenkampf"]) OR isset($_POST["button_kampf"]) OR isset($_POST["kt_id_value"])){
 									include('drachenkampf.inc.php');
 								}
 								if(isset($_POST["button_handwerk"])){
@@ -393,21 +413,21 @@
 						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"])){
 							?>
 							<script>sichtbar_elemente("menü");</script>
-							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="Drachenkampf"></div>
+							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="0"></div>
 							<div id="menu2"><input id="menu_button_klein" type="submit" name="button_fliegen" value="Fliegen"></div>
 							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschwören"></div>
 							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_handwerk" value="Handwerk"></div>
 							<div id="menu7"><input id="menu_button_klein" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php	
 						} else {
 						?>
-							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_drachenkampf" value="Drachenkampf"></div>
+							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_drachenkampf" value="0"></div>
 							<div id="menu2"><input id="menu_button_gross" type="submit" name="button_fliegen" value="Fliegen"></div>
 							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
 							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschw&ouml;ren"></div>
+							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschwören"></div>
 							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_handwerk" value="Handwerk"></div>
 							<div id="menu7"><input id="menu_button_gross" type="submit" name="button_tagebuch" value="Tagebuch"></div>
 						<?php
