@@ -196,11 +196,12 @@ function get_aktion_dauer($aktion_titel)
 #	<- true/false
 
 function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_id_2 = 0)
-{                                                          
+{
 	global $debug;
 	global $connect_db_dvg;
 	
-	if ($stmt = $connect_db_dvg->prepare("
+	if ($aktion_titel != "kampf"){
+		if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO aktion_spieler(
 				spieler_id, 
 				aktion_id, 
@@ -210,13 +211,33 @@ function insert_aktion_spieler($spieler_id, $aktion_titel, $any_id_1 = 0, $any_i
 				any_id_1,
 				any_id_2) 
 			VALUES (?, (SELECT id FROM aktion WHERE titel = ?), NOW(), ADDTIME(NOW(), (SELECT dauer FROM aktion WHERE titel = ?)), 'gestartet', ?, ?)")){
-		$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
-		$stmt->execute();
-		if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
-		return true;
+			$stmt->bind_param('dssdd', $spieler_id, $aktion_titel, $aktion_titel, $any_id_1, $any_id_2);
+			$stmt->execute();
+			if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
+			return false;
+		}
 	} else {
-		echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
-		return false;
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO aktion_spieler(
+				spieler_id, 
+				aktion_id, 
+				start, 
+				ende,
+				status,
+				any_id_1,
+				any_id_2) 
+			VALUES (?, (SELECT id FROM aktion WHERE titel = ?), NOW(), '2037-12-31 23-59-59', 'gestartet', ?, ?)")){
+			$stmt->bind_param('dsdd', $spieler_id, $aktion_titel, $any_id_1, $any_id_2);
+			$stmt->execute();
+			if ($debug) echo "<br />\nNeue Aktion begonnen: [" . $spieler_id . " | " . $aktion_titel . "]<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in insert_aktion_spieler()<br />\n";
+			return false;
+		}
 	}
 }
 
@@ -303,23 +324,44 @@ function get_aktion_spieler_aktiv($spieler_id)
 
 #------------------------------------------- UPDATE aktion_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
-#	-> aktion.text (str)
+#	-> aktion.titel (str)
 #	<- true/false
 
-function update_aktion_spieler($spieler_id, $aktion_text)
+function update_aktion_spieler($spieler_id, $aktion_titel)
 {
 	global $debug;
 	global $connect_db_dvg;
 	
+	if ($aktion_titel == "kampf") {
+		if ($stmt = $connect_db_dvg->prepare("
+				UPDATE aktion_spieler
+				SET ende = NOW()
+				WHERE spieler_id = ?
+					AND status <> 'abgeschlossen'
+					AND aktion_id = (
+						SELECT aktion.id
+						FROM aktion
+						WHERE aktion.titel = ?)")){
+			$stmt->bind_param('ds', $spieler_id, $aktion_titel);
+			$stmt->execute();
+			if ($debug) echo "<br />\nEndzeit für Aktion: [" . $aktion_titel . "] von Spieler [" . $spieler_id . "] wurde gesetzt.<br />\n";
+		} else {
+			echo "<br />\nQuerryfehler in update_aktion_spieler() - Endzeit setzen bei Kampf<br />\n";
+		}
+	}
+	
 	if ($stmt = $connect_db_dvg->prepare("
 			UPDATE aktion_spieler
 			SET status = 'abgeschlossen'
-			WHERE
-				spieler_id = ?
-				AND aktion_id IN (SELECT id FROM aktion WHERE text = ?)")){
-		$stmt->bind_param('ds', $spieler_id, $aktion_text);
+			WHERE spieler_id = ?
+				AND status <> 'abgeschlossen'
+				AND aktion_id = (
+					SELECT aktion.id
+					FROM aktion
+					WHERE aktion.titel = ?)")){
+		$stmt->bind_param('ds', $spieler_id, $aktion_titel);
 		$stmt->execute();
-		if ($debug) echo "<br />\nAktion: [" . $aktion_text . " von Spieler " . $spieler_id . "] wurde abgeschlossen<br />\n";
+		if ($debug) echo "<br />\nAktion: [" . $aktion_titel . "] von Spieler [" . $spieler_id . "] wurde abgeschlossen<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {
@@ -328,7 +370,7 @@ function update_aktion_spieler($spieler_id, $aktion_text)
 	}
 }
 
-
+			
 #***************************************************************************************************************
 #*************************************************** BILDER ****************************************************
 #***************************************************************************************************************
@@ -530,7 +572,7 @@ function get_gattung_titel($gattung_id)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung . "]<br />\n";
+		if ($debug and $row) echo "<br />\nGattungsname abgeholt für: [" . $gattung_id . "]<br />\n";
 		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_gattung_titel()<br />\n";
@@ -819,7 +861,7 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 				VALUES (?, ?, ?)")){
 			$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
 			$stmt->execute();
-			if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+			if ($debug) echo "<br />\nItem: [" . $items_id . " wurde Spieler " . $spieler_id . "]<br />\n";
 			$result = $stmt->get_result();
 			return $result;
 		} else {
@@ -852,7 +894,7 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 				AND spieler_id = ?")){
 		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
 		$stmt->execute();
-		if ($debug) echo "<br />\nItem: [" . $itmes_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+		if ($debug) echo "<br />\nItem " . $items_id . " wurde Spieler " . $spieler_id . " genau " . $anzahl . " mal hinzugefügt.<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {
@@ -860,6 +902,140 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 		return false;
 	}
 }
+
+
+#**************************************************************************************************************
+#*************************************************** KAMPF ****************************************************
+#**************************************************************************************************************
+
+
+#--------------------------------------------- INSERT kampf.* ---------------------------------------------
+# 	-> OPTIONAL gebiet.id (int)
+
+function insert_kampf($gebiet_id=null)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO kampf(
+				gebiet_id) 
+			VALUES (?)")){
+		$stmt->bind_param('d', $gebiet_id);
+		$stmt->execute();
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM kampf");
+		$stmt->execute();
+		$kampf_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $gebiet_id . "] wurde hinzugefügt.<br />\n";
+		return $kampf_id;
+	} else {
+		echo "<br />\nQuerryfehler in insert_kampf()<br />\n";
+		return false;
+	}
+}
+
+
+#--------------------------------------------- INSERT kampf_teilnehmer.* ---------------------------------------------
+# 	-> kampf.id (int)
+# 	-> teilnehmer_id (int)
+# 	-> teilnehmer_typ (str)
+# 	-> seite (int)
+
+
+function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $seite)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	switch($teilnehmer_typ){
+		#################################################################
+		case "spieler":
+			$spieler = new Spieler(get_spieler($teilnehmer_id));
+			$kampf_teilnehmer = new KampfTeilnehmer($spieler, $teilnehmer_typ, $seite);
+			break;
+		#################################################################
+		case "npc":
+			$npc = new NPC(get_npc_alldata($teilnehmer_id));
+			$kampf_teilnehmer = new KampfTeilnehmer($npc, $teilnehmer_typ, $seite);
+			break;
+		#################################################################
+		default:
+			echo "Kein Spielertyp übergeben?";
+			break;
+	}
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO kampf_teilnehmer(
+				kampf_id,
+				teilnehmer_id,
+				teilnehmer_typ,
+				seite,
+				gesundheit,
+				zauberpunkte,
+				staerke,
+				intelligenz,
+				magie,
+				element_feuer,
+				element_wasser,
+				element_erde,
+				element_luft,
+				initiative,
+				abwehr,
+				ausweichen,
+				timer)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+		$stmt->bind_param('ddsdddddddddddddd',
+				$kampf_id,
+				$kampf_teilnehmer->id,
+				$kampf_teilnehmer->typ,
+				$kampf_teilnehmer->seite,
+				$kampf_teilnehmer->gesundheit,
+				$kampf_teilnehmer->zauberpunkte,
+				$kampf_teilnehmer->staerke,
+				$kampf_teilnehmer->intelligenz,
+				$kampf_teilnehmer->magie,
+				$kampf_teilnehmer->element_feuer,
+				$kampf_teilnehmer->element_wasser,
+				$kampf_teilnehmer->element_erde,
+				$kampf_teilnehmer->element_luft,
+				$kampf_teilnehmer->initiative,
+				$kampf_teilnehmer->abwehr,
+				$kampf_teilnehmer->ausweichen,
+				$kampf_teilnehmer->timer);
+		$stmt->execute();
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM kampf_teilnehmer");
+		$stmt->execute();
+		$kampf_teilnehmer_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($debug) echo "<br />\nKampfteilnehmer " . $kampf_teilnehmer->name . " (id=" . $kampf_teilnehmer_id . ") wurde hinzugefügt.<br />\n";
+		return $kampf_teilnehmer_id;
+	} else {
+		echo "<br />\nQuerryfehler in insert_kampf_teilnehmer()<br />\n";
+		return false;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #***************************************************************************************************************
@@ -906,7 +1082,7 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 }
 
 
-#----------------------------------- SELECT npc.* (einzel) -----------------------------------
+#----------------------------------- SELECT npc.* (einzel, Kopfdaten) -----------------------------------
 # 	-> npc.id (int)
 #	Array mit npc-Daten [Position]
 #	<- [0] id
@@ -935,6 +1111,55 @@ function get_npc($npc_id)
 		return false;
 	}
 }
+
+
+#----------------------------------- SELECT npc.* (einzel, alle Daten) -----------------------------------
+# 	-> npc.id (int)
+#	Array mit npc-Daten [Position]
+#	<- [0] id
+#	<- [1] bilder_id
+#	<- [2] element_id
+#	<- [3] titel
+#	<- [4] familie
+#	<- [5] staerke
+#	<- [6] intelligenz
+#	<- [7] magie
+#	<- [8] element_feuer
+#	<- [9] element_wasser
+#	<- [10] element_erde
+#	<- [11] element_luft
+#	<- [12] gesundheit
+#	<- [13] energie
+#	<- [14] zauberpunkte
+#	<- [15] initiative
+#	<- [16] abwehr
+#	<- [17] ausweichen
+#	<- [18] beschreibung
+#	<- [19] typ
+
+function get_npc_alldata($npc_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	npc.*
+			FROM 	npc
+			WHERE 	npc.id = ?"))
+	{
+		$stmt->bind_param('d', $npc_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		return $row;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_alldata()<br />\n";
+		return false;
+	}
+}
+
+
 
 
 #***************************************************************************************************************
@@ -1006,9 +1231,14 @@ function get_spieler_login($login)
 #	<- [15] gesundheit, 
 #	<- [16] max_gesundheit, 
 #	<- [17] energie, 
-#	<- [18] max_energie, 
-#	<- [19] balance,
-#	<- [20] zuletzt_gespielt
+#	<- [18] max_energie,
+#	<- [19] zauberpunkte,
+#	<- [20] max_zauberpunkte,
+#	<- [21] balance,
+#	<- [22] initiative,
+#	<- [23] abwehr,
+#	<- [24] ausweichen,
+#	<- [25] zuletzt_gespielt
 
 function get_spieler($spieler_id)
 {
@@ -1064,42 +1294,51 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 				element_luft, 
 				gesundheit, 
 				max_gesundheit, 
-				energie, 
-				max_energie, 
-				balance) 
-			VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)")){
-		if (! $account_id = get_account_id($login))
-		{
+				energie,
+				max_energie,
+				zauberpunkte,
+				max_zauberpunkte,
+				balance,
+				initiative,
+				abwehr,
+				ausweichen) 
+			VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 100, 10, 10)")){
+		$spieler = new Spieler();
+		if ($account_id = get_account_id($login)){
+			$spieler->account_id = $account_id;
+		} else {
 			echo "<br />\nLogin nicht gefunden<br />\n";
 			return false;
 		}
-		if (! $gebiet_id = get_gebiet_id($gebiet))
-		{
+		if ($gebiet_id = get_gebiet_id($gebiet)){
+			$spieler->gebiet_id = $gebiet_id;
+		} else {
 			echo "<br />\nGebiet nicht gefunden<br />\n";
 			return false;
 		}
 		if ($gattung_data = get_start_gattung($gattung)){
-			$gattung_id = $gattung_data[0];
-			$start_staerke = $gattung_data[1];
-			$start_intelligenz = $gattung_data[2];
-			$start_magie = $gattung_data[3];
-			$start_element_feuer = $gattung_data[4];
-			$start_element_wasser = $gattung_data[5];
-			$start_element_erde = $gattung_data[6];
-			$start_element_luft = $gattung_data[7];
+			$spieler->gattung_id = $gattung_data[0];
+			$spieler->staerke = $gattung_data[1];
+			$spieler->intelligenz = $gattung_data[2];
+			$spieler->magie = $gattung_data[3];
+			$spieler->element_feuer = $gattung_data[4];
+			$spieler->element_wasser = $gattung_data[5];
+			$spieler->element_erde = $gattung_data[6];
+			$spieler->element_luft = $gattung_data[7];
 		}
 		else{
 			echo "<br />\nGattung nicht gefunden<br />\n";
 			return false;
 		}
-		$max_gesundheit = berechne_max_gesundheit($start_staerke, $start_intelligenz, $start_magie);
-		$max_energie = berechne_max_energie($start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft);
+		$spieler->max_gesundheit = berechne_max_gesundheit($spieler);
+		$spieler->max_energie = berechne_max_energie($spieler);
+		$spieler->max_zauberpunkte = berechne_max_zauberpunkte($spieler);
 		
-		$bilder_id = get_bild_zu_gattung_level($gattung_id, 1);
+		$spieler->bilder_id = get_bild_zu_gattung_level($spieler->gattung_id, 1);
 		
-		$stmt->bind_param('ddddssddddddddddd', $account_id, $bilder_id, $gattung_id, $gebiet_id, $name, $geschlecht, $start_staerke, $start_intelligenz, $start_magie, $start_element_feuer, $start_element_wasser, $start_element_erde, $start_element_luft, $max_gesundheit, $max_gesundheit, $max_energie, $max_energie);
+		$stmt->bind_param('ddddssddddddddddddd', $spieler->account_id, $spieler->bilder_id, $spieler->gattung_id, $spieler->gebiet_id, $name, $geschlecht, $spieler->staerke, $spieler->intelligenz, $spieler->magie, $spieler->element_feuer, $spieler->element_wasser, $spieler->element_erde, $spieler->element_luft, $spieler->max_gesundheit, $spieler->max_gesundheit, $spieler->max_energie, $spieler->max_energie, $spieler->max_zauberpunkte, $spieler->max_zauberpunkte);
 		$stmt->execute();
-		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $account_id . " | " . $name . " | " . $geschlecht . " | " . $gattung . " | " . $gebiet . "]<br />\n";
+		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $spieler->account_id . " | " . $name . " | " . $geschlecht . " | " . $gattung . " | " . $gebiet . "]<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {

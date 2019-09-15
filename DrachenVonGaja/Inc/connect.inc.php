@@ -1,7 +1,7 @@
 <?php
 
 # Testumgebung auf bei Bedarf auf localhost
-$umgebung_localhost = true;
+$umgebung_localhost = false;
 
 $debug = false;
 $debug_connection = false;
@@ -51,25 +51,5 @@ function close_connection($connection)
 	if ($debug_connection)  echo "Verbindung zur Datenbank getrennt ... <br />\n";
 	return true;
 }
-
-
-
-
-
-/*
-$default_host = "localhost";
-$default_user = "dragons";
-$default_pswd = "ti19nahend88rik";
-$default_db = "db_dvg";
-
-$host = "localhost";
-$user ="1t9i8na8";
-$pswd ="d04m08k19u97b";
-$db = "browsergame";
-
-$conn = mysql_connect($host, $user, $pswd) or die ("Verbindung zum Server fehlgeschlagen !");
-
-mysql_select_db($db, $conn) or die("Verbindung zur Datenbank fehlgeschlagen !");
-*/
 
 ?>

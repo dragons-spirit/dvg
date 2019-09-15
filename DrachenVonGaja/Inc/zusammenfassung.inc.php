@@ -206,24 +206,26 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 					<td>Aktueller Ort</td>
                     <td>LÖSCHEN</td>
 				</tr>
-<?php			
+<?php		
+			$spieler = new LoginSpieler();
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
 			{
+				$spieler->set($row);
 				$count = $count + 1;
 ?>			
 				<tr>
 					<td><?php echo $count ?></td>
-					<td><?php echo $row[6] . "<br />\n";?></td>
-                    <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($row[2])); ?>); background-repeat:no-repeat; background-size:contain;">
-						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $row[0];?>">
+					<td><?php echo $spieler->name . "<br />\n";?></td>
+                    <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
+						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $spieler->id;?>">
 					</td>
-					<td><?php echo $row[3] . "<br />\n"; ?></td>
-					<td><?php echo $row[7] . "<br />\n"; ?></td>
-					<td><?php echo $row[4] . "<br />\n"; ?></td>
-					<td><?php echo $row[5] . "<br />\n"; ?></td>
+					<td><?php echo $spieler->gattung . "<br />\n"; ?></td>
+					<td><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
+					<td><?php echo $spieler->level_id . "<br />\n"; ?></td>
+					<td><?php echo $spieler->startgebiet . "<br />\n"; ?></td>
                     <td align="center">
-						<input type="button" id="<?php echo 'b_sp_loe_' . $row[0] . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
-						<input type="submit" id="<?php echo 'b_sp_loe_' . $row[0] . '_2' ?>" name="button_spielerloeschen_endgueltig" value="<?php echo $row[0]; ?>" style="visibility:hidden;">
+						<input type="button" id="<?php echo 'b_sp_loe_' . $spieler->id . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
+						<input type="submit" id="<?php echo 'b_sp_loe_' . $spieler->id . '_2' ?>" name="button_spielerloeschen_endgueltig" value="<?php echo $spieler->id; ?>" style="visibility:hidden;">
 					</td>
 				</tr>
 <?php
@@ -376,11 +378,11 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 	}
 
 	if(isset($_POST["button_dschungel"])) $_SESSION['startgebiet'] = "Dschungel";
-	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Kristallhoehle";
+	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Kristallhöhle";
 	if(isset($_POST["button_eissee"])) $_SESSION['startgebiet'] = "Eissee";
 	if(isset($_POST["button_sumpf"])) $_SESSION['startgebiet'] = "Sumpf";
 	if(isset($_POST["button_vulkan"])) $_SESSION['startgebiet'] = "Vulkan";
-	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wueste";
+	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wüste";
     if(isset($_POST["button_klippe"])) $_SESSION['startgebiet'] = "Klippe";
 	if(isset($_POST["button_mammutbaum"])) $_SESSION['startgebiet'] = "Mammutbaum"; 
 

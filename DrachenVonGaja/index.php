@@ -49,6 +49,7 @@
 			<div id="anmeldung" style="overflow-y: auto;">
 
 <?php
+		include("Inc/klassen.php");
 		include("Inc/db_funktionen.php");
 		include("Inc/zusammenfassung.inc.php");
 		close_connection($connect_db_dvg);

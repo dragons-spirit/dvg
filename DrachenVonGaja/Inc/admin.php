@@ -162,7 +162,7 @@
 									$i_max = count($row) - 1;
 									while($i <= $i_max)
 									{
-										if($i<5 or $i>13){
+										if($i<5 or $i>17){
 											?>
 											<td><?php echo $row[$i]; ?></td>
 											<?php
@@ -594,8 +594,24 @@
 				<td><input id="allg_info_eingabe" type="input" name="npc_energie" value="<?php if($row) echo $row[13]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
+				<td>Zauberpunnkte</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_zauberpunkte" value="<?php if($row) echo $row[14]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Initiative</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_initiative" value="<?php if($row) echo $row[15]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Abwehr</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_abwehr" value="<?php if($row) echo $row[16]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Ausweichen</td>
+				<td><input id="allg_info_eingabe" type="input" name="npc_ausweichen" value="<?php if($row) echo $row[17]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+			</tr>
+			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[14]; ?></textarea></td>
+				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[18]; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>Typ</td>
@@ -608,7 +624,7 @@
 						<?php
 						while($typ = $typen->fetch_array(MYSQLI_NUM))
 						{
-							if($row[15] != $typ[0]){
+							if($row[19] != $typ[0]){
 								echo "<option value='".$typ[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$typ[0]."</option>";
 							} else {
 								echo "<option value='".$typ[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$typ[0]."</option>";
@@ -924,6 +940,14 @@
 				else $daten["npc_gesundheit"] = "1";
 				if($_POST["npc_energie"] != "") $daten["npc_energie"] = $_POST["npc_energie"];
 				else $daten["npc_energie"] = "1";
+				if($_POST["npc_zauberpunkte"] != "") $daten["npc_zauberpunkte"] = $_POST["npc_zauberpunkte"];
+				else $daten["npc_zauberpunkte"] = "1";
+				if($_POST["npc_initiative"] != "") $daten["npc_initiative"] = $_POST["npc_initiative"];
+				else $daten["npc_initiative"] = "100";
+				if($_POST["npc_abwehr"] != "") $daten["npc_abwehr"] = $_POST["npc_abwehr"];
+				else $daten["npc_abwehr"] = "10";
+				if($_POST["npc_ausweichen"] != "") $daten["npc_ausweichen"] = $_POST["npc_ausweichen"];
+				else $daten["npc_ausweichen"] = "10";
 				if($_POST["npc_beschreibung"] != "") $daten["npc_beschreibung"] = $_POST["npc_beschreibung"];
 				else $daten["npc_beschreibung"] = "---ohne---";
 				$daten["npc_typ"] = $_POST["npc_typ"];
