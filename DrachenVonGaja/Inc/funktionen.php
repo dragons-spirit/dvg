@@ -25,7 +25,7 @@ function time_to_timestamp($time_unix){
 
 # Wahrscheinlichkeitsberechnung
 function check_wkt($wkt){
-	$zufall = rand(1,100);
+	$zufall = mt_rand(1,100);
 	return ($zufall <= $wkt);
 }
 
@@ -74,6 +74,8 @@ function pfad_fuer_style($pfad){
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
+
+$anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
 
 
 # Maximale Gesundheit
@@ -317,10 +319,15 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
 
 
 # Aufbau der Seite für Elementbäume
-function elemente_anzeigen($hauptelement, $hintergrundfarbe){
+function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 	?><div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
+		<input type="hidden" id="button_name_id" name="anzeige_element">
 		<table>
 			<?php
+			if (isset($_POST["button_zauber"])){
+				switch_zauber_spieler($spieler->id, $_POST["button_zauber"]);
+			}			
+			$alle_zauber = get_zauber_von_objekt($spieler);
 			# Für Tabellenstruktur Anzeigedaten nacheinander abholen
 			# 1. Alle veschiedenen Zauberarten zum gewählten Element (Schaden, Heilung, usw. )
 			$zauberarten = get_zauberarten_zu_hauptelement($hauptelement);
@@ -348,10 +355,17 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe){
 										$zauber_titel = $row[2];
 										$zauber_beschreibung = $row[5];
 										$zauber_bilder_id = $row[1];
+										$inaktiv = true;
+										foreach ($alle_zauber as $z){
+											if ($z->id == $zauber_id){
+												$inaktiv = false;
+												break;
+											}
+										}
 										?>
-										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain;" align="left">
+										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain; <?php if($inaktiv) echo "border:3px red solid;"; else echo "border:3px green solid;";?>" align="left">
 											<span title="<?php echo $zauber_titel ?>" >
-												<input type="button" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
+												<input onclick="set_button('<?php echo $hauptelement ?>', 'egal')" type="submit" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
 											</span>
 										</td>
 										<?php
@@ -539,7 +553,7 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe){
 	/* Setzt einen Button ohne dass dieser gedrückt wurde */
 	function set_button(button_name, button_value="") {
 		document.getElementById("button_name_id").value=button_name;
-		document.getElementById("button_value_id").value=button_value;
+		if(button_value != "egal") document.getElementById("button_value_id").value=button_value;
 	}
 	
 	/* Setzt Werte zur Weitergabe an POST und lädt Seite (dvg_admin) neu */
@@ -558,8 +572,8 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe){
 	}
 
 	/* Bestimme Position eines Elements */
-	function getPosition(elementId) {
-		var elem=document.getElementById(elementId), tagname="", tagid="", top=0, left=0;
+	function getPosition(elem) {
+		var tagname="", tagid="", top=0, left=0;
 		while ((typeof(elem)=="object")&&(typeof(elem.tagName)!="undefined")){
 			top+=elem.offsetTop;
 			left+=elem.offsetLeft;
@@ -591,7 +605,5 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe){
 		}
 		return [xmin, xmin+xmax, ymin, ymin+ymax];
 	}
-	
-	
 	
 </script>

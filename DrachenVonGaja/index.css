@@ -339,7 +339,7 @@ display:none;
 
 #erde
 {
-	background:url(././Bilder/erdelemente.png);
+	background:url(./Bilder/erdelemente.png);
 	background-repeat:no-repeat;
 	background-size:100%;
 }
@@ -361,6 +361,12 @@ display:none;
 #luft
 {
 	background:url(./Bilder/luftelemente.png);
+	background-repeat:no-repeat;
+	background-size:100%;
+}
+#kampf_standard
+{
+	background:url(./Bilder/drachenkampf.png);
 	background-repeat:no-repeat;
 	background-size:100%;
 }

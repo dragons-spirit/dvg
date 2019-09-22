@@ -7,20 +7,20 @@
 	$kampf_id = $aktion_spieler->any_id_1;
 	$neue_aktion = false;
 	$kampf_anzeigen = false;
+	$kampf_vorbei = false;
 	
 	if ($aktion_spieler->titel == "kampf"){
 		$kt_0 = get_all_kampf_teilnehmer($kampf_id, 0);
 		$kt_1 = get_all_kampf_teilnehmer($kampf_id, 1);
 		$kt_all = array_merge($kt_0, $kt_1);
+		# Kampf vorbei?
+		if (ist_kampf_beendet($kt_all) < 2) $kampf_vorbei = true;
 	}
 	
-	/* Kampf laufend? */
+	# Kampf laufend?
 	if ($aktion_spieler->titel == "kampf" OR isset($_POST["button_kampf"])) $im_kampf = true;
 		else $im_kampf = false;
 	
-	/* Kampf vorbei? */
-	if (ist_kampf_beendet($kt_all) < 2) $kampf_vorbei = true;
-		else $kampf_vorbei = false;
 
 ########################################################################
 # Ausführung von Angriffen / Zaubern -> Aktualisierung Kampfteilnehmer #
@@ -41,6 +41,7 @@
 				}
 			}
 			$temp = insert_kampf_aktion($kampf_id, $kt_zaubert, $kt_ziel, $zauber);
+			echo $temp[2] . "<br>";
 			# Wenn kein Fehler dann neue Aktion und nachfolgende Kampfrunden (NPCs)
 			if ($temp AND !$temp[1]){
 				$neue_aktion = true;
@@ -51,15 +52,25 @@
 			# Positive Effekte für Spieler ausführen
 			kampf_effekte_ausführen($kt_zaubert, "verteidigung");
 			
+			# ---> Kampfeffekte für alle NPC ausführen, falls neue Aktionen für diese vorhanden. Dabei neues Flag "ausgeführt" beachten und setzen.
+			foreach ($kt_all as $kt){
+				if ($kt_zaubert->kt_id != $kt->kt_id){
+					kampf_effekte_ausführen($kt, "angriff", false);
+				}
+			}
+			
 			# Nächsten Kampfteilnehmer bestimmen
 			while ($kt = naechster_kt($kt_all) AND $kt->seite != 0){
 				# Negative Effekte für Nicht-Spieler ausführen
+				# ---> Alle Kampfeffekte ausführen, die noch nicht "ausgeführt" wurden und anschließend bei allen Kampfeffekte zum KT "ausgeführt" wieder auf false setzen.
 				kampf_effekte_ausführen($kt, "angriff");
+				
 				
 				##############################################
 				########## HIER MUSS DIE NPC-KI HIN ##########
 				##############################################
 				$temp = insert_kampf_aktion($kampf_id, $kt, $kt_zaubert, get_zauber(77));
+				echo $temp[2] . "<br>";
 				if ($temp == null OR $temp[1]) break;
 			
 				# Positive Effekte für Nicht-Spieler ausführen
@@ -82,7 +93,7 @@
 # Anzeige/Aufbau Kampfumgebung #
 ################################
 	
-	if ($im_kampf AND !$kampf_vorbei){
+	if ($im_kampf){ #  AND !$kampf_vorbei
 		$count=0;
 		$counter_0=0;
 		$counter_1=0;
@@ -114,17 +125,30 @@
 						</div>
 						<table style="border-collapse:collapse;" width="100%">
 							<tr>
-								<td align="left" style="border-bottom:1px solid white; height:70px;">
+								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
 									<?php
-									if ($alle_zauber = get_zauber_von_kampfteilnehmer($kt)){
+									if ($alle_zauber = get_zauber_von_objekt($kt)){
 										foreach ($alle_zauber as $zauber){
+											$inaktiv = ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber))
 											?>
-											<span title="<?php echo $zauber->titel ?>" >
-												<img id="<?php echo "elemente_top_".$count ?>" src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" alt="<?php echo $zauber->titel ?>" />
+											<span title="<?php echo $zauber->titel ?>">
+												<img id="<?php echo "zauber_img_#".$count ?>" 
+													src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+													alt="<?php echo $zauber->titel ?>" 
+													<?php
+													if($inaktiv){
+														echo "style='border:1px red solid;'";
+													} else {
+														echo "style='border:1px green solid;'";
+													}?>/>
 											</span>
-											<div onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
-											</div>
+											<?php 
+											if(!$inaktiv){ 
+												?>
+												<div id="<?php echo "zauber_div_#".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
+												</div>
 											<?php
+											}
 											$count+=1;
 										}
 									}
@@ -158,17 +182,30 @@
 						</div>
 						<table style="border-collapse:collapse;" width="100%">
 							<tr>
-								<td align="left" style="border-bottom:1px solid white; height:70px;">
+								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
 									<?php
-									if ($alle_zauber = get_zauber_von_kampfteilnehmer($kt)){
+									if ($anzeige_npc_zauber AND $alle_zauber = get_zauber_von_objekt($kt)){
 										foreach ($alle_zauber as $zauber){
+											$inaktiv = ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber))
 											?>
-											<span title="<?php echo $zauber->titel ?>" >
-												<img id="<?php echo "elemente_top_".$count ?>" src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" alt="<?php echo $zauber->titel ?>" />
+											<span title="<?php echo $zauber->titel ?>">
+												<img id="<?php echo "zauber_img_#".$count ?>" 
+													src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+													alt="<?php echo $zauber->titel ?>" 
+													<?php
+													if($inaktiv){
+														echo "style='border:1px red solid;'";
+													} else {
+														echo "style='border:1px green solid;'";
+													}?>/>
 											</span>
-											<div onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
-											</div>
+											<?php 
+											if(!$inaktiv){ 
+												?>
+												<div id="<?php echo "zauber_div_##".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
+												</div>
 											<?php
+											}
 											$count+=1;
 										}
 									}
@@ -184,14 +221,26 @@
 			</tr>
 		</table>
 		
+		<input type="submit" style="visibility: hidden;">
+		<input type="hidden" id="kt_id_value" name="kt_id_value">
+		<input type="hidden" id="kt_id_ziel_value" name="kt_id_ziel_value">
+		<input type="hidden" id="zauber_id_value" name="zauber_id_value">
+		
 		<script type="text/javascript"> 
 			var x = document.getElementsByClassName("zauberdiv");
-			var i, f;
+			var i, j, f, rahmen_top=1, rahmen_left=1;
 			for (i = 0; i < x.length; i++) {
-			  f = getPosition("elemente_top_"+i);
-			  x[i].style.top = f[0];
-			  x[i].style.left = f[1];
-			  x[i].style.display = "block";
+				if (x[i].id.split("#")[1] != ""){
+					j = x[i].id.split("#")[1];
+				} else {
+					j = x[i].id.split("#")[2];
+					rahmen_top = 1;
+					rahmen_left = 2;
+				}
+				f = getPosition(document.getElementById("zauber_img_#"+j));
+				x[i].style.top = f[0]+rahmen_top;
+				x[i].style.left = f[1]+rahmen_left;
+				x[i].style.display = "block";
 			}
 		</script>
 		<?php
@@ -220,12 +269,11 @@
 			<input type="submit" name="aktion_abgeschlossen" value="Kampf beenden" style="width: 200px;"/>
 			<?php
 		}
-	?>
+		?>
+		<p align="center" style="padding-top:10pt;">
+			<input type="submit" name="zurueck" value="zurück">
+		</p>
 	</p>
-	<input type="submit" style="visibility: hidden;">
-	<input type="hidden" id="kt_id_value" name="kt_id_value">
-	<input type="hidden" id="kt_id_ziel_value" name="kt_id_ziel_value">
-	<input type="hidden" id="zauber_id_value" name="zauber_id_value">
 </div>
 
 

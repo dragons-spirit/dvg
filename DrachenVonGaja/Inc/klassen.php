@@ -355,6 +355,13 @@ class KampfTeilnehmer {
 		echo "Ausweichen : " . $this->ausweichen . "<br>";
 		echo "Timer : " . $this->timer . "<br>";
 	}
+	
+	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
+	public function attribut_aendern($attribut, $wert, $min=-9999999, $max=9999999){
+		$this->$attribut = $this->$attribut + $wert;
+		if ($this->$attribut < $min) $this->$attribut = $min;
+		if ($this->$attribut > $max) $this->$attribut = $max;
+	}
 }
 
 
@@ -400,6 +407,33 @@ class KampfZauberEffekt {
 		$this->wert = $ds[4];
 		$this->runden = $ds[5];
 		$this->jede_runde = $ds[6];
+	}
+}
+
+
+class KampfEffekt {
+	public $id;
+	public $zauber_name;
+	public $art;
+	public $attribut;
+	public $wert;
+	public $runden;
+	public $runden_max;
+	public $jede_runde;
+	public $ausgefuehrt;
+	public $beendet;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->zauber_name = $ds[1];
+		$this->art = $ds[2];
+		$this->attribut = $ds[3];
+		$this->wert = $ds[4];
+		$this->runden = $ds[5];
+		$this->runden_max = $ds[6];
+		$this->jede_runde = $ds[7];
+		$this->ausgefuehrt = $ds[8];
+		$this->beendet = $ds[9];
 	}
 }
 

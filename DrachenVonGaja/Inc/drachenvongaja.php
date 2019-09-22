@@ -237,10 +237,13 @@
 								#################################################################
 								case "Kampf":
 									if ($_POST["aktion_abgeschlossen"] == "Kampf beenden"){
+										$kampf_id = $aktion_spieler->any_id_1;
 										update_aktion_spieler($spieler->id, $aktion_spieler->titel);
+										$kt_0 = get_all_kampf_teilnehmer($kampf_id, 0);
+										$kt_1 = get_all_kampf_teilnehmer($kampf_id, 1);
 										$gewinner_seite = ist_kampf_beendet(array_merge($kt_0, $kt_1));
 										if ($gewinner_seite == 0){
-											$npc_ids = get_all_npcs_kampf($aktion_spieler->any_id_1);
+											$npc_ids = get_all_npcs_kampf($kampf_id);
 											foreach ($npc_ids as $npc_id){
 												zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
 												echo "<br>";
@@ -274,24 +277,28 @@
 						} else {
 							# Elementebuttons auswerten Parameter zur Anzeige übergeben
 							$elementebutton = 0;
-							if(isset($_POST["button_erde"])){
-								elemente_anzeigen("Erde","3B170B");
+							if(isset($_POST["button_erde"]) OR (isset($_POST["anzeige_element"])) AND $_POST["anzeige_element"] == "Erde"){
+								elemente_anzeigen("Erde","3B170B", $spieler);
 								$elementebutton = true;
 							}
-							if(isset($_POST["button_wasser"])){
-								elemente_anzeigen("Wasser","0B2161");
+							if(isset($_POST["button_wasser"]) OR (isset($_POST["anzeige_element"])) AND $_POST["anzeige_element"] == "Wasser"){
+								elemente_anzeigen("Wasser","0B2161", $spieler);
 								$elementebutton = true;
 							}
-							if(isset($_POST["button_feuer"])){
-								elemente_anzeigen("Feuer","3B0B0B");
+							if(isset($_POST["button_feuer"]) OR (isset($_POST["anzeige_element"])) AND $_POST["anzeige_element"] == "Feuer"){
+								elemente_anzeigen("Feuer","3B0B0B", $spieler);
 								$elementebutton = true;
 							}
-							if(isset($_POST["button_luft"])){
-								elemente_anzeigen("Luft","088A85");
+							if(isset($_POST["button_luft"]) OR (isset($_POST["anzeige_element"])) AND $_POST["anzeige_element"] == "Luft"){
+								elemente_anzeigen("Luft","088A85", $spieler);
+								$elementebutton = true;
+							}
+							if(isset($_POST["button_kampf_standard"]) OR (isset($_POST["anzeige_element"])) AND $_POST["anzeige_element"] == "---ohne---"){
+								elemente_anzeigen("---ohne---","556B2F", $spieler);
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR isset($_POST["kt_id_value"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0));
 							
 							######################
 							# Start von Aktionen #
@@ -358,7 +365,7 @@
 								if(isset($_POST["button_tagebuch"])){
 									include('quest.inc.php');
 								}
-								if(isset($_POST["button_drachenkampf"]) OR isset($_POST["button_kampf"]) OR isset($_POST["kt_id_value"])){
+								if(isset($_POST["button_drachenkampf"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0)){
 									include('drachenkampf.inc.php');
 								}
 								if(isset($_POST["button_handwerk"])){
@@ -406,11 +413,12 @@
 						<div id="wasser"><input id="menu2_button_gross" type="submit" name="button_wasser" value="Wasserelemente"></div>
 						<div id="feuer"><input id="menu2_button_gross" type="submit" name="button_feuer" value="Feuerelemente"></div>
 						<div id="luft"><input id="menu2_button_gross" type="submit" name="button_luft" value="Luftelemente"></div>
+						<div id="kampf_standard"><input id="menu2_button_gross" type="submit" name="button_kampf_standard" value="Standardangriffe"></div>
 					</div>
 					
 					<div id="spielmenü_1">
 						<?php	
-						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"])){
+						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"]) OR isset($_POST["button_kampf_standard"]) OR isset($_POST["anzeige_element"])){
 							?>
 							<script>sichtbar_elemente("menü");</script>
 							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="0"></div>
