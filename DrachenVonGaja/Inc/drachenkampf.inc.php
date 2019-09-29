@@ -4,14 +4,14 @@
 #######################################
 # Initialisierung Variablen für Kampf #
 #######################################
-	$kampf_id = $aktion_spieler->any_id_1;
+	$kampf = select_kampf($aktion_spieler->any_id_1);
 	$neue_aktion = false;
 	$kampf_anzeigen = false;
 	$kampf_vorbei = false;
 	
 	if ($aktion_spieler->titel == "kampf"){
-		$kt_0 = get_all_kampf_teilnehmer($kampf_id, 0);
-		$kt_1 = get_all_kampf_teilnehmer($kampf_id, 1);
+		$kt_0 = get_all_kampf_teilnehmer($kampf->id, 0);
+		$kt_1 = get_all_kampf_teilnehmer($kampf->id, 1);
 		$kt_all = array_merge($kt_0, $kt_1);
 		# Kampf vorbei?
 		if (ist_kampf_beendet($kt_all) < 2) $kampf_vorbei = true;
@@ -26,7 +26,7 @@
 # Ausführung von Angriffen / Zaubern -> Aktualisierung Kampfteilnehmer #
 ########################################################################
 
-	if ($im_kampf){
+	if ($im_kampf AND !$kampf_vorbei){
 		# Spieleraktion verarbeiten
 		if (isset($_POST["kt_id_ziel_value"]) AND $_POST["kt_id_ziel_value"] > 0){
 			$kt_zaubert = false;
@@ -40,8 +40,8 @@
 					$kt_ziel = $kt;
 				}
 			}
-			$temp = insert_kampf_aktion($kampf_id, $kt_zaubert, $kt_ziel, $zauber);
-			echo $temp[2] . "<br>";
+			$temp = insert_kampf_aktion($kampf->id, $kt_zaubert, $kt_ziel, $zauber);
+			$kampf->log = $temp[2] . "<br>" . $kampf->log;
 			# Wenn kein Fehler dann neue Aktion und nachfolgende Kampfrunden (NPCs)
 			if ($temp AND !$temp[1]){
 				$neue_aktion = true;
@@ -52,9 +52,9 @@
 			# Positive Effekte für Spieler ausführen
 			kampf_effekte_ausführen($kt_zaubert, "verteidigung");
 			
-			# ---> Kampfeffekte für alle NPC ausführen, falls neue Aktionen für diese vorhanden. Dabei neues Flag "ausgeführt" beachten und setzen.
+			# Kampfeffekte für alle NPC ausführen, falls neue Aktionen für diese vorhanden und Effekt als "ausgeführt" kennzeichnen.
 			foreach ($kt_all as $kt){
-				if ($kt_zaubert->kt_id != $kt->kt_id){
+				if ($kt_zaubert->kt_id != $kt->kt_id AND !$kt->ist_tot()){
 					kampf_effekte_ausführen($kt, "angriff", false);
 				}
 			}
@@ -62,27 +62,47 @@
 			# Nächsten Kampfteilnehmer bestimmen
 			while ($kt = naechster_kt($kt_all) AND $kt->seite != 0){
 				# Negative Effekte für Nicht-Spieler ausführen
-				# ---> Alle Kampfeffekte ausführen, die noch nicht "ausgeführt" wurden und anschließend bei allen Kampfeffekte zum KT "ausgeführt" wieder auf false setzen.
+				# Alle Kampfeffekte ausführen, die noch nicht "ausgeführt" wurden und anschließend bei allen Kampfeffekten zum KT "ausgeführt" wieder auf false setzen.
 				kampf_effekte_ausführen($kt, "angriff");
 				
-				
-				##############################################
-				########## HIER MUSS DIE NPC-KI HIN ##########
-				##############################################
-				$temp = insert_kampf_aktion($kampf_id, $kt, $kt_zaubert, get_zauber(77));
-				echo $temp[2] . "<br>";
-				if ($temp == null OR $temp[1]) break;
-			
-				# Positive Effekte für Nicht-Spieler ausführen
-				kampf_effekte_ausführen($kt, "verteidigung");
+				if ($kt->gesundheit > 0){
+					# KI ausführen
+					if ($alle_zauber = get_zauber_von_objekt($kt)){
+						$zauber_und_ziel = ki_ausfuehren($kt, $alle_zauber);
+					} else {
+						$zauber_und_ziel = false;
+						echo $kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
+					}
+					# Mit ermitteltem Angriff/Zauber und Ziel Kampfaktion hinzufügen
+					if ($zauber_und_ziel){
+						$temp = insert_kampf_aktion($kampf->id, $kt, $zauber_und_ziel[1], $zauber_und_ziel[0]);
+						$kampf->log = $temp[2] . "<br>" . $kampf->log;
+					}
+					# Wenn keine Aktion durchgeführt dann Abbruch
+					if ($temp == null OR $temp[1]) break;
+					
+					# Positive Effekte für Nicht-Spieler ausführen
+					kampf_effekte_ausführen($kt, "verteidigung");
+				}
 			}
 			
 			# Negative Effekte für Spieler ausführen
 			kampf_effekte_ausführen($kt, "angriff");
 			
 			# Kampf vorbei?
-			if (ist_kampf_beendet($kt_all) < 2) $kampf_vorbei = true;
-				else $kampf_vorbei = false;
+			$gewinner_seite = ist_kampf_beendet($kt_all);
+			switch($gewinner_seite){
+				case 0:
+					$kampf_vorbei = true;
+					$kampf->log = "<font color='green'>Gewonnen</font><br>" . $kampf->log;
+					break;
+				case 1:
+					$kampf_vorbei = true;
+					$kampf->log = "<font color='red'>Verloren</font><br>" . $kampf->log;
+					break;
+				default:
+					break;
+			}
 			
 			# Aktualisierte Daten der Kampfteilnehmer in Datenbank zurückschreiben
 			update_kampf_teilnehmer($kt_all);
@@ -118,7 +138,7 @@
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf(); ?>
+										<?php $kt->ausgabe_kampf($kampf_details); ?>
 									</td>
 								</tr>
 							</table>
@@ -175,7 +195,7 @@
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf(); ?>
+										<?php $kt->ausgabe_kampf($kampf_details); ?>
 									</td>
 								</tr>
 							</table>
@@ -260,7 +280,15 @@
 ######################################
 
 ?>
-<div id="kampf_log" style="width:100%;height:10%;">
+<div id="kampf_log">
+	<p align="left" style="padding-top:5pt;">
+		<?php
+		update_kampf($kampf);
+		echo $kampf->log;
+		?>
+	</p>
+</div>
+<div id="kampf_menue">
 	<p align="center" style="padding-top:5pt;">
 		<?php
 		/* ToDo: Auswertung ob Kampf vorbei ist */

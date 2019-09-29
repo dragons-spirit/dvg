@@ -925,6 +925,57 @@ function insert_kampf($gebiet_id=null)
 }
 
 
+#--------------------------------------------- SELECT kampf.* ---------------------------------------------
+# 	-> kampf.id (int)
+#	<- Kampf (obj)
+
+function select_kampf($kampf_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT *
+			FROM kampf
+			WHERE id = ?;")){
+		$stmt->bind_param('d', $kampf_id);
+		$stmt->execute();
+		$kampf_row = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+		$kampf = new Kampf($kampf_row);
+		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $gebiet_id . "] wurde geladen.<br />\n";
+		return $kampf;
+	} else {
+		echo "<br />\nQuerryfehler in select_kampf()<br />\n";
+		return false;
+	}
+}
+
+
+#--------------------------------------------- UPDATE kampf.* ---------------------------------------------
+# 	-> Kampf (obj)
+#	<- true/false
+
+function update_kampf($kampf)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE kampf
+			SET gebiet_id = ?,
+				log = ?
+			WHERE id = ?;")){
+		$stmt->bind_param('dsd', $kampf->gebiet_id, $kampf->log, $kampf->id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] wurde in Datenbank aktualisiert.<br />\n";
+		return true;
+	} else {
+		echo "<br />\nQuerryfehler in update_kampf()<br />\n";
+		return false;
+	}
+}
+
+
 #---------------------------------------- INSERT kampf_aktion.* UND kampf_effekt.*----------------------------------------
 # 	-> kampf.id (int)
 # 	-> kampf_teilnehmer (obj)
@@ -943,12 +994,22 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	
 	$return_wert = false;
 	$keine_abwehr = false;
+	if ($kt->kt_id == $kt_ziel->kt_id) $ziel_name = "sich selbst";
+		else $ziel_name = $kt_ziel->name;
+	$zauberpunkte_verbrauch = berechne_zauberpunkte_verbrauch($zauber);
+	$timer_verbrauch = berechne_timer_verbrauch($kt);
+	if ($zauberpunkte_verbrauch > 0) $ist_zauber = true;
+		else $ist_zauber = false;
 	
 	$alle_zauber_effekte = get_zauber_effekte($zauber->id);
 	foreach ($alle_zauber_effekte as $zauber_effekt){
 		# Ist der Angriff/Zauber sinnvoll?
-		if (($kt->seite != $kt_ziel->seite AND $zauber_effekt->art == "verteidigung") OR ($kt->seite == $kt_ziel->seite AND $zauber_effekt->art == "angriff")){
-			$return_wert = [0, true, "Angriffs-/Zauberziel ist nicht plausibel."];
+		if (($kt->seite != $kt_ziel->seite AND $zauber_effekt->art == "verteidigung") OR ($kt->seite == $kt_ziel->seite AND $zauber_effekt->art == "angriff") OR $kt_ziel->ist_tot()){
+			if ($ist_zauber) $ausgabe = $kt->name." will den Zauber ".$zauber->titel." auf ".$ziel_name." anwenden und stellt dabei fest, ";
+				else $ausgabe = $kt->name." will ".$ziel_name." mit ".$zauber->titel." angreifen und stellt dabei fest, ";
+			if ($kt_ziel->ist_tot()) $ausgabe = $ausgabe . "dass das Ziel bereits tot ist.";
+				else $ausgabe = $ausgabe . "dass das ziemlich dämlich wäre.";
+			$return_wert = [0, true, $ausgabe];
 		}
 		# Muss ein Zauber abgewehrt werden? (Ziel = Verbündeter)
 		if ($zauber_effekt->art == "verteidigung"){
@@ -966,18 +1027,20 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			$ausweichen_erfolg = berechne_ausweichen_erfolg($kt_ziel);
 			$abwehr_erfolg = berechne_abwehr_erfolg($kt_ziel);
 		}
-		$zauberpunkte_verbrauch = berechne_zauberpunkte_verbrauch($zauber);
-		$timer_verbrauch = berechne_timer_verbrauch($kt);
 		# Sind ausreichend Zauberpunkte vorhanden?
 		if (($kt->zauberpunkte - $zauberpunkte_verbrauch) < 0){
-			$return_wert = [1, true, "Nicht genügend Zauberpunkte"];
+			if ($ist_zauber) $ausgabe = $kt->name." will den Zauber ".$zauber->titel." auf ".$ziel_name." anwenden, verfügt aber nicht über genügend Zauberpunkte. (vorhanden=".$kt->zauberpunkte.", benötigt=".$zauberpunkte_verbrauch.")";
+				else $ausgabe = "Einen Angriff mit Zauberpunkteverbrauch dürfte es nicht geben.";
+			$return_wert = [1, true, $ausgabe];
 		}
 	}
 		
 	if (!$return_wert){
 		# War der Angriff erfolgreich?
 		if (!($angriff_erfolg == 1 AND $ausweichen_erfolg == 0 AND $abwehr_erfolg == 0)){
-			$return_wert = [2, false, "Angriff/Zauber war nicht erfolgreich. (Angriff/Zauber=".$angriff_erfolg.", Ausweichen=".$ausweichen_erfolg.", Abwehr=".$abwehr_erfolg.")"];
+			if ($ist_zauber) $ausgabe = $kt->name." versucht vergeblich den Zauber ".$zauber->titel." auf ".$ziel_name." anzuwenden. (Angriff/Zauber=".$angriff_erfolg.", Ausweichen=".$ausweichen_erfolg.", Abwehr=".$abwehr_erfolg.")";
+				else $ausgabe = $kt->name." versucht vergeblich ".$ziel_name." mit ".$zauber->titel." anzugreifen. (Angriff/Zauber=".$angriff_erfolg.", Ausweichen=".$ausweichen_erfolg.", Abwehr=".$abwehr_erfolg.")";
+			$return_wert = [2, false, $ausgabe];
 		}
 		# Eintragen der Aktion in die Datenbank
 		if ($stmt = $connect_db_dvg->prepare("
@@ -1020,7 +1083,6 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	
 	if (!$return_wert){	
 		# Eintragen der Effekte in die Datenbank
-		$alle_zauber_effekte = get_zauber_effekte($zauber->id);
 		foreach ($alle_zauber_effekte as $zauber_effekt){
 			if ($stmt = $connect_db_dvg->prepare("
 					INSERT INTO kampf_effekt(
@@ -1052,7 +1114,9 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 				echo "<br />\nQuerryfehler in insert_kampf_aktion() - kampf_effekt<br />\n";
 			}
 		}
-		$return_wert = [3, false, "Angriff/Zauber war erfolgreich."];
+		if ($ist_zauber) $ausgabe = $kt->name." wendet den Zauber ".$zauber->titel." erfolgreich auf ".$ziel_name." an.";
+			else $ausgabe = $kt->name." greift ".$ziel_name." erfolgreich mit ".$zauber->titel." an.";
+		$return_wert = [3, false, $ausgabe];
 	}
 	return $return_wert;
 }
@@ -1142,10 +1206,13 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 # 	-> kampf.id (int)
 #	<- alle_kampf_teilnehmer (array [kampf_teilnehmer])
 
-function get_all_kampf_teilnehmer($kampf_id, $seite)
+function get_all_kampf_teilnehmer($kampf_id, $seite, $lebendig=false)
 {
 	global $debug;
 	global $connect_db_dvg;
+	
+	if ($lebendig) $min_gesundheit = 0;
+		else $min_gesundheit = -1;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
@@ -1169,14 +1236,16 @@ function get_all_kampf_teilnehmer($kampf_id, $seite)
 				kampf_teilnehmer.abwehr AS abwehr,
 				kampf_teilnehmer.ausweichen AS ausweichen,
 				kampf_teilnehmer.timer AS timer,
-				kampf_teilnehmer.id AS kt_id
+				kampf_teilnehmer.id AS kt_id,
+				case when npc.id IS NULL then 0 ELSE npc.ki_id END AS ki_id
 			FROM kampf_teilnehmer
 				LEFT JOIN npc ON npc.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'npc'
 				LEFT JOIN spieler ON spieler.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'spieler'
 			WHERE kampf_teilnehmer.kampf_id = ?
 				AND kampf_teilnehmer.seite = ?
+				AND kampf_teilnehmer.gesundheit >= ?
 			ORDER BY typ DESC, kampf_teilnehmer.id")){
-		$stmt->bind_param('dd', $kampf_id, $seite);
+		$stmt->bind_param('ddd', $kampf_id, $seite, $min_gesundheit);
 		$stmt->execute();
 		$counter = 0;
 		if ($kt_all = $stmt->get_result()){
@@ -1233,6 +1302,7 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 {
 	global $debug;
 	global $connect_db_dvg;
+	global $kampf;
 	
 	# Aktuell relevante KampfEffekte für den Kampfteilnehmer aus DB auslesen
 	if ($stmt = $connect_db_dvg->prepare("
@@ -1279,7 +1349,7 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 			$plus_runden = 0;
 			$set_beendet = 0;
 			
-			if ($kampf_effekt->ausgefuehrt == 0 OR $runden_diff == 0){
+			if (($kampf_effekt->ausgefuehrt == 0 OR $runden_diff == 0) AND !$kt->ist_tot()){
 				switch($kampf_effekt->attribut){
 					# Gesundheit
 					case "gesundheit":
@@ -1287,6 +1357,8 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0, $kt->gesundheit_max);
 						if ($effekt_beenden)
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0, $kt->gesundheit_max);
+						if ($kt->ist_tot())
+							$kampf->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br>" . $kampf->log;
 						break;
 					# Zauberpunkte
 					case "zauberpunkte":
@@ -1352,9 +1424,11 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 				if ($runden_diff > 0) $plus_runden = 1;
 					else $plus_runden = 0;
 				# Kampfeffekt auf beendet setzen
-				if (($kampf_effekt->jede_runde == 1 AND $runden_diff == 1) OR ($kampf_effekt->jede_runde == 0 AND $runden_diff == 0)) $set_beendet = 1;
+				if (($kampf_effekt->jede_runde == 1 AND $runden_diff == 1) OR ($kampf_effekt->jede_runde == 0 AND $runden_diff == 0) OR $kt->ist_tot()) $set_beendet = 1;
 					else $set_beendet = 0;
 			}
+			
+			if ($kt->ist_tot()) $set_beendet = 1;
 				
 			# Wird der Effekt vorzeitig (KT nicht an der Reihe) ausgeführt, dann muss der Parameter gesetzt werden
 			if ($kt_an_der_reihe) $set_ausgefuehrt = 0;
@@ -1432,6 +1506,38 @@ function update_kampf_teilnehmer($kt_all)
 	}
 	if ($debug) echo "<br />\nAlle " . $counter . " Kampfteilnehmer wurden aktualisiert.<br />\n";
 	return $return_wert;
+}
+
+
+
+#**************************************************************************************************************
+#***************************************************** KI *****************************************************
+#**************************************************************************************************************
+
+#----------------------------------------- SELECT ki.* -----------------------------------------
+# 	-> ki.id (int)
+# 	<- ki (obj)
+
+function get_ki($ki_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				ki.*
+			FROM ki
+			WHERE id = ?")){
+		$stmt->bind_param('d', $ki_id);
+		$stmt->execute();
+		$ki_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+		$ki = new KI($ki_data);
+		if ($debug) echo "<br />\nKI '".$ki->name."' wurde geladen.<br />\n";
+		return $ki;
+	} else {
+		echo "<br />\nQuerryfehler in get_ki()<br />\n";
+		return false;
+	}
 }
 
 
@@ -1533,6 +1639,7 @@ function get_npc($npc_id)
 #	<- [17] ausweichen
 #	<- [18] beschreibung
 #	<- [19] typ
+#	<- [20] ki_id
 
 function get_npc_alldata($npc_id)
 {
@@ -1965,7 +2072,8 @@ function get_zauber_von_objekt($obj)
 				zauber.hauptelement_id,
 				zauber.nebenelement_id,
 				zauber.verbrauch,
-				zauber.beschreibung
+				zauber.beschreibung,
+				CASE WHEN zauber_npc.id IS NULL then 100 ELSE zauber_npc.wahrscheinlichkeit END AS wkt
 			FROM zauber
 				LEFT JOIN zauber_spieler ON zauber_spieler.zauber_id = zauber.id AND 'spieler' = ? AND zauber_spieler.spieler_id = ?
 				LEFT JOIN zauber_npc ON zauber_npc.zauber_id = zauber.id AND 'npc' = ? AND zauber_npc.npc_id = ?
@@ -1978,7 +2086,7 @@ function get_zauber_von_objekt($obj)
 		$alle_zauber_zum_kampf_teilnehmer=null;
 		if ($zauber_all = $stmt->get_result()){
 			while($zauber = $zauber_all->fetch_array(MYSQLI_NUM)){
-				$alle_zauber_zum_kampf_teilnehmer[$counter] = new KampfZauber($zauber);
+				$alle_zauber_zum_kampf_teilnehmer[$counter] = new KampfZauber($zauber, get_zauber_effekte($zauber[0]));
 				$counter = $counter + 1;
 			}
 		}
@@ -2010,14 +2118,15 @@ function get_zauber($zauber_id)
 				zauber.hauptelement_id,
 				zauber.nebenelement_id,
 				zauber.verbrauch,
-				zauber.beschreibung
+				zauber.beschreibung,
+				100 AS wkt
 			FROM zauber
 				JOIN zauberart ON zauberart.id = zauber.zauberart_id
 			WHERE zauber.id = ?")){
 		$stmt->bind_param('d', $zauber_id);
 		$stmt->execute();
 		$zauber_row = $stmt->get_result()->fetch_array(MYSQLI_NUM);
-		$zauber = new KampfZauber($zauber_row);
+		$zauber = new KampfZauber($zauber_row, get_zauber_effekte($zauber_id));
 		if ($debug) echo "<br />\nZauber '".$zauber->titel."' wurde geladen.<br />\n";
 		return $zauber;
 	} else {

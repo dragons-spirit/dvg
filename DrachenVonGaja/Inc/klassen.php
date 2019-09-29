@@ -107,6 +107,7 @@ class NPC {
 	public $ausweichen;
 	public $beschreibung;
 	public $typ;
+	public $ki_id;
 
 	public function __construct($ds=null) {
 		if ($ds == null) $this->set_null();
@@ -134,6 +135,7 @@ class NPC {
 		$this->ausweichen = $ds[17];
 		$this->beschreibung = $ds[18];
 		$this->typ = $ds[19];
+		$this->ki_id = $ds[20];
 	}
 	
 	public function set_null() {
@@ -157,6 +159,7 @@ class NPC {
 		$this->ausweichen = 0;
 		$this->beschreibung = "kein NPC gefunden";
 		$this->typ = null;
+		$this->ki_id = 0;
 	}
 }
 
@@ -228,7 +231,8 @@ class KampfTeilnehmer {
 	public $ausweichen;
 	public $timer;
 	public $kt_id;
-	
+	public $ki_id;
+		
 	public function __construct($ds=null, $typ=null, $seite=null) {
 		if ($ds == null AND $typ == null AND $seite == null) $this->set_null();
 		if ($ds != null AND $typ == null AND $seite == null) $this->set($ds);
@@ -260,6 +264,8 @@ class KampfTeilnehmer {
 		$this->ausweichen = $ds->ausweichen;
 		$this->timer = berechne_initiative($ds);
 		$this->kt_id = null;
+		if ($typ == "npc") {$this->ki_id = $ds->ki_id;
+			} else {$this->ki_id = 0;}
 	}
 	
 	# Kampfteilnehmer mit Datensatz aus DB erstellen
@@ -285,6 +291,7 @@ class KampfTeilnehmer {
 		$this->ausweichen = $ds[18];
 		$this->timer = $ds[19];
 		$this->kt_id = $ds[20];
+		$this->ki_id = $ds[21];
 	}
 	
 	# Initialisierung mit NULL
@@ -310,6 +317,7 @@ class KampfTeilnehmer {
 		$this->ausweichen = null;
 		$this->timer = null;
 		$this->kt_id = null;
+		$this->ki_id = null;
 	}
 	
 	public function erhoehe_timer($wert){
@@ -338,22 +346,29 @@ class KampfTeilnehmer {
 		echo "ausweichen : " . $this->ausweichen . "<br>";
 		echo "timer : " . $this->timer . "<br>";
 		echo "kt_id : " . $this->kt_id . "<br>";
+		echo "ki_id : " . $this->ki_id . "<br>";
 	}
 	
-	public function ausgabe_kampf(){
-		echo "Gesundheit : " . $this->gesundheit . "/" . $this->gesundheit_max . "<br>";
-		echo "Zauberpunkte : " . $this->zauberpunkte . "/" . $this->zauberpunkte_max . "<br>";
-		echo "Staerke : " . $this->staerke . "<br>";
-		echo "Intelligenz : " . $this->intelligenz . "<br>";
-		echo "Magie : " . $this->magie . "<br>";
-		echo "Feuer : " . $this->element_feuer . "<br>";
-		echo "Wasser : " . $this->element_wasser . "<br>";
-		echo "Erde : " . $this->element_erde . "<br>";
-		echo "Luft : " . $this->element_luft . "<br>";
-		echo "Initiative : " . $this->initiative . "<br>";
-		echo "Abwehr : " . $this->abwehr . "<br>";
-		echo "Ausweichen : " . $this->ausweichen . "<br>";
-		echo "Timer : " . $this->timer . "<br>";
+	public function ausgabe_kampf($log_detail = 1){
+		if ($log_detail >= 0){
+			echo "Gesundheit : " . $this->gesundheit . "/" . $this->gesundheit_max . "<br>";
+			echo "Zauberpunkte : " . $this->zauberpunkte . "/" . $this->zauberpunkte_max . "<br>";
+		}
+		if ($log_detail >= 1){
+			echo "Initiative : " . $this->initiative . "<br>";
+			echo "Abwehr : " . $this->abwehr . "<br>";
+			echo "Ausweichen : " . $this->ausweichen . "<br>";
+			echo "Timer : " . $this->timer . "<br>";
+		}
+		if ($log_detail >= 2){
+			echo "Staerke : " . $this->staerke . "<br>";
+			echo "Intelligenz : " . $this->intelligenz . "<br>";
+			echo "Magie : " . $this->magie . "<br>";
+			echo "Feuer : " . $this->element_feuer . "<br>";
+			echo "Wasser : " . $this->element_wasser . "<br>";
+			echo "Erde : " . $this->element_erde . "<br>";
+			echo "Luft : " . $this->element_luft . "<br>";
+		}
 	}
 	
 	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
@@ -361,6 +376,12 @@ class KampfTeilnehmer {
 		$this->$attribut = $this->$attribut + $wert;
 		if ($this->$attribut < $min) $this->$attribut = $min;
 		if ($this->$attribut > $max) $this->$attribut = $max;
+	}
+	
+	# Prüft Gesundheit und gibt true oder false zurück
+	public function ist_tot(){
+		if ($this->gesundheit <= 0) return true;
+			else return false;
 	}
 }
 
@@ -375,8 +396,10 @@ class KampfZauber {
 	public $nebenelement_id;
 	public $verbrauch;
 	public $beschreibung;
+	public $wahrscheinlichkeit;
+	public $zaubereffekte;
 
-	public function __construct($ds) {
+	public function __construct($ds, $zaubereffekte) {
 		$this->id = $ds[0];
 		$this->titel = $ds[1];
 		$this->bilder_id = $ds[2];
@@ -386,6 +409,8 @@ class KampfZauber {
 		$this->nebenelement_id = $ds[6];
 		$this->verbrauch = $ds[7];
 		$this->beschreibung = $ds[8];
+		$this->wahrscheinlichkeit = $ds[9];
+		$this->zaubereffekte = $zaubereffekte;
 	}
 }
 
@@ -436,5 +461,31 @@ class KampfEffekt {
 		$this->beendet = $ds[9];
 	}
 }
+
+
+class KI {
+	public $id;
+	public $name;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->name = $ds[1];
+	}
+}
+
+
+class Kampf {
+	public $id;
+	public $gebiet_id;
+	public $log;	
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->gebiet = $ds[1];
+		$this->log = $ds[2];
+	}
+}
+
+
 
 ?>

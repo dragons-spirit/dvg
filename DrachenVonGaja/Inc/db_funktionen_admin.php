@@ -417,6 +417,34 @@ function insertItem($item_daten)
 
 
 #***************************************************************************************************************
+#***************************************************** KI ******************************************************
+#***************************************************************************************************************
+
+#----------------------------------------------- KI-Namen ----------------------------------------------
+#	Array mit KI-Daten [Position]
+#	<- [0] id
+#	<- [1] name
+
+function get_ki_namen()
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	id, name
+			FROM 	ki
+			ORDER BY name")){
+		$stmt->execute();
+		$result = $stmt->get_result();
+		return $result;
+	} else {
+		echo "<br />\nQuerryfehler in get_ki_namen()<br />\n";
+		return false;
+	}
+}
+
+
+#***************************************************************************************************************
 #***************************************************** NPC *****************************************************
 #***************************************************************************************************************
 
@@ -443,6 +471,7 @@ function insertItem($item_daten)
 #	<- [17] ausweichen
 #	<- [18] beschreibung
 #	<- [19] typ
+#	<- [20] ki_id
 
 function get_npc_by_id($npc_id)
 {
@@ -520,6 +549,7 @@ function get_npc_id_by_titel($npc_titel)
 #	<- [17] ausweichen
 #	<- [18] beschreibung
 #	<- [19] typ
+#	<- [20] ki_id
 
 function suche_npcs($titel, $familie, $beschreibung, $typ)
 {
@@ -734,9 +764,10 @@ function updateNPC($npc_daten)
 				abwehr = ?,
 				ausweichen = ?,
 				beschreibung = ?,
-				typ = ?				
+				typ = ?,
+				ki_id = ?
 			WHERE id = ?")){
-		$stmt->bind_param('ssssssssssssssssssss', 
+		$stmt->bind_param('sssssssssssssssssssss', 
 			$npc_daten["npc_bild"], 
 			$npc_daten["npc_element"], 
 			$npc_daten["npc_titel"], 
@@ -755,7 +786,8 @@ function updateNPC($npc_daten)
 			$npc_daten["npc_abwehr"],
 			$npc_daten["npc_ausweichen"],			
 			$npc_daten["npc_beschreibung"], 
-			$npc_daten["npc_typ"], 
+			$npc_daten["npc_typ"],
+			$npc_daten["npc_ki"],
 			$npc_daten["npc_id"]);
 		$stmt->execute();
 		$result = $stmt->affected_rows;
@@ -792,6 +824,7 @@ function updateNPC($npc_daten)
 #	-> [17] ausweichen
 #	-> [18] beschreibung
 #	-> [19] typ
+#	-> [20] ki_id
 #	<- true/false
 
 function insertNPC($npc_daten)
@@ -819,8 +852,9 @@ function insertNPC($npc_daten)
 				abwehr,
 				ausweichen,
 				beschreibung,
-				typ)				
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+				typ,
+				ki_id)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
 		$stmt->bind_param('ssssssssssssssssss', 
 			$npc_daten["npc_bild"], 
 			$npc_daten["npc_element"], 
@@ -840,7 +874,8 @@ function insertNPC($npc_daten)
 			$npc_daten["npc_abwehr"],
 			$npc_daten["npc_ausweichen"],
 			$npc_daten["npc_beschreibung"], 
-			$npc_daten["npc_typ"]);
+			$npc_daten["npc_typ"],
+			$npc_daten["npc_ki"]);
 		$stmt->execute();
 		$result = $stmt->affected_rows;
 		if($result == 1)

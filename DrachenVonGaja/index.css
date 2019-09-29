@@ -242,6 +242,19 @@ display:none;
     transform: translate(-50%, 0%);
 }
 
+#kampf_log
+{
+    width:100%;
+	height:20%;
+	overflow-y: auto;
+}
+
+#kampf_menue
+{
+    width:100%;
+	height:5%;
+}
+
 /* Mitte Rechts */
 #charakter
 {

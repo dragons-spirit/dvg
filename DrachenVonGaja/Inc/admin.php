@@ -639,6 +639,32 @@
 					?>
 				</td>
 			</tr>
+			<tr>
+				<td>KI</td>
+				<td align="top">
+					<?php
+					if($ki_namen = get_ki_namen())
+					{
+						?>
+						<select name="npc_ki">
+						<?php
+						while($ki = $ki_namen->fetch_array(MYSQLI_NUM))
+						{
+							if($row[20] != $ki[0]){
+								echo "<option value='".$ki[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$ki[1]."</option>";
+							} else {
+								echo "<option value='".$ki[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$ki[1]."</option>";
+							}
+						}
+						?>
+						</select>
+						<?php
+					} else {
+						echo "Fehler beim Laden von KIs.";
+					}
+					?>
+				</td>
+			</tr>
 		</table>
 		<br>
 		<?php
@@ -951,6 +977,7 @@
 				if($_POST["npc_beschreibung"] != "") $daten["npc_beschreibung"] = $_POST["npc_beschreibung"];
 				else $daten["npc_beschreibung"] = "---ohne---";
 				$daten["npc_typ"] = $_POST["npc_typ"];
+				$daten["npc_ki"] = $_POST["npc_ki"];
 				return $daten;
 			
 			# NPC-Gebiete und Wahrscheinlichkeiten aus $_POST auslesen und in separates Array schreiben

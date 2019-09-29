@@ -76,6 +76,7 @@ $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
 
 $anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$kampf_details = 0; # Im Kampf angezeigte Parameter (0-2)
 
 
 # Maximale Gesundheit
@@ -152,7 +153,7 @@ function naechster_kt($kt_all){
 	$kt_next = $kt_all[0];
 	$timer_min = $kt_next->timer;
 	foreach ($kt_all as $kt){
-		if ($timer_min > $kt->timer AND $kt->gesundheit > 0){
+		if ($timer_min > $kt->timer AND !$kt->ist_tot()){
 			$kt_next = $kt;
 			$timer_min = $kt->timer;
 		}
@@ -180,6 +181,88 @@ function ist_kampf_beendet($kt_all){
 		$gewinner = 2;
 	}
 	return $gewinner;
+}
+
+
+# Ermittelt NPC-KI und liefert Angriff/Zauber sowie Ziel als Array zurück
+function ki_ausfuehren($kt, $alle_zauber){
+	global $kt_0, $kt_1;
+	$ki = get_ki($kt->ki_id);	
+	switch ($ki->name){
+		case "Standard_wkt":
+			############################
+			##### Zauber bestimmen #####
+			############################
+			# Array mit Wahrscheinlichkeiten der Zauber vorbereiten
+			$i = 0;
+			$wkt_von = 1;
+			$wkt_bis = 0;
+			foreach ($alle_zauber as $zauber){
+				if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)){
+					$alle_zauber_wkt[$i] = [$zauber, 0, 0];
+				} else {
+					$wkt_bis = $wkt_bis + $zauber->wahrscheinlichkeit;
+					$alle_zauber_wkt[$i] = [$zauber, $wkt_von, $wkt_bis];
+					$wkt_von = $wkt_bis + 1;
+				}
+				$i = $i + 1;
+			}
+			# Passende Zufallszahl bestimmen
+			$zufall_1 = mt_rand(1, $wkt_bis);
+			# Welcher Zauber wurde ausgewählt?
+			foreach ($alle_zauber_wkt as $zauber_wkt){
+				if ($zufall_1 >= $zauber_wkt[1] AND $zufall_1 <= $zauber_wkt[2]){
+					$zauber = $zauber_wkt[0]; # -> ermittelter Angriff/Zauber
+					break;
+				}
+			}
+			##########################
+			##### Ziel bestimmen #####
+			##########################
+			# Array mit möglichen Zielen vorbereiten
+			switch ($zauber->zaubereffekte[0]->art){
+				case "angriff":
+					$kt_ziele = $kt_0;
+					break;
+				case "verteidigung":
+					$kt_ziele = $kt_1;
+					break;
+				default:
+					$kt_ziele = null;
+			}
+			$i = 0;
+			$wkt_von = 1;
+			$wkt_bis = 0;
+			foreach ($kt_ziele as $kt_ziel){
+				if ($kt_ziel->gesundheit <= 0){
+					$kt_ziele_wkt[$i] = [$kt_ziel, 0, 0];
+				} else {
+					$wkt_bis = $wkt_bis + 100;
+					$kt_ziele_wkt[$i] = [$kt_ziel, $wkt_von, $wkt_bis];
+					$wkt_von = $wkt_bis + 1;
+				}
+				$i = $i + 1;
+			}
+			# Passende Zufallszahl bestimmen
+			$zufall_2 = mt_rand(1, $wkt_bis);
+			# Welcher Kampfteilnehmer wurde ausgewählt?
+			foreach ($kt_ziele_wkt as $ziel_wkt){
+				if ($zufall_2 >= $ziel_wkt[1] AND $zufall_2 <= $ziel_wkt[2]){
+					$kt_ziel = $ziel_wkt[0]; # -> ermitteltes Ziel
+					break;
+				}
+			}
+			break;
+		default:
+			echo "Keine passende KI für ".$kt->name." gefunden.<br>";
+			break;
+	}
+	if ($zauber AND $kt_ziel){
+		return [$zauber, $kt_ziel];
+	} else {
+		echo "Angriff/Zauber und/oder Ziel konnten nicht ermittelt werden.<br>";
+		return false;
+	}
 }
 
 
