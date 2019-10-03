@@ -29,6 +29,7 @@
 	if ($im_kampf AND !$kampf_vorbei){
 		# Spieleraktion verarbeiten
 		if (isset($_POST["kt_id_ziel_value"]) AND $_POST["kt_id_ziel_value"] > 0){
+			$kampf->log = "<br>" . $kampf->log;
 			$kt_zaubert = false;
 			$kt_ziel = false;
 			$zauber = get_zauber($_POST["zauber_id_value"]);
@@ -138,7 +139,7 @@
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf($kampf_details); ?>
+										<?php $kt->ausgabe_kampf($kampf_detail); ?>
 									</td>
 								</tr>
 							</table>
@@ -195,7 +196,7 @@
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf($kampf_details); ?>
+										<?php $kt->ausgabe_kampf($kampf_detail); ?>
 									</td>
 								</tr>
 							</table>

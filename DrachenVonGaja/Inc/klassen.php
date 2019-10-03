@@ -484,7 +484,67 @@ class Kampf {
 		$this->gebiet = $ds[1];
 		$this->log = $ds[2];
 	}
+	
+	public function log_effekt($kt, $kampf_effekt, $zuruecksetzen=false){
+		global $kampf_log_detail;
+		if ($kampf_log_detail == 2){
+			switch ($kampf_effekt->attribut){
+				case "gesundheit": $attribut = "Gesundheit"; break;
+				case "zauberpunkte": $attribut = "Zauberpunkte"; break;
+				case "staerke": $attribut = "Stärke"; break;
+				case "intelligenz": $attribut = "Intelligenz"; break;
+				case "magie": $attribut = "Magie"; break;
+				case "element_feuer": $attribut = "Feuer"; break;
+				case "element_wasser": $attribut = "Wasser"; break;
+				case "element_erde": $attribut = "Erde"; break;
+				case "element_luft": $attribut = "Luft"; break;
+				case "timer": $attribut = "Timer"; break;
+				case "initiative": $attribut = "Initiative"; break;
+				case "ausweichen": $attribut = "Ausweichen"; break;
+				case "abwehr": $attribut = "Abwehr"; break;
+				default: break;
+			}
+			if ($zuruecksetzen){
+				$this->log = $kt->name.": ".-$kampf_effekt->wert." ".$attribut." durch Beendigung von ".$kampf_effekt->zauber_name."<br>" . $this->log;
+			} else {
+				$this->log = $kt->name.": ".$kampf_effekt->wert." ".$attribut." durch ".$kampf_effekt->zauber_name."<br>" . $this->log;
+			}
+		}
+	}
+	
+	
+	public function log_tot($kt){
+		$this->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br>" . $this->log;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

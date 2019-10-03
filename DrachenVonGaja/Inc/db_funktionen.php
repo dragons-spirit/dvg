@@ -1037,11 +1037,34 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 		
 	if (!$return_wert){
 		# War der Angriff erfolgreich?
-		if (!($angriff_erfolg == 1 AND $ausweichen_erfolg == 0 AND $abwehr_erfolg == 0)){
-			if ($ist_zauber) $ausgabe = $kt->name." versucht vergeblich den Zauber ".$zauber->titel." auf ".$ziel_name." anzuwenden. (Angriff/Zauber=".$angriff_erfolg.", Ausweichen=".$ausweichen_erfolg.", Abwehr=".$abwehr_erfolg.")";
-				else $ausgabe = $kt->name." versucht vergeblich ".$ziel_name." mit ".$zauber->titel." anzugreifen. (Angriff/Zauber=".$angriff_erfolg.", Ausweichen=".$ausweichen_erfolg.", Abwehr=".$abwehr_erfolg.")";
-			$return_wert = [2, false, $ausgabe];
+		$angriff_check = $angriff_erfolg . $ausweichen_erfolg . $abwehr_erfolg;
+		$ausgabe = false;
+		switch ($angriff_check){
+			# Angriff/Zauber fehlgeschlagen
+			case 000:
+			case 001:
+			case 010:
+			case 011:
+				if ($ist_zauber) $ausgabe = $kt->name." patzt beim Zaubern von ".$zauber->titel." auf ".$ziel_name.".";
+					else $ausgabe = $kt->name." patzt Ausführen von ".$zauber->titel." auf ".$ziel_name.".";
+				break;
+			# Ziel ist ausgewichen
+			case 110:
+			case 111:
+				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann dem Zauber jedoch ausweichen.";
+					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann dem Angriff jedoch ausweichen.";
+				break;
+			# Ziel hat abgewehrt
+			case 101:
+				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann den Zauber jedoch abwehren.";
+					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann den Angriff jedoch abwehren.";
+				break;
+			# Treffer
+			default:
+				break;
 		}
+		if ($ausgabe) $return_wert = [2, false, $ausgabe];
+		
 		# Eintragen der Aktion in die Datenbank
 		if ($stmt = $connect_db_dvg->prepare("
 				INSERT INTO kampf_aktion(
@@ -1353,66 +1376,98 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 				switch($kampf_effekt->attribut){
 					# Gesundheit
 					case "gesundheit":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0, $kt->gesundheit_max);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0, $kt->gesundheit_max);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						if ($kt->ist_tot())
-							$kampf->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br>" . $kampf->log;
+							$kampf->log_tot($kt);
 						break;
 					# Zauberpunkte
 					case "zauberpunkte":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0, $kt->zauberpunkte_max);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0, $kt->zauberpunkte_max);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Hauptattribute
 					case "staerke":
 					case "intelligenz":
 					case "magie":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Elemente
 					case "element_feuer":
 					case "element_wasser":
 					case "element_erde":
 					case "element_luft":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Timer
 					case "timer":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Initiative
 					case "initiative":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Ausweichen
 					case "ausweichen":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Abwehr
 					case "abwehr":
-						if ($effekt_anwenden)
+						if ($effekt_anwenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, $kampf_effekt->wert, 0);
-						if ($effekt_beenden)
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
 							$kt->attribut_aendern($kampf_effekt->attribut, -$kampf_effekt->wert, 0);
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
 						break;
 					# Kein Attribut definiert?
 					default:

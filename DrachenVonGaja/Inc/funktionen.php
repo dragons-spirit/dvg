@@ -76,7 +76,8 @@ $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
 
 $anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$kampf_details = 0; # Im Kampf angezeigte Parameter (0-2)
+$kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
+$kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
 
 
 # Maximale Gesundheit
