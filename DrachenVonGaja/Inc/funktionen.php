@@ -1,16 +1,15 @@
 <?php
 
+############################
+### ALLGEMEINES / SYSTEM ###
+############################
+
 # Zeitzone setzen
 date_default_timezone_set("Europe/Berlin");
 
-# Kampfparameter setzen
-$gew_elem = 0.2;
-$gew_attr = 0.5;
-
 
 # Zeitstempel erzeugen
-function timestamp()
-{
+function timestamp(){
 	$time_unix = time();
 	$tstamp = date("Y-m-d",$time_unix) . " " . date("H:i:s",$time_unix);
 	return $tstamp;
@@ -18,32 +17,16 @@ function timestamp()
 
 
 # Zeitumrechnung
-function time_to_timestamp($time_unix)
-{
+function time_to_timestamp($time_unix){
 	$tstamp = date("Y-m-d",$time_unix) . " " . date("H:i:s",$time_unix);
 	return $tstamp;
 }
 
 
-# Maximale Gesundheit berechnen
-function berechne_max_gesundheit($akteur){
-	global $gew_attr;
-	return intval(floor($gew_attr*(5*$akteur->staerke + 3*$akteur->intelligenz + 1*$akteur->magie)));
-}
-
-
-# Maximale Energie berechnen
-function berechne_max_energie($akteur){
-	global $gew_attr;
-	return intval(floor($gew_attr*(1*$akteur->staerke + 1*$akteur->intelligenz + 1*$akteur->magie)));
-}
-
-
-# Maximale Zauberpunkte berechnen
-function berechne_max_zauberpunkte($akteur){
-	global $gew_attr, $gew_elem;
-	$summe_elemente = ($akteur->element_feuer + $akteur->element_wasser + $akteur->element_erde + $akteur->element_luft);
-	return intval(floor($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente)));
+# Wahrscheinlichkeitsberechnung
+function check_wkt($wkt){
+	$zufall = mt_rand(1,100);
+	return ($zufall <= $wkt);
 }
 
 
@@ -53,8 +36,78 @@ function floor_x($zahl,$nachkommastellen=3){
 }
 
 
+# Funktion zum Einlesen aller neuen oder verschobenen Bilder inklusive ihrer Pfade in die Datenbank
+function scanneNeueBilder($ordner){
+	global $endungen_bilder, $neue_dateien;
+	$alle_dateien = scandir($ordner); # array für alle Dateien im Ordner
+	foreach ($alle_dateien as $datei)
+	{
+		$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
+		$titel = utf8_encode($dateiinfo['filename']); # ersten Bildtitel aus Dateiname erzeugen
+		$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
+		if(array_key_exists('extension', $dateiinfo))
+			$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
+		else $endung = 'none';
+		# Datei merken, wenn Dateipfad noch nicht in DB bekannt und Endung einer Bilddatei entspricht
+		if (!check_bild_vorhanden($pfad))
+		{	
+			if (in_array($endung, $endungen_bilder))
+				$neue_dateien[] = array('titel' => $titel, 'pfad' => $pfad);
+			elseif (is_dir($ordner."/".$titel) && $titel<>"." && $titel<>"")
+				scanneNeueBilder($ordner."/".$titel);
+		}
+	}
+}
+
+
+# Entfernen des 1. Zeichens von Bilderpfaden (notwendig für Pfadangaben im Style-Bereich)
+function pfad_fuer_style($pfad){
+	return substr($pfad,1);	
+}
+
+
+
+######################################
+### STARTWERTE SPIELER / BALANCING ###
+######################################
+
+# Kampfparameter
+$gew_elem = 0.2; # Gewichtung von Elementen
+$gew_attr = 0.5; # Gewichtung von Attributen
+
+$anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$kampf_details = 0; # Im Kampf angezeigte Parameter (0-2)
+
+
+# Maximale Gesundheit
+function berechne_max_gesundheit($akteur){
+	global $gew_attr;
+	return intval(floor($gew_attr*(5*$akteur->staerke + 3*$akteur->intelligenz + 1*$akteur->magie)));
+}
+
+
+# Maximale Energie
+function berechne_max_energie($akteur){
+	global $gew_attr;
+	return intval(floor($gew_attr*(1*$akteur->staerke + 1*$akteur->intelligenz + 1*$akteur->magie)));
+}
+
+
+# Maximale Zauberpunkte
+function berechne_max_zauberpunkte($akteur){
+	global $gew_attr, $gew_elem;
+	$summe_elemente = ($akteur->element_feuer + $akteur->element_wasser + $akteur->element_erde + $akteur->element_luft);
+	return intval(floor($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente)));
+}
+
+
+
+######################
+### KAMPFGESCHEHEN ###
+######################
+
 # Aktualisiert den Kampftimer beim KampfTeilnehmer
-function berechne_initiative($obj) {
+function berechne_initiative($obj){
 	if ($obj == null or $obj->initiative == null or $obj->initiative < 0) $wert = 0;
 	if ($obj->initiative == 0) $wert = 9999999;
 		else $wert = floor_x((10000/$obj->initiative),3);
@@ -62,32 +115,176 @@ function berechne_initiative($obj) {
 }
 
 
+# Bestimmt den Erfolg eines Angriffs/Zaubers (Ausführung)
+function berechne_angriff_erfolg($kt){
+	if (check_wkt(95)) return 1;
+	else return 0;
+}
+
+
+# Bestimmt den Erfolg des Ausweichens
+function berechne_ausweichen_erfolg($kt){
+	if (check_wkt($kt->ausweichen)) return 1;
+	else return 0;
+}
+
+
+# Bestimmt den Erfolg der Abwehr eines Angriffs/Zaubers
+function berechne_abwehr_erfolg($kt){
+	if (check_wkt($kt->abwehr)) return 1;
+	else return 0;
+}
+
+
+# Bestimmt die verbrauchten Zauberpunkte für einen Zauber
+function berechne_zauberpunkte_verbrauch($zauber){
+	return $zauber->verbrauch;
+}
+
+
+# Bestimmt den Zeitbedarf für die Ausführung eines Angriffs/Zaubers
+function berechne_timer_verbrauch($kt){
+	return berechne_initiative($kt);
+}
+
+
+# Bestimmt nächsten Kampfteilnehmer
+function naechster_kt($kt_all){
+	$kt_next = $kt_all[0];
+	$timer_min = $kt_next->timer;
+	foreach ($kt_all as $kt){
+		if ($timer_min > $kt->timer AND !$kt->ist_tot()){
+			$kt_next = $kt;
+			$timer_min = $kt->timer;
+		}
+	}
+	return $kt_next;
+}
+
+
+# Bestimmt Gewinner - 0/1 = Seite, 2 = offen
+function ist_kampf_beendet($kt_all){
+	$kt_lebend_0 = 0;
+	$kt_lebend_1 = 0;
+	$gewinner = 0;
+	foreach ($kt_all as $kt){
+		if ($kt->gesundheit > 0){
+			if ($kt->seite == 0){
+				$kt_lebend_0 = $kt_lebend_0 + 1;
+			} else {
+				$kt_lebend_1 = $kt_lebend_1 + 1;
+				$gewinner = 1;
+			}
+		}
+	}
+	if ($kt_lebend_0 > 0 AND $kt_lebend_1 > 0){
+		$gewinner = 2;
+	}
+	return $gewinner;
+}
+
+
+# Ermittelt NPC-KI und liefert Angriff/Zauber sowie Ziel als Array zurück
+function ki_ausfuehren($kt, $alle_zauber){
+	global $kt_0, $kt_1;
+	$ki = get_ki($kt->ki_id);	
+	switch ($ki->name){
+		case "Standard_wkt":
+			############################
+			##### Zauber bestimmen #####
+			############################
+			# Array mit Wahrscheinlichkeiten der Zauber vorbereiten
+			$i = 0;
+			$wkt_von = 1;
+			$wkt_bis = 0;
+			foreach ($alle_zauber as $zauber){
+				if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)){
+					$alle_zauber_wkt[$i] = [$zauber, 0, 0];
+				} else {
+					$wkt_bis = $wkt_bis + $zauber->wahrscheinlichkeit;
+					$alle_zauber_wkt[$i] = [$zauber, $wkt_von, $wkt_bis];
+					$wkt_von = $wkt_bis + 1;
+				}
+				$i = $i + 1;
+			}
+			# Passende Zufallszahl bestimmen
+			$zufall_1 = mt_rand(1, $wkt_bis);
+			# Welcher Zauber wurde ausgewählt?
+			foreach ($alle_zauber_wkt as $zauber_wkt){
+				if ($zufall_1 >= $zauber_wkt[1] AND $zufall_1 <= $zauber_wkt[2]){
+					$zauber = $zauber_wkt[0]; # -> ermittelter Angriff/Zauber
+					break;
+				}
+			}
+			##########################
+			##### Ziel bestimmen #####
+			##########################
+			# Array mit möglichen Zielen vorbereiten
+			switch ($zauber->zaubereffekte[0]->art){
+				case "angriff":
+					$kt_ziele = $kt_0;
+					break;
+				case "verteidigung":
+					$kt_ziele = $kt_1;
+					break;
+				default:
+					$kt_ziele = null;
+			}
+			$i = 0;
+			$wkt_von = 1;
+			$wkt_bis = 0;
+			foreach ($kt_ziele as $kt_ziel){
+				if ($kt_ziel->gesundheit <= 0){
+					$kt_ziele_wkt[$i] = [$kt_ziel, 0, 0];
+				} else {
+					$wkt_bis = $wkt_bis + 100;
+					$kt_ziele_wkt[$i] = [$kt_ziel, $wkt_von, $wkt_bis];
+					$wkt_von = $wkt_bis + 1;
+				}
+				$i = $i + 1;
+			}
+			# Passende Zufallszahl bestimmen
+			$zufall_2 = mt_rand(1, $wkt_bis);
+			# Welcher Kampfteilnehmer wurde ausgewählt?
+			foreach ($kt_ziele_wkt as $ziel_wkt){
+				if ($zufall_2 >= $ziel_wkt[1] AND $zufall_2 <= $ziel_wkt[2]){
+					$kt_ziel = $ziel_wkt[0]; # -> ermitteltes Ziel
+					break;
+				}
+			}
+			break;
+		default:
+			echo "Keine passende KI für ".$kt->name." gefunden.<br>";
+			break;
+	}
+	if ($zauber AND $kt_ziel){
+		return [$zauber, $kt_ziel];
+	} else {
+		echo "Angriff/Zauber und/oder Ziel konnten nicht ermittelt werden.<br>";
+		return false;
+	}
+}
+
+
+
+##############################
+### ALLGEMEINES / ANZEIGEN ###
+##############################
 
 # Passendes Drachenbild zum Level des Spielers ermitteln
-function bild_zu_spielerlevel($bilder_id)
-{
+function bild_zu_spielerlevel($bilder_id){
 	return get_bild_zu_id($bilder_id);
 }
 
 
-# Wahrscheinlichkeitsberechnung
-function check_wkt($wkt)
-{
-	$zufall = rand(1,100);
-	return ($zufall <= $wkt);
-}
-
-
 # Hintergrundbild: Bilderpfad (großes Bild) auf Bilderpfad (kleines Bild) ändern
-function hintergrundbild_klein($gebiet_id)
-{
+function hintergrundbild_klein($gebiet_id){
 	return str_replace(array("/Gross/",".jpg"), array("/Klein/","_klein.jpg"), get_bild_zu_gebiet($gebiet_id));
 }
 
 
 # Aufbau des Hintergrundbildes mit Gebietslinks
-function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
-{
+function zeige_hintergrundbild($gebiet_id, $aktion_titel=false){
 	?>
 	<!-- # Links Zielgebiete -->
 	<div id="hintergrundbild">
@@ -96,7 +293,6 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
 			<?php zeige_gebietslinks($gebiet_id); ?>
 		</div>
 	</div>
-	
 	<!-- Beschreibungstext Hintergrundbild -->
 	<div id="hintergrundbild_text" align="center">
 		<p style="font-size:14pt;">
@@ -119,8 +315,7 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false)
 
 
 # Unterfunktion für einzeln positionierte Gebietslinks auf Hintergrundbild
-function zeige_gebietslinks($gebiet_id)
-{
+function zeige_gebietslinks($gebiet_id){
 	if ($zielgebiete = get_gebiet_gebiet($gebiet_id))
 	{
 		while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
@@ -149,14 +344,11 @@ function zeige_gebietslinks($gebiet_id)
 
 
 # Aufbau der Seite mit erhaltenen Items
-function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
-{
-	if ($npc = get_npc($npc_id))
-	{		
-		while($row = $npc->fetch_array(MYSQLI_NUM))
-		{
+function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
+	if ($npc = get_npc($npc_id)){		
+		while($row = $npc->fetch_array(MYSQLI_NUM)){
 			?>
-			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+			<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
 				<?php echo $text1 . $row[1] . $text2; ?>
 			</p>
 			<?php
@@ -165,22 +357,19 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 		echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
 	}
 	
-	if ($items = get_items_npc($npc_id))
-	{		
+	if ($items = get_items_npc($npc_id)){		
 		$counter = 0;
 		?>
-		<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="500px" >
+		<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
 			<tr>
 				<td>Item</td>
 				<td>Beschreibung</td>
 				<td>Anzahl</td>
 			</tr>
 		<?php
-		while($row = $items->fetch_array(MYSQLI_NUM))
-		{
+		while($row = $items->fetch_array(MYSQLI_NUM)){
 			$item_wkt = $row[4];
-			if(check_wkt($item_wkt))
-			{
+			if(check_wkt($item_wkt)){
 				$item_id = $row[0];
 				$item_titel = $row[1];
 				$item_beschreibung = $row[2];
@@ -196,8 +385,7 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 				<?php
 			}
 		}
-		if($counter == 0)
-		{
+		if($counter == 0){
 			?>
 			<tr>
 				<td colspan=3>Hehe ... nix gefunden. :P</td>
@@ -214,11 +402,15 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2)
 
 
 # Aufbau der Seite für Elementbäume
-function elemente_anzeigen($hauptelement, $hintergrundfarbe)
-{
+function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 	?><div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
+		<input type="hidden" id="button_name_id" name="anzeige_element">
 		<table>
 			<?php
+			if (isset($_POST["button_zauber"])){
+				switch_zauber_spieler($spieler->id, $_POST["button_zauber"]);
+			}			
+			$alle_zauber = get_zauber_von_objekt($spieler);
 			# Für Tabellenstruktur Anzeigedaten nacheinander abholen
 			# 1. Alle veschiedenen Zauberarten zum gewählten Element (Schaden, Heilung, usw. )
 			$zauberarten = get_zauberarten_zu_hauptelement($hauptelement);
@@ -246,10 +438,17 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe)
 										$zauber_titel = $row[2];
 										$zauber_beschreibung = $row[5];
 										$zauber_bilder_id = $row[1];
+										$inaktiv = true;
+										foreach ($alle_zauber as $z){
+											if ($z->id == $zauber_id){
+												$inaktiv = false;
+												break;
+											}
+										}
 										?>
-										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain;" align="left">
+										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain; <?php if($inaktiv) echo "border:3px red solid;"; else echo "border:3px green solid;";?>" align="left">
 											<span title="<?php echo $zauber_titel ?>" >
-												<input type="button" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
+												<input onclick="set_button('<?php echo $hauptelement ?>', 'egal')" type="submit" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
 											</span>
 										</td>
 										<?php
@@ -268,43 +467,11 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe)
 	</div><?php
 }
 
-
-# Funktion zum Einlesen aller neuen oder verschobenen Bilder inklusive ihrer Pfade in die Datenbank
-function scanneNeueBilder($ordner)
-{
-	global $endungen_bilder, $neue_dateien;
-	$alle_dateien = scandir($ordner); # array für alle Dateien im Ordner
-	foreach ($alle_dateien as $datei)
-	{
-		$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
-		$titel = utf8_encode($dateiinfo['filename']); # ersten Bildtitel aus Dateiname erzeugen
-		$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
-		if(array_key_exists('extension', $dateiinfo))
-			$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
-		else $endung = 'none';
-		# Datei merken, wenn Dateipfad noch nicht in DB bekannt und Endung einer Bilddatei entspricht
-		if (!check_bild_vorhanden($pfad))
-		{	
-			if (in_array($endung, $endungen_bilder))
-				$neue_dateien[] = array('titel' => $titel, 'pfad' => $pfad);
-			elseif (is_dir($ordner."/".$titel) && $titel<>"." && $titel<>"")
-				scanneNeueBilder($ordner."/".$titel);
-		}
-	}
-}
-
-
-# Entfernen des 1. Zeichens von Bilderpfaden (notwendig für Pfadangaben im Style-Bereich)
-function pfad_fuer_style($pfad)
-{
-	return substr($pfad,1);	
-}
-
 ?>
 
 <script>
-	function client_times()
-	{
+	/* Berechnung der Zeitanzeige Aktionen */
+	function client_times()	{
 		/* Lokalzeit Client */
 		var now = new Date();
 		document.getElementById("clientzeit").innerHTML = convert_to_datetime(now);
@@ -316,13 +483,6 @@ function pfad_fuer_style($pfad)
 		/* Zeiten für Aktionen */
 		var aktion_titel = document.getElementById("titel_temp").value;
 		if (!aktion_titel) {
-			/*
-			document.getElementById("aktion_startzeit").innerHTML = "---";
-			document.getElementById("aktion_endezeit").innerHTML = "---";
-			document.getElementById("aktion_diffVonStart").innerHTML = "---";
-			document.getElementById("aktion_diffBisEnde").innerHTML = "---";
-			document.getElementById("aktion_gesamtzeit").innerHTML = "---";
-			*/
 			set_ladebalken('-', '-', '-');
 		} else {
 			var aktion_start = new Date(document.getElementById("startzeit_temp").value); /* Start */
@@ -330,36 +490,12 @@ function pfad_fuer_style($pfad)
 			var aktion_diffvs = now - new Date(document.getElementById("startzeit_temp").value); /* Zeit von Start  + timeset*/
 			var aktion_diffbe = new Date(document.getElementById("endezeit_temp").value) - now; /* Zeit bis Ende  + timeset*/
 			var aktion_gesamt = aktion_ende - aktion_start; /* Gesamtzeit */
-			/*
-			document.getElementById("aktion_startzeit").innerHTML = convert_to_datetime(aktion_start);
-			document.getElementById("aktion_endezeit").innerHTML = convert_to_datetime(aktion_ende);
-			document.getElementById("aktion_diffVonStart").innerHTML = convert_to_time(aktion_diffvs);
-			document.getElementById("aktion_diffBisEnde").innerHTML = convert_to_time(aktion_diffbe);
-			document.getElementById("aktion_gesamtzeit").innerHTML = convert_to_time(aktion_gesamt);
-			*/
 			set_ladebalken(aktion_diffvs, aktion_diffbe, aktion_gesamt);
 		}
 	}
 	
-	function Elemente()
-	{
-		var e = document.getElementById('elemente');
-		switch(e.style.display)
-		{
-		case 'none':
-			e.style.display='block';
-			break;
-		case 'block':
-			e.style.display='none';
-			break;
-		default:
-			e.style.display='block';
-		}
-	}
-	
 	/* Runde Zahl x auf n Nachkommastellen */
-	function runde(x, n)
-	{
+	function runde(x, n) {
 		var e = Math.pow(10, n);
 		var k = (Math.round(x * e) / e).toString();
 		if (k.indexOf('.') == -1) k += '.';
@@ -368,8 +504,7 @@ function pfad_fuer_style($pfad)
 	}
 	
 	/* Rundet Zahl x ab und auf Ganzzahl */
-	function runde_ab(x)
-	{
+	function runde_ab(x) {
 		return Math.round(x - 0.5);
 	}
 	
@@ -483,8 +618,7 @@ function pfad_fuer_style($pfad)
 	}
 	
 	/* Anzeige Elemente umschalten */
-	function sichtbar_elemente(wert)
-	{
+	function sichtbar_elemente(wert) {
 		switch(wert)
 		{
 			case 'menü':		
@@ -494,33 +628,39 @@ function pfad_fuer_style($pfad)
 	}
 	
 	/* Löschfunktion für Spieler */
-	function buttonwechsel(spieler_id)
-	{
+	function buttonwechsel(spieler_id) {
 		document.getElementById("b_sp_loe_" + spieler_id + "_1").style.visibility="hidden";
 		document.getElementById("b_sp_loe_" + spieler_id + "_2").style.visibility="visible";
 	}
 	
-	function set_button(button_name, button_value="")
-	{
+	/* Setzt einen Button ohne dass dieser gedrückt wurde */
+	function set_button(button_name, button_value="") {
 		document.getElementById("button_name_id").value=button_name;
-		document.getElementById("button_value_id").value=button_value;
+		if(button_value != "egal") document.getElementById("button_value_id").value=button_value;
 	}
 	
-	function set_button_submit(button_name, button_value="")
-	{
+	/* Setzt Werte zur Weitergabe an POST und lädt Seite (dvg_admin) neu */
+	function set_button_submit(button_name, button_value="") {
 		document.getElementById("button_name_id").value=button_name;
 		document.getElementById("button_value_id").value=button_value;
 		document.getElementById("dvg_admin").submit();
 	}
 	
+	/* Setzt Werte zur Weitergabe an POST und lädt Seite (drachenvongaja) neu */
+	function zaubern(kt_id, kt_id_ziel, zauber_id){
+		document.getElementById("kt_id_value").value=kt_id;
+		document.getElementById("kt_id_ziel_value").value=kt_id_ziel;
+		document.getElementById("zauber_id_value").value=zauber_id;
+		document.getElementById("drachenvongaja").submit();
+	}
+
 	/* Bestimme Position eines Elements */
-	function getPosition(elementId){
-		var elem=document.getElementById(elementId), tagname="", tagid="", top=0, left=0;
+	function getPosition(elem) {
+		var tagname="", tagid="", top=0, left=0;
 		while ((typeof(elem)=="object")&&(typeof(elem.tagName)!="undefined")){
 			top+=elem.offsetTop;
 			left+=elem.offsetLeft;
 			tagname=elem.tagName.toUpperCase();
-			tagid=elem.id;
 			if (tagname=="BODY")
 			elem=0;
 			if (typeof(elem)=="object")
@@ -530,6 +670,23 @@ function pfad_fuer_style($pfad)
 		return [top-document.getElementById("obere_Leiste").offsetHeight, left-document.getElementById("mitte_zentral").offsetLeft];
 	}
 	
-	
+	/* Bestimme Position eines Elements(1) relativ zum definierten übergeordneten Element(2) */
+	function getRange(elementId, element2Id) {
+		var elem=document.getElementById(elementId);
+		var elem2=document.getElementById(element2Id);
+		var xmin=0, ymin=0
+		var xmax=elem.offsetWidth;
+		var ymax=elem.offsetHeight;
+		while (typeof(elem)=="object"){
+			xmin+=elem.offsetLeft;
+			ymin+=elem.offsetTop;
+			if (elem==elem2)
+				elem=0;
+			if (typeof(elem)=="object")
+				if (typeof(elem.offsetParent)=="object")
+					elem=elem.offsetParent;
+		}
+		return [xmin, xmin+xmax, ymin, ymin+ymax];
+	}
 	
 </script>
