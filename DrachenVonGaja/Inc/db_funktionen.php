@@ -1318,14 +1318,13 @@ function get_all_npcs_kampf($kampf_id)
 }
 
 
-#--------------------- SELECT/UPDATE kampf_effekt.* (alle aktiven zum Kampfteilnehmer) ---------------------
-# 	-> kampf_teilnehmer.id (int)
+#--------------------- SELECT kampf_effekt.* (alle aktiven zum Kampfteilnehmer) ---------------------
+# 	-> KampfTeilnehmer (obj)
 #	<- alle_kampf_effekte (array [kampf_effekt])
-function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
+function select_kampf_effekte($kt, $param="'angriff','verteidigung'")
 {
 	global $debug;
 	global $connect_db_dvg;
-	global $kampf;
 	
 	# Aktuell relevante KampfEffekte für den Kampfteilnehmer aus DB auslesen
 	if ($stmt = $connect_db_dvg->prepare("
@@ -1343,7 +1342,7 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 				JOIN kampf_aktion ON kampf_aktion.id = kampf_effekt.kampf_aktion_id
 				JOIN zauber ON zauber.id = kampf_aktion.zauber_id
 			WHERE kampf_effekt.kampf_teilnehmer_id = ?
-				AND kampf_effekt.art = ?
+				AND kampf_effekt.art IN (?)
 				AND kampf_effekt.beendet = 0")){
 		$stmt->bind_param('ds', $kt->kt_id, $param);
 		$stmt->execute();
@@ -1354,15 +1353,70 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 				$counter = $counter + 1;
 			}
 		}
-		if ($debug) echo "<br />\nAlle " . $counter . " aktiven Kampfeffekte (" . $param . ") zum Kampfteilnehmer '" . $kt->name . "' wurden geladen.<br />\n";
-		$return_wert = $counter;
+		if ($debug) echo "<br />\nAlle " . $counter . " aktiven Kampfeffekte zum Kampfteilnehmer '" . $kt->name . "' wurden geladen.<br />\n";
+		if ($counter > 0) return $alle_kampf_effekte;
+			else return false;
 	} else {
-		echo "<br />\nQuerryfehler in kampf_effekte_ausführen() - Select KampfEffekte<br />\n";
-		$return_wert = false;
+		echo "<br />\nQuerryfehler in select_kampf_effekte()<br />\n";
+		return false;
 	}
+}
+
+
+#--------------------- SELECT kampf_effekt.* (alle zur kampf_aktion) ---------------------
+# 	-> kampf_aktion.id (int)
+#	<- alle_kampf_effekte (array [kampf_effekt])
+function select_kampf_effekte_spezial($kampf_aktion_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT kampf_effekt.id,
+				'' AS zauber_name,
+				kampf_effekt.art,
+				kampf_effekt.attribut,
+				kampf_effekt.wert,
+				kampf_effekt.runden,
+				kampf_effekt.runden_max,
+				kampf_effekt.jede_runde,
+				kampf_effekt.ausgefuehrt,
+				kampf_effekt.beendet
+			FROM kampf_effekt
+			WHERE kampf_effekt.kampf_aktion_id = ?")){
+		$stmt->bind_param('d', $kampf_aktion_id);
+		$stmt->execute();
+		$counter = 0;
+		if ($kampf_effekte_all = $stmt->get_result()){
+			while($kampf_effekt = $kampf_effekte_all->fetch_array(MYSQLI_NUM)){
+				$alle_kampf_effekte[$counter] = new KampfEffekt($kampf_effekt);
+				$counter = $counter + 1;
+			}
+		}
+		if ($debug) echo "<br />\nAlle " . $counter . " Kampfeffekte zur Kampfaktion [" . $kampf_aktion_id . "] wurden geladen.<br />\n";
+		if ($counter > 0) return $alle_kampf_effekte;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in select_kampf_effekte_spezial()<br />\n";
+		return false;
+	}
+}
+
+
+#--------------------- SELECT/UPDATE kampf_effekt.* (alle aktiven zum Kampfteilnehmer) ---------------------
+# 	-> kampf_teilnehmer.id (int)
+#	<- alle_kampf_effekte (array [kampf_effekt])
+function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
+{
+	global $debug;
+	global $connect_db_dvg;
+	global $kampf;
+	
+	# Aktuell relevante KampfEffekte für den Kampfteilnehmer aus DB auslesen
+	$alle_kampf_effekte = select_kampf_effekte($kt, $param);
 	
 	# Kampfeffekte verarbeiten
-	if ($counter > 0){
+	if ($alle_kampf_effekte){
 		foreach ($alle_kampf_effekte as $kampf_effekt){
 			$runden_diff = $kampf_effekt->runden_max - $kampf_effekt->runden; # Wieviele Runden ist der Effekt noch aktiv?
 			$effekt_anwenden = ($kampf_effekt->jede_runde == 1 OR $kampf_effekt->runden == 0); # Muss der Effekt angewendet werden? (nur 1. Runde oder jede Runde)
@@ -1499,11 +1553,14 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 				$stmt->bind_param('dddd', $plus_runden, $set_ausgefuehrt, $set_beendet, $kampf_effekt->id);
 				$stmt->execute();
 				if ($debug) echo "<br />\nKampfeffekt [" . $kampf_effekt->id . "] zum Kampfteilnehmer '" . $kt->name . "' wurde aktualisiert.<br />\n";
+				$return_wert = true;
 			} else {
 				echo "<br />\nQuerryfehler in kampf_effekte_ausführen() - Update KampfEffekte Rundenzähler/beendet<br />\n";
 				$return_wert = false;
 			}
 		}
+	} else {
+		$return_wert = false;
 	}
 	return $return_wert;
 }
@@ -2284,4 +2341,74 @@ function switch_zauber_spieler($spieler_id, $zauber_id)
 	}
 	return true;
 }
+
+
+#----------------------------------------- SELECT zauber.* (alle auf Kampfteilnehmer wirkenden) -----------------------------------------
+# 	-> KampfTeilnehmer (obj)
+# 	<- alle_aktiven_zauber (array [zauber])
+
+function get_zauber_aktiv($kt)
+{
+	global $debug;
+	global $connect_db_dvg;
+		
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				zauber.id,
+				zauber.titel,
+				zauber.bilder_id,
+				zauberart.id,
+				zauberart.titel,
+				zauber.hauptelement_id,
+				zauber.nebenelement_id,
+				zauber.verbrauch,
+				zauber.beschreibung,
+				0 AS wkt,
+				kampf_aktion.id
+			FROM zauber
+				JOIN zauberart ON zauberart.id = zauber.zauberart_id
+				LEFT JOIN kampf_aktion ON zauber.id = kampf_aktion.zauber_id
+			WHERE kampf_aktion.id IN (
+				SELECT DISTINCT kampf_aktion_id
+				FROM kampf_effekt
+				WHERE kampf_teilnehmer_id = ?
+					AND beendet = 0
+				)
+			ORDER BY kampf_aktion.id")){
+		$stmt->bind_param('d', $kt->kt_id);
+		$stmt->execute();
+		$counter = 0;
+		$alle_aktiven_zauber=null;
+		if ($zauber_all = $stmt->get_result()){
+			while($zauber = $zauber_all->fetch_array(MYSQLI_NUM)){
+				$alle_aktiven_zauber[$counter] = new KampfZauber($zauber, select_kampf_effekte_spezial($zauber[10]));
+				$counter = $counter + 1;
+			}
+		}
+		if ($debug) echo "<br />\nAlle ".$counter." aktiven Zauber auf ".$kt->name." wurden geladen.<br />\n";
+		return $alle_aktiven_zauber;
+	} else {
+		echo "<br />\nQuerryfehler in get_zauber_aktiv()<br />\n";
+		return false;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ?>

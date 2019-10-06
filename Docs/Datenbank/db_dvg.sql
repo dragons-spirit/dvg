@@ -96,9 +96,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1048 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=1066 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~636 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~648 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -832,7 +832,25 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(1044, 45, 11, '2019-10-03 17:44:39', '2019-10-03 17:50:30', 'abgeschlossen', 143, 0),
 	(1045, 45, 2, '2019-10-03 17:50:33', '2019-10-03 17:50:38', 'abgeschlossen', 0, 0),
 	(1046, 45, 6, '2019-10-03 17:50:39', '2019-10-03 17:50:44', 'abgeschlossen', 4, 0),
-	(1047, 45, 11, '2019-10-03 17:50:44', '2019-10-03 17:53:15', 'abgeschlossen', 144, 0);
+	(1047, 45, 11, '2019-10-03 17:50:44', '2019-10-03 17:53:15', 'abgeschlossen', 144, 0),
+	(1048, 45, 2, '2019-10-04 16:54:40', '2019-10-04 16:54:45', 'abgeschlossen', 0, 0),
+	(1049, 45, 6, '2019-10-04 16:54:46', '2019-10-04 16:54:51', 'abgeschlossen', 4, 0),
+	(1050, 45, 11, '2019-10-04 16:54:51', '2019-10-06 14:40:55', 'abgeschlossen', 145, 0),
+	(1051, 45, 2, '2019-10-06 14:49:32', '2019-10-06 14:49:37', 'abgeschlossen', 0, 0),
+	(1052, 45, 6, '2019-10-06 14:50:40', '2019-10-06 14:50:45', 'abgeschlossen', 4, 0),
+	(1053, 45, 11, '2019-10-06 14:50:45', '2019-10-06 14:51:40', 'abgeschlossen', 146, 0),
+	(1054, 45, 2, '2019-10-06 14:51:42', '2019-10-06 14:51:47', 'abgeschlossen', 0, 0),
+	(1055, 45, 6, '2019-10-06 14:51:51', '2019-10-06 14:51:56', 'abgeschlossen', 4, 0),
+	(1056, 45, 11, '2019-10-06 14:51:56', '2019-10-06 14:52:25', 'abgeschlossen', 147, 0),
+	(1057, 45, 2, '2019-10-06 14:52:29', '2019-10-06 14:52:34', 'abgeschlossen', 0, 0),
+	(1058, 45, 6, '2019-10-06 14:52:35', '2019-10-06 14:52:40', 'abgeschlossen', 4, 0),
+	(1059, 45, 11, '2019-10-06 14:52:40', '2019-10-06 14:53:12', 'abgeschlossen', 148, 0),
+	(1060, 45, 2, '2019-10-06 14:53:26', '2019-10-06 14:53:31', 'abgeschlossen', 0, 0),
+	(1061, 45, 6, '2019-10-06 14:54:18', '2019-10-06 14:54:23', 'abgeschlossen', 4, 0),
+	(1062, 45, 11, '2019-10-06 14:54:23', '2019-10-06 15:06:04', 'abgeschlossen', 149, 0),
+	(1063, 45, 2, '2019-10-06 15:06:07', '2019-10-06 15:06:12', 'abgeschlossen', 0, 0),
+	(1064, 45, 6, '2019-10-06 15:06:13', '2019-10-06 15:06:18', 'abgeschlossen', 4, 0),
+	(1065, 45, 11, '2019-10-06 15:06:19', '2019-10-06 15:07:17', 'abgeschlossen', 150, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -1350,12 +1368,12 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 	(52, 1, 43, 4),
 	(53, 3, 45, 1),
 	(54, 21, 45, 1),
-	(55, 8, 45, 159),
-	(56, 4, 45, 51),
-	(57, 1, 45, 14),
+	(55, 8, 45, 170),
+	(56, 4, 45, 56),
+	(57, 1, 45, 16),
 	(58, 7, 45, 4),
 	(59, 6, 45, 4),
-	(60, 18, 45, 1);
+	(60, 18, 45, 2);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -1367,9 +1385,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~110 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~121 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -1488,7 +1506,13 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(141, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -1 Gesundheit durch Staub<br>Fuchs greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs: -1 Gesundheit durch Staub<br>Fuchs: 20 Ausweichen durch Staub<br>Fuchs wendet den Zauber Staub erfolgreich auf sich selbst an.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -9 Gesundheit durch Lava<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -9 Gesundheit durch Lava<br>Flammi wendet den Zauber Lava erfolgreich auf Fuchs an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: 10 Ausweichen durch Beendigung von Alkohol<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi: 5 Initiative durch Heiße Quelle<br>Flammi: 7 Gesundheit durch Heiße Quelle<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Flammi: 5 Initiative durch Heiße Quelle<br>Flammi: 7 Gesundheit durch Heiße Quelle<br>Flammi wendet den Zauber Heiße Quelle erfolgreich auf sich selbst an.<br><br>Flammi: 4 Gesundheit durch Beendigung von Schlag<br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: 10 Ausweichen durch Beendigung von Alkohol<br>Fuchs: -10 Ausweichen durch Alkohol<br>Flammi wendet den Zauber Alkohol erfolgreich auf Fuchs an.<br><br>'),
 	(142, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs zaubert Staub auf Flammi. Flammi kann den Zauber jedoch abwehren.<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi wendet den Zauber Heiße Quelle erfolgreich auf sich selbst an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: 1 Gesundheit durch Beendigung von Alkohol<br>Fuchs: 2 Intelligenz durch Beendigung von Alkohol<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: 1 Gesundheit durch Beendigung von Alkohol<br>Fuchs: 2 Intelligenz durch Beendigung von Alkohol<br>Fuchs: -1 Gesundheit durch Alkohol<br>Fuchs: -2 Intelligenz durch Alkohol<br>Flammi wendet den Zauber Alkohol erfolgreich auf Fuchs an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -1 Gesundheit durch Alkohol<br>Fuchs: -2 Intelligenz durch Alkohol<br>Flammi wendet den Zauber Alkohol erfolgreich auf Fuchs an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Flammi zaubert Alkohol auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -2 Ausweichen durch Feuersturm<br>Fuchs: -6 Gesundheit durch Feuersturm<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -2 Ausweichen durch Feuersturm<br>Fuchs: -6 Gesundheit durch Feuersturm<br>Flammi greift Fuchs mit Biss an. Fuchs kann dem Angriff jedoch ausweichen.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -2 Ausweichen durch Feuersturm<br>Fuchs: -6 Gesundheit durch Feuersturm<br>Flammi wendet den Zauber Feuersturm erfolgreich auf Fuchs an.<br><br>'),
 	(143, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: 2 Abwehr durch Beendigung von Wanderdüne<br>Fuchs: 3 Magie durch Beendigung von Wanderdüne<br>Fuchs: 3 Intelligenz durch Beendigung von Wanderdüne<br>Fuchs: 3 Stärke durch Beendigung von Wanderdüne<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: 2 Abwehr durch Beendigung von Wanderdüne<br>Fuchs: 3 Magie durch Beendigung von Wanderdüne<br>Fuchs: 3 Intelligenz durch Beendigung von Wanderdüne<br>Fuchs: 3 Stärke durch Beendigung von Wanderdüne<br>Flammi zaubert Erdbeben auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Fuchs zaubert Staub auf Flammi. Flammi kann den Zauber jedoch abwehren.<br>Fuchs: -2 Abwehr durch Wanderdüne<br>Fuchs: -3 Magie durch Wanderdüne<br>Fuchs: -3 Intelligenz durch Wanderdüne<br>Fuchs: -3 Stärke durch Wanderdüne<br>Flammi wendet den Zauber Wanderdüne erfolgreich auf Fuchs an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: 3 Gesundheit durch Beendigung von Staub<br>Fuchs: -2 Abwehr durch Wanderdüne<br>Fuchs: -3 Magie durch Wanderdüne<br>Fuchs: -3 Intelligenz durch Wanderdüne<br>Fuchs: -3 Stärke durch Wanderdüne<br>Flammi wendet den Zauber Wanderdüne erfolgreich auf Fuchs an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Flammi zaubert Wanderdüne auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Staub<br>Flammi wendet den Zauber Staub erfolgreich auf Fuchs an.<br><br>Flammi will den Zauber Staub auf sich selbst anwenden und stellt dabei fest, dass das ziemlich dämlich wäre.<br><br>'),
-	(144, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs patzt Ausführen von Biss auf Flammi.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs wendet den Zauber Staub erfolgreich auf Flammi an.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>');
+	(144, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs patzt Ausführen von Biss auf Flammi.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs wendet den Zauber Staub erfolgreich auf Flammi an.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>'),
+	(145, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: 2 Abwehr durch Beendigung von Wanderdüne<br>Fuchs: 3 Magie durch Beendigung von Wanderdüne<br>Fuchs: 3 Stärke durch Beendigung von Wanderdüne<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs wendet den Zauber Staub erfolgreich auf Flammi an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -2 Abwehr durch Wanderdüne<br>Fuchs: -3 Magie durch Wanderdüne<br>Fuchs: -3 Intelligenz durch Wanderdüne<br>Fuchs: -3 Stärke durch Wanderdüne<br>Flammi wendet den Zauber Wanderdüne erfolgreich auf Fuchs an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -3 Gesundheit durch Staub<br>Flammi zaubert Wanderdüne auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Staub<br>Fuchs: -3 Gesundheit durch Staub<br>Flammi zaubert Staub auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -3 Gesundheit durch Staub<br>Fuchs: -3 Gesundheit durch Staub<br>Flammi wendet den Zauber Staub erfolgreich auf Fuchs an.<br><br>'),
+	(146, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: 2 Abwehr durch Beendigung von Wanderdüne<br>Fuchs: 3 Magie durch Beendigung von Wanderdüne<br>Fuchs: 3 Intelligenz durch Beendigung von Wanderdüne<br>Fuchs: 3 Stärke durch Beendigung von Wanderdüne<br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Fuchs: -2 Abwehr durch Wanderdüne<br>Fuchs: -3 Magie durch Wanderdüne<br>Fuchs: -3 Intelligenz durch Wanderdüne<br>Fuchs: -3 Stärke durch Wanderdüne<br>Flammi wendet den Zauber Wanderdüne erfolgreich auf Fuchs an.<br><br>Flammi zaubert Staub auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi zaubert Erdbeben auf Fuchs. Fuchs kann den Zauber jedoch abwehren.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br><br>Fuchs zaubert Staub auf Flammi. Flammi kann den Zauber jedoch abwehren.<br><br>'),
+	(147, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi zaubert Erdbeben auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi zaubert Erdbeben auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs patzt beim Zaubern von Staub auf Flammi.<br><br>'),
+	(148, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Flammi patzt Ausführen von Biss auf Fuchs.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: -5 Gesundheit durch Biss<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Flammi greift Fuchs mit Biss an. Fuchs kann dem Angriff jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Flammi zaubert Erdbeben auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Fuchs: 5 Stärke durch Beendigung von Erdbeben<br>Fuchs: -3 Gesundheit durch Staub<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi zaubert Staub auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -3 Gesundheit durch Staub<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi zaubert Staub auf Fuchs. Fuchs kann den Zauber jedoch abwehren.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Staub<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi wendet den Zauber Staub erfolgreich auf Fuchs an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -3 Gesundheit durch Erdbeben<br>Flammi zaubert Staub auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Flammi patzt beim Zaubern von Staub auf Fuchs.<br><br>Fuchs: -3 Gesundheit durch Erdbeben<br>Fuchs: -5 Stärke durch Erdbeben<br>Flammi wendet den Zauber Erdbeben erfolgreich auf Fuchs an.<br><br>Fuchs zaubert Staub auf Flammi. Flammi kann den Zauber jedoch abwehren.<br><br>'),
+	(149, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Flammi greift Fuchs mit Stich an. Fuchs kann dem Angriff jedoch ausweichen.<br><br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann dem Angriff jedoch ausweichen.<br>Flammi greift Fuchs mit Stich an. Fuchs kann dem Angriff jedoch ausweichen.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi patzt Ausführen von Stich auf Fuchs.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br><font color=\'red\'>Ratte stirbt im Kampf.</font><br>Ratte: -4 Gesundheit durch Eissturm<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi wendet den Zauber Heiße Quelle erfolgreich auf sich selbst an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Ratte: -5 Gesundheit durch Biss<br>Ratte: -4 Gesundheit durch Eissturm<br>Flammi greift Ratte erfolgreich mit Biss an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Ratte greift Flammi erfolgreich mit Biss an.<br>Ratte: -3 Abwehr durch Eissturm<br>Ratte: -4 Gesundheit durch Eissturm<br>Ratte: -1 Ausweichen durch Eissturm<br>Ratte: -1 Initiative durch Eissturm<br>Ratte: -2 Magie durch Eissturm<br>Flammi wendet den Zauber Eissturm erfolgreich auf Ratte an.<br><br>Flammi will den Zauber Wasserfall auf sich selbst anwenden und stellt dabei fest, dass das ziemlich dämlich wäre.<br><br>Flammi will den Zauber Wasserfall auf sich selbst anwenden und stellt dabei fest, dass das ziemlich dämlich wäre.<br><br>Flammi: -5 Gesundheit durch Biss<br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br>Ratte greift Flammi erfolgreich mit Biss an.<br>Flammi greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Flammi greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Flammi: -3 Gesundheit durch Staub<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs greift Flammi mit Schlag an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -4 Ausweichen durch Hurrikan<br>Fuchs: -3 Initiative durch Hurrikan<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Flammi: -3 Gesundheit durch Staub<br>Ratte patzt Ausführen von Biss auf Flammi.<br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: -4 Ausweichen durch Hurrikan<br>Fuchs: -3 Initiative durch Hurrikan<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Flammi: -5 Gesundheit durch Biss<br>Flammi: -3 Gesundheit durch Staub<br>Ratte greift Flammi erfolgreich mit Biss an.<br>Fuchs wendet den Zauber Staub erfolgreich auf Flammi an.<br>Fuchs: -4 Ausweichen durch Hurrikan<br>Fuchs: -3 Initiative durch Hurrikan<br>Flammi: 4 Gesundheit durch Heiße Quelle<br>Flammi: 3 Stärke durch Heiße Quelle<br>Flammi wendet den Zauber Heiße Quelle erfolgreich auf sich selbst an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Ratte greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Fuchs: -4 Ausweichen durch Hurrikan<br>Fuchs: -3 Initiative durch Hurrikan<br>Fuchs: -5 Magie durch Gewitter<br>Flammi wendet den Zauber Hurrikan erfolgreich auf Fuchs an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Flammi: -5 Gesundheit durch Biss<br>Ratte greift Flammi erfolgreich mit Biss an.<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Ratte greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -5 Magie durch Gewitter<br>Flammi wendet den Zauber Gewitter erfolgreich auf Fuchs an.<br><br>'),
+	(150, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Fuchs stirbt im Kampf.</font><br>Fuchs: -5 Gesundheit durch Biss<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Biss an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs greift Flammi mit Biss an. Flammi kann dem Angriff jedoch ausweichen.<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -3 Gesundheit durch Stich<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs: 3 Abwehr durch Beendigung von Eissturm<br>Fuchs: 1 Ausweichen durch Beendigung von Eissturm<br>Fuchs: 1 Initiative durch Beendigung von Eissturm<br>Fuchs: 2 Magie durch Beendigung von Eissturm<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -4 Gesundheit durch Eissturm<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Flammi: -3 Gesundheit durch Staub<br>Fuchs wendet den Zauber Staub erfolgreich auf Flammi an.<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -4 Gesundheit durch Eissturm<br>Flammi patzt Ausführen von Stich auf Fuchs.<br><br>Fuchs greift Flammi mit Schlag an. Flammi kann den Angriff jedoch abwehren.<br><font color=\'red\'>Ratte stirbt im Kampf.</font><br>Ratte: -4 Gesundheit durch Eissturm<br>Fuchs: -3 Gesundheit durch Stich<br>Fuchs: -4 Gesundheit durch Eissturm<br>Flammi greift Fuchs erfolgreich mit Stich an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Ratte: -4 Gesundheit durch Eissturm<br>Fuchs: -3 Abwehr durch Eissturm<br>Fuchs: -4 Gesundheit durch Eissturm<br>Fuchs: -1 Ausweichen durch Eissturm<br>Fuchs: -1 Initiative durch Eissturm<br>Fuchs: -2 Magie durch Eissturm<br>Flammi wendet den Zauber Eissturm erfolgreich auf Fuchs an.<br><br>Flammi: -4 Gesundheit durch Schlag<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Ratte: -3 Abwehr durch Eissturm<br>Ratte: -4 Gesundheit durch Eissturm<br>Ratte: -1 Ausweichen durch Eissturm<br>Ratte: -1 Initiative durch Eissturm<br>Ratte: -2 Magie durch Eissturm<br>Flammi wendet den Zauber Eissturm erfolgreich auf Ratte an.<br><br>Flammi: -5 Gesundheit durch Biss<br>Flammi: -4 Gesundheit durch Schlag<br>Ratte greift Flammi erfolgreich mit Biss an.<br>Fuchs greift Flammi erfolgreich mit Schlag an.<br>Flammi zaubert Eissturm auf Ratte. Ratte kann dem Zauber jedoch ausweichen.<br><br>Flammi: -5 Gesundheit durch Biss<br>Ratte patzt Ausführen von Biss auf Flammi.<br>Fuchs greift Flammi erfolgreich mit Biss an.<br>Ratte greift Flammi mit Biss an. Flammi kann den Angriff jedoch abwehren.<br>Ratte: -6 Gesundheit durch Asteroid<br>Ratte: -8 Stärke durch Asteroid<br>Flammi wendet den Zauber Asteroid erfolgreich auf Ratte an.<br><br>');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -1515,9 +1539,9 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1629 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=1761 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~1.181 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~1.252 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -2820,7 +2844,139 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(1625, 144, 300, 272, 271, 77, 0, 0, 1, 0, 100, '2019-10-03 17:51:06'),
 	(1626, 144, 380.952, 271, 272, 77, 1, 0, 0, 0, 95.238, '2019-10-03 17:51:20'),
 	(1627, 144, 400, 272, 271, 77, 1, 0, 1, 0, 100, '2019-10-03 17:51:20'),
-	(1628, 144, 476.19, 271, 272, 77, 1, 0, 0, 0, 95.238, '2019-10-03 17:51:27');
+	(1628, 144, 476.19, 271, 272, 77, 1, 0, 0, 0, 95.238, '2019-10-03 17:51:27'),
+	(1629, 145, 95.238, 273, 274, 29, 1, 0, 0, 3, 95.238, '2019-10-04 16:55:08'),
+	(1630, 145, 95.238, 273, 274, 29, 1, 0, 0, 3, 95.238, '2019-10-04 16:55:42'),
+	(1631, 145, 100, 274, 273, 79, 1, 0, 0, 0, 100, '2019-10-04 16:55:42'),
+	(1632, 145, 190.476, 273, 274, 29, 1, 1, 0, 3, 95.238, '2019-10-04 17:03:11'),
+	(1633, 145, 200, 274, 273, 79, 1, 0, 1, 0, 100, '2019-10-04 17:03:11'),
+	(1634, 145, 285.714, 273, 274, 32, 1, 1, 0, 5, 95.238, '2019-10-06 11:11:42'),
+	(1635, 145, 300, 274, 273, 79, 1, 0, 0, 0, 100, '2019-10-06 11:11:42'),
+	(1636, 145, 380.952, 273, 274, 32, 1, 0, 0, 5, 95.238, '2019-10-06 11:11:48'),
+	(1637, 145, 400, 274, 273, 77, 1, 0, 1, 0, 100, '2019-10-06 11:11:48'),
+	(1638, 145, 476.19, 273, 274, 28, 1, 0, 0, 7, 95.238, '2019-10-06 12:19:02'),
+	(1639, 145, 500, 274, 273, 77, 1, 0, 1, 0, 100, '2019-10-06 12:19:02'),
+	(1640, 145, 600, 274, 273, 29, 1, 0, 0, 3, 100, '2019-10-06 14:39:45'),
+	(1641, 145, 571.428, 273, 274, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:40:19'),
+	(1642, 145, 666.666, 273, 274, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:40:41'),
+	(1643, 145, 700, 274, 273, 79, 1, 0, 1, 0, 100, '2019-10-06 14:40:41'),
+	(1644, 145, 761.904, 273, 274, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:40:52'),
+	(1645, 146, 100, 276, 275, 29, 1, 0, 1, 3, 100, '2019-10-06 14:50:51'),
+	(1646, 146, 200, 276, 275, 77, 1, 0, 0, 0, 100, '2019-10-06 14:50:57'),
+	(1647, 146, 300, 276, 275, 79, 1, 0, 0, 0, 100, '2019-10-06 14:50:59'),
+	(1648, 146, 95.238, 275, 276, 28, 1, 0, 1, 7, 95.238, '2019-10-06 14:51:02'),
+	(1649, 146, 190.476, 275, 276, 29, 1, 1, 0, 3, 95.238, '2019-10-06 14:51:04'),
+	(1650, 146, 285.714, 275, 276, 32, 1, 0, 0, 5, 95.238, '2019-10-06 14:51:06'),
+	(1651, 146, 380.952, 275, 276, 28, 1, 0, 0, 7, 95.238, '2019-10-06 14:51:08'),
+	(1652, 146, 400, 276, 275, 77, 1, 0, 0, 0, 100, '2019-10-06 14:51:08'),
+	(1653, 146, 476.19, 275, 276, 28, 1, 0, 0, 7, 95.238, '2019-10-06 14:51:10'),
+	(1654, 146, 500, 276, 275, 79, 1, 0, 0, 0, 100, '2019-10-06 14:51:10'),
+	(1655, 146, 571.428, 275, 276, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:51:32'),
+	(1656, 146, 600, 276, 275, 77, 1, 0, 0, 0, 100, '2019-10-06 14:51:32'),
+	(1657, 146, 666.666, 275, 276, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:51:34'),
+	(1658, 146, 700, 276, 275, 77, 1, 0, 0, 0, 100, '2019-10-06 14:51:34'),
+	(1659, 146, 761.904, 275, 276, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:51:36'),
+	(1660, 147, 100, 278, 277, 29, 0, 0, 0, 3, 100, '2019-10-06 14:52:06'),
+	(1661, 147, 95.238, 277, 278, 77, 0, 1, 0, 0, 95.238, '2019-10-06 14:52:13'),
+	(1662, 147, 190.476, 277, 278, 28, 1, 0, 0, 7, 95.238, '2019-10-06 14:52:14'),
+	(1663, 147, 200, 278, 277, 77, 1, 1, 0, 0, 100, '2019-10-06 14:52:14'),
+	(1664, 147, 285.714, 277, 278, 28, 1, 0, 0, 7, 95.238, '2019-10-06 14:52:16'),
+	(1665, 147, 300, 278, 277, 79, 1, 1, 1, 0, 100, '2019-10-06 14:52:16'),
+	(1666, 147, 380.952, 277, 278, 28, 1, 1, 0, 7, 95.238, '2019-10-06 14:52:17'),
+	(1667, 147, 400, 278, 277, 79, 1, 0, 0, 0, 100, '2019-10-06 14:52:17'),
+	(1668, 147, 476.19, 277, 278, 28, 1, 1, 0, 7, 95.238, '2019-10-06 14:52:18'),
+	(1669, 147, 500, 278, 277, 77, 1, 0, 1, 0, 100, '2019-10-06 14:52:18'),
+	(1670, 147, 571.428, 277, 278, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:52:20'),
+	(1671, 148, 100, 280, 279, 29, 1, 0, 1, 3, 100, '2019-10-06 14:52:46'),
+	(1672, 148, 95.238, 279, 280, 28, 1, 0, 0, 7, 95.238, '2019-10-06 14:52:51'),
+	(1673, 148, 190.476, 279, 280, 29, 0, 0, 0, 3, 95.238, '2019-10-06 14:52:53'),
+	(1674, 148, 200, 280, 279, 77, 1, 0, 1, 0, 100, '2019-10-06 14:52:53'),
+	(1675, 148, 285.714, 279, 280, 29, 1, 1, 0, 3, 95.238, '2019-10-06 14:52:54'),
+	(1676, 148, 300, 280, 279, 77, 1, 0, 0, 0, 100, '2019-10-06 14:52:54'),
+	(1677, 148, 380.952, 279, 280, 29, 1, 0, 0, 3, 95.238, '2019-10-06 14:52:56'),
+	(1678, 148, 400, 280, 279, 79, 1, 0, 1, 0, 100, '2019-10-06 14:52:56'),
+	(1679, 148, 476.19, 279, 280, 29, 1, 0, 1, 3, 95.238, '2019-10-06 14:52:57'),
+	(1680, 148, 500, 280, 279, 77, 1, 0, 0, 0, 100, '2019-10-06 14:52:57'),
+	(1681, 148, 571.428, 279, 280, 29, 1, 1, 0, 3, 95.238, '2019-10-06 14:52:59'),
+	(1682, 148, 600, 280, 279, 79, 1, 0, 0, 0, 100, '2019-10-06 14:52:59'),
+	(1683, 148, 666.666, 279, 280, 28, 1, 1, 0, 7, 95.238, '2019-10-06 14:53:01'),
+	(1684, 148, 700, 280, 279, 79, 1, 0, 0, 0, 100, '2019-10-06 14:53:01'),
+	(1685, 148, 761.904, 279, 280, 77, 1, 1, 0, 0, 95.238, '2019-10-06 14:53:03'),
+	(1686, 148, 800, 280, 279, 77, 1, 0, 1, 0, 100, '2019-10-06 14:53:03'),
+	(1687, 148, 857.142, 279, 280, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:53:04'),
+	(1688, 148, 900, 280, 279, 79, 1, 0, 0, 0, 100, '2019-10-06 14:53:04'),
+	(1689, 148, 952.38, 279, 280, 77, 0, 1, 0, 0, 95.238, '2019-10-06 14:53:06'),
+	(1690, 148, 1000, 280, 279, 77, 1, 0, 0, 0, 100, '2019-10-06 14:53:06'),
+	(1691, 148, 1047.62, 279, 280, 77, 0, 0, 0, 0, 95.238, '2019-10-06 14:53:07'),
+	(1692, 148, 1100, 280, 279, 79, 1, 0, 1, 0, 100, '2019-10-06 14:53:07'),
+	(1693, 148, 1142.86, 279, 280, 77, 1, 0, 0, 0, 95.238, '2019-10-06 14:53:10'),
+	(1694, 149, 95.238, 281, 282, 55, 1, 0, 0, 5, 95.238, '2019-10-06 14:55:09'),
+	(1695, 149, 90.909, 283, 281, 77, 1, 1, 0, 0, 90.909, '2019-10-06 14:55:09'),
+	(1696, 149, 100, 282, 281, 77, 1, 0, 0, 0, 100, '2019-10-06 14:55:09'),
+	(1697, 149, 181.818, 283, 281, 77, 1, 0, 0, 0, 90.909, '2019-10-06 14:55:09'),
+	(1698, 149, 190.476, 281, 282, 69, 1, 0, 0, 6, 95.238, '2019-10-06 14:55:32'),
+	(1699, 149, 200, 282, 281, 77, 1, 0, 0, 0, 103.092, '2019-10-06 14:55:32'),
+	(1700, 149, 272.727, 283, 281, 77, 1, 1, 1, 0, 90.909, '2019-10-06 14:55:32'),
+	(1701, 149, 285.714, 281, 281, 75, 1, 0, 0, 6, 95.238, '2019-10-06 14:56:17'),
+	(1702, 149, 303.092, 282, 281, 29, 1, 0, 0, 3, 106.382, '2019-10-06 14:56:17'),
+	(1703, 149, 363.636, 283, 281, 77, 1, 0, 0, 0, 90.909, '2019-10-06 14:56:17'),
+	(1704, 149, 380.952, 281, 283, 80, 1, 1, 0, 0, 95.238, '2019-10-06 14:56:40'),
+	(1705, 149, 409.474, 282, 281, 77, 1, 0, 1, 0, 109.89, '2019-10-06 14:56:40'),
+	(1706, 149, 454.545, 283, 281, 77, 0, 0, 0, 0, 90.909, '2019-10-06 14:56:40'),
+	(1707, 149, 476.19, 281, 283, 80, 1, 1, 0, 0, 95.238, '2019-10-06 14:56:51'),
+	(1708, 149, 519.364, 282, 281, 79, 1, 1, 1, 0, 113.636, '2019-10-06 14:56:51'),
+	(1709, 149, 545.454, 283, 281, 77, 1, 0, 1, 0, 90.909, '2019-10-06 14:56:51'),
+	(1710, 149, 571.428, 281, 283, 80, 1, 1, 0, 0, 95.238, '2019-10-06 14:57:01'),
+	(1711, 149, 633, 282, 281, 79, 1, 0, 0, 0, 113.636, '2019-10-06 14:57:01'),
+	(1712, 149, 636.363, 283, 281, 77, 1, 0, 1, 0, 90.909, '2019-10-06 14:57:01'),
+	(1713, 149, 666.666, 281, 283, 80, 1, 1, 0, 0, 95.238, '2019-10-06 14:57:06'),
+	(1714, 149, 727.272, 283, 281, 77, 1, 0, 0, 0, 90.909, '2019-10-06 14:57:06'),
+	(1715, 149, 746.636, 282, 281, 79, 1, 0, 1, 0, 113.636, '2019-10-06 14:57:06'),
+	(1716, 149, 761.904, 281, 283, 58, 1, 0, 0, 7, 95.238, '2019-10-06 15:01:04'),
+	(1717, 149, 818.181, 283, 281, 77, 1, 0, 0, 0, 91.743, '2019-10-06 15:01:04'),
+	(1718, 149, 857.142, 281, 283, 77, 1, 0, 0, 0, 95.238, '2019-10-06 15:01:24'),
+	(1719, 149, 860.272, 282, 281, 77, 1, 0, 0, 0, 113.636, '2019-10-06 15:01:24'),
+	(1720, 149, 909.924, 283, 281, 77, 1, 0, 1, 0, 91.743, '2019-10-06 15:01:24'),
+	(1721, 149, 952.38, 281, 281, 75, 1, 0, 0, 6, 95.238, '2019-10-06 15:01:35'),
+	(1722, 149, 973.908, 282, 281, 77, 1, 0, 1, 0, 113.636, '2019-10-06 15:01:35'),
+	(1723, 149, 1047.62, 281, 282, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:01:39'),
+	(1724, 149, 1087.54, 282, 281, 77, 1, 0, 0, 0, 113.636, '2019-10-06 15:01:39'),
+	(1725, 149, 1142.86, 281, 282, 80, 0, 0, 0, 0, 95.238, '2019-10-06 15:01:41'),
+	(1726, 149, 1201.18, 282, 281, 77, 1, 0, 0, 0, 113.636, '2019-10-06 15:01:41'),
+	(1727, 149, 1238.1, 281, 282, 80, 1, 1, 0, 0, 95.238, '2019-10-06 15:01:43'),
+	(1728, 149, 1314.82, 282, 281, 79, 1, 1, 0, 0, 113.636, '2019-10-06 15:01:43'),
+	(1729, 149, 1333.34, 281, 282, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:01:44'),
+	(1730, 149, 1428.46, 282, 281, 79, 1, 0, 1, 0, 113.636, '2019-10-06 15:01:44'),
+	(1731, 149, 1428.58, 281, 282, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:01:46'),
+	(1732, 149, 1523.82, 281, 282, 80, 1, 1, 0, 0, 95.238, '2019-10-06 15:01:48'),
+	(1733, 149, 1542.1, 282, 281, 79, 1, 0, 0, 0, 113.636, '2019-10-06 15:01:48'),
+	(1734, 149, 1619.06, 281, 282, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:05:52'),
+	(1735, 149, 1655.74, 282, 281, 77, 1, 0, 1, 0, 113.636, '2019-10-06 15:05:52'),
+	(1736, 149, 1714.3, 281, 282, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:05:53'),
+	(1737, 149, 1769.38, 282, 281, 77, 1, 1, 0, 0, 113.636, '2019-10-06 15:05:53'),
+	(1738, 149, 1809.54, 281, 282, 77, 1, 0, 0, 0, 95.238, '2019-10-06 15:05:55'),
+	(1739, 150, 95.238, 284, 286, 34, 1, 0, 0, 7, 95.238, '2019-10-06 15:06:28'),
+	(1740, 150, 90.909, 286, 284, 77, 1, 0, 1, 0, 90.909, '2019-10-06 15:06:28'),
+	(1741, 150, 100, 285, 284, 77, 1, 0, 0, 0, 100, '2019-10-06 15:06:28'),
+	(1742, 150, 181.818, 286, 284, 77, 0, 0, 0, 0, 90.909, '2019-10-06 15:06:28'),
+	(1743, 150, 190.476, 284, 286, 58, 1, 1, 0, 7, 95.238, '2019-10-06 15:06:42'),
+	(1744, 150, 200, 285, 284, 79, 1, 0, 0, 0, 100, '2019-10-06 15:06:42'),
+	(1745, 150, 272.727, 286, 284, 77, 1, 0, 0, 0, 90.909, '2019-10-06 15:06:42'),
+	(1746, 150, 285.714, 284, 286, 58, 1, 0, 0, 7, 95.238, '2019-10-06 15:06:45'),
+	(1747, 150, 300, 285, 284, 79, 1, 0, 0, 0, 100, '2019-10-06 15:06:45'),
+	(1748, 150, 363.636, 286, 284, 77, 1, 0, 1, 0, 91.743, '2019-10-06 15:06:45'),
+	(1749, 150, 380.952, 284, 285, 58, 1, 0, 0, 7, 95.238, '2019-10-06 15:06:52'),
+	(1750, 150, 400, 285, 284, 79, 1, 0, 0, 0, 101.01, '2019-10-06 15:06:52'),
+	(1751, 150, 455.379, 286, 284, 77, 1, 0, 1, 0, 91.743, '2019-10-06 15:06:52'),
+	(1752, 150, 476.19, 284, 285, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:06:55'),
+	(1753, 150, 501.01, 285, 284, 79, 1, 0, 1, 0, 101.01, '2019-10-06 15:06:55'),
+	(1754, 150, 571.428, 284, 285, 80, 0, 0, 0, 0, 95.238, '2019-10-06 15:06:57'),
+	(1755, 150, 602.02, 285, 284, 29, 1, 0, 0, 3, 101.01, '2019-10-06 15:06:58'),
+	(1756, 150, 666.666, 284, 285, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:06:59'),
+	(1757, 150, 703.03, 285, 284, 77, 1, 0, 1, 0, 100, '2019-10-06 15:06:59'),
+	(1758, 150, 761.904, 284, 285, 80, 1, 0, 0, 0, 95.238, '2019-10-06 15:07:10'),
+	(1759, 150, 803.03, 285, 284, 77, 1, 1, 0, 0, 100, '2019-10-06 15:07:10'),
+	(1760, 150, 857.142, 284, 285, 77, 1, 0, 0, 0, 95.238, '2019-10-06 15:07:12');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -2842,9 +2998,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`),
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1243 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=1346 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~921 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~1.059 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -3844,7 +4000,110 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(1239, 1623, 271, 'angriff', 'gesundheit', -3, 3, 3, 1, 0, 1),
 	(1240, 1624, 272, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
 	(1241, 1626, 272, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
-	(1242, 1628, 272, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1);
+	(1242, 1628, 272, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1243, 1629, 274, 'angriff', 'gesundheit', -3, 3, 3, 1, 1, 1),
+	(1244, 1630, 274, 'angriff', 'gesundheit', -3, 3, 3, 1, 0, 1),
+	(1245, 1631, 273, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1246, 1635, 273, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1247, 1636, 274, 'angriff', 'staerke', -3, 3, 3, 0, 1, 1),
+	(1248, 1636, 274, 'angriff', 'intelligenz', -3, 3, 3, 0, 0, 1),
+	(1249, 1636, 274, 'angriff', 'magie', -3, 3, 3, 0, 1, 1),
+	(1250, 1636, 274, 'angriff', 'abwehr', -2, 3, 3, 0, 1, 1),
+	(1251, 1638, 274, 'angriff', 'staerke', -5, 3, 5, 0, 1, 0),
+	(1252, 1638, 274, 'angriff', 'gesundheit', -3, 3, 5, 1, 1, 0),
+	(1253, 1640, 273, 'angriff', 'gesundheit', -3, 3, 3, 1, 0, 1),
+	(1254, 1641, 274, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1255, 1642, 274, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1256, 1644, 274, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1257, 1646, 275, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1258, 1647, 275, 'angriff', 'gesundheit', -4, 1, 1, 1, 1, 1),
+	(1259, 1650, 276, 'angriff', 'staerke', -3, 3, 3, 0, 0, 1),
+	(1260, 1650, 276, 'angriff', 'intelligenz', -3, 3, 3, 0, 0, 1),
+	(1261, 1650, 276, 'angriff', 'magie', -3, 3, 3, 0, 0, 1),
+	(1262, 1650, 276, 'angriff', 'abwehr', -2, 3, 3, 0, 0, 1),
+	(1263, 1651, 276, 'angriff', 'staerke', -5, 5, 5, 0, 1, 0),
+	(1264, 1651, 276, 'angriff', 'gesundheit', -3, 5, 5, 1, 1, 1),
+	(1265, 1652, 275, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1266, 1653, 276, 'angriff', 'staerke', -5, 4, 5, 0, 1, 0),
+	(1267, 1653, 276, 'angriff', 'gesundheit', -3, 4, 5, 1, 1, 1),
+	(1268, 1654, 275, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1269, 1655, 276, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1270, 1656, 275, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1271, 1657, 276, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1272, 1658, 275, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1273, 1659, 276, 'angriff', 'gesundheit', -5, 0, 1, 1, 1, 1),
+	(1274, 1661, 278, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1275, 1662, 278, 'angriff', 'staerke', -5, 5, 5, 0, 1, 0),
+	(1276, 1662, 278, 'angriff', 'gesundheit', -3, 5, 5, 1, 1, 1),
+	(1277, 1664, 278, 'angriff', 'staerke', -5, 4, 5, 0, 1, 0),
+	(1278, 1664, 278, 'angriff', 'gesundheit', -3, 4, 5, 1, 1, 0),
+	(1279, 1667, 277, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1280, 1670, 278, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1281, 1672, 280, 'angriff', 'staerke', -5, 5, 5, 0, 0, 1),
+	(1282, 1672, 280, 'angriff', 'gesundheit', -3, 5, 5, 1, 1, 1),
+	(1283, 1676, 279, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1284, 1677, 280, 'angriff', 'gesundheit', -3, 3, 3, 1, 1, 1),
+	(1285, 1680, 279, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1286, 1682, 279, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1287, 1684, 279, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1288, 1687, 280, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1289, 1688, 279, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1290, 1689, 280, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1291, 1690, 279, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1292, 1693, 280, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1293, 1694, 282, 'angriff', 'magie', -5, 2, 2, 1, 1, 1),
+	(1294, 1696, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1295, 1697, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1296, 1698, 282, 'angriff', 'initiative', -3, 4, 4, 1, 1, 1),
+	(1297, 1698, 282, 'angriff', 'ausweichen', -4, 4, 4, 1, 1, 1),
+	(1298, 1699, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1299, 1701, 281, 'verteidigung', 'staerke', 3, 3, 3, 1, 0, 1),
+	(1300, 1701, 281, 'verteidigung', 'gesundheit', 4, 3, 3, 1, 0, 1),
+	(1301, 1702, 281, 'angriff', 'gesundheit', -3, 3, 3, 1, 0, 1),
+	(1302, 1703, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1303, 1711, 281, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1304, 1714, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1305, 1716, 283, 'angriff', 'magie', -2, 3, 4, 0, 1, 0),
+	(1306, 1716, 283, 'angriff', 'initiative', -1, 3, 4, 0, 1, 0),
+	(1307, 1716, 283, 'angriff', 'ausweichen', -1, 3, 4, 0, 1, 0),
+	(1308, 1716, 283, 'angriff', 'gesundheit', -4, 3, 4, 1, 1, 1),
+	(1309, 1716, 283, 'angriff', 'abwehr', -3, 2, 4, 0, 1, 1),
+	(1310, 1717, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1311, 1718, 283, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1312, 1719, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1313, 1721, 281, 'verteidigung', 'staerke', 3, 3, 3, 1, 0, 1),
+	(1314, 1721, 281, 'verteidigung', 'gesundheit', 4, 3, 3, 1, 0, 1),
+	(1315, 1723, 282, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1316, 1724, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1317, 1726, 281, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1318, 1729, 282, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1319, 1731, 282, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1320, 1733, 281, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1321, 1734, 282, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1322, 1736, 282, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1323, 1738, 282, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(1324, 1739, 286, 'angriff', 'staerke', -8, 1, 1, 1, 1, 1),
+	(1325, 1739, 286, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(1326, 1741, 284, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1327, 1744, 284, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1328, 1745, 284, 'angriff', 'gesundheit', -5, 1, 1, 1, 0, 1),
+	(1329, 1746, 286, 'angriff', 'magie', -2, 3, 4, 0, 1, 0),
+	(1330, 1746, 286, 'angriff', 'initiative', -1, 3, 4, 0, 1, 0),
+	(1331, 1746, 286, 'angriff', 'ausweichen', -1, 3, 4, 0, 1, 0),
+	(1332, 1746, 286, 'angriff', 'gesundheit', -4, 3, 4, 1, 1, 1),
+	(1333, 1746, 286, 'angriff', 'abwehr', -3, 2, 4, 0, 1, 1),
+	(1334, 1747, 284, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1335, 1749, 285, 'angriff', 'magie', -2, 4, 4, 0, 0, 1),
+	(1336, 1749, 285, 'angriff', 'initiative', -1, 4, 4, 0, 0, 1),
+	(1337, 1749, 285, 'angriff', 'ausweichen', -1, 4, 4, 0, 0, 1),
+	(1338, 1749, 285, 'angriff', 'gesundheit', -4, 4, 4, 1, 1, 1),
+	(1339, 1749, 285, 'angriff', 'abwehr', -3, 4, 4, 0, 0, 1),
+	(1340, 1750, 284, 'angriff', 'gesundheit', -4, 1, 1, 1, 0, 1),
+	(1341, 1752, 285, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1342, 1755, 284, 'angriff', 'gesundheit', -3, 3, 3, 1, 0, 1),
+	(1343, 1756, 285, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1344, 1758, 285, 'angriff', 'gesundheit', -3, 2, 2, 1, 1, 1),
+	(1345, 1760, 285, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -3872,9 +4131,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `teilnehmer_id` (`teilnehmer_id`),
   KEY `kampf_id` (`kampf_id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=273 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=287 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~242 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~265 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `zauberpunkte`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`) VALUES
@@ -4131,7 +4390,21 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(269, 143, 45, 'spieler', 0, 21, 5, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 1238.1),
 	(270, 143, 4, 'npc', 1, 0, 0, 10, 10, 6, 0, 2, 10, 5, 100, 5, 30, 1200),
 	(271, 144, 45, 'spieler', 0, 38, 23, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 571.428),
-	(272, 144, 4, 'npc', 1, 0, 0, 5, 10, 0, 0, 2, 10, 5, 100, 5, 30, 500);
+	(272, 144, 4, 'npc', 1, 0, 0, 5, 10, 0, 0, 2, 10, 5, 100, 5, 30, 500),
+	(273, 145, 45, 'spieler', 0, 30, 7, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 857.142),
+	(274, 145, 4, 'npc', 1, 0, 0, 5, 7, 3, 0, 2, 10, 5, 100, 5, 30, 800),
+	(275, 146, 45, 'spieler', 0, 19, 1, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 857.142),
+	(276, 146, 4, 'npc', 1, 0, 0, 3, 10, 3, 0, 2, 10, 5, 100, 5, 30, 800),
+	(277, 147, 45, 'spieler', 0, 43, 2, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 666.666),
+	(278, 147, 4, 'npc', 1, 0, 0, 0, 10, 0, 0, 2, 10, 5, 100, 5, 30, 600),
+	(279, 148, 45, 'spieler', 0, 20, 1, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 1238.1),
+	(280, 148, 4, 'npc', 1, 0, 0, 10, 10, 0, 0, 2, 10, 5, 100, 5, 30, 1200),
+	(281, 149, 45, 'spieler', 0, 9, 0, 28, 5, 0, 1, 5, 1, 1, 105, 33, 12, 1904.78),
+	(282, 149, 4, 'npc', 1, 0, 0, 10, 10, 0, 0, 2, 10, 5, 88, 5, 14, 1883.02),
+	(283, 149, 2, 'npc', 1, 0, 8, 3, 3, 0, 0, 5, 5, 0, 109, 0, 34, 1001.67),
+	(284, 150, 45, 'spieler', 0, 16, 2, 10, 5, 0, 1, 5, 1, 1, 105, 33, 12, 952.38),
+	(285, 150, 4, 'npc', 1, 0, 0, 10, 10, 2, 0, 2, 10, 5, 100, 5, 30, 903.03),
+	(286, 150, 2, 'npc', 1, 0, 8, 0, 3, 0, 0, 5, 5, 0, 109, 0, 34, 547.122);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -4742,9 +5015,9 @@ CREATE TABLE IF NOT EXISTS `zauber_effekt` (
   PRIMARY KEY (`id`),
   KEY `zauber_id` (`zauber_id`),
   CONSTRAINT `FK__zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Spezifiziert die Grundwirkung von Zaubern. Es können auch mehrere Attribute geändert werden -> zusätzlicher Datensatz für Zauber';
+) ENGINE=InnoDB AUTO_INCREMENT=173 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Spezifiziert die Grundwirkung von Zaubern. Es können auch mehrere Attribute geändert werden -> zusätzlicher Datensatz für Zauber';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_effekt: ~10 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_effekt: ~155 rows (ungefähr)
 DELETE FROM `zauber_effekt`;
 /*!40000 ALTER TABLE `zauber_effekt` DISABLE KEYS */;
 INSERT INTO `zauber_effekt` (`id`, `zauber_id`, `art`, `attribut`, `wert`, `runden`, `jede_runde`) VALUES
@@ -4760,8 +5033,8 @@ INSERT INTO `zauber_effekt` (`id`, `zauber_id`, `art`, `attribut`, `wert`, `rund
 	(24, 60, 'angriff', 'gesundheit', -2, 2, 1),
 	(25, 61, 'angriff', 'staerke', -3, 2, 0),
 	(26, 61, 'angriff', 'initiative', -3, 2, 0),
-	(27, 63, 'angriff', 'initiative', -2, 3, 0),
-	(28, 63, 'angriff', 'ausweichen', -2, 3, 0),
+	(27, 67, 'angriff', 'initiative', -2, 3, 0),
+	(28, 67, 'angriff', 'ausweichen', -2, 3, 0),
 	(29, 62, 'angriff', 'staerke', -2, 2, 1),
 	(30, 62, 'angriff', 'gesundheit', -2, 2, 1),
 	(31, 62, 'angriff', 'initiative', -2, 2, 1),
@@ -4785,7 +5058,7 @@ INSERT INTO `zauber_effekt` (`id`, `zauber_id`, `art`, `attribut`, `wert`, `rund
 	(49, 65, 'verteidigung', 'gesundheit', 1, 3, 1),
 	(50, 66, 'angriff', 'ausweichen', -1, 2, 0),
 	(51, 66, 'angriff', 'abwehr', -2, 2, 0),
-	(52, 67, 'verteidigung', 'gesundheit', 3, 2, 1),
+	(52, 63, 'verteidigung', 'gesundheit', 3, 2, 1),
 	(53, 68, 'angriff', 'staerke', -3, 5, 1),
 	(54, 68, 'angriff', 'magie', -2, 5, 1),
 	(55, 68, 'angriff', 'ausweichen', -1, 5, 1),
@@ -4944,9 +5217,9 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~8 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~10 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
@@ -4954,9 +5227,13 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(3, 26, 5),
 	(4, 26, 67),
 	(6, 45, 77),
-	(24, 45, 29),
-	(25, 45, 32),
-	(26, 45, 28);
+	(27, 45, 75),
+	(29, 45, 69),
+	(31, 45, 80),
+	(32, 45, 79),
+	(33, 45, 58),
+	(34, 45, 34),
+	(36, 45, 63);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
