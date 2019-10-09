@@ -148,7 +148,7 @@
 																<?php 
 																	echo $zauber->titel.'&#10;';
 																	foreach ($zauber->zaubereffekte as $eff){
-																		echo $eff->attribut.' '.$eff->wert.' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
 																		if ($eff->jede_runde == 0) echo ' (temporär)';
 																		echo '&#10;';
 																	}
@@ -243,7 +243,7 @@
 																<?php 
 																	echo $zauber->titel.'&#10;';
 																	foreach ($zauber->zaubereffekte as $eff){
-																		echo $eff->attribut.' '.$eff->wert.' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
 																		if ($eff->jede_runde == 0) echo ' (temporär)';
 																		echo '&#10;';
 																	}

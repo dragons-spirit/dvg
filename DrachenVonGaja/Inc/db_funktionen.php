@@ -998,8 +998,7 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 		else $ziel_name = $kt_ziel->name;
 	$zauberpunkte_verbrauch = berechne_zauberpunkte_verbrauch($zauber);
 	$timer_verbrauch = berechne_timer_verbrauch($kt);
-	if ($zauberpunkte_verbrauch > 0) $ist_zauber = true;
-		else $ist_zauber = false;
+	$ist_zauber = $zauber->ist_zauber();
 	
 	$alle_zauber_effekte = get_zauber_effekte($zauber->id);
 	foreach ($alle_zauber_effekte as $zauber_effekt){
@@ -1024,8 +1023,8 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			$ausweichen_erfolg = 0;
 			$abwehr_erfolg = 0;
 		} else {
-			$ausweichen_erfolg = berechne_ausweichen_erfolg($kt_ziel);
-			$abwehr_erfolg = berechne_abwehr_erfolg($kt_ziel);
+			$ausweichen_erfolg = berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber);
+			$abwehr_erfolg = berechne_abwehr_erfolg($kt, $kt_ziel, $zauber);
 		}
 		# Sind ausreichend Zauberpunkte vorhanden?
 		if (($kt->zauberpunkte - $zauberpunkte_verbrauch) < 0){
@@ -1047,23 +1046,25 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			case 011:
 				if ($ist_zauber) $ausgabe = $kt->name." patzt beim Zaubern von ".$zauber->titel." auf ".$ziel_name.".";
 					else $ausgabe = $kt->name." patzt Ausführen von ".$zauber->titel." auf ".$ziel_name.".";
+				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel ist ausgewichen
 			case 110:
 			case 111:
 				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann dem Zauber jedoch ausweichen.";
 					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann dem Angriff jedoch ausweichen.";
+				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel hat abgewehrt
 			case 101:
 				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann den Zauber jedoch abwehren.";
 					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann den Angriff jedoch abwehren.";
+				$return_wert = [3, false, $ausgabe];
 				break;
 			# Treffer
 			default:
 				break;
 		}
-		if ($ausgabe) $return_wert = [2, false, $ausgabe];
 		
 		# Eintragen der Aktion in die Datenbank
 		if ($stmt = $connect_db_dvg->prepare("
@@ -1104,9 +1105,10 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 		$kt->timer = $kt->timer + $timer_verbrauch;
 	}
 	
-	if (!$return_wert){	
+	if (!$return_wert OR $return_wert[0] > 2){	
 		# Eintragen der Effekte in die Datenbank
 		foreach ($alle_zauber_effekte as $zauber_effekt){
+			berechne_effekt_wert($kt, $kt_ziel, $zauber_effekt, $return_wert[0] == 3);
 			if ($stmt = $connect_db_dvg->prepare("
 					INSERT INTO kampf_effekt(
 						kampf_aktion_id,
@@ -1137,9 +1139,11 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 				echo "<br />\nQuerryfehler in insert_kampf_aktion() - kampf_effekt<br />\n";
 			}
 		}
-		if ($ist_zauber) $ausgabe = $kt->name." wendet den Zauber ".$zauber->titel." erfolgreich auf ".$ziel_name." an.";
-			else $ausgabe = $kt->name." greift ".$ziel_name." erfolgreich mit ".$zauber->titel." an.";
-		$return_wert = [3, false, $ausgabe];
+		if (!$return_wert){
+			if ($ist_zauber) $ausgabe = $kt->name." wendet den Zauber ".$zauber->titel." erfolgreich auf ".$ziel_name." an.";
+				else $ausgabe = $kt->name." greift ".$ziel_name." erfolgreich mit ".$zauber->titel." an.";
+			$return_wert = [4, false, $ausgabe];
+		}
 	}
 	return $return_wert;
 }

@@ -412,6 +412,30 @@ class KampfZauber {
 		$this->wahrscheinlichkeit = $ds[9];
 		$this->zaubereffekte = $zaubereffekte;
 	}
+	
+	# Prüft ob es sich um einen Zauber handelt oder um einen Standardangriff
+	public function ist_zauber(){
+		if ($this->verbrauch > 0) return true;
+		else return false;
+	}
+	
+	# Prüft ob es sich um einen Angriff oder eine Verteidigung handelt
+	public function ist_angriff(){
+		if ($this->zaubereffekte[0]->art == "angriff") return true;
+		else return false;
+	}
+	
+	# Prüft das Hauptelement des Zaubers und gibt die korrespondierende Attributbezeichnung für den Kampfteilnehmer zurück
+	public function hauptelement_attribut_bez(){
+		switch ($this->hauptelement_id){
+			case 2: $element = "element_feuer"; break;
+			case 3: $element = "element_wasser"; break;
+			case 4: $element = "element_erde"; break;
+			case 5: $element = "element_luft"; break;
+			default: $element = false; break;
+		}
+		return $element;
+	}
 }
 
 

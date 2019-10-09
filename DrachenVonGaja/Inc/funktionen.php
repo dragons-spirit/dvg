@@ -30,6 +30,14 @@ function check_wkt($wkt){
 }
 
 
+# Wahrscheinlichkeitsberechnung zwischen 0,001 und 100,000
+function check_wkt_spezial($wkt){
+	$zufall = mt_rand(1,100000);
+	echo "Zufallszahl <= Wkt : ".($zufall <= $wkt * 1000)." [".$zufall." | ".$wkt."]<br>";
+	return ($zufall <= $wkt * 1000);
+}
+
+
 # Schneidet analog zu floor alle Nachkommastellen bis zur angegebenen Stelle ab
 function floor_x($zahl,$nachkommastellen=3){   
      return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
@@ -65,6 +73,26 @@ function pfad_fuer_style($pfad){
 	return substr($pfad,1);	
 }
 
+
+# Anzeige von Attributnamen korrigieren
+function anzeige_attribut($attr){
+	switch($attr){
+		case "gesundheit": return "Gesundheit";
+		case "zauberpunkte": return "Zauberpunkte";
+		case "staerke": return "Stärke";
+		case "intelligenz": return "Intelligenz";
+		case "magie": return "Magie";
+		case "element_feuer": return "Feuer";
+		case "element_wasser": return "Wasser";
+		case "element_erde": return "Erde";
+		case "element_luft": return "Luft";
+		case "timer": return "Timer";
+		case "initiative": return "Initiative";
+		case "ausweichen": return "Ausweichen";
+		case "abwehr": return "Abwehr";
+		default: return "Fehler beim umkodieren von Attribut";
+	}
+}
 
 
 ######################################
@@ -124,15 +152,46 @@ function berechne_angriff_erfolg($kt){
 
 
 # Bestimmt den Erfolg des Ausweichens
-function berechne_ausweichen_erfolg($kt){
-	if (check_wkt($kt->ausweichen)) return 1;
+function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
+	if (!$zauber->ist_angriff()){
+		$ausweichchance = 0;
+	} else {
+		if (!$zauber->ist_zauber()){
+			# Ausweichchance bei Standardangriffen = Ausweichchance Ziel
+			$ausweichchance = $kt_ziel->ausweichen;
+		} else {
+			# Ausweichchance bei Zaubern um 50% reduziert und zusätzlich um Malus (Ziel->Intelligenz >= Angreifer->Intelligenz dann kein Malus)
+			if ($kt->intelligenz > 0) $malus = floor_x($kt_ziel->intelligenz / $kt->intelligenz, 3);
+				else $malus = 1;
+			if ($malus > 1) $malus = 1;
+			$ausweichchance = 0.5 * $kt_ziel->ausweichen * $malus;
+			echo "Ausweichchance = ".$ausweichchance." [0.5 * ".$kt_ziel->ausweichen." * ".$malus."]<br>";
+		}
+	}
+	if (check_wkt_spezial($ausweichchance)) return 1;
 	else return 0;
 }
 
 
 # Bestimmt den Erfolg der Abwehr eines Angriffs/Zaubers
-function berechne_abwehr_erfolg($kt){
-	if (check_wkt($kt->abwehr)) return 1;
+function berechne_abwehr_erfolg($kt, $kt_ziel, $zauber){
+	if (!$zauber->ist_angriff()){
+		$abwehrchance = 0;
+	} else {
+		if (!$zauber->ist_zauber()){
+			# Abwehrchance bei Standardangriffen = Abwehrchance Ziel
+			$abwehrchance = $kt_ziel->abwehr;
+		} else {
+			# Abwehrchance bei Zaubern um Malus reduziert (Ziel->Element_Wert >= Angreifer->Element_Wert dann kein Malus)
+			$element = $zauber->hauptelement_attribut_bez();
+			if ($element AND $kt->$element > 0) $malus = floor_x($kt_ziel->$element / $kt->$element, 3);
+				else $malus = 1;
+			if ($malus > 1) $malus = 1;
+			$abwehrchance = $kt_ziel->abwehr * $malus;
+			echo "Abwehrchance = ".$abwehrchance." [".$kt_ziel->abwehr." * ".$malus."]<br>";
+		}
+	}
+	if (check_wkt_spezial($abwehrchance)) return 1;
 	else return 0;
 }
 
@@ -264,6 +323,55 @@ function ki_ausfuehren($kt, $alle_zauber){
 		echo "Angriff/Zauber und/oder Ziel konnten nicht ermittelt werden.<br>";
 		return false;
 	}
+}
+
+
+# Anzeige von Attributnamen korrigieren
+function berechne_effekt_wert($kt, $kt_ziel, $effekt, $abwehr){
+	switch($effekt->attribut){
+		case "gesundheit": 
+			
+			break;
+		case "zauberpunkte":
+			
+			break;
+		case "staerke":
+			
+			break;
+		case "intelligenz":
+			
+			break;
+		case "magie":
+			
+			break;
+		case "element_feuer":
+			
+			break;
+		case "element_wasser":
+			
+			break;
+		case "element_erde":
+			
+			break;
+		case "element_luft":
+			
+			break;
+		case "timer":
+			
+			break;
+		case "initiative":
+			
+			break;
+		case "ausweichen":
+			
+			break;
+		case "abwehr":
+			
+			break;
+		default:
+			return false;
+	}
+	return true;
 }
 
 
