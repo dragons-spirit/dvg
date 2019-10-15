@@ -33,7 +33,6 @@ function check_wkt($wkt){
 # Wahrscheinlichkeitsberechnung zwischen 0,001 und 100,000
 function check_wkt_spezial($wkt){
 	$zufall = mt_rand(1,100000);
-	echo "Zufallszahl <= Wkt : ".($zufall <= $wkt * 1000)." [".$zufall." | ".$wkt."]<br>";
 	return ($zufall <= $wkt * 1000);
 }
 
@@ -102,6 +101,8 @@ function anzeige_attribut($attr){
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
+$max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
+$max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
 $anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
 $kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
@@ -165,7 +166,6 @@ function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
 				else $malus = 1;
 			if ($malus > 1) $malus = 1;
 			$ausweichchance = 0.5 * $kt_ziel->ausweichen * $malus;
-			echo "Ausweichchance = ".$ausweichchance." [0.5 * ".$kt_ziel->ausweichen." * ".$malus."]<br>";
 		}
 	}
 	if (check_wkt_spezial($ausweichchance)) return 1;
@@ -184,11 +184,11 @@ function berechne_abwehr_erfolg($kt, $kt_ziel, $zauber){
 		} else {
 			# Abwehrchance bei Zaubern um Malus reduziert (Ziel->Element_Wert >= Angreifer->Element_Wert dann kein Malus)
 			$element = $zauber->hauptelement_attribut_bez();
-			if ($element AND $kt->$element > 0) $malus = floor_x($kt_ziel->$element / $kt->$element, 3);
+			$gegenelement = $zauber->gegenelement_attribut_bez();
+			if ($element AND $kt->$element > 0) $malus = floor_x($kt_ziel->$gegenelement / $kt->$element, 3);
 				else $malus = 1;
 			if ($malus > 1) $malus = 1;
 			$abwehrchance = $kt_ziel->abwehr * $malus;
-			echo "Abwehrchance = ".$abwehrchance." [".$kt_ziel->abwehr." * ".$malus."]<br>";
 		}
 	}
 	if (check_wkt_spezial($abwehrchance)) return 1;
@@ -327,53 +327,64 @@ function ki_ausfuehren($kt, $alle_zauber){
 
 
 # Anzeige von Attributnamen korrigieren
-function berechne_effekt_wert($kt, $kt_ziel, $effekt, $abwehr){
+function berechne_effekt_wert($kt, $kt_ziel, $zauber, $effekt, $abwehr){
+	global $max_abwehr_standard;
+	global $max_abwehr_zauber;
+	$element = $zauber->hauptelement_attribut_bez();
+	if ($element){
+		$c1 = 1;
+		$gegenelement = $zauber->gegenelement_attribut_bez();
+	} else {
+		$c1 = 0;
+		$gegenelement = false;
+	}
+	if ($abwehr) $c2 = 1;
+		else $c2 = 0;
+	$check = $c1.$c2;
 	switch($effekt->attribut){
 		case "gesundheit": 
-			
-			break;
 		case "zauberpunkte":
-			
-			break;
 		case "staerke":
-			
-			break;
 		case "intelligenz":
-			
-			break;
 		case "magie":
-			
-			break;
 		case "element_feuer":
-			
-			break;
 		case "element_wasser":
-			
-			break;
 		case "element_erde":
-			
-			break;
 		case "element_luft":
-			
-			break;
 		case "timer":
-			
-			break;
 		case "initiative":
-			
-			break;
 		case "ausweichen":
-			
-			break;
 		case "abwehr":
-			
+			switch ($check){
+				# Standardangriff ohne Abwehr
+				case 00: 
+					$effekt->wert = floor_x($effekt->wert * (pow($kt->staerke, 1/2)/2), 0);
+					break;
+				# Standardangriff mit Abwehr
+				case 01:
+					if ($kt->staerke == 0 OR $kt->staerke <= $kt_ziel->staerke) $malus = 1;
+						else $malus = floor_x($kt_ziel->staerke / $kt->staerke, 3);
+					$effekt->wert = floor_x($effekt->wert * (pow($kt->staerke, 1/2)/2) * (1 - ($malus * $max_abwehr_standard)), 0);
+					break;
+				# Zauber ohne Abwehr
+				case 10:
+					$effekt->wert = floor_x($effekt->wert * ((pow($kt->magie, 1/4) * pow($kt->$element, 1/4)) /2), 0);
+					break;
+				# Zauber mit Abwehr
+				case 11:
+					if ($kt->$element == 0 OR $kt->$element <= $kt_ziel->$gegenelement) $malus = 1;
+						else $malus = floor_x($kt_ziel->$gegenelement / $kt->$element, 3);
+					$effekt->wert = floor_x($effekt->wert * ((pow($kt->magie, 1/4) * pow($kt->$element, 1/4)) /2) * (1 - ($malus * $max_abwehr_zauber)), 0);
+					break;
+				default:
+					break;
+			}
 			break;
 		default:
 			return false;
 	}
 	return true;
 }
-
 
 
 ##############################

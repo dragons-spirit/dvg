@@ -436,6 +436,18 @@ class KampfZauber {
 		}
 		return $element;
 	}
+	
+	# Prüft das Hauptelement des Zaubers und gibt die korrespondierende Attributbezeichnung des Gegenelements für den Kampfteilnehmer zurück
+	public function gegenelement_attribut_bez(){
+		switch ($this->hauptelement_id){
+			case 2: $element = "element_luft"; break;
+			case 3: $element = "element_erde"; break;
+			case 4: $element = "element_feuer"; break;
+			case 5: $element = "element_wasser"; break;
+			default: $element = false; break;
+		}
+		return $element;
+	}
 }
 
 

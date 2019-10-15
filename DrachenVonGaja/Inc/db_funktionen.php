@@ -1000,8 +1000,7 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	$timer_verbrauch = berechne_timer_verbrauch($kt);
 	$ist_zauber = $zauber->ist_zauber();
 	
-	$alle_zauber_effekte = get_zauber_effekte($zauber->id);
-	foreach ($alle_zauber_effekte as $zauber_effekt){
+	foreach ($zauber->zaubereffekte as $zauber_effekt){
 		# Ist der Angriff/Zauber sinnvoll?
 		if (($kt->seite != $kt_ziel->seite AND $zauber_effekt->art == "verteidigung") OR ($kt->seite == $kt_ziel->seite AND $zauber_effekt->art == "angriff") OR $kt_ziel->ist_tot()){
 			if ($ist_zauber) $ausgabe = $kt->name." will den Zauber ".$zauber->titel." auf ".$ziel_name." anwenden und stellt dabei fest, ";
@@ -1107,8 +1106,8 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	
 	if (!$return_wert OR $return_wert[0] > 2){	
 		# Eintragen der Effekte in die Datenbank
-		foreach ($alle_zauber_effekte as $zauber_effekt){
-			berechne_effekt_wert($kt, $kt_ziel, $zauber_effekt, $return_wert[0] == 3);
+		foreach ($zauber->zaubereffekte as $zauber_effekt){
+			berechne_effekt_wert($kt, $kt_ziel, $zauber, $zauber_effekt, $return_wert[0] == 3);
 			if ($stmt = $connect_db_dvg->prepare("
 					INSERT INTO kampf_effekt(
 						kampf_aktion_id,
