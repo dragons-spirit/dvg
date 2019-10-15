@@ -29,6 +29,7 @@
 	if ($im_kampf AND !$kampf_vorbei){
 		# Spieleraktion verarbeiten
 		if (isset($_POST["kt_id_ziel_value"]) AND $_POST["kt_id_ziel_value"] > 0){
+			$kampf->log = "<br>" . $kampf->log;
 			$kt_zaubert = false;
 			$kt_ziel = false;
 			$zauber = get_zauber($_POST["zauber_id_value"]);
@@ -129,16 +130,54 @@
 					foreach ($kt_0 as $kt){
 						?>
 						<div id="<?php echo "kt_div_0_".$counter_0 ?>" width="100%" height="100%" style="background-color:darkgreen;" kt_id="<?php echo $kt->kt_id;?>">
-							<table style="border-collapse:collapse;" width="100%">
+							<table style="border-collapse:collapse;">
 								<tr>
+									<!-- Spielerbild -->
 									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:150px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
+									<!-- Aktive Zauber auf Spieler -->
+									<td valign="top">
+										<table style="border-collapse:collapse;">
+											<?php
+											$alle_aktiven_zauber = get_zauber_aktiv($kt);
+											if ($alle_aktiven_zauber){
+												foreach ($alle_aktiven_zauber as $zauber){
+													?>
+													<tr>
+														<td>
+															<span title="
+																<?php 
+																	echo $zauber->titel.'&#10;';
+																	foreach ($zauber->zaubereffekte as $eff){
+																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		if ($eff->jede_runde == 0) echo ' (temporär)';
+																		echo '&#10;';
+																	}
+																?>">
+																<img style="max-height:30px; width:auto;"
+																	src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+																	alt="<?php echo $zauber->titel ?>" 
+																	<?php
+																	if($zauber->zaubereffekte[0]->art == "angriff"){
+																		echo "style='border:1px red solid;'";
+																	} else {
+																		echo "style='border:1px green solid;'";
+																	}?>/>
+															</span>
+														</td>
+													</tr>
+													<?php
+												}
+											}
+											?>
+										</table>
+									</td>
 								</tr>
 								<tr>
 									<td align="left" style="font-size:14pt;"><?php echo $kt->name;?></td>
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf($kampf_details); ?>
+										<?php $kt->ausgabe_kampf($kampf_detail); ?>
 									</td>
 								</tr>
 							</table>
@@ -186,16 +225,54 @@
 					foreach ($kt_1 as $kt){
 						?>
 						<div id="<?php echo "kt_div_1_".$counter_1 ?>" width="100%" height="100%" style="background-color:darkred;" kt_id="<?php echo $kt->kt_id;?>">
-							<table style="border-collapse:collapse;" width="100%">
+							<table style="border-collapse:collapse;">
 								<tr>
+									<!-- NPC-Bild -->
 									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:150px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
+									<!-- Aktive Zauber auf Spieler -->
+									<td valign="top">
+										<table style="border-collapse:collapse;">
+											<?php
+											$alle_aktiven_zauber = get_zauber_aktiv($kt);
+											if ($alle_aktiven_zauber){
+												foreach ($alle_aktiven_zauber as $zauber){
+													?>
+													<tr>
+														<td>
+															<span title="
+																<?php 
+																	echo $zauber->titel.'&#10;';
+																	foreach ($zauber->zaubereffekte as $eff){
+																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		if ($eff->jede_runde == 0) echo ' (temporär)';
+																		echo '&#10;';
+																	}
+																?>">
+																<img style="max-height:30px; width:auto;"
+																	src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+																	alt="<?php echo $zauber->titel ?>" 
+																	<?php
+																	if($zauber->zaubereffekte[0]->art == "angriff"){
+																		echo "style='border:1px red solid;'";
+																	} else {
+																		echo "style='border:1px green solid;'";
+																	}?>/>
+															</span>
+														</td>
+													</tr>
+													<?php
+												}
+											}
+											?>
+										</table>
+									</td>
 								</tr>
 								<tr>
 									<td><p align="left" style="font-size:14pt;"><?php echo $kt->name;?></p></td>
 								</tr>
 								<tr>
 									<td>
-										<?php $kt->ausgabe_kampf($kampf_details); ?>
+										<?php $kt->ausgabe_kampf($kampf_detail); ?>
 									</td>
 								</tr>
 							</table>
