@@ -83,6 +83,102 @@ class Spieler {
 		$this->ausweichen = $ds[24];
 		$this->zuletzt_gespielt = $ds[25];
 	}
+	
+	public function gewinn_verrechnen($gewinn) {
+		$this->staerke = $this->staerke + $gewinn->staerke;
+		$this->intelligenz = $this->intelligenz + $gewinn->intelligenz;
+		$this->magie = $this->magie + $gewinn->magie;
+		$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
+		$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
+		$this->element_erde = $this->element_erde + $gewinn->element_erde;
+		$this->element_luft = $this->element_luft + $gewinn->element_luft;
+		$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
+		$this->energie = $this->energie + $gewinn->energie;
+		$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
+		$this->initiative = $this->initiative + $gewinn->initiative;
+		$this->abwehr = $this->abwehr + $gewinn->abwehr;
+		$this->ausweichen = $this->ausweichen + $gewinn->ausweichen;
+	}
+	
+	# Regeneration der Spielerwerte (Gesundheit, Energie, Zauberpunkte) um Prozent vom jeweiligen Maximum
+	public function erholung_prozent($gesundheit_proz = 100, $energie_proz = 100, $zauberpunkte_proz = 100){
+		$this->attribut_aendern("gesundheit", floor_x($this->max_gesundheit * ($gesundheit_proz/100), 0), 0, $this->max_gesundheit);
+		$this->attribut_aendern("energie", floor_x($this->max_energie * ($energie_proz/100), 0), 0, $this->max_energie);
+		$this->attribut_aendern("zauberpunkte", floor_x($this->max_zauberpunkte * ($zauberpunkte_proz/100), 0), 0, $this->max_zauberpunkte);
+		$this->db_update();
+	}
+	
+	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
+	public function attribut_aendern($attribut, $wert, $min=-9999999, $max=9999999){
+		$this->$attribut = $this->$attribut + $wert;
+		if ($this->$attribut < $min) $this->$attribut = $min;
+		if ($this->$attribut > $max) $this->$attribut = $max;
+	}
+	
+	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
+	public function uebernehme_kt_werte($kt){
+		$this->gesundheit = $kt->gesundheit;
+		$this->zauberpunkte = $kt->zauberpunkte;
+		$this->db_update();
+	}
+	
+	# Aktualisiert die Spielerdaten in der Datenbank
+	public function db_update(){
+		global $debug;
+		global $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+				UPDATE spieler
+				SET bilder_id = ?,
+					level_id = ?,
+					name = ?,
+					staerke = ?,
+					intelligenz = ?,
+					magie = ?,
+					element_feuer = ?,
+					element_wasser = ?,
+					element_erde = ?,
+					element_luft = ?,
+					gesundheit = ?,
+					max_gesundheit = ?,
+					energie = ?,
+					max_energie = ?,					
+					zauberpunkte = ?,
+					max_zauberpunkte = ?,
+					initiative = ?,
+					abwehr = ?,
+					ausweichen = ?,
+					balance = ?
+				WHERE id = ?")){
+			$stmt->bind_param('ddsdddddddddddddddddd',
+					$this->bilder_id,
+					$this->level_id,
+					$this->name,
+					$this->staerke,
+					$this->intelligenz,
+					$this->magie,
+					$this->element_feuer,
+					$this->element_wasser,
+					$this->element_erde,
+					$this->element_luft,
+					$this->gesundheit,
+					$this->max_gesundheit,
+					$this->energie,
+					$this->max_energie,
+					$this->zauberpunkte,
+					$this->max_zauberpunkte,
+					$this->initiative,
+					$this->abwehr,
+					$this->ausweichen,
+					$this->balance,
+					$this->id);
+			$stmt->execute();
+			if ($debug) echo "<br />\nSpieler wurde in Datenbank aktualisiert.<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in spieler->db_update()<br />\n";
+			return false;
+		}
+	}
 }
 
 
@@ -232,6 +328,7 @@ class KampfTeilnehmer {
 	public $timer;
 	public $kt_id;
 	public $ki_id;
+	public $gewinn_id;
 		
 	public function __construct($ds=null, $typ=null, $seite=null) {
 		if ($ds == null AND $typ == null AND $seite == null) $this->set_null();
@@ -266,6 +363,8 @@ class KampfTeilnehmer {
 		$this->kt_id = null;
 		if ($typ == "npc") {$this->ki_id = $ds->ki_id;
 			} else {$this->ki_id = 0;}
+		if ($typ == "npc") {$this->gewinn_id = null;
+			} else {$temp = new Gewinn(); $this->gewinn_id = $temp->id;}
 	}
 	
 	# Kampfteilnehmer mit Datensatz aus DB erstellen
@@ -292,6 +391,7 @@ class KampfTeilnehmer {
 		$this->timer = $ds[19];
 		$this->kt_id = $ds[20];
 		$this->ki_id = $ds[21];
+		$this->gewinn_id = $ds[22];
 	}
 	
 	# Initialisierung mit NULL
@@ -318,6 +418,7 @@ class KampfTeilnehmer {
 		$this->timer = null;
 		$this->kt_id = null;
 		$this->ki_id = null;
+		$this->gewinn_id = null;
 	}
 	
 	public function erhoehe_timer($wert){
@@ -347,6 +448,7 @@ class KampfTeilnehmer {
 		echo "timer : " . $this->timer . "<br>";
 		echo "kt_id : " . $this->kt_id . "<br>";
 		echo "ki_id : " . $this->ki_id . "<br>";
+		echo "gewinn_id : " . $this->gewinn_id . "<br>";
 	}
 	
 	public function ausgabe_kampf($log_detail = 1){
@@ -555,11 +657,109 @@ class Kampf {
 }
 
 
+class Gewinn {
+	public $id;
+	public $staerke;
+	public $intelligenz;
+	public $magie;
+	public $element_feuer;
+	public $element_wasser;
+	public $element_erde;
+	public $element_luft;
+	public $gesundheit;
+	public $energie;
+	public $zauberpunkte;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
+
+	public function __construct($ds=null) {
+		if ($ds == null){
+			$id = $this->init_null();
+		} else {
+			$this->init($ds);
+			$id = $this->id;
+		}
+		return $id;
+	}
+	
+	public function init_null() {
+		global $connect_db_dvg;
+		global $debug;
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO gewinn
+			VALUES ()")){
+			$stmt->execute();
+			$stmt = $connect_db_dvg->prepare("SELECT * FROM gewinn WHERE id=(SELECT MAX(id) FROM gewinn)");
+			$stmt->execute();
+			$gewinn = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+			if ($debug) echo "<br />\Gewinn (id=" . $gewinn_id . ") wurde hinzugefügt.<br />\n";
+		} else {
+			echo "<br />\nQuerryfehler in Gewinn->init_null()<br />\n";
+		}
+		$this->init($gewinn);
+		return $this->id;
+	}
+	
+	public function init($ds) {
+		$this->id = $ds[0];
+		$this->staerke = $ds[1];
+		$this->intelligenz = $ds[2];
+		$this->magie = $ds[3];
+		$this->element_feuer = $ds[4];
+		$this->element_wasser = $ds[5];
+		$this->element_erde = $ds[6];
+		$this->element_luft = $ds[7];
+		$this->gesundheit = $ds[8];
+		$this->energie = $ds[9];
+		$this->zauberpunkte = $ds[10];
+		$this->initiative = $ds[11];
+		$this->abwehr = $ds[12];
+		$this->ausweichen = $ds[13];
+	}
+}
 
 
+class Statistik {
+	public $id;
+	public $spieler_id;
+	public $npc_id;
+	public $npc_name;
+	public $anzahl;
+	public $wie;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->spieler_id = $ds[1];
+		$this->npc_id = $ds[2];
+		$this->npc_name = $ds[3];
+		$this->anzahl = $ds[4];
+		$this->wie = $ds[5];
+	}
+}
 
 
+class Aktion {
+	public $id;
+	public $titel;
+	public $text;
+	public $beschreibung;
+	public $art;
+	public $dauer;
+	public $statusbild;
+	public $energiebedarf;
 
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->titel = $ds[1];
+		$this->text = $ds[2];
+		$this->beschreibung = $ds[3];
+		$this->art = $ds[4];
+		$this->dauer = $ds[5];
+		$this->statusbild = $ds[6];
+		$this->energiebedarf = $ds[7];
+	}
+}
 
 
 

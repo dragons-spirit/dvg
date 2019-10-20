@@ -1,4 +1,4 @@
-<div id="divzauber" align="left" > <!-- style="background-color:darkred;" -->
+<div id="divzauber" align="left" >
 	<?php
 
 #######################################
@@ -72,7 +72,8 @@
 						$zauber_und_ziel = ki_ausfuehren($kt, $alle_zauber);
 					} else {
 						$zauber_und_ziel = false;
-						echo $kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
+						echo "Für ".$kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
+						break;
 					}
 					# Mit ermitteltem Angriff/Zauber und Ziel Kampfaktion hinzufügen
 					if ($zauber_und_ziel){
@@ -114,7 +115,7 @@
 # Anzeige/Aufbau Kampfumgebung #
 ################################
 	
-	if ($im_kampf){ #  AND !$kampf_vorbei
+	if ($im_kampf){
 		$count=0;
 		$counter_0=0;
 		$counter_1=0;
@@ -368,7 +369,6 @@
 <div id="kampf_menue">
 	<p align="center" style="padding-top:5pt;">
 		<?php
-		/* ToDo: Auswertung ob Kampf vorbei ist */
 		if ($kampf_vorbei){
 			?>
 			<input type="submit" name="aktion_abgeschlossen" value="Kampf beenden" style="width: 200px;"/>

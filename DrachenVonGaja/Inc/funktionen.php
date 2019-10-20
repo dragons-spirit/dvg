@@ -521,6 +521,27 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
 }
 
 
+# Kontrollierter Start von Aktionen (genügend Energie? Textausgabe)
+function beginne_aktion($spieler, $aktion_titel, $id_1=0, $id_2=0){
+	$neue_aktion = get_aktion($aktion_titel);
+	if ($spieler->energie >= $neue_aktion->energiebedarf){
+		insert_aktion_spieler($spieler->id, $neue_aktion->titel, $id_1, $id_2);
+		$spieler->attribut_aendern("energie", -$neue_aktion->energiebedarf, 0, $spieler->max_energie);
+		$spieler->db_update();
+	} else {
+		?>
+		<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+			Ihr habt nicht genügend Energie für diese Aktion.<br>
+		</p>
+		<p align="center" style="padding-top:10pt;">
+			<input type="submit" name="zurueck" value="zurück">
+		</p>
+		<?php
+	}
+}
+
+
+
 # Aufbau der Seite für Elementbäume
 function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 	?><div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->

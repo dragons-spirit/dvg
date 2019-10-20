@@ -153,26 +153,26 @@ function insert_registrierung($login, $passwort, $email)
 #*************************************************** AKTION ****************************************************
 #***************************************************************************************************************
 
-#--------------------------------------------- SELECT aktion.dauer ---------------------------------------------
-# 	-> aktion.titel (int)
-#	<- aktion.dauer (str)
+#--------------------------------------------- SELECT aktion.* ---------------------------------------------
+# 	-> aktion.titel (str)
+#	<- Aktion (obj)
 
-function get_aktion_dauer($aktion_titel)
+function get_aktion($aktion_titel)
 {
 	global $debug;
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	dauer
+			SELECT 	*
 			FROM 	aktion
 			WHERE 	titel = ?")){
-		$stmt->bind_param('d', $aktion_titel);
+		$stmt->bind_param('s', $aktion_titel);
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		return $row[0];
+		return new Aktion($row);
 	} else {
-		echo "<br />\nQuerryfehler in get_aktion_dauer()<br />\n";
+		echo "<br />\nQuerryfehler in get_aktion()<br />\n";
 		return false;
 	}	
 }
@@ -180,7 +180,7 @@ function get_aktion_dauer($aktion_titel)
 
 #------------------------------------------- INSERT aktion_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
-#	-> aktion.titel (int)
+#	-> aktion.titel (str)
 #	?-> any_id_1 (int) - default = 0
 #	?-> any_id_2 (int) - default = 0
 #	<- true/false
@@ -1195,9 +1195,10 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 				initiative,
 				abwehr,
 				ausweichen,
-				timer)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
-		$stmt->bind_param('ddsdddddddddddddd',
+				timer,
+				gewinn_id)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+		$stmt->bind_param('ddsddddddddddddddd',
 				$kampf_id,
 				$kampf_teilnehmer->id,
 				$kampf_teilnehmer->typ,
@@ -1214,7 +1215,8 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 				$kampf_teilnehmer->initiative,
 				$kampf_teilnehmer->abwehr,
 				$kampf_teilnehmer->ausweichen,
-				$kampf_teilnehmer->timer);
+				$kampf_teilnehmer->timer,
+				$kampf_teilnehmer->gewinn_id);
 		$stmt->execute();
 		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM kampf_teilnehmer");
 		$stmt->execute();
@@ -1263,7 +1265,8 @@ function get_all_kampf_teilnehmer($kampf_id, $seite, $lebendig=false)
 				kampf_teilnehmer.ausweichen AS ausweichen,
 				kampf_teilnehmer.timer AS timer,
 				kampf_teilnehmer.id AS kt_id,
-				case when npc.id IS NULL then 0 ELSE npc.ki_id END AS ki_id
+				case when npc.id IS NULL then 0 ELSE npc.ki_id END AS ki_id,
+				kampf_teilnehmer.gewinn_id
 			FROM kampf_teilnehmer
 				LEFT JOIN npc ON npc.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'npc'
 				LEFT JOIN spieler ON spieler.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'spieler'
@@ -1408,7 +1411,7 @@ function select_kampf_effekte_spezial($kampf_aktion_id)
 
 #--------------------- SELECT/UPDATE kampf_effekt.* (alle aktiven zum Kampfteilnehmer) ---------------------
 # 	-> kampf_teilnehmer.id (int)
-#	<- alle_kampf_effekte (array [kampf_effekt])
+#	<- true/false
 function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 {
 	global $debug;
@@ -1571,7 +1574,7 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 
 #------------------------------------- UPDATE kampf_teilnehmer.* (alle Kampfteilnehmer) -------------------------------------
 # 	-> alle_kampf_teilnehmer (array [kampf_teilnehmer])
-#	<- alle_kampf_effekte (array [kampf_effekt])
+#	<- true/false
 function update_kampf_teilnehmer($kt_all)
 {
 	global $debug;
@@ -2022,6 +2025,122 @@ function gebietswechsel($spieler_id, $gebiet_id)
 	} else {
 		echo "<br />\nQuerryfehler in gebietswechsel()<br />\n";
 		return false;
+	}
+}
+
+
+
+#***************************************************************************************************************
+#************************************************** STATISTIK **************************************************
+#***************************************************************************************************************
+
+#---------------------------------- SELECT npc_spieler_statistik.* (komplett) ----------------------------------
+# 	-> spieler.id (int)
+#	-> npc.id (int)
+#	<- statistik (array [Statistik])
+
+function get_npc_spieler_statistik($spieler_id=null, $npc_id=null)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($spieler_id == null){
+		$sp_min = 0;
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM spieler");
+		$stmt->execute();
+		$sp_max = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+	} else {
+		$sp_min = $spieler_id;
+		$sp_max = $spieler_id;
+	}
+	if ($npc_id == null){
+		$npc_min = 0;
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM npc");
+		$stmt->execute();
+		$npc_max = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+	} else {
+		$npc_min = $npc_id;
+		$npc_max = $npc_id;
+	}
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT npc_spieler_statistik.id,
+				npc_spieler_statistik.spieler_id,
+				npc_spieler_statistik.npc_id,
+				npc.titel,
+				npc_spieler_statistik.anzahl,
+				case npc.typ 
+					when 'angreifbar' then 'besiegt'
+					when 'sammelbar' then 'gesammelt'
+					else 'unbekannt'
+				end as wie
+			FROM npc_spieler_statistik
+				JOIN npc ON npc.id = npc_spieler_statistik.npc_id
+			WHERE npc_spieler_statistik.spieler_id between ? and ?
+				and npc_spieler_statistik.npc_id between ? and ?
+			ORDER BY npc_spieler_statistik.spieler_id, npc.titel"))
+	{
+		$stmt->bind_param('dddd', $sp_min, $sp_max, $npc_min, $npc_max);
+		$stmt->execute();
+		$counter = 0;
+		if ($statistik_all = $stmt->get_result()){
+			while($statistik_einzel = $statistik_all->fetch_array(MYSQLI_NUM)){
+				$statistik[$counter] = new Statistik($statistik_einzel);
+				$counter = $counter + 1;
+			}
+		}
+		if ($debug) echo "<br />\nNPC-Spieler-Statistik für: [spieler_id=" . $spieler_id . " und npc_id=" . $npc_id . "] geladen.<br />\n";
+		if ($counter > 0) return $statistik;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_npc_spieler_statistik()<br />\n";
+		return false;
+	}
+}
+
+
+#---------------------------------------- INSERT npc_spieler_statistik.* ----------------------------------------
+# 	-> spieler.id (int)
+#	-> alle_npcs (array [npc.id])
+#	<- true/false
+
+function add_npc_spieler_statistik($spieler_id, $alle_npcs)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if (is_array($alle_npcs)) $alle_npc_ids = $alle_npcs;
+		else $alle_npc_ids = [$alle_npcs];
+	
+	foreach ($alle_npc_ids as $npc_id){
+		if (get_npc_spieler_statistik($spieler_id, $npc_id) == false){
+			if ($stmt = $connect_db_dvg->prepare("
+					INSERT INTO npc_spieler_statistik(
+						spieler_id,
+						npc_id, 
+						anzahl) 
+					VALUES (?, ?, 1)")){
+				$stmt->bind_param('dd', $spieler_id, $npc_id);
+				$stmt->execute();
+				if ($debug) echo "<br />\nNPC: [" . $npc_id . " wurde bei Spieler " . $spieler_id . "] zur Statistik hinzugefügt<br />\n";
+			} else {
+				echo "<br />\nQuerryfehler in add_npc_spieler_statistik() - Insert<br />\n";
+				return false;
+			}
+		} else {
+			if ($stmt = $connect_db_dvg->prepare("
+					UPDATE npc_spieler_statistik
+					SET anzahl = anzahl + 1
+					WHERE spieler_id = ?
+						AND npc_id = ?")){
+				$stmt->bind_param('dd', $spieler_id, $npc_id);
+				$stmt->execute();
+				if ($debug) echo "<br />\nNPC: [" . $npc_id . " wurde bei Spieler " . $spieler_id . "] zur Statistik hinzugefügt<br />\n";
+			} else {
+				echo "<br />\nQuerryfehler in add_npc_spieler_statistik() - Update<br />\n";
+				return false;
+			}
+		}
 	}
 }
 

@@ -88,7 +88,6 @@
 			<?php 
 			if($aktionen = get_aktion_spieler($spieler->id)){
 				$aktion_spieler = new AktionSpieler();
-				
 				while($row = $aktionen->fetch_array(MYSQLI_NUM)){
 					$aktion_spieler->set($row);
 				}
@@ -226,6 +225,7 @@
 								case "Sammeln":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 									$npc_id = $aktion_spieler->any_id_1;
+									add_npc_spieler_statistik($spieler->id, $npc_id);
 									zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
 									?>
 									<p align="center" style="padding-top:10pt;">
@@ -241,9 +241,15 @@
 										update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 										$kt_0 = get_all_kampf_teilnehmer($kampf_id, 0);
 										$kt_1 = get_all_kampf_teilnehmer($kampf_id, 1);
+										foreach ($kt_0 as $kt){
+											if ($kt->id == $spieler->id AND $kt->typ == "spieler"){
+												$spieler->uebernehme_kt_werte($kt);
+											}
+										}
 										$gewinner_seite = ist_kampf_beendet(array_merge($kt_0, $kt_1));
 										if ($gewinner_seite == 0){
 											$npc_ids = get_all_npcs_kampf($kampf_id);
+											add_npc_spieler_statistik($spieler->id, $npc_ids);
 											foreach ($npc_ids as $npc_id){
 												zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
 												echo "<br>";
@@ -266,7 +272,19 @@
 									}
 									break;
 									
-									
+								#################################################################
+								case "Ausruhen":
+									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
+									$spieler->erholung_prozent(100, 100, 100);
+									?>
+									<p align="center" style="padding-top:10pt;">
+										Langsam schlagt ihr die Augen auf und seid bereit für neue Taten.
+									</p>
+									<p align="center" style="padding-top:10pt;">
+										<input type="submit" name="weiter" value="weiter">
+									</p>
+									<?php
+									break;
 								
 								#################################################################
 								default:
@@ -297,8 +315,8 @@
 								elemente_anzeigen("---ohne---","556B2F", $spieler);
 								$elementebutton = true;
 							}
-							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0));
+							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]));
 							
 							######################
 							# Start von Aktionen #
@@ -308,10 +326,11 @@
 								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
 								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->titel);
 								if (!$aktion_spieler->titel){	
-									if(isset($_POST["button_gebiet_erkunden"])) insert_aktion_spieler($spieler->id, "erkunden_kurz");
-									if(isset($_POST["button_zum_zielgebiet"])) insert_aktion_spieler($spieler->id, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
-									if(isset($_POST["button_jagen"])) insert_aktion_spieler($spieler->id, "jagen_normal", $_POST["button_jagen"]);
-									if(isset($_POST["button_sammeln"])) insert_aktion_spieler($spieler->id, "sammeln_normal", $_POST["button_sammeln"]);
+									if(isset($_POST["button_gebiet_erkunden"])) beginne_aktion($spieler, "erkunden_kurz");
+									if(isset($_POST["button_zum_zielgebiet"])) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
+									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen_normal", $_POST["button_jagen"]);
+									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln_normal", $_POST["button_sammeln"]);
+									if(isset($_POST["button_ausruhen"])) beginne_aktion($spieler, "ausruhen_normal");
 								}
 							}
 							
@@ -370,6 +389,44 @@
 								}
 								if(isset($_POST["button_handwerk"])){
 									include('handwerk.inc.php');
+								}
+								if(isset($_POST["button_statistik"])){
+									if ($statistikdaten = get_npc_spieler_statistik($spieler->id)){	
+										$counter = 0;
+										?>
+										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="400px">
+											<tr>
+												<td>NPC</td>
+												<td align="right">Anzahl</td>
+												<td align="center">Wie</td>
+											</tr>
+											<?php
+											foreach ($statistikdaten as $statistik){
+												$counter = $counter + 1;
+												?>
+												<tr>
+													<td align="left"><?php echo $statistik->npc_name ?></td>
+													<td align="right"><?php echo $statistik->anzahl ?></td>
+													<td align="center"><?php echo $statistik->wie ?></td>
+												</tr>
+												<?php
+											}
+											if($counter == 0){
+												?>
+												<tr>
+													<td colspan=3>Noch keine Statistikdaten vorhanden.</td>
+												</tr>
+												<?php
+											}
+											?>
+										</table>
+										<p align="center" style="padding-top:10pt;">
+											<input type="submit" name="zurueck" value="zurück">
+										</p>
+										<?php
+									} else {
+										echo "<br />\nStatistikdaten für den Spieler mit id=[" . $spieler->id . "] konnten nicht abgerufen werden.<br />\n";
+									}
 								}
 							}
 							else {
