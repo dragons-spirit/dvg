@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1264 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~846 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~947 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -1060,7 +1060,7 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `pfad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
+) ENGINE=InnoDB AUTO_INCREMENT=310 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
 -- Exportiere Daten aus Tabelle db_dvg.bilder: ~229 rows (ungefähr)
 DELETE FROM `bilder`;
@@ -1297,7 +1297,39 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(274, 'wymar', '../Bilder/NPC/wymar.png'),
 	(275, 'Biss', '../Bilder/Elemente/Biss.png'),
 	(276, 'Schlag', '../Bilder/Elemente/Schlag.png'),
-	(277, 'Stich', '../Bilder/Elemente/Stich.png');
+	(277, 'Stich', '../Bilder/Elemente/Stich.png'),
+	(278, 'Urbock', '../Bilder/NPC/Urbock.png'),
+	(279, 'Urdelphin', '../Bilder/NPC/Urdelphin.png'),
+	(280, 'Urechse', '../Bilder/NPC/Urechse.png'),
+	(281, 'Urelefant', '../Bilder/NPC/Urelefant.png'),
+	(282, 'Urfaultier', '../Bilder/NPC/Urfaultier.png'),
+	(283, 'Urfisch', '../Bilder/NPC/Urfisch.png'),
+	(284, 'Urflugechse', '../Bilder/NPC/Urflugechse.png'),
+	(285, 'Urflusspferd', '../Bilder/NPC/Urflusspferd.png'),
+	(286, 'Urfrosch', '../Bilder/NPC/Urfrosch.png'),
+	(287, 'Urgeier', '../Bilder/NPC/Urgeier.png'),
+	(288, 'Urgiraffe', '../Bilder/NPC/Urgiraffe.png'),
+	(289, 'Urhirsch', '../Bilder/NPC/Urhirsch.png'),
+	(290, 'Urhornvogel', '../Bilder/NPC/Urhornvogel.png'),
+	(291, 'Urhuhn', '../Bilder/NPC/Urhuhn.png'),
+	(292, 'Urkamel', '../Bilder/NPC/Urkamel.png'),
+	(293, 'Urkammechse', '../Bilder/NPC/Urkammechse.png'),
+	(294, 'Urkrokodil', '../Bilder/NPC/Urkrokodil.png'),
+	(295, 'Urlurch', '../Bilder/NPC/Urlurch.png'),
+	(296, 'Urnashorn', '../Bilder/NPC/Urnashorn.png'),
+	(297, 'Urotter', '../Bilder/NPC/Urotter.png'),
+	(298, 'Urpapagei', '../Bilder/NPC/Urpapagei.png'),
+	(299, 'Urpapageitaucher', '../Bilder/NPC/Urpapageitaucher.png'),
+	(300, 'Urpferd', '../Bilder/NPC/Urpferd.png'),
+	(301, 'Urraubkatze', '../Bilder/NPC/Urraubkatze.png'),
+	(302, 'Urrobbe', '../Bilder/NPC/Urrobbe.png'),
+	(303, 'Urschildkröte', '../Bilder/NPC/Urschildkröte.png'),
+	(304, 'Urschuppentier', '../Bilder/NPC/Urschuppentier.png'),
+	(305, 'Urstacheligel', '../Bilder/NPC/Urstacheligel.png'),
+	(306, 'Urtrompetentier', '../Bilder/NPC/Urtrompetentier.png'),
+	(307, 'Urvogel', '../Bilder/NPC/Urvogel.png'),
+	(308, 'Urwal', '../Bilder/NPC/Urwal.png'),
+	(309, 'Urgürteltier', '../Bilder/NPC/Urgürteltier.png');
 /*!40000 ALTER TABLE `bilder` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.element
@@ -1502,7 +1534,7 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~13 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~25 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`) VALUES
@@ -1586,7 +1618,7 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~35 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~36 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
@@ -1639,7 +1671,7 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~160 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~172 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -1843,7 +1875,7 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2418 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~1.622 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~2.089 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -3959,7 +3991,7 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2034 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~1.666 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~1.788 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -5783,7 +5815,7 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=384 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~338 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~363 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `zauberpunkte`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`) VALUES
@@ -6328,7 +6360,7 @@ CREATE TABLE IF NOT EXISTS `npc_gebiet` (
   CONSTRAINT `FK_npc_gebiet_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~100 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~102 rows (ungefähr)
 DELETE FROM `npc_gebiet`;
 /*!40000 ALTER TABLE `npc_gebiet` DISABLE KEYS */;
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
@@ -6452,7 +6484,7 @@ CREATE TABLE IF NOT EXISTS `npc_items` (
   CONSTRAINT `FK_npc_items_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_items: ~51 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_items: ~53 rows (ungefähr)
 DELETE FROM `npc_items`;
 /*!40000 ALTER TABLE `npc_items` DISABLE KEYS */;
 INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
@@ -6525,7 +6557,7 @@ CREATE TABLE IF NOT EXISTS `npc_spieler_statistik` (
   CONSTRAINT `FK_npc_spieler_statistik_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~8 rows (ungefähr)
 DELETE FROM `npc_spieler_statistik`;
 /*!40000 ALTER TABLE `npc_spieler_statistik` DISABLE KEYS */;
 INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VALUES
@@ -6971,7 +7003,7 @@ CREATE TABLE IF NOT EXISTS `zauber_npc` (
   CONSTRAINT `FK_zauber_npc_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~5 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~55 rows (ungefähr)
 DELETE FROM `zauber_npc`;
 /*!40000 ALTER TABLE `zauber_npc` DISABLE KEYS */;
 INSERT INTO `zauber_npc` (`id`, `npc_id`, `zauber_id`, `wahrscheinlichkeit`) VALUES
