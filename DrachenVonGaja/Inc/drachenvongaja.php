@@ -216,6 +216,7 @@
 									insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
 									insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 0);
 									#insert_kampf_teilnehmer($kampf_id, 26, "spieler", 0); # Rashiel
+									#insert_kampf_teilnehmer($kampf_id, 45, "spieler", 0); # Flammi
 									insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
 									#insert_kampf_teilnehmer($kampf_id, 2, "npc", 1); # Ratte
 									break;

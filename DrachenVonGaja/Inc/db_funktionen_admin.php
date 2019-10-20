@@ -855,7 +855,7 @@ function insertNPC($npc_daten)
 				typ,
 				ki_id)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
-		$stmt->bind_param('ssssssssssssssssss', 
+		$stmt->bind_param('ssssssssssssssssssss', 
 			$npc_daten["npc_bild"], 
 			$npc_daten["npc_element"], 
 			$npc_daten["npc_titel"], 
