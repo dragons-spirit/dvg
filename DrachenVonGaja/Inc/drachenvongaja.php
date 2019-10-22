@@ -219,6 +219,7 @@
 									#insert_kampf_teilnehmer($kampf_id, 45, "spieler", 0); # Flammi
 									insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
 									#insert_kampf_teilnehmer($kampf_id, 2, "npc", 1); # Ratte
+									if ($helferlein) insert_kampf_teilnehmer($kampf_id, 45, "npc", 0); # Helferlein im Kampf
 									break;
 									
 								

@@ -105,8 +105,10 @@ $max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
 $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
 $anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$kampf_detail = 0; # Im Kampf angezeigte Parameter (0-2)
+$kampf_detail = 1; # Im Kampf angezeigte Parameter (0-2)
 $kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
+
+$helferlein = false;
 
 
 # Maximale Gesundheit
@@ -210,10 +212,15 @@ function berechne_timer_verbrauch($kt){
 
 # Bestimmt nächsten Kampfteilnehmer
 function naechster_kt($kt_all){
-	$kt_next = $kt_all[0];
-	$timer_min = $kt_next->timer;
+	$init = false;
 	foreach ($kt_all as $kt){
-		if ($timer_min > $kt->timer AND !$kt->ist_tot()){
+		$tot = $kt->ist_tot();
+		if (!$tot AND !$init){
+			$kt_next = $kt;
+			$timer_min = $kt->timer;
+			$init = true;
+		}
+		if (!$tot AND $timer_min > $kt->timer){
 			$kt_next = $kt;
 			$timer_min = $kt->timer;
 		}
@@ -282,10 +289,12 @@ function ki_ausfuehren($kt, $alle_zauber){
 			# Array mit möglichen Zielen vorbereiten
 			switch ($zauber->zaubereffekte[0]->art){
 				case "angriff":
-					$kt_ziele = $kt_0;
+					if ($kt->seite == 1) $kt_ziele = $kt_0;
+						else $kt_ziele = $kt_1;
 					break;
 				case "verteidigung":
-					$kt_ziele = $kt_1;
+					if ($kt->seite == 1) $kt_ziele = $kt_1;
+						else $kt_ziele = $kt_0;
 					break;
 				default:
 					$kt_ziele = null;
