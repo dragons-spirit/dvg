@@ -1273,7 +1273,7 @@ function get_all_kampf_teilnehmer($kampf_id, $seite, $lebendig=false)
 			WHERE kampf_teilnehmer.kampf_id = ?
 				AND kampf_teilnehmer.seite = ?
 				AND kampf_teilnehmer.gesundheit >= ?
-			ORDER BY typ DESC, kampf_teilnehmer.id")){
+			ORDER BY typ, kampf_teilnehmer.id")){
 		$stmt->bind_param('ddd', $kampf_id, $seite, $min_gesundheit);
 		$stmt->execute();
 		$counter = 0;
@@ -1327,7 +1327,7 @@ function get_all_npcs_kampf($kampf_id)
 #--------------------- SELECT kampf_effekt.* (alle aktiven zum Kampfteilnehmer) ---------------------
 # 	-> KampfTeilnehmer (obj)
 #	<- alle_kampf_effekte (array [kampf_effekt])
-function select_kampf_effekte($kt, $param="'angriff','verteidigung'")
+function select_kampf_effekte($kt, $param)
 {
 	global $debug;
 	global $connect_db_dvg;

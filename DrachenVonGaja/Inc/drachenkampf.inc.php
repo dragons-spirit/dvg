@@ -50,46 +50,67 @@
 		}
 		
 		if ($neue_aktion){
-			# Positive Effekte für Spieler ausführen
-			kampf_effekte_ausführen($kt_zaubert, "verteidigung");
-			
-			# Kampfeffekte für alle NPC ausführen, falls neue Aktionen für diese vorhanden und Effekt als "ausgeführt" kennzeichnen.
-			foreach ($kt_all as $kt){
-				if ($kt_zaubert->kt_id != $kt->kt_id AND !$kt->ist_tot()){
-					kampf_effekte_ausführen($kt, "angriff", false);
+			# Kampfeffekte ausführen und falls neue Aktion vorhanden dann anwenden und Effekt als "ausgeführt" kennzeichnen.
+			foreach ($kt_all as $kt_temp){
+				if (!$kt_temp->ist_tot()){
+					kampf_effekte_ausführen($kt_temp, "verteidigung", false);
+					kampf_effekte_ausführen($kt_temp, "angriff", false);
+				}
+				# Kampf vorbei? -> Abbruch
+				if (ist_kampf_beendet($kt_all) < 2){
+					$kampf_vorbei = true;
+					break;
 				}
 			}
 			
 			# Nächsten Kampfteilnehmer bestimmen
-			while ($kt = naechster_kt($kt_all) AND $kt->seite != 0){
-				# Negative Effekte für Nicht-Spieler ausführen
-				# Alle Kampfeffekte ausführen, die noch nicht "ausgeführt" wurden und anschließend bei allen Kampfeffekten zum KT "ausgeführt" wieder auf false setzen.
-				kampf_effekte_ausführen($kt, "angriff");
-				
-				if ($kt->gesundheit > 0){
-					# KI ausführen
-					if ($alle_zauber = get_zauber_von_objekt($kt)){
-						$zauber_und_ziel = ki_ausfuehren($kt, $alle_zauber);
-					} else {
-						$zauber_und_ziel = false;
-						echo "Für ".$kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
-						break;
-					}
-					# Mit ermitteltem Angriff/Zauber und Ziel Kampfaktion hinzufügen
-					if ($zauber_und_ziel){
-						$temp = insert_kampf_aktion($kampf->id, $kt, $zauber_und_ziel[1], $zauber_und_ziel[0]);
-						$kampf->log = $temp[2] . "<br>" . $kampf->log;
-					}
-					# Wenn keine Aktion durchgeführt dann Abbruch
-					if ($temp == null OR $temp[1]) break;
+			while ($kt = naechster_kt($kt_all) AND ($kt->seite != 0 OR $kt->typ == "npc") AND !$kampf_vorbei){
+				if (!$kt->ist_tot()){
+					# Negative Effekte für Nicht-Spieler ausführen
+					# Alle Kampfeffekte ausführen, die noch nicht "ausgeführt" wurden und anschließend bei allen Kampfeffekten zum KT "ausgeführt" wieder auf false setzen.
+					kampf_effekte_ausführen($kt, "angriff", true);
 					
-					# Positive Effekte für Nicht-Spieler ausführen
-					kampf_effekte_ausführen($kt, "verteidigung");
+					if ($kt->gesundheit > 0){
+						# KI ausführen
+						if ($alle_zauber = get_zauber_von_objekt($kt)){
+							$zauber_und_ziel = ki_ausfuehren($kt, $alle_zauber);
+						} else {
+							$zauber_und_ziel = false;
+							echo "Für ".$kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
+							break;
+						}
+						# Mit ermitteltem Angriff/Zauber und Ziel Kampfaktion hinzufügen
+						if ($zauber_und_ziel){
+							$temp = insert_kampf_aktion($kampf->id, $kt, $zauber_und_ziel[1], $zauber_und_ziel[0]);
+							$kampf->log = $temp[2] . "<br>" . $kampf->log;
+						}
+						# Wenn keine Aktion durchgeführt -> Abbruch
+						if ($temp == null OR $temp[1]) break;
+						
+						# Positive Effekte für Nicht-Spieler ausführen
+						kampf_effekte_ausführen($kt, "verteidigung", true);
+						
+						# Kampfeffekte ausführen und falls neue Aktion vorhanden dann anwenden und Effekt als "ausgeführt" kennzeichnen.
+						foreach ($kt_all as $kt_temp){
+							if ($kt->kt_id != $kt_temp->kt_id AND !$kt_temp->ist_tot()){
+								kampf_effekte_ausführen($kt_temp, "verteidigung", false);
+								kampf_effekte_ausführen($kt_temp, "angriff", false);
+							}
+							# Kampf vorbei? -> Abbruch
+							if (ist_kampf_beendet($kt_all) < 2){
+								$kampf_vorbei = true;
+								break;
+							}
+						}
+					}
 				}
 			}
 			
-			# Negative Effekte für Spieler ausführen
-			kampf_effekte_ausführen($kt, "angriff");
+			# Alle Kampfeffekte für Spieler abarbeiten, die noch nicht "ausgeführt" wurden und anschließend "ausgeführt" wieder auf false setzen.
+			if (!$kampf_vorbei){
+				kampf_effekte_ausführen($kt, "verteidigung", true);
+				kampf_effekte_ausführen($kt, "angriff", true);
+			}
 			
 			# Kampf vorbei?
 			$gewinner_seite = ist_kampf_beendet($kt_all);
@@ -187,23 +208,25 @@
 							<tr>
 								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
 									<?php
-									if ($alle_zauber = get_zauber_von_objekt($kt)){
+									if ($alle_zauber = get_zauber_von_objekt($kt) AND count($alle_zauber) < 50){
 										foreach ($alle_zauber as $zauber){
-											$inaktiv = ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber))
+											if ($kt <> naechster_kt($kt_all) OR $kt->seite == 1) $zauber_aktiv = 2;
+												else if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)) $zauber_aktiv = 0;
+													else $zauber_aktiv = 1;
 											?>
 											<span title="<?php echo $zauber->titel ?>">
 												<img id="<?php echo "zauber_img_#".$count ?>" 
 													src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
 													alt="<?php echo $zauber->titel ?>" 
 													<?php
-													if($inaktiv){
-														echo "style='border:1px red solid;'";
-													} else {
-														echo "style='border:1px green solid;'";
+													switch ($zauber_aktiv){
+														case 0: echo "style='border:1px red solid;'"; break;
+														case 1: echo "style='border:1px green solid;'"; break;
+														case 2: echo "style='border:1px grey solid;'"; break;
 													}?>/>
 											</span>
 											<?php 
-											if(!$inaktiv){ 
+											if($zauber_aktiv == 1){ 
 												?>
 												<div id="<?php echo "zauber_div_#".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
 												</div>
@@ -282,23 +305,25 @@
 							<tr>
 								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
 									<?php
-									if ($anzeige_npc_zauber AND $alle_zauber = get_zauber_von_objekt($kt)){
+									if ($anzeige_npc_zauber AND $alle_zauber = get_zauber_von_objekt($kt) AND count($alle_zauber) < 50){
 										foreach ($alle_zauber as $zauber){
-											$inaktiv = ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber))
+											if ($kt <> naechster_kt($kt_all) OR $kt->seite == 1) $zauber_aktiv = 2;
+												else if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)) $zauber_aktiv = 0;
+													else $zauber_aktiv = 1;
 											?>
 											<span title="<?php echo $zauber->titel ?>">
 												<img id="<?php echo "zauber_img_#".$count ?>" 
 													src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
 													alt="<?php echo $zauber->titel ?>" 
 													<?php
-													if($inaktiv){
-														echo "style='border:1px red solid;'";
-													} else {
-														echo "style='border:1px green solid;'";
+													switch ($zauber_aktiv){
+														case 0: echo "style='border:1px red solid;'"; break;
+														case 1: echo "style='border:1px green solid;'"; break;
+														case 2: echo "style='border:1px grey solid;'"; break;
 													}?>/>
 											</span>
 											<?php 
-											if(!$inaktiv){ 
+											if($zauber_aktiv == 1){ 
 												?>
 												<div id="<?php echo "zauber_div_##".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
 												</div>
