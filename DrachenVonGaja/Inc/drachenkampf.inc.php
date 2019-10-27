@@ -1,6 +1,6 @@
 <div id="divzauber" align="left" >
 	<?php
-
+	
 #######################################
 # Initialisierung Variablen für Kampf #
 #######################################

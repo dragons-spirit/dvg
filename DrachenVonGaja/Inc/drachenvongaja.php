@@ -2,6 +2,8 @@
 
 <?php
 	session_start();
+	session_cache_limiter('private');
+	session_cache_expire(0);
 	include("connect.inc.php");
 	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>
@@ -548,15 +550,39 @@
 							</tr>
 							<tr>
 								<td><p align="left">Gesundheit</p></td>
-								<td><p align="left"><?php echo $spieler->gesundheit . "/" . $spieler->max_gesundheit;?></p></td>
+								<td><p align="left">
+									<?php 
+									if (($spieler->gesundheit / $spieler->max_gesundheit) < 0.5){
+										echo "<font color='red'>".$spieler->gesundheit . "/" . $spieler->max_gesundheit."</font>";
+									} else {
+										echo $spieler->gesundheit . "/" . $spieler->max_gesundheit;
+									}
+									?>
+								</p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Energie</p></td>
-								<td><p align="left"><?php echo $spieler->energie . "/" . $spieler->max_energie;?></p></td>
+								<td><p align="left">
+									<?php 
+									if (($spieler->energie / $spieler->max_energie) < 0.3){
+										echo "<font color='red'>".$spieler->energie . "/" . $spieler->max_energie."</font>";
+									} else {
+										echo $spieler->energie . "/" . $spieler->max_energie;
+									}
+									?>
+								</p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Zauberpunkte</p></td>
-								<td><p align="left"><?php echo $spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte;?></p></td>
+								<td><p align="left">
+									<?php 
+									if (($spieler->zauberpunkte / $spieler->max_zauberpunkte) < 0.5){
+										echo "<font color='red'>".$spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte."</font>";
+									} else {
+										echo $spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte;
+									}
+									?>
+								</p></td>
 							</tr>
 							<tr>
 								<td><p align="left">Balance</p></td>
