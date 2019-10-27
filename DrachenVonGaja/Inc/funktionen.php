@@ -89,7 +89,8 @@ function anzeige_attribut($attr){
 		case "initiative": return "Initiative";
 		case "ausweichen": return "Ausweichen";
 		case "abwehr": return "Abwehr";
-		default: return "Fehler beim umkodieren von Attribut";
+		case "spezial": return "Spezial";
+		default: return "Fehler beim umkodieren von Attribut [".$attr."]";
 	}
 }
 
@@ -156,7 +157,7 @@ function berechne_angriff_erfolg($kt){
 
 # Bestimmt den Erfolg des Ausweichens
 function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
-	if (!$zauber->ist_angriff()){
+	if ($zauber->ist_art("verteidigung")){
 		$ausweichchance = 0;
 	} else {
 		if (!$zauber->ist_zauber()){
@@ -177,7 +178,7 @@ function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
 
 # Bestimmt den Erfolg der Abwehr eines Angriffs/Zaubers
 function berechne_abwehr_erfolg($kt, $kt_ziel, $zauber){
-	if (!$zauber->ist_angriff()){
+	if ($zauber->ist_art("verteidigung")){
 		$abwehrchance = 0;
 	} else {
 		if (!$zauber->ist_zauber()){
@@ -236,9 +237,10 @@ function ist_kampf_beendet($kt_all){
 	$gewinner = 0;
 	foreach ($kt_all as $kt){
 		if ($kt->gesundheit > 0){
-			if ($kt->seite == 0){
+			if ($kt->seite == 0 AND $kt->typ == "spieler"){
 				$kt_lebend_0 = $kt_lebend_0 + 1;
-			} else {
+			}
+			if ($kt->seite == 1){
 				$kt_lebend_1 = $kt_lebend_1 + 1;
 				$gewinner = 1;
 			}
@@ -389,11 +391,53 @@ function berechne_effekt_wert($kt, $kt_ziel, $zauber, $effekt, $abwehr){
 					break;
 			}
 			break;
+		case "spezial": break;
 		default:
 			return false;
 	}
 	return true;
 }
+
+
+# Anzeige von Attributnamen korrigieren
+function kt_array_korrigieren($kt_id, $param){
+	global $kt_0;
+	global $kt_1;
+	global $kt_all;
+	$kt = get_kampf_teilnehmer_by_id($kt_id);
+	
+	switch ($param){
+		case "hinzufügen":
+			if ($kt->seite == 0) array_push($kt_0, $kt);
+				else array_push($kt_1, $kt);
+			break;
+		case "entfernen":
+			$counter = 0;
+			if ($kt->seite == 0){
+				foreach ($kt_0 as $kt_temp){
+					if ($kt_temp->kt_id == $kt_id){
+						unset($kt_0[$counter]);
+						array_values($kt_0);
+						break;
+					}
+					$counter = $counter + 1;
+				}
+			} else {
+				foreach ($kt_1 as $kt_temp){
+					if ($kt_temp->kt_id == $kt_id){
+						unset($kt_1[$counter]);
+						array_values($kt_1);
+						break;
+					}
+					$counter = $counter + 1;
+				}
+			}
+			break;
+		default: break;
+	}
+	$kt_all = array_merge($kt_0, $kt_1);
+}
+
 
 
 ##############################

@@ -359,7 +359,8 @@ class KampfTeilnehmer {
 		$this->initiative = $ds->initiative;
 		$this->abwehr = $ds->abwehr;
 		$this->ausweichen = $ds->ausweichen;
-		$this->timer = berechne_initiative($ds);
+		if ($typ == "npc") {$this->timer = berechne_initiative($ds);
+			} else {$this->timer = 0;}
 		$this->kt_id = null;
 		if ($typ == "npc") {$this->ki_id = $ds->ki_id;
 			} else {$this->ki_id = 0;}
@@ -500,6 +501,7 @@ class KampfZauber {
 	public $beschreibung;
 	public $wahrscheinlichkeit;
 	public $zaubereffekte;
+	public $nutzbar_von;
 
 	public function __construct($ds, $zaubereffekte) {
 		$this->id = $ds[0];
@@ -513,6 +515,7 @@ class KampfZauber {
 		$this->beschreibung = $ds[8];
 		$this->wahrscheinlichkeit = $ds[9];
 		$this->zaubereffekte = $zaubereffekte;
+		$this->nutzbar_von = $ds[10];
 	}
 	
 	# Prüft ob es sich um einen Zauber handelt oder um einen Standardangriff
@@ -521,9 +524,9 @@ class KampfZauber {
 		else return false;
 	}
 	
-	# Prüft ob es sich um einen Angriff oder eine Verteidigung handelt
-	public function ist_angriff(){
-		if ($this->zaubereffekte[0]->art == "angriff") return true;
+	# Prüft ob es sich um eine bestimmte Art von Zauber handelt
+	public function ist_art($art){
+		if ($this->zaubereffekte[0]->art == $art) return true;
 		else return false;
 	}
 	
@@ -561,6 +564,7 @@ class KampfZauberEffekt {
 	public $wert;
 	public $runden;
 	public $jede_runde;
+	public $spezial;
 
 	public function __construct($ds) {
 		$this->id = $ds[0];
@@ -570,6 +574,31 @@ class KampfZauberEffekt {
 		$this->wert = $ds[4];
 		$this->runden = $ds[5];
 		$this->jede_runde = $ds[6];
+		if ($this->attribut == "spezial") {$this->spezial = get_zauber_effekt_spezial($this->wert);
+			} else {$this->spezial = false;}
+	}
+}
+
+
+class ZauberEffektSpezial {
+	public $id;
+	public $art;
+	public $spezial_tabelle;
+	public $spezial_id;
+	public $sql;
+	public $text1;
+	public $text2;
+	public $text3;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->art = $ds[1];
+		$this->spezial_tabelle = $ds[2];
+		$this->spezial_id = $ds[3];
+		$this->sql = $ds[4];
+		$this->text1 = $ds[5];
+		$this->text2 = $ds[6];
+		$this->text3 = $ds[7];
 	}
 }
 
@@ -585,6 +614,7 @@ class KampfEffekt {
 	public $jede_runde;
 	public $ausgefuehrt;
 	public $beendet;
+	public $spezial;
 
 	public function __construct($ds) {
 		$this->id = $ds[0];
@@ -597,6 +627,8 @@ class KampfEffekt {
 		$this->jede_runde = $ds[7];
 		$this->ausgefuehrt = $ds[8];
 		$this->beendet = $ds[9];
+		if ($this->attribut == "spezial") {$this->spezial = get_zauber_effekt_spezial($this->wert);
+			} else {$this->spezial = false;}
 	}
 }
 
@@ -640,6 +672,7 @@ class Kampf {
 				case "initiative": $attribut = "Initiative"; break;
 				case "ausweichen": $attribut = "Ausweichen"; break;
 				case "abwehr": $attribut = "Abwehr"; break;
+				case "spezial": $attribut = "Spezial"; break;
 				default: break;
 			}
 			if ($zuruecksetzen){

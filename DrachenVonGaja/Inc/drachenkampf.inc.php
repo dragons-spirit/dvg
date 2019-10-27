@@ -163,6 +163,7 @@
 											$alle_aktiven_zauber = get_zauber_aktiv($kt);
 											if ($alle_aktiven_zauber){
 												foreach ($alle_aktiven_zauber as $zauber){
+													if (!($zauber->zaubereffekte[0]->attribut == "spezial" AND $zauber->zaubereffekte[0]->spezial->art == "Beschwörung")){
 													?>
 													<tr>
 														<td>
@@ -170,7 +171,8 @@
 																<?php 
 																	echo $zauber->titel.'&#10;';
 																	foreach ($zauber->zaubereffekte as $eff){
-																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		if ($eff->attribut == "spezial") echo ' noch '.($eff->runden_max-$eff->runden).' Runden';
+																			else echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
 																		if ($eff->jede_runde == 0) echo ' (temporär)';
 																		echo '&#10;';
 																	}
@@ -188,6 +190,7 @@
 														</td>
 													</tr>
 													<?php
+													}
 												}
 											}
 											?>
