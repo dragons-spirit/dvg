@@ -155,7 +155,7 @@
 							<table style="border-collapse:collapse;">
 								<tr>
 									<!-- Spielerbild -->
-									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:150px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
+									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:100px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
 									<!-- Aktive Zauber auf Spieler -->
 									<td valign="top">
 										<table style="border-collapse:collapse;">
@@ -207,9 +207,10 @@
 								</tr>
 							</table>
 						</div>
+						
 						<table style="border-collapse:collapse;" width="100%">
 							<tr>
-								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
+								<td align="left" style="border-bottom:1px solid white; padding-top:5px; padding-left:5px;">
 									<?php
 									if ($alle_zauber = get_zauber_von_objekt($kt) AND count($alle_zauber) < 50){
 										foreach ($alle_zauber as $zauber){
@@ -242,6 +243,7 @@
 								</td>
 							</tr>
 						</table>
+						
 						<?php
 						$counter_0+=1;
 					}
@@ -255,7 +257,7 @@
 							<table style="border-collapse:collapse;">
 								<tr>
 									<!-- NPC-Bild -->
-									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:150px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
+									<td><img align="left" src="<?php echo get_bild_zu_id($kt->bilder_id);?>" style="max-height:100px; width:auto;" alt="<?php echo $kt->name;?>"/></td>
 									<!-- Aktive Zauber auf Spieler -->
 									<td valign="top">
 										<table style="border-collapse:collapse;">
@@ -263,6 +265,7 @@
 											$alle_aktiven_zauber = get_zauber_aktiv($kt);
 											if ($alle_aktiven_zauber){
 												foreach ($alle_aktiven_zauber as $zauber){
+													if (!($zauber->zaubereffekte[0]->attribut == "spezial" AND $zauber->zaubereffekte[0]->spezial->art == "Beschwörung")){
 													?>
 													<tr>
 														<td>
@@ -288,6 +291,7 @@
 														</td>
 													</tr>
 													<?php
+													}
 												}
 											}
 											?>
@@ -306,7 +310,7 @@
 						</div>
 						<table style="border-collapse:collapse;" width="100%">
 							<tr>
-								<td align="left" style="border-bottom:1px solid white; height:70px; padding-top:5px; padding-left:5px;">
+								<td align="left" style="border-bottom:1px solid white; padding-top:5px; padding-left:5px;">
 									<?php
 									if ($anzeige_npc_zauber AND $alle_zauber = get_zauber_von_objekt($kt) AND count($alle_zauber) < 50){
 										foreach ($alle_zauber as $zauber){

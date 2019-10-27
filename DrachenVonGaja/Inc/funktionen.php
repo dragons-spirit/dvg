@@ -105,8 +105,8 @@ $gew_attr = 0.5; # Gewichtung von Attributen
 $max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
 $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
-$anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$kampf_detail = 1; # Im Kampf angezeigte Parameter (0-2)
+$anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$kampf_detail = 0; # Im Kampf angezeigte Parameter (0-2)
 $kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
 
 $helferlein = false;
