@@ -99,6 +99,9 @@ function anzeige_attribut($attr){
 ### STARTWERTE SPIELER / BALANCING ###
 ######################################
 
+# Allgemeine Parameter
+$balance_aktiv = 1;
+
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
@@ -133,6 +136,19 @@ function berechne_max_zauberpunkte($akteur){
 	return intval(floor($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente)));
 }
 
+
+# Balance
+function berechne_balance($spieler){
+	if ($werte = get_spieler_statistik_balance($spieler)){
+		if ($werte["angreifbar"] >= $werte["sammelbar"]){
+			return floor_x((2 - ($werte["angreifbar"] + 100) / ($werte["sammelbar"] + 100)) * 100, 3);
+		} else {
+			return floor_x((2 - ($werte["sammelbar"] + 100) / ($werte["angreifbar"] + 100)) * 100, 3);
+		}
+	} else {
+		return 100;
+	}
+}
 
 
 ######################
@@ -517,48 +533,53 @@ function zeige_gebietslinks($gebiet_id){
 
 
 # Aufbau der Seite mit erhaltenen Items
-function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
-	if ($npc = get_npc($npc_id)){		
-		while($row = $npc->fetch_array(MYSQLI_NUM)){
-			?>
-			<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
-				<?php echo $text1 . $row[1] . $text2; ?>
-			</p>
-			<?php
+function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
+	if (!is_array($npc_ids)) $npc_ids = array($npc_ids);
+	?>
+	<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
+		<?php 
+		switch ($npc_typ){
+			case "Tiere": echo "Folgende Tiere wurden besiegt:<br><br>"; break;
+			case "Pflanzen": echo "Folgende Pflanzen wurden geerntet:<br><br>"; break;
+			default: echo "Ups da ist was schief gegangen.<br><br>"; break;
 		}
-	} else {
-		echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
-	}
-	
-	if ($items = get_items_npc($npc_id)){		
-		$counter = 0;
 		?>
-		<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
-			<tr>
-				<td>Item</td>
-				<td>Beschreibung</td>
-				<td>Anzahl</td>
-			</tr>
+	</p>
+	<?php
+	$erfahrung = 0;
+	foreach ($npc_ids as $npc_id){
+		$npc = get_npc($npc_id);
+		echo "* ".$npc->name."<br>";
+		$erfahrung = $erfahrung + $npc->erfahrung;
+	}
+	$spieler->erfahrung_addieren($erfahrung);
+	$items = get_items_npc($npc_id)
+	?>
+	<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
+		<tr>
+			<td>Item</td>
+			<td>Beschreibung</td>
+			<td>Anzahl</td>
+		</tr>
 		<?php
-		while($row = $items->fetch_array(MYSQLI_NUM)){
-			$item_wkt = $row[4];
-			if(check_wkt($item_wkt)){
-				$item_id = $row[0];
-				$item_titel = $row[1];
-				$item_beschreibung = $row[2];
-				$item_anzahl = rand($row[5], $row[6]);
-				$counter = $counter + 1;
-				insert_items_spieler($spieler_id, $item_id, $item_anzahl);
-				?>
-				<tr>
-					<td><?php echo $item_titel ?></td>
-					<td><?php echo $item_beschreibung ?></td>
-					<td><?php echo $item_anzahl ?></td>
-				</tr>
-				<?php
+		$counter = 0;
+		if (isset($items[0])){
+			foreach ($items as $item){
+				if(check_wkt($item->fund->wahrscheinlichkeit)){
+					$item_anzahl = rand($item->fund->anzahl_min, $item->fund->anzahl_max);
+					if ($item_anzahl > 0) $counter = $counter + 1;
+					insert_items_spieler($spieler->id, $item->id, $item_anzahl);
+					?>
+					<tr>
+						<td><?php echo $item->name ?></td>
+						<td><?php echo $item->beschreibung ?></td>
+						<td><?php echo $item_anzahl ?></td>
+					</tr>
+					<?php
+				}
 			}
 		}
-		if($counter == 0){
+		if (!isset($items[0]) OR $counter == 0){
 			?>
 			<tr>
 				<td colspan=3>Hehe ... nix gefunden. :P</td>
@@ -566,11 +587,8 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
 			<?php
 		}
 		?>
-		</table>
-		<?php
-	} else {
-		echo "<br />\nItems zum NPC mit id=[" . $npc_id . "] konnten nicht abgerufen werden.<br />\n";
-	}
+	</table>		
+	<?php
 }
 
 
@@ -633,10 +651,12 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 										$zauber_beschreibung = $row[5];
 										$zauber_bilder_id = $row[1];
 										$inaktiv = true;
-										foreach ($alle_zauber as $z){
-											if ($z->id == $zauber_id){
-												$inaktiv = false;
-												break;
+										if (isset($alle_zauber[0])){
+											foreach ($alle_zauber as $z){
+												if ($z->id == $zauber_id){
+													$inaktiv = false;
+													break;
+												}
 											}
 										}
 										?>
@@ -662,6 +682,7 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 }
 
 ?>
+
 
 <script>
 	/* Berechnung der Zeitanzeige Aktionen */

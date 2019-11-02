@@ -54,6 +54,7 @@ class Spieler {
 	public $abwehr;
 	public $ausweichen;
 	public $zuletzt_gespielt;
+	public $erfahrung;
 
 	public function __construct($ds=null) {
 		$this->id = $ds[0];
@@ -82,6 +83,7 @@ class Spieler {
 		$this->abwehr = $ds[23];
 		$this->ausweichen = $ds[24];
 		$this->zuletzt_gespielt = $ds[25];
+		$this->erfahrung = $ds[26];
 	}
 	
 	public function gewinn_verrechnen($gewinn) {
@@ -98,6 +100,7 @@ class Spieler {
 		$this->initiative = $this->initiative + $gewinn->initiative;
 		$this->abwehr = $this->abwehr + $gewinn->abwehr;
 		$this->ausweichen = $this->ausweichen + $gewinn->ausweichen;
+		$this->erfahrung = $this->erfahrung + $gewinn->erfahrung;
 	}
 	
 	# Regeneration der Spielerwerte (Gesundheit, Energie, Zauberpunkte) um Prozent vom jeweiligen Maximum
@@ -115,10 +118,28 @@ class Spieler {
 		if ($this->$attribut > $max) $this->$attribut = $max;
 	}
 	
-	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
+	# Übernimmt aktuelle Werte des Kampfteilnehmers
 	public function uebernehme_kt_werte($kt){
 		$this->gesundheit = $kt->gesundheit;
 		$this->zauberpunkte = $kt->zauberpunkte;
+	}
+	
+	# Addiert Erfahrung (abhängig von aktueller Balance des Spielers)
+	public function erfahrung_addieren($erfahrung){
+		global $balance_aktiv;
+		if ($balance_aktiv){
+			$this->erfahrung = ($this->erfahrung + floor_x(($erfahrung * ($this->balance / 100)), 3));
+		} else {
+			$this->erfahrung = ($this->erfahrung + $erfahrung);
+		}
+	}
+	
+	# Spieler rekonfigurieren (Neuberechnung von Gesundheit, Energie, Zauberpunkte, Balance)
+	public function neuberechnung(){
+		$this->max_gesundheit = berechne_max_gesundheit($this);
+		$this->max_energie = berechne_max_energie($this);
+		$this->max_zauberpunkte = berechne_max_zauberpunkte($this);
+		$this->balance = berechne_balance($this);
 		$this->db_update();
 	}
 	
@@ -147,9 +168,10 @@ class Spieler {
 					initiative = ?,
 					abwehr = ?,
 					ausweichen = ?,
-					balance = ?
+					balance = ?,
+					erfahrung = ?
 				WHERE id = ?")){
-			$stmt->bind_param('ddsdddddddddddddddddd',
+			$stmt->bind_param('ddsddddddddddddddddddd',
 					$this->bilder_id,
 					$this->level_id,
 					$this->name,
@@ -170,6 +192,7 @@ class Spieler {
 					$this->abwehr,
 					$this->ausweichen,
 					$this->balance,
+					$this->erfahrung,
 					$this->id);
 			$stmt->execute();
 			if ($debug) echo "<br />\nSpieler wurde in Datenbank aktualisiert.<br />\n";
@@ -204,6 +227,7 @@ class NPC {
 	public $beschreibung;
 	public $typ;
 	public $ki_id;
+	public $erfahrung;
 
 	public function __construct($ds=null) {
 		if ($ds == null) $this->set_null();
@@ -232,6 +256,7 @@ class NPC {
 		$this->beschreibung = $ds[18];
 		$this->typ = $ds[19];
 		$this->ki_id = $ds[20];
+		$this->erfahrung = $ds[21];
 	}
 	
 	public function set_null() {
@@ -256,6 +281,56 @@ class NPC {
 		$this->beschreibung = "kein NPC gefunden";
 		$this->typ = null;
 		$this->ki_id = 0;
+		$this->erfahrung = 0;
+	}
+}
+
+
+class Item {
+	public $id;
+	public $bilder_id;
+	public $name;
+	public $beschreibung;
+	public $typ;
+	public $fund;
+	public $anzahl;
+
+	public function __construct($ds=null) {
+		if ($ds == null) $this->set_null();
+			else $this->set($ds);
+	}
+	
+	public function set($ds) {
+		$this->id = $ds[0];
+		$this->bilder_id = $ds[1];
+		$this->name = $ds[2];
+		$this->beschreibung = $ds[3];
+		$this->typ = $ds[4];
+		$this->fund = null;
+		$this->anzahl = 0;
+	}
+	
+	public function set_null() {
+		$this->id = null;
+		$this->bilder_id = null;
+		$this->name = null;
+		$this->beschreibung = null;
+		$this->typ = null;
+		$this->fund = null;
+		$this->anzahl = 0;
+	}
+}
+
+
+class ItemFund {
+	public $wahrscheinlichkeit;
+	public $anzahl_min;
+	public $anzahl_max;
+	
+	public function __construct($ds) {
+		$this->wahrscheinlichkeit = $ds[0];
+		$this->anzahl_min = $ds[1];
+		$this->anzahl_max = $ds[2];
 	}
 }
 
@@ -502,6 +577,7 @@ class KampfZauber {
 	public $wahrscheinlichkeit;
 	public $zaubereffekte;
 	public $nutzbar_von;
+	public $zauber_text_id;
 
 	public function __construct($ds, $zaubereffekte) {
 		$this->id = $ds[0];
@@ -516,6 +592,7 @@ class KampfZauber {
 		$this->wahrscheinlichkeit = $ds[9];
 		$this->zaubereffekte = $zaubereffekte;
 		$this->nutzbar_von = $ds[10];
+		$this->zauber_text_id = $ds[11];
 	}
 	
 	# Prüft ob es sich um einen Zauber handelt oder um einen Standardangriff
@@ -553,6 +630,70 @@ class KampfZauber {
 		}
 		return $element;
 	}
+	
+	# Lädt weiterführende Zaubertexte für Kampflog und ersetzt Variablen im Text
+	public function ausgabe_log($param, $arr, $log_detail){
+		global $debug;
+		global $connect_db_dvg;
+		switch ($param){
+			case "ziel_falsch": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT ziel_falsch_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT ziel_falsch_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "ziel_tot": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT ziel_tot_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT ziel_tot_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "zauberpunkte": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT zauberpunkte_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT zauberpunkte_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "patzer": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT patzer_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT patzer_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "ausweichen": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT ausweichen_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT ausweichen_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "abwehr": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT abwehr_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT abwehr_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			case "erfolg": 
+				switch ($log_detail){
+					case 0: $stmt = $connect_db_dvg->prepare("SELECT erfolg_kurz FROM zauber_text WHERE id = ?"); break;
+					default: $stmt = $connect_db_dvg->prepare("SELECT erfolg_standard FROM zauber_text WHERE id = ?"); break;
+				}
+				break;
+			default: return false;
+		}
+		if ($stmt){
+			$stmt->bind_param('d', $this->zauber_text_id);
+			$stmt->execute();
+			$rohtext = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			if ($debug) echo "<br />\Rohtext für Zauber '".$this->titel."' wurde geladen.<br />\n";
+		} else {
+			echo "<br />\nQuerryfehler in Zauber->ausgabe_log()<br />\n";
+			return false;
+		}
+		$suche = array("§zaubernder", "§zauberziel", "§zauber");
+		$variablen = array($arr["zaubernder"], $arr["zauberziel"], $arr["zauber"]);
+		$text = str_replace($suche, $variablen, $rohtext);
+		return $text;
+	}
 }
 
 
@@ -565,7 +706,7 @@ class KampfZauberEffekt {
 	public $runden;
 	public $jede_runde;
 	public $spezial;
-
+	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->zauber_id = $ds[1];
@@ -589,7 +730,7 @@ class ZauberEffektSpezial {
 	public $text1;
 	public $text2;
 	public $text3;
-
+	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->art = $ds[1];
@@ -615,7 +756,7 @@ class KampfEffekt {
 	public $ausgefuehrt;
 	public $beendet;
 	public $spezial;
-
+	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->zauber_name = $ds[1];
@@ -636,7 +777,7 @@ class KampfEffekt {
 class KI {
 	public $id;
 	public $name;
-
+	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->name = $ds[1];
@@ -648,7 +789,7 @@ class Kampf {
 	public $id;
 	public $gebiet_id;
 	public $log;	
-
+	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->gebiet = $ds[1];
@@ -675,14 +816,15 @@ class Kampf {
 				case "spezial": $attribut = "Spezial"; break;
 				default: break;
 			}
-			if ($zuruecksetzen){
-				$this->log = $kt->name.": ".-$kampf_effekt->wert." ".$attribut." durch Beendigung von ".$kampf_effekt->zauber_name."<br>" . $this->log;
-			} else {
-				$this->log = $kt->name.": ".$kampf_effekt->wert." ".$attribut." durch ".$kampf_effekt->zauber_name."<br>" . $this->log;
+			if ($attribut <> "Spezial"){
+				if ($zuruecksetzen){
+					$this->log = $kt->name.": ".-$kampf_effekt->wert." ".$attribut." durch Beendigung von ".$kampf_effekt->zauber_name."<br>" . $this->log;
+				} else {
+					$this->log = $kt->name.": ".$kampf_effekt->wert." ".$attribut." durch ".$kampf_effekt->zauber_name."<br>" . $this->log;
+				}
 			}
 		}
 	}
-	
 	
 	public function log_tot($kt){
 		$this->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br>" . $this->log;
@@ -705,6 +847,7 @@ class Gewinn {
 	public $initiative;
 	public $abwehr;
 	public $ausweichen;
+	public $erfahrung;
 
 	public function __construct($ds=null) {
 		if ($ds == null){
@@ -749,6 +892,7 @@ class Gewinn {
 		$this->initiative = $ds[11];
 		$this->abwehr = $ds[12];
 		$this->ausweichen = $ds[13];
+		$this->erfahrung = $ds[14];
 	}
 }
 
