@@ -162,7 +162,7 @@
 									$i_max = count($row) - 1;
 									while($i <= $i_max)
 									{
-										if($i<5 or $i>17){
+										if($i<5 or ($i>17 and $i<20)){
 											?>
 											<td><?php echo $row[$i]; ?></td>
 											<?php

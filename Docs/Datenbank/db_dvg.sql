@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1925 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=2032 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~1.513 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~1.620 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -1693,7 +1693,114 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(1921, 48, 12, '2019-11-03 16:47:35', '2019-11-03 16:47:38', 'abgeschlossen', 0, 0),
 	(1922, 48, 2, '2019-11-03 16:52:15', '2019-11-03 16:52:20', 'abgeschlossen', 0, 0),
 	(1923, 48, 6, '2019-11-03 16:52:22', '2019-11-03 16:52:27', 'abgeschlossen', 23, 0),
-	(1924, 48, 11, '2019-11-03 16:52:27', '2019-11-03 16:53:14', 'abgeschlossen', 330, 0);
+	(1924, 48, 11, '2019-11-03 16:52:27', '2019-11-03 16:53:14', 'abgeschlossen', 330, 0),
+	(1925, 26, 2, '2019-11-03 18:50:31', '2019-11-03 18:50:36', 'abgeschlossen', 0, 0),
+	(1926, 26, 7, '2019-11-03 18:51:02', '2019-11-03 18:51:07', 'abgeschlossen', 57, 0),
+	(1927, 48, 2, '2019-11-03 18:52:17', '2019-11-03 18:52:22', 'abgeschlossen', 0, 0),
+	(1928, 48, 7, '2019-11-03 18:53:00', '2019-11-03 18:53:05', 'abgeschlossen', 7, 0),
+	(1929, 48, 12, '2019-11-03 18:53:11', '2019-11-03 18:53:14', 'abgeschlossen', 0, 0),
+	(1930, 26, 2, '2019-11-03 18:55:39', '2019-11-03 18:55:44', 'abgeschlossen', 0, 0),
+	(1931, 26, 7, '2019-11-03 18:55:51', '2019-11-03 18:55:56', 'abgeschlossen', 53, 0),
+	(1932, 48, 2, '2019-11-03 18:55:57', '2019-11-03 18:56:02', 'abgeschlossen', 0, 0),
+	(1933, 48, 2, '2019-11-03 18:56:43', '2019-11-03 18:56:48', 'abgeschlossen', 0, 0),
+	(1934, 48, 7, '2019-11-03 18:56:55', '2019-11-03 18:57:00', 'abgeschlossen', 32, 0),
+	(1935, 48, 2, '2019-11-03 18:57:51', '2019-11-03 18:57:56', 'abgeschlossen', 0, 0),
+	(1936, 48, 7, '2019-11-03 18:58:02', '2019-11-03 18:58:07', 'abgeschlossen', 12, 0),
+	(1937, 48, 2, '2019-11-03 18:58:10', '2019-11-03 18:58:15', 'abgeschlossen', 0, 0),
+	(1938, 48, 12, '2019-11-03 18:59:09', '2019-11-03 18:59:12', 'abgeschlossen', 0, 0),
+	(1939, 26, 12, '2019-11-03 19:00:09', '2019-11-03 19:00:12', 'abgeschlossen', 0, 0),
+	(1940, 48, 2, '2019-11-03 19:00:14', '2019-11-03 19:00:19', 'abgeschlossen', 0, 0),
+	(1941, 26, 2, '2019-11-03 19:00:16', '2019-11-03 19:00:21', 'abgeschlossen', 0, 0),
+	(1942, 48, 7, '2019-11-03 19:00:22', '2019-11-03 19:00:27', 'abgeschlossen', 14, 0),
+	(1943, 26, 7, '2019-11-03 19:00:24', '2019-11-03 19:00:29', 'abgeschlossen', 49, 0),
+	(1944, 48, 2, '2019-11-03 19:00:30', '2019-11-03 19:00:35', 'abgeschlossen', 0, 0),
+	(1945, 48, 7, '2019-11-03 19:00:39', '2019-11-03 19:00:44', 'abgeschlossen', 12, 0),
+	(1946, 48, 2, '2019-11-03 19:00:46', '2019-11-03 19:00:51', 'abgeschlossen', 0, 0),
+	(1947, 26, 2, '2019-11-03 19:00:48', '2019-11-03 19:00:53', 'abgeschlossen', 0, 0),
+	(1948, 48, 7, '2019-11-03 19:00:54', '2019-11-03 19:00:59', 'abgeschlossen', 56, 0),
+	(1949, 26, 7, '2019-11-03 19:00:57', '2019-11-03 19:01:02', 'abgeschlossen', 53, 0),
+	(1950, 48, 2, '2019-11-03 19:01:02', '2019-11-03 19:01:07', 'abgeschlossen', 0, 0),
+	(1951, 48, 7, '2019-11-03 19:01:10', '2019-11-03 19:01:15', 'abgeschlossen', 32, 0),
+	(1952, 48, 2, '2019-11-03 19:01:23', '2019-11-03 19:01:28', 'abgeschlossen', 0, 0),
+	(1953, 26, 2, '2019-11-03 19:01:28', '2019-11-03 19:01:33', 'abgeschlossen', 0, 0),
+	(1954, 48, 7, '2019-11-03 19:01:33', '2019-11-03 19:01:38', 'abgeschlossen', 56, 0),
+	(1955, 26, 7, '2019-11-03 19:01:42', '2019-11-03 19:01:47', 'abgeschlossen', 57, 0),
+	(1956, 48, 12, '2019-11-03 19:01:53', '2019-11-03 19:01:56', 'abgeschlossen', 0, 0),
+	(1957, 26, 2, '2019-11-03 19:02:09', '2019-11-03 19:02:14', 'abgeschlossen', 0, 0),
+	(1958, 48, 2, '2019-11-03 19:03:03', '2019-11-03 19:03:08', 'abgeschlossen', 0, 0),
+	(1959, 48, 7, '2019-11-03 19:03:19', '2019-11-03 19:03:24', 'abgeschlossen', 55, 0),
+	(1960, 26, 2, '2019-11-03 19:03:20', '2019-11-03 19:03:25', 'abgeschlossen', 0, 0),
+	(1961, 48, 10, '2019-11-03 19:03:32', '2019-11-03 19:03:42', 'abgeschlossen', 1, 0),
+	(1962, 26, 12, '2019-11-03 19:03:36', '2019-11-03 19:03:39', 'abgeschlossen', 0, 0),
+	(1963, 48, 10, '2019-11-03 19:03:44', '2019-11-03 19:03:54', 'abgeschlossen', 4, 0),
+	(1964, 26, 2, '2019-11-03 19:03:46', '2019-11-03 19:03:51', 'abgeschlossen', 0, 0),
+	(1965, 48, 2, '2019-11-03 19:03:56', '2019-11-03 19:04:01', 'abgeschlossen', 0, 0),
+	(1966, 26, 2, '2019-11-03 19:03:58', '2019-11-03 19:04:03', 'abgeschlossen', 0, 0),
+	(1967, 48, 7, '2019-11-03 19:04:04', '2019-11-03 19:04:09', 'abgeschlossen', 53, 0),
+	(1968, 26, 6, '2019-11-03 19:04:07', '2019-11-03 19:04:12', 'abgeschlossen', 59, 0),
+	(1969, 48, 2, '2019-11-03 19:04:12', '2019-11-03 19:04:17', 'abgeschlossen', 0, 0),
+	(1970, 26, 11, '2019-11-03 19:04:14', '2019-11-03 19:09:20', 'abgeschlossen', 331, 0),
+	(1971, 48, 7, '2019-11-03 19:04:38', '2019-11-03 19:04:43', 'abgeschlossen', 42, 0),
+	(1972, 48, 12, '2019-11-03 19:09:40', '2019-11-03 19:09:43', 'abgeschlossen', 0, 0),
+	(1973, 26, 2, '2019-11-03 19:13:15', '2019-11-03 19:13:20', 'abgeschlossen', 0, 0),
+	(1974, 26, 7, '2019-11-03 19:13:24', '2019-11-03 19:13:29', 'abgeschlossen', 50, 0),
+	(1975, 26, 12, '2019-11-03 19:13:37', '2019-11-03 19:13:40', 'abgeschlossen', 0, 0),
+	(1976, 26, 2, '2019-11-03 19:13:45', '2019-11-03 19:13:50', 'abgeschlossen', 0, 0),
+	(1977, 26, 7, '2019-11-03 19:13:56', '2019-11-03 19:14:01', 'abgeschlossen', 50, 0),
+	(1978, 26, 10, '2019-11-03 19:14:05', '2019-11-03 19:14:15', 'abgeschlossen', 1, 0),
+	(1979, 26, 2, '2019-11-03 19:14:21', '2019-11-03 19:14:26', 'abgeschlossen', 0, 0),
+	(1980, 26, 2, '2019-11-03 19:14:33', '2019-11-03 19:14:38', 'abgeschlossen', 0, 0),
+	(1981, 26, 7, '2019-11-03 19:14:41', '2019-11-03 19:14:46', 'abgeschlossen', 6, 0),
+	(1982, 26, 12, '2019-11-03 19:15:08', '2019-11-03 19:15:11', 'abgeschlossen', 0, 0),
+	(1983, 26, 2, '2019-11-03 19:15:19', '2019-11-03 19:15:24', 'abgeschlossen', 0, 0),
+	(1984, 26, 2, '2019-11-03 19:15:29', '2019-11-03 19:15:34', 'abgeschlossen', 0, 0),
+	(1985, 26, 2, '2019-11-03 19:15:37', '2019-11-03 19:15:42', 'abgeschlossen', 0, 0),
+	(1986, 26, 7, '2019-11-03 19:15:45', '2019-11-03 19:15:50', 'abgeschlossen', 12, 0),
+	(1987, 26, 10, '2019-11-03 19:15:57', '2019-11-03 19:16:07', 'abgeschlossen', 9, 0),
+	(1988, 26, 12, '2019-11-03 19:16:15', '2019-11-03 19:16:18', 'abgeschlossen', 0, 0),
+	(1989, 26, 2, '2019-11-03 19:16:30', '2019-11-03 19:16:35', 'abgeschlossen', 0, 0),
+	(1990, 26, 7, '2019-11-03 19:16:39', '2019-11-03 19:16:44', 'abgeschlossen', 56, 0),
+	(1991, 26, 2, '2019-11-03 19:18:33', '2019-11-03 19:18:38', 'abgeschlossen', 0, 0),
+	(1992, 26, 6, '2019-11-03 19:18:45', '2019-11-03 19:18:50', 'abgeschlossen', 33, 0),
+	(1993, 26, 11, '2019-11-03 19:18:52', '2019-11-03 19:19:24', 'abgeschlossen', 332, 0),
+	(1994, 26, 2, '2019-11-03 19:20:37', '2019-11-03 19:20:42', 'abgeschlossen', 0, 0),
+	(1995, 26, 6, '2019-11-03 19:20:50', '2019-11-03 19:20:55', 'abgeschlossen', 25, 0),
+	(1996, 26, 11, '2019-11-03 19:20:57', '2019-11-03 19:21:15', 'abgeschlossen', 333, 0),
+	(1997, 26, 12, '2019-11-03 19:21:20', '2019-11-03 19:21:23', 'abgeschlossen', 0, 0),
+	(1998, 26, 10, '2019-11-03 19:21:33', '2019-11-03 19:21:43', 'abgeschlossen', 6, 0),
+	(1999, 26, 10, '2019-11-03 19:21:47', '2019-11-03 19:21:57', 'abgeschlossen', 2, 0),
+	(2000, 26, 2, '2019-11-03 19:22:00', '2019-11-03 19:22:05', 'abgeschlossen', 0, 0),
+	(2001, 26, 2, '2019-11-03 19:22:10', '2019-11-03 19:22:15', 'abgeschlossen', 0, 0),
+	(2002, 26, 6, '2019-11-03 19:22:19', '2019-11-03 19:22:24', 'abgeschlossen', 2, 0),
+	(2003, 26, 11, '2019-11-03 19:22:26', '2019-11-03 19:22:45', 'abgeschlossen', 334, 0),
+	(2004, 26, 2, '2019-11-03 19:22:55', '2019-11-03 19:23:00', 'abgeschlossen', 0, 0),
+	(2005, 26, 2, '2019-11-03 19:23:05', '2019-11-03 19:23:10', 'abgeschlossen', 0, 0),
+	(2006, 26, 2, '2019-11-03 19:23:16', '2019-11-03 19:23:21', 'abgeschlossen', 0, 0),
+	(2007, 26, 2, '2019-11-03 19:27:35', '2019-11-03 19:27:40', 'abgeschlossen', 0, 0),
+	(2008, 26, 2, '2019-11-03 19:27:43', '2019-11-03 19:27:48', 'abgeschlossen', 0, 0),
+	(2009, 26, 2, '2019-11-03 19:27:52', '2019-11-03 19:27:57', 'abgeschlossen', 0, 0),
+	(2010, 26, 6, '2019-11-03 19:28:02', '2019-11-03 19:28:07', 'abgeschlossen', 30, 0),
+	(2011, 26, 11, '2019-11-03 19:28:09', '2019-11-03 19:28:27', 'abgeschlossen', 335, 0),
+	(2012, 26, 12, '2019-11-03 19:28:33', '2019-11-03 19:28:36', 'abgeschlossen', 0, 0),
+	(2013, 26, 2, '2019-11-03 19:28:52', '2019-11-03 19:28:57', 'abgeschlossen', 0, 0),
+	(2014, 26, 2, '2019-11-03 19:29:01', '2019-11-03 19:29:06', 'abgeschlossen', 0, 0),
+	(2015, 26, 2, '2019-11-03 19:29:10', '2019-11-03 19:29:15', 'abgeschlossen', 0, 0),
+	(2016, 26, 2, '2019-11-03 19:29:18', '2019-11-03 19:29:23', 'abgeschlossen', 0, 0),
+	(2017, 26, 2, '2019-11-03 19:29:27', '2019-11-03 19:29:32', 'abgeschlossen', 0, 0),
+	(2018, 26, 6, '2019-11-03 19:29:37', '2019-11-03 19:29:42', 'abgeschlossen', 60, 0),
+	(2019, 26, 11, '2019-11-03 19:29:43', '2019-11-03 19:35:10', 'abgeschlossen', 336, 0),
+	(2020, 26, 12, '2019-11-03 19:35:13', '2019-11-03 19:35:16', 'abgeschlossen', 0, 0),
+	(2021, 26, 2, '2019-11-03 19:35:24', '2019-11-03 19:35:29', 'abgeschlossen', 0, 0),
+	(2022, 26, 6, '2019-11-03 19:35:32', '2019-11-03 19:35:37', 'abgeschlossen', 60, 0),
+	(2023, 26, 11, '2019-11-03 19:35:38', '2019-11-03 19:36:27', 'abgeschlossen', 337, 0),
+	(2024, 26, 12, '2019-11-03 19:37:59', '2019-11-03 19:38:02', 'abgeschlossen', 0, 0),
+	(2025, 26, 10, '2019-11-03 19:38:06', '2019-11-03 19:38:16', 'abgeschlossen', 5, 0),
+	(2026, 26, 2, '2019-11-03 19:38:46', '2019-11-03 19:38:51', 'abgeschlossen', 0, 0),
+	(2027, 26, 7, '2019-11-03 19:38:54', '2019-11-03 19:38:59', 'abgeschlossen', 8, 0),
+	(2028, 26, 2, '2019-11-03 19:39:18', '2019-11-03 19:39:23', 'abgeschlossen', 0, 0),
+	(2029, 26, 2, '2019-11-03 19:39:29', '2019-11-03 19:39:34', 'abgeschlossen', 0, 0),
+	(2030, 26, 2, '2019-11-03 19:39:38', '2019-11-03 19:39:43', 'abgeschlossen', 0, 0),
+	(2031, 26, 2, '2019-11-03 19:39:48', '2019-11-03 19:39:53', 'abgeschlossen', 0, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -1703,9 +1810,9 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `pfad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=314 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
+) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
--- Exportiere Daten aus Tabelle db_dvg.bilder: ~259 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bilder: ~272 rows (ungefähr)
 DELETE FROM `bilder`;
 /*!40000 ALTER TABLE `bilder` DISABLE KEYS */;
 INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
@@ -1976,7 +2083,20 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(310, 'Alien', '../Bilder/NPC/Alien.png'),
 	(311, 'Urratte', '../Bilder/NPC/Urratte.png'),
 	(312, 'standardangriffe', '../Bilder/standardangriffe.png'),
-	(313, 'wolf2', '../Bilder/NPC/wolf2.png');
+	(313, 'wolf2', '../Bilder/NPC/wolf2.png'),
+	(314, 'Ananas', '../Bilder/NPC/Ananas.png'),
+	(315, 'Farn', '../Bilder/NPC/Farn.png'),
+	(316, 'Pinienzapfen', '../Bilder/NPC/Pinienzapfen.png'),
+	(317, 'artichoke', '../Bilder/NPC/artichoke.png'),
+	(318, 'aubergine', '../Bilder/NPC/aubergine.png'),
+	(319, 'bananen', '../Bilder/NPC/bananen.png'),
+	(320, 'granatapfel', '../Bilder/NPC/granatapfel.png'),
+	(321, 'kaktus', '../Bilder/NPC/kaktus.png'),
+	(322, 'kohlrabi', '../Bilder/NPC/kohlrabi.png'),
+	(323, 'porre', '../Bilder/NPC/porre.png'),
+	(324, 'rhabarber', '../Bilder/NPC/rhabarber.png'),
+	(325, 'weintrauben', '../Bilder/NPC/weintrauben.png'),
+	(326, 'weißkohl', '../Bilder/NPC/weißkohl.png');
 /*!40000 ALTER TABLE `bilder` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.element
@@ -2180,9 +2300,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~164 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~159 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -2360,7 +2480,14 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(172, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	(173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	(174, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-	(175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+	(175, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(176, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(177, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(178, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(179, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(181, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(182, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -2374,9 +2501,9 @@ CREATE TABLE IF NOT EXISTS `items` (
   PRIMARY KEY (`id`),
   KEY `FK_bilder_id_items` (`bilder_id`),
   CONSTRAINT `FK_items_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Items';
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Items';
 
--- Exportiere Daten aus Tabelle db_dvg.items: ~20 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items: ~31 rows (ungefähr)
 DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
@@ -2399,7 +2526,20 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `typ`, `bilder_id`) VALUES
 	(19, 'Kürbis', 'Oranges Riesengemüse', 'Nahrung', 86),
 	(21, 'Katzenfisch', 'Eine Katze die im Wasser zu finden ist.', 'Nahrung', 241),
 	(22, 'Koala', 'Ein Haustier zum knuddeln.', 'Spielzeug', 265),
-	(23, 'Drachenirrlicht', 'Ein funkelndes Drachenirrlicht aus alter Zeit. Ein sehr seltener, aber magischer neuer Freund.', 'Material', 269);
+	(23, 'Drachenirrlicht', 'Ein funkelndes Drachenirrlicht aus alter Zeit. Ein sehr seltener, aber magischer neuer Freund.', 'Material', 269),
+	(24, 'Aubergine', '---ohne---', 'Nahrung', 318),
+	(25, 'Bananen', '---ohne---', 'Nahrung', 319),
+	(26, 'Artischocke', '---ohne---', 'Nahrung', 317),
+	(27, 'Farn', '---ohne---', 'Nahrung', 315),
+	(28, 'Kaktus', 'Eine gute Wasserquelle in der trockenen Gegend !', 'Nahrung', 321),
+	(29, 'Kohlrabi', '---ohne---', 'Nahrung', 322),
+	(30, 'Porre', '---ohne---', 'Nahrung', 323),
+	(31, 'Pinienzapfen', 'Die Kerne kann man essen !', 'Nahrung', 316),
+	(32, 'Rhabarber', 'Sollte man besser gekocht essen, sonst schmeckt er scheusslich !', 'Nahrung', 324),
+	(33, 'Sonnenblume', 'Kann man nicht essen, aber sieht schön aus !', 'Material', 78),
+	(34, 'Granatapfel', '---ohne---', 'Nahrung', 320),
+	(35, 'Grünes Osterei', '---ohne---', 'Nahrung', 207),
+	(36, 'Lilanes Osterei', '---ohne---', 'Nahrung', 208);
 /*!40000 ALTER TABLE `items` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items_spieler
@@ -2414,30 +2554,30 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   KEY `FK_spieler_id_items_spieler` (`spieler_id`),
   CONSTRAINT `FK_items_spieler_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~39 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~49 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
-	(1, 3, 26, 6),
+	(1, 3, 26, 7),
 	(2, 6, 26, 3),
 	(3, 7, 26, 2),
 	(4, 1, 19, 7),
 	(5, 2, 19, 1),
 	(6, 8, 19, 1),
-	(8, 8, 26, 53),
+	(8, 8, 26, 54),
 	(9, 5, 26, 12),
 	(10, 11, 26, 3),
-	(11, 1, 26, 29),
+	(11, 1, 26, 32),
 	(12, 2, 26, 1),
-	(13, 14, 26, 1),
+	(13, 14, 26, 2),
 	(15, 15, 26, 2),
-	(16, 18, 26, 23),
+	(16, 18, 26, 24),
 	(34, 4, 26, 7),
 	(37, 10, 26, 2),
-	(38, 21, 26, 6),
-	(39, 19, 26, 0),
+	(38, 21, 26, 7),
+	(39, 19, 26, 1),
 	(40, 12, 26, 2),
 	(49, 8, 43, 26),
 	(50, 4, 43, 12),
@@ -2460,9 +2600,17 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`) VALUES
 	(68, 21, 48, 3),
 	(69, 15, 48, 1),
 	(70, 8, 48, 6),
-	(71, 5, 48, 4),
-	(72, 22, 48, 1),
-	(73, 19, 48, 1);
+	(71, 5, 48, 5),
+	(72, 22, 48, 2),
+	(73, 19, 48, 1),
+	(74, 24, 26, 1),
+	(75, 31, 48, 8),
+	(76, 34, 26, 3),
+	(77, 30, 26, 2),
+	(78, 29, 48, 1),
+	(79, 34, 48, 1),
+	(80, 25, 26, 4),
+	(81, 31, 26, 2);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -2474,9 +2622,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~287 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~306 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -2781,7 +2929,14 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(327, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Ratte stirbt im Kampf.</font><br>Ratte: -8 Gesundheit durch Biss<br>Sumpfine greif Ratte erfolgreich mit Biss an.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Ratte: -5 Gesundheit durch Stich<br>Sumpfine greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Ratte: -5 Gesundheit durch Stich<br>Sumpfine greif Ratte erfolgreich mit Stich an.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Sumpfine greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Sumpfine zaubert Monsun auf Ratte. Ratte kann dem Zauber jedoch ausweichen.<br><br>'),
 	(328, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Ratte stirbt im Kampf.</font><br>Ratte: -8 Gesundheit durch Biss<br>Sumpfine greif Ratte erfolgreich mit Biss an.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Ratte: -5 Gesundheit durch Stich<br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Ratte: -5 Gesundheit durch Stich<br>Sumpfine greif Ratte erfolgreich mit Stich an.<br><br>Ratte greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br>Sumpfine greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Sumpfine greift Ratte mit Stich an. Ratte kann dem Angriff jedoch ausweichen.<br><br>Sumpfine: -5 Gesundheit durch Biss<br>Ratte greif Sumpfine erfolgreich mit Biss an.<br>Sumpfine zaubert Wasserstrahl auf Ratte. Ratte kann dem Zauber jedoch ausweichen.<br><br>'),
 	(329, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Stockente stirbt im Kampf.</font><br>Stockente: -8 Gesundheit durch Biss<br>Sumpfine greif Stockente erfolgreich mit Biss an.<br><br>Sumpfine: -8 Gesundheit durch Biss<br>Sumpfine: 2 Initiative durch Beendigung von Schlamm<br>Stockente greif Sumpfine erfolgreich mit Biss an.<br>Stockente: -5 Gesundheit durch Stich<br>Sumpfine greift Stockente mit Biss an. Stockente kann dem Angriff jedoch ausweichen.<br><br>Stockente patzt beim Ausführen von Biss auf Sumpfine.<br>Stockente: -5 Gesundheit durch Stich<br>Sumpfine greif Stockente erfolgreich mit Stich an.<br><br>Sumpfine: -2 Initiative durch Schlamm<br>Sumpfine: 2 Initiative durch Beendigung von Schlamm<br>Stockente zaubert erfolgreich Schlamm auf Sumpfine.<br>Stockente: 3 Gesundheit durch Wasserdampf<br>Sumpfine greift Stockente mit Stich an. Stockente kann dem Angriff jedoch ausweichen.<br><br>Stockente: 3 Gesundheit durch Wasserdampf<br>Stockente: 3 Gesundheit durch Wasserdampf<br>Stockente zaubert erfolgreich Wasserdampf auf sich selbst.<br>Stockente: 3 Gesundheit durch Wasserdampf<br>Stockente zaubert erfolgreich Wasserdampf auf sich selbst.<br>Stockente: -5 Gesundheit durch Stich<br>Sumpfine greift Stockente mit Biss an. Stockente kann dem Angriff jedoch ausweichen.<br><br>Sumpfine: -2 Initiative durch Schlamm<br>Stockente zaubert erfolgreich Schlamm auf Sumpfine.<br>Stockente: -8 Gesundheit durch Biss<br>Sumpfine greif Stockente erfolgreich mit Biss an.<br><br>Stockente: -5 Gesundheit durch Stich<br>Sumpfine greif Stockente erfolgreich mit Stich an.<br><br>'),
-	(330, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Hase stirbt im Kampf.</font><br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Biss an.<br><br>Sumpfine: -8 Gesundheit durch Biss<br>Hase greif Sumpfine erfolgreich mit Biss an.<br>Hase: -5 Gesundheit durch Stich<br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Stich an.<br><br>Sumpfine: -7 Gesundheit durch Schlag<br>Hase greif Sumpfine erfolgreich mit Schlag an.<br>Hase: 2 Abwehr durch Beendigung von Wasserstrahl<br>Hase: 1 Ausweichen durch Beendigung von Wasserstrahl<br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Stich an.<br><br>Sumpfine: -8 Gesundheit durch Biss<br>Hase greif Sumpfine erfolgreich mit Biss an.<br>Hase: -2 Abwehr durch Wasserstrahl<br>Hase: -1 Ausweichen durch Wasserstrahl<br>Sumpfine zaubert erfolgreich Wasserstrahl auf Hase.<br><br>');
+	(330, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Hase stirbt im Kampf.</font><br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Biss an.<br><br>Sumpfine: -8 Gesundheit durch Biss<br>Hase greif Sumpfine erfolgreich mit Biss an.<br>Hase: -5 Gesundheit durch Stich<br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Stich an.<br><br>Sumpfine: -7 Gesundheit durch Schlag<br>Hase greif Sumpfine erfolgreich mit Schlag an.<br>Hase: 2 Abwehr durch Beendigung von Wasserstrahl<br>Hase: 1 Ausweichen durch Beendigung von Wasserstrahl<br>Hase: -5 Gesundheit durch Stich<br>Sumpfine greif Hase erfolgreich mit Stich an.<br><br>Sumpfine: -8 Gesundheit durch Biss<br>Hase greif Sumpfine erfolgreich mit Biss an.<br>Hase: -2 Abwehr durch Wasserstrahl<br>Hase: -1 Ausweichen durch Wasserstrahl<br>Sumpfine zaubert erfolgreich Wasserstrahl auf Hase.<br><br>'),
+	(331, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Luchs stirbt im Kampf.</font><br>Luchs: -26 Gesundheit durch Muräne<br>Luchs: -16 Stärke durch Muräne<br>Rashiel: 1 Gesundheit durch Feueratem<br>Rashiel greift Luchs mit Schlag an. Luchs kann dem Angriff jedoch ausweichen.<br><br>Rashiel: -5 Gesundheit durch Biss<br>Luchs greif Rashiel erfolgreich mit Biss an.<br>Luchs: -6 Ausweichen durch Muräne<br>Luchs: -26 Gesundheit durch Muräne<br>Luchs: -16 Stärke durch Muräne<br>Rashiel: -1 Magie durch Beendigung von Feueratem<br>Drachenirrlicht zaubert erfolgreich Muräne auf Luchs.<br>Rashiel: 1 Magie durch Feueratem<br>Rashiel: 1 Gesundheit durch Feueratem<br>Rashiel zaubert erfolgreich Feueratem auf sich selbst.<br><br>Luchs patzt beim Ausführen von Biss auf Drachenirrlicht.<br>Rashiel greift Luchs mit Biss an. Luchs kann dem Angriff jedoch ausweichen.<br><br>Luchs greift Drachenirrlicht mit Biss an. Drachenirrlicht kann dem Angriff jedoch ausweichen.<br>Rashiel zaubert erfolgreich Drachenirrlicht beschwören auf sich selbst.<br><br>Rashiel: -12 Gesundheit durch Biss<br>Luchs greif Rashiel erfolgreich mit Biss an.<br>Luchs: -2 Gesundheit durch Biss<br>Rashiel greift Luchs mit Biss an. Luchs kann den Angriff jedoch abwehren.<br><br>Rashiel: -12 Gesundheit durch Biss<br>Luchs greif Rashiel erfolgreich mit Biss an.<br>Rashiel greift Luchs mit Schlag an. Luchs kann dem Angriff jedoch ausweichen.<br><br>Rashiel greift Luchs mit Biss an. Luchs kann dem Angriff jedoch ausweichen.<br><br>Rashiel greift Luchs mit Schlag an. Luchs kann dem Angriff jedoch ausweichen.<br><br>'),
+	(332, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Schwein stirbt im Kampf.</font><br>Schwein: -7 Gesundheit durch Gerölllawine<br>Rashiel greif Schwein erfolgreich mit Schlag an.<br><br>Rashiel: -0 Gesundheit durch Biss<br>Schwein greif Rashiel erfolgreich mit Biss an.<br>Schwein: -7 Gesundheit durch Gerölllawine<br>Schwein: -7 Stärke durch Gerölllawine<br>Schwein: -6 Gesundheit durch Stich<br>Rashiel zaubert erfolgreich Gerölllawine auf Schwein.<br><br>Rashiel: -6 Gesundheit durch Biss<br>Schwein greif Rashiel erfolgreich mit Biss an.<br>Rashiel greift Schwein mit Schlag an. Schwein kann dem Angriff jedoch ausweichen.<br><br>Schwein: -6 Gesundheit durch Stich<br>Rashiel greif Schwein erfolgreich mit Stich an.<br><br>'),
+	(333, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Stockente stirbt im Kampf.</font><br>Stockente: -6 Gesundheit durch Stich<br>Rashiel greif Stockente erfolgreich mit Schlag an.<br><br>Rashiel: -2 Initiative durch Schlamm<br>Stockente zaubert erfolgreich Schlamm auf Rashiel.<br>Stockente: -2 Abwehr durch Magma<br>Stockente: -2 Ausweichen durch Magma<br>Stockente: -8 Gesundheit durch Magma<br>Rashiel zaubert erfolgreich Magma auf Stockente.<br><br>Stockente: -6 Gesundheit durch Stich<br>Rashiel greif Stockente erfolgreich mit Stich an.<br><br>'),
+	(334, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Ratte stirbt im Kampf.</font><br>Ratte: -6 Gesundheit durch Stich<br>Ratte: -7 Gesundheit durch Gerölllawine<br>Rashiel greif Ratte erfolgreich mit Stich an.<br><br>Rashiel: -0 Gesundheit durch Biss<br>Ratte greif Rashiel erfolgreich mit Biss an.<br>Ratte: -7 Gesundheit durch Gerölllawine<br>Ratte: -7 Stärke durch Gerölllawine<br>Rashiel zaubert erfolgreich Gerölllawine auf Ratte.<br><br>'),
+	(335, NULL, '<font color=\'green\'>Gewonnen</font><br><font color=\'red\'>Skorpion stirbt im Kampf.</font><br>Skorpion: -8 Gesundheit durch Magma<br>Rashiel: -5 Gesundheit durch Stich<br>Rashiel greif Skorpion erfolgreich mit Schlag an.<br><br>Rashiel: -5 Gesundheit durch Stich<br>Skorpion greif Rashiel erfolgreich mit Stich an.<br>Skorpion: -6 Gesundheit durch Stich<br>Rashiel greif Skorpion erfolgreich mit Stich an.<br><br>Skorpion: -2 Abwehr durch Magma<br>Skorpion: -2 Ausweichen durch Magma<br>Skorpion: -8 Gesundheit durch Magma<br>Rashiel zaubert erfolgreich Magma auf Skorpion.<br><br>'),
+	(336, NULL, '<font color=\'red\'>Verloren</font><br><font color=\'red\'>Rashiel stirbt im Kampf.</font><br>Rashiel: -30 Gesundheit durch Biss<br>Urechse greif Rashiel erfolgreich mit Biss an.<br>Rashiel greift Urechse mit Stich an. Urechse kann dem Angriff jedoch ausweichen.<br><br>Urechse: -7 Gesundheit durch Gerölllawine<br>Urechse: -7 Stärke durch Gerölllawine<br>Rashiel zaubert erfolgreich Gerölllawine auf Urechse.<br><br>Rashiel: -31 Gesundheit durch Biss<br>Urechse greif Rashiel erfolgreich mit Biss an.<br>Urechse: -2 Gesundheit durch Schlag<br>Rashiel greift Urechse mit Schlag an. Urechse kann den Angriff jedoch abwehren.<br><br>Urechse greift Rashiel mit Biss an. Rashiel kann dem Angriff jedoch ausweichen.<br>Rashiel patzt beim Zaubern von Magma auf Urechse.<br><br>Rashiel greift Urechse mit Stich an. Urechse kann dem Angriff jedoch ausweichen.<br><br>'),
+	(337, NULL, '<font color=\'red\'>Verloren</font><br><font color=\'red\'>Rashiel stirbt im Kampf.</font><br>Rashiel: -31 Gesundheit durch Biss<br>Rashiel: 3 Initiative durch Beendigung von Asche<br>Rashiel: 5 Magie durch Beendigung von Asche<br>Urechse greif Rashiel erfolgreich mit Biss an.<br>Urechse: -8 Gesundheit durch Schlag<br>Urechse: 2 Abwehr durch Beendigung von Magma<br>Urechse: 2 Ausweichen durch Beendigung von Magma<br>Rashiel greif Urechse erfolgreich mit Schlag an.<br><br>Urechse: -8 Gesundheit durch Magma<br>Rashiel greift Urechse mit Schlag an. Urechse kann dem Angriff jedoch ausweichen.<br><br>Rashiel: -3 Initiative durch Asche<br>Rashiel: -5 Magie durch Asche<br>Urechse zaubert erfolgreich Asche auf Rashiel.<br>Urechse: -8 Gesundheit durch Magma<br>Rashiel greift Urechse mit Stich an. Urechse kann dem Angriff jedoch ausweichen.<br><br>Rashiel: -31 Gesundheit durch Biss<br>Urechse greif Rashiel erfolgreich mit Biss an.<br>Rashiel patzt beim Zaubern von Gerölllawine auf Urechse.<br><br>Urechse: -2 Abwehr durch Magma<br>Urechse: -2 Ausweichen durch Magma<br>Urechse: -8 Gesundheit durch Magma<br>Rashiel zaubert erfolgreich Magma auf Urechse.<br><br>');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -2808,9 +2963,9 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5337 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=5385 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.521 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.491 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -7819,7 +7974,55 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(5333, 330, 190.476, 737, 736, 79, 1, 0, 0, 0, 95.238, '2019-11-03 16:52:40'),
 	(5334, 330, 200, 736, 737, 80, 1, 0, 0, 0, 100, '2019-11-03 16:52:41'),
 	(5335, 330, 285.714, 737, 736, 77, 1, 0, 0, 0, 95.238, '2019-11-03 16:52:41'),
-	(5336, 330, 300, 736, 737, 77, 1, 0, 0, 0, 100, '2019-11-03 16:52:49');
+	(5336, 330, 300, 736, 737, 77, 1, 0, 0, 0, 100, '2019-11-03 16:52:49'),
+	(5337, 331, 0, 738, 739, 79, 1, 1, 0, 0, 100, '2019-11-03 19:04:34'),
+	(5338, 331, 100, 738, 739, 77, 1, 1, 1, 0, 100, '2019-11-03 19:04:41'),
+	(5339, 331, 100, 738, 739, 79, 1, 0, 1, 0, 100, '2019-11-03 19:07:49'),
+	(5340, 331, 100, 738, 739, 79, 1, 1, 1, 0, 100, '2019-11-03 19:08:29'),
+	(5341, 331, 111.111, 739, 738, 77, 1, 0, 0, 0, 111.111, '2019-11-03 19:08:29'),
+	(5342, 331, 200, 738, 739, 77, 1, 0, 1, 0, 100, '2019-11-03 19:08:38'),
+	(5343, 331, 222.222, 739, 738, 77, 1, 0, 0, 0, 111.111, '2019-11-03 19:08:38'),
+	(5344, 331, 300, 738, 738, 81, 1, 0, 0, 0, 100, '2019-11-03 19:08:46'),
+	(5345, 331, 333.333, 739, 740, 77, 1, 1, 1, 0, 111.111, '2019-11-03 19:08:46'),
+	(5346, 331, 400, 738, 739, 77, 1, 1, 1, 0, 100, '2019-11-03 19:08:52'),
+	(5347, 331, 444.444, 739, 740, 77, 0, 0, 0, 0, 111.111, '2019-11-03 19:08:52'),
+	(5348, 331, 500, 738, 738, 48, 1, 0, 0, 4, 100, '2019-11-03 19:09:00'),
+	(5349, 331, 500, 740, 739, 64, 1, 0, 0, 7, 100, '2019-11-03 19:09:00'),
+	(5350, 331, 555.555, 739, 738, 77, 1, 0, 0, 0, 111.111, '2019-11-03 19:09:00'),
+	(5351, 331, 600, 738, 739, 79, 1, 1, 1, 0, 100, '2019-11-03 19:09:03'),
+	(5352, 332, 0, 741, 742, 80, 1, 0, 0, 0, 100, '2019-11-03 19:19:02'),
+	(5353, 332, 100, 741, 742, 79, 1, 1, 0, 0, 100, '2019-11-03 19:19:05'),
+	(5354, 332, 100, 742, 741, 77, 1, 0, 0, 0, 100, '2019-11-03 19:19:06'),
+	(5355, 332, 200, 741, 742, 40, 1, 0, 0, 7, 100, '2019-11-03 19:19:10'),
+	(5356, 332, 200, 742, 741, 77, 1, 0, 0, 0, 100, '2019-11-03 19:19:10'),
+	(5357, 332, 300, 741, 742, 79, 1, 0, 0, 0, 100, '2019-11-03 19:19:18'),
+	(5358, 333, 0, 743, 744, 80, 1, 0, 0, 0, 100, '2019-11-03 19:21:05'),
+	(5359, 333, 100, 743, 744, 22, 1, 0, 0, 7, 100, '2019-11-03 19:21:09'),
+	(5360, 333, 100, 744, 743, 59, 1, 0, 0, 3, 100, '2019-11-03 19:21:09'),
+	(5361, 333, 200, 743, 744, 79, 1, 0, 0, 0, 102.04, '2019-11-03 19:21:13'),
+	(5362, 334, 0, 745, 746, 40, 1, 0, 0, 7, 100, '2019-11-03 19:22:38'),
+	(5363, 334, 76.923, 746, 745, 77, 1, 0, 0, 0, 76.923, '2019-11-03 19:22:38'),
+	(5364, 334, 100, 745, 746, 80, 1, 0, 0, 0, 100, '2019-11-03 19:22:43'),
+	(5365, 335, 0, 747, 748, 22, 1, 0, 0, 7, 100, '2019-11-03 19:28:17'),
+	(5366, 335, 100, 747, 748, 80, 1, 0, 0, 0, 100, '2019-11-03 19:28:23'),
+	(5367, 335, 100, 748, 747, 80, 1, 0, 0, 0, 100, '2019-11-03 19:28:23'),
+	(5368, 335, 200, 747, 748, 79, 1, 0, 0, 0, 100, '2019-11-03 19:28:25'),
+	(5369, 336, 0, 749, 750, 80, 1, 1, 0, 0, 100, '2019-11-03 19:32:02'),
+	(5370, 336, 100, 749, 750, 22, 0, 0, 0, 7, 100, '2019-11-03 19:32:08'),
+	(5371, 336, 142.857, 750, 749, 77, 1, 1, 0, 0, 142.857, '2019-11-03 19:32:08'),
+	(5372, 336, 200, 749, 750, 79, 1, 0, 1, 0, 100, '2019-11-03 19:32:15'),
+	(5373, 336, 285.714, 750, 749, 77, 1, 0, 0, 0, 142.857, '2019-11-03 19:32:15'),
+	(5374, 336, 300, 749, 750, 40, 1, 0, 0, 7, 100, '2019-11-03 19:32:29'),
+	(5375, 336, 400, 749, 750, 80, 1, 1, 1, 0, 100, '2019-11-03 19:35:03'),
+	(5376, 336, 428.571, 750, 749, 77, 1, 0, 0, 0, 142.857, '2019-11-03 19:35:03'),
+	(5377, 337, 0, 751, 752, 22, 1, 0, 0, 7, 100, '2019-11-03 19:35:43'),
+	(5378, 337, 100, 751, 752, 40, 0, 0, 1, 7, 100, '2019-11-03 19:36:01'),
+	(5379, 337, 142.857, 752, 751, 77, 1, 0, 0, 0, 142.857, '2019-11-03 19:36:01'),
+	(5380, 337, 200, 751, 752, 80, 1, 1, 0, 0, 100, '2019-11-03 19:36:13'),
+	(5381, 337, 285.714, 752, 751, 17, 1, 0, 0, 3, 142.857, '2019-11-03 19:36:13'),
+	(5382, 337, 300, 751, 752, 79, 1, 1, 1, 0, 103.092, '2019-11-03 19:36:21'),
+	(5383, 337, 403.092, 751, 752, 79, 1, 0, 0, 0, 103.092, '2019-11-03 19:36:23'),
+	(5384, 337, 428.571, 752, 751, 77, 1, 0, 0, 0, 142.857, '2019-11-03 19:36:23');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -7841,9 +8044,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`),
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5445 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=5491 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~5.005 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~4.975 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -13045,7 +13248,53 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(5441, 5333, 736, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
 	(5442, 5334, 737, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
 	(5443, 5335, 736, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
-	(5444, 5336, 737, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1);
+	(5444, 5336, 737, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1),
+	(5445, 5339, 739, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(5446, 5341, 738, 'angriff', 'gesundheit', -12, 1, 1, 1, 1, 1),
+	(5447, 5342, 739, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(5448, 5343, 738, 'angriff', 'gesundheit', -12, 1, 1, 1, 1, 1),
+	(5449, 5344, 738, 'verteidigung', 'spezial', 0, 4, 10, 0, 1, 0),
+	(5450, 5348, 738, 'verteidigung', 'gesundheit', 1, 2, 3, 1, 1, 0),
+	(5451, 5348, 738, 'verteidigung', 'magie', 1, 1, 1, 0, 1, 1),
+	(5452, 5349, 739, 'angriff', 'staerke', -16, 2, 5, 1, 1, 0),
+	(5453, 5349, 739, 'angriff', 'gesundheit', -26, 2, 5, 1, 1, 1),
+	(5454, 5349, 739, 'angriff', 'ausweichen', -6, 1, 5, 1, 1, 1),
+	(5455, 5350, 738, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(5456, 5352, 742, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(5457, 5354, 741, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(5458, 5355, 742, 'angriff', 'staerke', -7, 2, 2, 0, 1, 0),
+	(5459, 5355, 742, 'angriff', 'gesundheit', -7, 2, 3, 1, 1, 1),
+	(5460, 5356, 741, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(5461, 5357, 742, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1),
+	(5462, 5358, 744, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(5463, 5359, 744, 'angriff', 'gesundheit', -8, 1, 3, 1, 1, 1),
+	(5464, 5359, 744, 'angriff', 'ausweichen', -2, 1, 3, 0, 1, 1),
+	(5465, 5359, 744, 'angriff', 'abwehr', -2, 1, 3, 0, 1, 1),
+	(5466, 5360, 743, 'angriff', 'initiative', -2, 2, 3, 0, 1, 0),
+	(5467, 5361, 744, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1),
+	(5468, 5362, 746, 'angriff', 'staerke', -7, 2, 2, 0, 1, 0),
+	(5469, 5362, 746, 'angriff', 'gesundheit', -7, 2, 3, 1, 1, 0),
+	(5470, 5363, 745, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(5471, 5364, 746, 'angriff', 'gesundheit', -6, 1, 2, 1, 1, 1),
+	(5472, 5365, 748, 'angriff', 'gesundheit', -8, 2, 3, 1, 1, 1),
+	(5473, 5365, 748, 'angriff', 'ausweichen', -2, 1, 3, 0, 1, 1),
+	(5474, 5365, 748, 'angriff', 'abwehr', -2, 1, 3, 0, 1, 1),
+	(5475, 5366, 748, 'angriff', 'gesundheit', -6, 1, 2, 1, 1, 1),
+	(5476, 5367, 747, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
+	(5477, 5368, 748, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1),
+	(5478, 5372, 750, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(5479, 5373, 749, 'angriff', 'gesundheit', -31, 1, 1, 1, 1, 1),
+	(5480, 5374, 750, 'angriff', 'staerke', -7, 1, 2, 0, 0, 0),
+	(5481, 5374, 750, 'angriff', 'gesundheit', -7, 1, 3, 1, 0, 0),
+	(5482, 5376, 749, 'angriff', 'gesundheit', -30, 1, 1, 1, 1, 1),
+	(5483, 5377, 752, 'angriff', 'gesundheit', -8, 3, 3, 1, 1, 1),
+	(5484, 5377, 752, 'angriff', 'ausweichen', -2, 3, 3, 0, 1, 1),
+	(5485, 5377, 752, 'angriff', 'abwehr', -2, 3, 3, 0, 1, 1),
+	(5486, 5379, 751, 'angriff', 'gesundheit', -31, 1, 1, 1, 1, 1),
+	(5487, 5381, 751, 'angriff', 'magie', -5, 3, 3, 0, 1, 1),
+	(5488, 5381, 751, 'angriff', 'initiative', -3, 3, 3, 0, 1, 1),
+	(5489, 5383, 752, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(5490, 5384, 751, 'angriff', 'gesundheit', -31, 1, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -13077,9 +13326,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_kampf_teilnehmer_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=738 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=753 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~676 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~708 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `zauberpunkte`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -13796,7 +14045,22 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(734, 329, 48, 'spieler', 0, 25, 5, 10, 5, 1, 1, 5, 1, 1, 100, 10, 10, 708.16, 174, 0),
 	(735, 329, 25, 'npc', 1, 0, 8, 10, 20, 10, 0, 10, 0, 0, 100, 0, 20, 700, NULL, 0),
 	(736, 330, 48, 'spieler', 0, 10, 1, 10, 5, 1, 1, 5, 1, 1, 100, 10, 10, 400, 175, 0),
-	(737, 330, 23, 'npc', 1, 0, 0, 10, 10, 5, 0, 0, 5, 0, 105, 2, 20, 380.952, NULL, 0);
+	(737, 330, 23, 'npc', 1, 0, 0, 10, 10, 5, 0, 0, 5, 0, 105, 2, 20, 380.952, NULL, 0),
+	(738, 331, 26, 'spieler', 0, 6, 1, 10, 5, 1, 1, 5, 1, 1, 100, 10, 10, 700, 176, 0),
+	(739, 331, 59, 'npc', 1, 0, 1, 0, 20, 10, 0, 0, 5, 0, 90, 80, 44, 666.666, NULL, 0),
+	(740, 331, 45, 'npc', 0, 100, 993, 100, 100, 100, 100, 100, 100, 100, 100, 50, 50, 600, NULL, 0),
+	(741, 332, 26, 'spieler', 0, 49, 9, 15, 10, 6, 11, 5, 6, 6, 100, 10, 10, 400, 177, 0),
+	(742, 332, 33, 'npc', 1, 0, 0, 0, 10, 0, 0, 0, 1, 0, 100, 10, 10, 300, NULL, 0),
+	(743, 333, 26, 'spieler', 0, 49, 2, 15, 10, 6, 11, 5, 6, 6, 98, 10, 10, 302.04, 178, 0),
+	(744, 333, 25, 'npc', 1, 0, 17, 10, 20, 10, 0, 10, 0, 0, 100, 0, 18, 200, NULL, 0),
+	(745, 334, 26, 'spieler', 0, 55, 9, 15, 10, 6, 11, 5, 6, 6, 100, 10, 10, 200, 179, 0),
+	(746, 334, 2, 'npc', 1, 0, 0, 0, 3, 0, 0, 5, 5, 0, 130, 0, 35, 153.846, NULL, 0),
+	(747, 335, 26, 'spieler', 0, 45, 2, 15, 10, 6, 11, 5, 6, 6, 100, 10, 10, 300, 180, 0),
+	(748, 335, 30, 'npc', 1, 0, 20, 10, 5, 5, 20, 0, 0, 0, 100, 13, 3, 200, NULL, 0),
+	(749, 336, 26, 'spieler', 0, 0, 2, 15, 10, 6, 11, 5, 6, 6, 100, 10, 10, 500, 181, 0),
+	(750, 336, 60, 'npc', 1, 291, 0, 143, 10, 0, 30, 0, 0, 0, 70, 60, 40, 571.428, NULL, 0),
+	(751, 337, 26, 'spieler', 0, 0, 2, 15, 10, 6, 11, 5, 6, 6, 100, 10, 10, 506.184, 182, 0),
+	(752, 337, 60, 'npc', 1, 268, 17, 150, 10, 10, 30, 0, 0, 0, 70, 60, 40, 571.428, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -13828,9 +14092,9 @@ CREATE TABLE IF NOT EXISTS `level` (
   PRIMARY KEY (`id`),
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_level_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Level und die einzelnen Voraussetzungen zum Erreichen des Levels';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Level und die einzelnen Voraussetzungen zum Erreichen des Levels';
 
--- Exportiere Daten aus Tabelle db_dvg.level: ~6 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.level: ~7 rows (ungefähr)
 DELETE FROM `level`;
 /*!40000 ALTER TABLE `level` DISABLE KEYS */;
 INSERT INTO `level` (`id`, `titel`, `stufe`, `modifikator`, `beschreibung`, `erfahrung_naechster_level`, `gewinn_id`) VALUES
@@ -13926,20 +14190,20 @@ CREATE TABLE IF NOT EXISTS `npc` (
   CONSTRAINT `FK_npc_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`),
   CONSTRAINT `FK_npc_element` FOREIGN KEY (`element_id`) REFERENCES `element` (`id`),
   CONSTRAINT `FK_npc_ki` FOREIGN KEY (`ki_id`) REFERENCES `ki` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Objekten (Tiere, Pflanzen, Personen, usw.)';
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Objekten (Tiere, Pflanzen, Personen, usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc: ~38 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc: ~48 rows (ungefähr)
 DELETE FROM `npc`;
 /*!40000 ALTER TABLE `npc` DISABLE KEYS */;
 INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `abwehr`, `ausweichen`, `beschreibung`, `typ`, `ki_id`, `erfahrung`) VALUES
 	(1, 274, 2, 'Wymar (Name von der Redaktion geändert)', 'Drache', 75, 100, 50, 100, 20, 20, 20, 1000, 100, 0, 100, 0, 0, 'Wymar ist einer der ältesten bekannten Drachen und wird für seine Weisheit hoch geschätzt. Ihr tut gut daran, seinen Ratschlägen aufs genauste zu folgen.', 'ansprechbar', 1, 0),
 	(2, 240, 4, 'Ratte', 'Nager', 3, 3, 0, 0, 5, 5, 0, 15, 10, 0, 130, 0, 35, 'Eklige Biester! Entweder kreischend davonrennen und den erstbesten Kammerjäger um Hilfe bitten oder einfach selbst Hand anlegen. ', 'angreifbar', 2, 1),
 	(3, 310, 1, 'Zayinenkrieger', 'Zayine', 50, 50, 40, 25, 25, 25, 25, 1000, 750, 30, 90, 50, 10, 'Ein Krieger der Zayinen. Am besten ihr schleicht euch ungesehen an ihm vorbei, denn schon auf den ersten Blick könnt ihr erkennen, dass mit ihm nicht gut Kirschen essen sein wird.', 'angreifbar', 2, 1),
-	(4, 77, 4, 'Fuchs', 'Fuchs', 10, 10, 0, 0, 2, 10, 5, 35, 50, 0, 110, 5, 20, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar', 2, 1),
-	(5, 77, 4, 'Junger Fuchs', 'Fuchs', 5, 5, 0, 0, 1, 5, 3, 25, 40, 0, 110, 0, 30, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar', 2, 1),
+	(4, 77, 4, 'Fuchs', 'Hundeartige', 10, 10, 0, 0, 2, 10, 5, 35, 50, 0, 110, 5, 20, 'Ein Fuchs, kräftig gebaut, jedoch scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er auf den ersten Blick ganz niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar', 2, 1),
+	(5, 77, 4, 'Junger Fuchs', 'Hundeartige', 5, 5, 0, 0, 1, 5, 3, 25, 40, 0, 110, 0, 30, 'Ein Fuchs, relativ klein, scheu und nicht sonderlich angriffslustig. Ihr solltet eurer Können jedoch nicht überstrapazieren. Auch wenn er klein und niedlich aussieht, so ist er doch sehr gerissen und weiß mit seinen Zähnen gut auszuteilen.', 'angreifbar', 2, 1),
 	(6, 238, 3, 'Apfelbaum', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 100, 0, 0, 'Ein stattlicher Apfelbaum mit einer Menge Äpfeln in der Krone. Verlockend!', 'sammelbar', 1, 1),
 	(7, 95, 4, 'Steinpilz', 'Pilz', 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 100, 0, 0, 'Ein Pilz mit breitem Stiel und einem hellbraunen Hut. Das müsste ein Steinpilz sein.', 'sammelbar', 1, 1),
-	(8, 84, 4, 'Knoblauch', 'Pflanze', 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 100, 0, 0, 'Eine schöne Knoblauchpflanze. Der unterirdische Teil ist ein wahrer Gaumenschmaus für Kenner. Der oberirdische Teil hingegen ist ein Haufen unnützes Grünzeug.', 'sammelbar', 1, 1),
+	(8, 84, 4, 'Knoblauch', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 100, 0, 0, 'Eine schöne Knoblauchpflanze. Der unterirdische Teil ist ein wahrer Gaumenschmaus für Kenner. Der oberirdische Teil hingegen ist ein Haufen unnützes Grünzeug.', 'sammelbar', 1, 1),
 	(10, 45, 3, 'Eisbär', 'Bär', 100, 75, 20, 0, 20, 10, 0, 500, 500, 0, 70, 40, 5, 'Ein kräftiger Bär mit großen Pranken und einem schneeweißen Pelz. Da könnte man sich bestimmt schön hinein kuscheln, wenn er nicht so wehrhaft wäre.', 'angreifbar', 2, 1),
 	(11, 91, 4, 'Großer Panda', 'Bär', 10, 5, 50, 0, 0, 20, 5, 50, 20, 30, 80, 5, 0, 'Ein großer knuddeliger Bär mit traurigen schwarzen Augen. Er knabbert gemütlich an einem Bambuszweig.', 'angreifbar', 2, 1),
 	(12, 208, 5, 'Osterei lila', 'Ei', 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 100, 0, 0, 'Nicht ganz rund aber trotzdem perfekt geformt. Ein tolles Souvenir.', 'sammelbar', 1, 1),
@@ -13947,28 +14211,39 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 	(21, 90, 2, 'Feuerteufel', 'Elementarteilchen', 0, 50, 100, 100, 0, 0, 0, 1000, 1000, 1000, 100, 50, 50, 'Ein kleines heißes Kerlchen, was mit Feuer umzugehen weiß. Vorsicht!', 'angreifbar', 2, 1),
 	(22, 46, 4, 'Erdmännchen', '---ohne---', 5, 20, 5, 0, 0, 10, 0, 10, 30, 20, 120, 0, 40, 'Ein sehr guter Beobachter !', 'angreifbar', 2, 1),
 	(23, 39, 4, 'Hase', 'Löffeltier', 10, 10, 5, 0, 0, 5, 0, 20, 30, 0, 105, 0, 20, 'Ein Hase !', 'angreifbar', 2, 1),
-	(24, 88, 4, 'Löwe', 'Katzen', 80, 20, 10, 0, 0, 20, 0, 50, 40, 20, 100, 30, 10, 'Ein großer starker Löwe !', 'angreifbar', 2, 1),
+	(24, 88, 4, 'Löwe', 'Raubkatze', 80, 20, 10, 0, 0, 20, 0, 50, 40, 20, 100, 30, 10, 'Ein großer starker Löwe !', 'angreifbar', 2, 1),
 	(25, 96, 3, 'Stockente', 'Vogel', 10, 20, 10, 0, 10, 0, 0, 20, 30, 20, 100, 0, 20, '---ohne---', 'angreifbar', 2, 1),
 	(26, 37, 3, 'Pinguin', 'Vogel', 5, 15, 10, 0, 30, 0, 0, 15, 30, 40, 80, 5, 0, '---ohne---', 'angreifbar', 2, 1),
 	(27, 241, 3, 'Katzenfisch', 'Fisch', 5, 10, 5, 0, 10, 0, 0, 20, 10, 10, 100, 0, 25, '---ohne---', 'angreifbar', 2, 1),
 	(28, 43, 5, 'Ara', 'Vogel', 10, 40, 10, 0, 0, 0, 20, 30, 20, 30, 120, 0, 30, '---ohne---', 'angreifbar', 2, 1),
 	(29, 86, 4, 'Kürbis', 'Gemüse', 2, 0, 5, 0, 0, 2, 0, 2, 0, 0, 100, 0, 0, '---ohne---', 'sammelbar', 1, 1),
 	(30, 94, 2, 'Skorpion', 'Insekten', 10, 5, 5, 20, 0, 0, 0, 20, 10, 20, 100, 15, 5, 'Vorsicht Stachel !', 'angreifbar', 2, 1),
-	(31, 78, 4, 'Sonnenblume', 'Pflanzen', 0, 0, 10, 0, 0, 10, 0, 2, 10, 0, 100, 0, 0, '---ohne---', 'sammelbar', 1, 1),
+	(31, 78, 5, 'Sonnenblume', 'Pflanzen', 0, 0, 10, 0, 0, 10, 0, 2, 10, 0, 100, 0, 0, '---ohne---', 'sammelbar', 1, 1),
 	(32, 40, 1, 'Hibiskus', 'Pflanze', 0, 0, 0, 0, 0, 10, 0, 10, 10, 0, 100, 0, 0, 'Irgendeine Pflanze mit schönen roten Blüten, wenn sie denn mal blühen !', 'sammelbar', 1, 1),
 	(33, 93, 4, 'Schwein', 'Allesfresser', 5, 10, 0, 0, 0, 1, 0, 20, 10, 0, 100, 10, 10, 'Eine Steckdose auf 4 Beinen.', 'angreifbar', 2, 1),
 	(34, 39, 4, 'Osterhase', 'Pflanzenfresser', 2, 10, 10, 1, 1, 1, 1, 10, 30, 0, 500, 100, 100, 'Wird häufig mit einem Korb voller Eier gesichtet. Ihr solltet ihn lieber in Ruhe lassen. Er soll in Sachen Schnelligkeit jeden in den Schatten stellen.', 'angreifbar', 2, 1),
-	(35, 245, 4, 'Gorilla', 'Pflanzenfresser', 50, 20, 5, 0, 0, 10, 0, 30, 10, 0, 100, 35, 10, 'So selten wie ein Bigfoot. ', 'angreifbar', 2, 1),
-	(36, 41, 3, 'Alligator', 'Fleischfresser', 30, 10, 0, 0, 10, 0, 0, 75, 10, 0, 80, 30, 10, 'Tick Tack ! Ein Maul voller Zähne bedroht dich, zum Glück ohne viel Grips dahinter.', 'angreifbar', 2, 1),
+	(35, 245, 4, 'Gorilla', 'Affe', 50, 20, 5, 0, 0, 10, 0, 30, 10, 0, 100, 35, 10, 'So selten wie ein Bigfoot. ', 'angreifbar', 2, 1),
+	(36, 41, 3, 'Echse', 'Fleischfresser', 30, 10, 0, 0, 10, 0, 0, 75, 10, 0, 80, 30, 10, 'Tick Tack ! Ein Maul voller Zähne bedroht dich, zum Glück ohne viel Grips dahinter.', 'angreifbar', 2, 1),
 	(37, 97, 3, 'Tapir', 'Pflanzenfresser', 10, 5, 0, 0, 5, 5, 0, 30, 10, 0, 100, 20, 15, 'Ein sehr seltenes Rüsseltier.', 'angreifbar', 2, 1),
-	(40, 262, 3, 'Delphin', 'Fleischfresser', 20, 40, 20, 0, 20, 0, 0, 40, 50, 40, 105, 0, 35, 'Ein sehr intelligenter Meeresbewohner.', 'angreifbar', 2, 1),
-	(41, 261, 3, 'Buckelwal', 'Fleischfresser', 100, 20, 0, 0, 30, 0, 0, 150, 20, 0, 95, 20, 0, 'Eine Riese des Eismeeres.', 'angreifbar', 2, 1),
+	(40, 262, 3, 'Delphin', 'Wale', 20, 40, 20, 0, 20, 0, 0, 40, 50, 40, 105, 0, 35, 'Ein sehr intelligenter Meeresbewohner.', 'angreifbar', 2, 1),
+	(41, 261, 3, 'Buckelwal', 'Wale', 100, 20, 0, 0, 30, 0, 0, 150, 20, 0, 95, 20, 0, 'Eine Riese des Eismeeres.', 'angreifbar', 2, 1),
 	(42, 265, 5, 'Koala', 'Beuteltier', 5, 0, 0, 0, 0, 0, 1, 10, 5, 0, 100, 0, 0, 'Ein plüschiges süßes Tierchen, dass man nicht gerne fressen wöllte.', 'sammelbar', 1, 1),
 	(44, 306, 5, 'Urtrompetentier', 'Dinosaurier', 150, 20, 10, 0, 0, 0, 50, 200, 50, 10, 100, 20, 20, 'Macht viel Lärm um Nichts oder trompetet musikalisch gerne vor sich hin, wenn es sich freut !', 'angreifbar', 2, 1),
 	(45, 269, 3, 'Drachenirrlicht', 'Schoßtiere', 100, 100, 100, 100, 100, 100, 100, 100, 0, 1000, 100, 50, 50, 'Ein kleiner Schoßdrache, der dir im Kampf die Treue ... und das Pfötchen hält.', 'angreifbar', 2, 1),
-	(46, 99, 4, 'Alphawolf', 'Fleischfresser', 30, 20, 5, 0, 0, 5, 0, 70, 0, 6, 110, 5, 15, 'Das Alphatier eines Wolfsrudels. Ihr könnt euch glücklich schätzen, wenn ihr ihn allein antrefft.', 'angreifbar', 2, 1),
-	(47, 313, 4, 'Wolf', 'Fleischfresser', 15, 10, 3, 0, 0, 3, 0, 40, 0, 1, 105, 0, 10, 'Ein Zähne fletschender Wolf. Sieht zwar flauschig aus, kann sich aber durchaus wehren.', 'angreifbar', 2, 1),
-	(48, 291, 4, 'Urhuhn', 'Dinosaurier', 400, 0, 0, 10, 0, 10, 0, 700, 50, 0, 50, 80, 10, 'Ähm... ja... entweder ausreißen oder sich Tod stellen und hoffen, dass es einen übersieht.', 'angreifbar', 2, 1);
+	(46, 99, 4, 'Alphawolf', 'Hundeartige', 30, 20, 5, 0, 0, 5, 0, 70, 0, 6, 110, 5, 15, 'Das Alphatier eines Wolfsrudels. Ihr könnt euch glücklich schätzen, wenn ihr ihn allein antrefft.', 'angreifbar', 2, 1),
+	(47, 313, 4, 'Wolf', 'Hundeartige', 15, 10, 3, 0, 0, 3, 0, 40, 0, 1, 105, 0, 10, 'Ein Zähne fletschender Wolf. Sieht zwar flauschig aus, kann sich aber durchaus wehren.', 'angreifbar', 2, 1),
+	(48, 291, 4, 'Urhuhn', 'Dinosaurier', 400, 0, 0, 10, 0, 10, 0, 700, 50, 0, 50, 80, 10, 'Ähm... ja... entweder ausreißen oder sich Tod stellen und hoffen, dass es einen übersieht.', 'angreifbar', 2, 1),
+	(49, 318, 4, 'Aubergine', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(50, 319, 4, 'Bananen', 'Obst', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(52, 321, 2, 'Kaktus', '---ohne---', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(53, 320, 4, 'Granatapfel', '---ohne---', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(54, 317, 5, 'Artischocke', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(55, 322, 4, 'Kohlrabi', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(56, 316, 4, 'Pinienzapfen', '---ohne---', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(57, 323, 5, 'Porre', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(58, 324, 5, 'Rhabarber', 'Gemüse', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
+	(59, 87, 4, 'Luchs', 'Raubkatze', 20, 20, 10, 0, 0, 5, 0, 40, 15, 1, 90, 80, 50, '---ohne---', 'angreifbar', 2, 1),
+	(60, 280, 2, 'Urechse', 'Dinosaurier', 150, 10, 10, 30, 0, 0, 0, 300, 150, 20, 70, 60, 40, 'Vorsicht ! Eine Urechse auf zwei Beinen, die als ausgestorben galt.', 'angreifbar', 2, 1);
 /*!40000 ALTER TABLE `npc` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.npc_gebiet
@@ -13983,24 +14258,18 @@ CREATE TABLE IF NOT EXISTS `npc_gebiet` (
   KEY `FK_gebiet_id_npc_gebiet` (`gebiet_id`),
   CONSTRAINT `FK_npc_gebiet_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_npc_gebiet_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
+) ENGINE=InnoDB AUTO_INCREMENT=454 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~117 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~128 rows (ungefähr)
 DELETE FROM `npc_gebiet`;
 /*!40000 ALTER TABLE `npc_gebiet` DISABLE KEYS */;
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
-	(14, 5, 4, 10),
-	(16, 5, 7, 10),
-	(18, 5, 9, 10),
-	(20, 5, 11, 10),
 	(28, 7, 2, 20),
 	(29, 7, 4, 50),
 	(30, 7, 5, 25),
 	(31, 7, 6, 80),
 	(32, 7, 8, 35),
 	(33, 7, 9, 80),
-	(34, 8, 5, 100),
-	(43, 10, 3, 30),
 	(44, 11, 4, 50),
 	(78, 12, 4, 10),
 	(79, 12, 3, 10),
@@ -14026,13 +14295,8 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 	(110, 14, 7, 10),
 	(116, 21, 2, 30),
 	(117, 21, 7, 10),
-	(143, 30, 7, 20),
-	(144, 30, 10, 30),
-	(155, 31, 9, 10),
-	(156, 31, 4, 5),
 	(158, 32, 9, 50),
 	(159, 32, 4, 30),
-	(174, 26, 3, 20),
 	(178, 2, 1, 50),
 	(179, 2, 2, 50),
 	(180, 2, 3, 50),
@@ -14043,69 +14307,99 @@ INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VAL
 	(185, 2, 9, 50),
 	(186, 2, 10, 50),
 	(187, 2, 11, 50),
-	(191, 23, 9, 60),
 	(192, 28, 4, 30),
 	(193, 28, 10, 10),
-	(198, 24, 11, 20),
-	(199, 24, 4, 10),
-	(200, 24, 7, 5),
-	(201, 24, 9, 5),
-	(206, 33, 9, 20),
-	(207, 33, 4, 5),
-	(208, 35, 9, 10),
-	(209, 35, 4, 5),
 	(214, 37, 4, 5),
 	(215, 37, 9, 1),
 	(216, 37, 1, 10),
-	(227, 25, 4, 5),
-	(228, 25, 9, 10),
-	(229, 40, 3, 20),
-	(230, 41, 3, 10),
-	(242, 6, 1, 30),
-	(243, 6, 4, 30),
-	(244, 6, 5, 30),
-	(245, 6, 8, 10),
-	(246, 6, 9, 70),
-	(247, 6, 10, 1),
-	(248, 6, 11, 5),
 	(249, 1, 5, 100),
 	(250, 42, 4, 10),
 	(251, 42, 9, 5),
-	(252, 29, 9, 5),
-	(253, 29, 9, 5),
-	(254, 29, 4, 1),
-	(255, 29, 5, 1),
 	(268, 27, 10, 10),
 	(269, 27, 3, 30),
 	(270, 27, 1, 50),
 	(271, 27, 4, 10),
 	(272, 22, 11, 50),
 	(273, 22, 9, 5),
-	(290, 36, 4, 10),
-	(291, 36, 1, 20),
-	(292, 36, 9, 1),
-	(293, 36, 10, 20),
-	(296, 4, 4, 40),
-	(297, 4, 7, 40),
-	(298, 4, 9, 40),
-	(299, 4, 11, 40),
 	(300, 44, 4, 10),
 	(301, 44, 1, 10),
-	(310, 47, 4, 5),
-	(311, 47, 5, 5),
-	(312, 47, 8, 5),
-	(313, 47, 10, 5),
-	(314, 47, 11, 15),
-	(315, 47, 9, 20),
 	(316, 3, 7, 1),
-	(323, 46, 11, 5),
-	(324, 46, 10, 2),
-	(325, 46, 4, 5),
-	(326, 46, 5, 5),
-	(327, 46, 8, 3),
-	(328, 46, 9, 8),
 	(329, 48, 4, 20),
-	(330, 34, 11, 1);
+	(337, 56, 9, 60),
+	(340, 31, 9, 10),
+	(341, 31, 4, 5),
+	(346, 53, 4, 30),
+	(351, 29, 9, 5),
+	(352, 29, 9, 5),
+	(353, 29, 4, 1),
+	(354, 29, 5, 1),
+	(359, 59, 4, 30),
+	(360, 59, 9, 10),
+	(361, 33, 9, 20),
+	(362, 33, 4, 5),
+	(363, 30, 7, 20),
+	(364, 30, 10, 30),
+	(365, 30, 2, 50),
+	(366, 60, 2, 20),
+	(371, 23, 9, 60),
+	(372, 23, 5, 20),
+	(378, 25, 4, 5),
+	(379, 25, 9, 10),
+	(380, 25, 5, 5),
+	(381, 26, 3, 20),
+	(382, 26, 6, 5),
+	(385, 10, 3, 30),
+	(386, 10, 6, 5),
+	(392, 34, 11, 1),
+	(393, 6, 4, 30),
+	(394, 6, 8, 10),
+	(395, 6, 9, 70),
+	(396, 52, 7, 20),
+	(397, 52, 11, 40),
+	(398, 50, 4, 20),
+	(399, 50, 10, 20),
+	(400, 49, 4, 30),
+	(401, 49, 10, 10),
+	(410, 36, 4, 10),
+	(411, 36, 1, 20),
+	(412, 36, 9, 1),
+	(413, 36, 10, 20),
+	(414, 4, 4, 40),
+	(415, 4, 7, 40),
+	(416, 4, 9, 40),
+	(417, 4, 11, 40),
+	(418, 5, 4, 10),
+	(419, 5, 7, 10),
+	(420, 5, 9, 10),
+	(421, 5, 11, 10),
+	(422, 5, 5, 20),
+	(423, 47, 4, 5),
+	(424, 47, 5, 5),
+	(425, 47, 8, 5),
+	(426, 47, 10, 5),
+	(427, 47, 11, 15),
+	(428, 47, 9, 20),
+	(429, 46, 11, 5),
+	(430, 46, 10, 2),
+	(431, 46, 4, 5),
+	(432, 46, 5, 5),
+	(433, 46, 8, 3),
+	(434, 46, 9, 8),
+	(437, 40, 3, 20),
+	(438, 40, 5, 20),
+	(439, 41, 3, 10),
+	(440, 41, 5, 10),
+	(441, 8, 5, 100),
+	(442, 55, 9, 20),
+	(443, 57, 4, 10),
+	(444, 58, 9, 20),
+	(445, 54, 11, 20),
+	(448, 35, 9, 10),
+	(449, 35, 4, 5),
+	(450, 24, 11, 20),
+	(451, 24, 4, 10),
+	(452, 24, 7, 5),
+	(453, 24, 9, 5);
 /*!40000 ALTER TABLE `npc_gebiet` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.npc_items
@@ -14122,17 +14416,13 @@ CREATE TABLE IF NOT EXISTS `npc_items` (
   KEY `FK_npc_id_npc_items` (`npc_id`),
   CONSTRAINT `FK_npc_items_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_npc_items_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
+) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_items: ~61 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_items: ~72 rows (ungefähr)
 DELETE FROM `npc_items`;
 /*!40000 ALTER TABLE `npc_items` DISABLE KEYS */;
 INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
 	(3, 7, 5, 100, 1, 1),
-	(4, 8, 3, 50, 1, 1),
-	(5, 5, 8, 75, 1, 2),
-	(6, 5, 4, 10, 1, 1),
-	(14, 10, 7, 10, 0, 1),
 	(15, 11, 2, 10, 0, 3),
 	(28, 12, 10, 10, 1, 1),
 	(29, 12, 12, 10, 1, 1),
@@ -14148,46 +14438,68 @@ INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anza
 	(45, 14, 11, 5, 1, 1),
 	(50, 21, 6, 10, 1, 1),
 	(51, 21, 8, 5, 1, 1),
-	(70, 26, 18, 20, 1, 2),
 	(73, 2, 1, 45, 1, 1),
 	(74, 2, 7, 10, 1, 1),
 	(75, 2, 8, 50, 1, 1),
 	(76, 2, 18, 5, 1, 1),
-	(79, 23, 8, 20, 1, 2),
-	(80, 23, 18, 30, 1, 1),
 	(81, 28, 18, 10, 1, 1),
-	(86, 24, 6, 5, 1, 1),
-	(87, 24, 7, 10, 1, 1),
-	(88, 24, 8, 10, 1, 1),
-	(89, 24, 1, 10, 1, 1),
-	(90, 33, 18, 10, 0, 1),
-	(91, 35, 1, 50, 0, 1),
 	(93, 37, 18, 50, 0, 1),
-	(96, 25, 18, 10, 1, 1),
-	(97, 25, 8, 10, 1, 1),
-	(98, 40, 18, 50, 0, 1),
-	(99, 41, 18, 100, 0, 5),
-	(103, 6, 1, 100, 1, 3),
-	(104, 6, 2, 25, 1, 1),
 	(105, 42, 22, 100, 1, 1),
-	(106, 29, 19, 100, 1, 1),
 	(110, 27, 18, 10, 1, 1),
 	(111, 27, 21, 100, 1, 1),
 	(112, 22, 8, 10, 1, 2),
 	(113, 22, 18, 10, 1, 1),
-	(122, 36, 8, 50, 0, 2),
-	(125, 4, 8, 85, 2, 3),
-	(126, 4, 4, 75, 1, 1),
-	(127, 4, 6, 5, 1, 1),
 	(128, 44, 18, 50, 5, 10),
-	(133, 47, 18, 75, 1, 2),
-	(134, 47, 8, 10, 1, 1),
 	(135, 3, 8, 100, 3, 3),
-	(138, 46, 18, 75, 2, 4),
-	(139, 46, 8, 10, 1, 1),
 	(140, 48, 23, 100, 1, 5),
 	(141, 48, 18, 50, 5, 20),
-	(142, 34, 11, 1, 1, 1);
+	(149, 56, 31, 100, 2, 5),
+	(152, 31, 33, 100, 1, 1),
+	(157, 53, 34, 100, 1, 3),
+	(162, 29, 19, 100, 1, 1),
+	(167, 59, 21, 50, 1, 2),
+	(168, 59, 21, 50, 1, 1),
+	(169, 33, 18, 40, 1, 2),
+	(170, 33, 31, 20, 3, 3),
+	(171, 30, 18, 50, 1, 1),
+	(172, 60, 6, 50, 1, 1),
+	(176, 23, 8, 20, 1, 2),
+	(177, 23, 18, 30, 1, 1),
+	(180, 25, 18, 10, 1, 1),
+	(181, 25, 8, 10, 1, 1),
+	(182, 26, 18, 20, 1, 2),
+	(184, 10, 21, 50, 5, 10),
+	(190, 34, 11, 1, 1, 1),
+	(191, 34, 35, 100, 1, 1),
+	(192, 34, 36, 100, 1, 1),
+	(193, 6, 1, 100, 1, 3),
+	(194, 6, 2, 25, 1, 1),
+	(195, 52, 28, 100, 1, 1),
+	(196, 50, 25, 100, 1, 2),
+	(197, 49, 24, 100, 1, 1),
+	(204, 36, 8, 50, 0, 2),
+	(205, 36, 29, 50, 0, 2),
+	(206, 4, 8, 85, 2, 3),
+	(207, 4, 4, 75, 1, 1),
+	(208, 4, 6, 5, 1, 1),
+	(209, 5, 8, 75, 1, 2),
+	(210, 5, 4, 10, 1, 1),
+	(211, 47, 18, 75, 1, 2),
+	(212, 47, 8, 10, 1, 1),
+	(213, 46, 18, 75, 2, 4),
+	(214, 46, 8, 10, 1, 1),
+	(216, 40, 18, 50, 0, 1),
+	(217, 41, 18, 100, 0, 5),
+	(218, 8, 3, 100, 1, 1),
+	(219, 55, 29, 100, 1, 1),
+	(220, 57, 30, 100, 1, 2),
+	(221, 58, 32, 100, 1, 1),
+	(222, 54, 26, 100, 5, 10),
+	(224, 35, 1, 50, 1, 10),
+	(225, 35, 18, 50, 1, 5),
+	(226, 24, 6, 5, 1, 1),
+	(227, 24, 7, 10, 1, 1),
+	(228, 24, 8, 10, 1, 1);
 /*!40000 ALTER TABLE `npc_items` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.npc_spieler_statistik
@@ -14202,9 +14514,9 @@ CREATE TABLE IF NOT EXISTS `npc_spieler_statistik` (
   KEY `spieler_id` (`spieler_id`),
   CONSTRAINT `FK_npc_spieler_statistik_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`),
   CONSTRAINT `FK_npc_spieler_statistik_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~40 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~56 rows (ungefähr)
 DELETE FROM `npc_spieler_statistik`;
 /*!40000 ALTER TABLE `npc_spieler_statistik` DISABLE KEYS */;
 INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VALUES
@@ -14216,9 +14528,9 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(6, 45, 23, 3),
 	(7, 45, 22, 1),
 	(8, 45, 30, 1),
-	(9, 26, 2, 11),
+	(9, 26, 2, 12),
 	(10, 26, 27, 5),
-	(11, 26, 12, 2),
+	(11, 26, 12, 3),
 	(12, 26, 36, 1),
 	(13, 26, 10, 1),
 	(14, 26, 40, 2),
@@ -14237,7 +14549,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(27, 26, 44, 2),
 	(28, 26, 7, 3),
 	(29, 26, 48, 1),
-	(30, 26, 30, 2),
+	(30, 26, 30, 3),
 	(31, 26, 22, 3),
 	(32, 26, 5, 3),
 	(33, 45, 46, 3),
@@ -14247,16 +14559,29 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(37, 45, 31, 1),
 	(39, 48, 6, 5),
 	(40, 48, 2, 8),
-	(41, 48, 14, 2),
+	(41, 48, 14, 3),
 	(42, 48, 27, 3),
 	(43, 26, 28, 1),
-	(44, 26, 6, 1),
-	(45, 48, 32, 2),
-	(46, 48, 7, 4),
-	(47, 48, 42, 1),
+	(44, 26, 6, 2),
+	(45, 48, 32, 4),
+	(46, 48, 7, 5),
+	(47, 48, 42, 2),
 	(48, 48, 29, 1),
 	(49, 48, 25, 1),
-	(50, 48, 23, 1);
+	(50, 48, 23, 1),
+	(51, 26, 57, 2),
+	(52, 26, 53, 2),
+	(53, 48, 12, 2),
+	(54, 26, 49, 1),
+	(55, 48, 56, 2),
+	(56, 48, 55, 1),
+	(57, 48, 53, 1),
+	(58, 26, 59, 1),
+	(59, 26, 50, 2),
+	(60, 26, 56, 1),
+	(61, 26, 33, 1),
+	(62, 26, 25, 1),
+	(63, 26, 8, 1);
 /*!40000 ALTER TABLE `npc_spieler_statistik` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.quest
@@ -14348,7 +14673,7 @@ CREATE TABLE IF NOT EXISTS `spieler` (
   CONSTRAINT `FK_spieler_level` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Spieler mit Zuordnung zu den jeweiligen Accounts';
 
--- Exportiere Daten aus Tabelle db_dvg.spieler: ~14 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.spieler: ~15 rows (ungefähr)
 DELETE FROM `spieler`;
 /*!40000 ALTER TABLE `spieler` DISABLE KEYS */;
 INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `zauberpunkte`, `max_zauberpunkte`, `balance`, `initiative`, `abwehr`, `ausweichen`, `zuletzt_gespielt`, `erfahrung`) VALUES
@@ -14363,10 +14688,10 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 	(17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 1, 5, 1, 1, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:48', 0),
 	(18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 1, 1, 1, 1, 5, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:47', 0),
 	(19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 1, 1, 1, 5, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:47', 0),
-	(26, 10, 212, 2, 1, 4, 'Rashiel', 'W', 10, 5, 1, 1, 5, 1, 1, 33, 33, 4, 8, 5, 5, 66.055, 100, 10, 10, '2019-11-03 16:05:22', 2.905),
+	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 15, 10, 6, 6, 10, 6, 6, 55, 55, 7, 15, 16, 16, 74.166, 100, 10, 10, '2019-11-03 19:39:48', 104.44),
 	(43, 11, 209, 3, 1, 9, 'Hilda', 'W', 10, 5, 1, 1, 1, 5, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:46', 0),
 	(45, 11, 218, 1, 3, 9, 'Flammi', 'W', 15, 10, 10, 8, 16, 3, 4, 57, 57, 17, 17, 21, 21, 60.162, 105, 0, 0, '2019-11-02 17:20:32', 11.122),
-	(48, 11, 216, 2, 2, 9, 'Sumpfine', 'W', 15, 10, 6, 11, 5, 6, 6, 55, 55, 15, 15, 16, 16, 98.23, 100, 10, 10, '2019-11-03 16:53:14', 100.955);
+	(48, 11, 216, 2, 2, 4, 'Sumpfine', 'W', 15, 10, 6, 6, 10, 6, 6, 55, 55, 15, 15, 16, 16, 88.495, 100, 10, 10, '2019-11-03 19:39:09', 111.268);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber
@@ -14723,7 +15048,7 @@ CREATE TABLE IF NOT EXISTS `zauber_npc` (
   KEY `zauber_id` (`zauber_id`),
   CONSTRAINT `FK_zauber_npc_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`),
   CONSTRAINT `FK_zauber_npc_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
 -- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~131 rows (ungefähr)
 DELETE FROM `zauber_npc`;
@@ -14864,7 +15189,12 @@ INSERT INTO `zauber_npc` (`id`, `npc_id`, `zauber_id`, `wahrscheinlichkeit`) VAL
 	(153, 46, 77, 95),
 	(154, 47, 82, 1),
 	(155, 47, 77, 99),
-	(156, 48, 77, 100);
+	(156, 48, 77, 100),
+	(157, 59, 77, 40),
+	(158, 59, 79, 60),
+	(160, 60, 77, 40),
+	(161, 60, 12, 20),
+	(162, 60, 17, 40);
 /*!40000 ALTER TABLE `zauber_npc` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_spieler
@@ -14878,7 +15208,7 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
 -- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~17 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
@@ -14890,17 +15220,17 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(56, 45, 34),
 	(57, 45, 28),
 	(73, 45, 81),
-	(77, 26, 77),
-	(79, 26, 81),
-	(93, 26, 79),
-	(108, 26, 46),
 	(109, 26, 58),
-	(112, 26, 48),
 	(115, 48, 77),
 	(116, 48, 80),
 	(118, 48, 66),
 	(120, 48, 63),
-	(123, 48, 68);
+	(123, 48, 68),
+	(124, 26, 63),
+	(125, 26, 22),
+	(126, 26, 40),
+	(128, 26, 79),
+	(129, 26, 80);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_text

@@ -91,7 +91,7 @@ class Spieler {
 		$this->intelligenz = $this->intelligenz + $gewinn->intelligenz;
 		$this->magie = $this->magie + $gewinn->magie;
 		$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
-		$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
+		$this->element_wasser = $this->element_wasser + $gewinn->element_wasser;
 		$this->element_erde = $this->element_erde + $gewinn->element_erde;
 		$this->element_luft = $this->element_luft + $gewinn->element_luft;
 		$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
