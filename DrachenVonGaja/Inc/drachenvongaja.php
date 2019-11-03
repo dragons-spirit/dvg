@@ -144,10 +144,10 @@
 											if(check_wkt($row[3])){
 											?>
 												<tr align="center">
-													<td width="25px"><?php echo $row[0] ?></td>
-													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" width="75px" alt=""/></td>
+													<!--<td width="25px"><?php echo $row[0] ?></td>-->
+													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
-													<td width="25px"><?php echo $row[3] ?></td>
+													<!--<td width="25px"><?php echo $row[3] ?></td>-->
 													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $row[0];?>"></td>
 												</tr>
 											<?php
@@ -161,10 +161,10 @@
 											if(check_wkt($row[3])){
 												?>
 												<tr align="center">
-													<td	width="25px"><?php echo $row[0] ?></td>
-													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" width="75px" alt=""/></td>
+													<!--<td	width="25px"><?php echo $row[0] ?></td>-->
+													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td	width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
-													<td	width="25px"><?php echo $row[3] ?></td>
+													<!--<td	width="25px"><?php echo $row[3] ?></td>-->
 													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $row[0];?>"></td>
 												</tr>
 												<?php
