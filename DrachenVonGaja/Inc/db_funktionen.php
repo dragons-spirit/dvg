@@ -1767,6 +1767,62 @@ function get_ki($ki_id)
 
 
 
+#**************************************************************************************************************
+#*************************************************** LEVEL ****************************************************
+#**************************************************************************************************************
+
+#----------------------------------------- SELECT level.* (Erfahrung) -----------------------------------------
+# 	-> level.id (int)
+# 	<- erfahrung_naechster_level (int)
+
+function get_erfahrung_naechster_level($level_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT level.erfahrung_naechster_level
+			FROM level
+			WHERE id = ?")){
+		$stmt->bind_param('d', $level_id);
+		$stmt->execute();
+		$erfahrung_naechster_level = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($debug) echo "<br />\nBenötigte Erfahrung für Level '".$level_id."' wurde geladen.<br />\n";
+		return $erfahrung_naechster_level;
+	} else {
+		echo "<br />\nQuerryfehler in get_erfahrung_naechster_level()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------- SELECT level.* (Gewinn Aufstieg) -----------------------------------------
+# 	-> level.id (int)
+# 	<- Gewinn (obj)
+
+function get_gewinn_naechster_level($level_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT gewinn.*
+			FROM level
+				JOIN gewinn on gewinn.id = level.gewinn_id
+			WHERE level.id = ?")){
+		$stmt->bind_param('d', $level_id);
+		$stmt->execute();
+		$erfahrung_naechster_level = new Gewinn($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		if ($debug) echo "<br />\nGewinn bei Levelaufstieg für Level '".$level_id."' wurde geladen.<br />\n";
+		return $erfahrung_naechster_level;
+	} else {
+		echo "<br />\nQuerryfehler in get_gewinn_naechster_level()<br />\n";
+		return false;
+	}
+}
+
+
+
 #***************************************************************************************************************
 #***************************************************** NPC *****************************************************
 #***************************************************************************************************************

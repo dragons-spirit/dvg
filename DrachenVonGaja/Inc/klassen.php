@@ -136,11 +136,29 @@ class Spieler {
 	
 	# Spieler rekonfigurieren (Neuberechnung von Gesundheit, Energie, Zauberpunkte, Balance)
 	public function neuberechnung(){
+		$level_up = false;
+		if ($this->erfahrung >= get_erfahrung_naechster_level($this->level_id)){
+			$level_up = true;
+			$this->level_up();
+		}
 		$this->max_gesundheit = berechne_max_gesundheit($this);
 		$this->max_energie = berechne_max_energie($this);
 		$this->max_zauberpunkte = berechne_max_zauberpunkte($this);
 		$this->balance = berechne_balance($this);
+		if ($level_up){
+			$this->gesundheit = $this->max_gesundheit;
+			$this->energie = $this->max_energie;
+			$this->zauberpunkte = $this->max_zauberpunkte;
+		}
 		$this->db_update();
+	}
+	
+	# Spielerlevel erhöhen und Belohnungen anrechnen
+	public function level_up(){
+		$belohnung = get_gewinn_naechster_level($this->level_id);
+		$this->level_id = $this->level_id + 1;
+		$this->bilder_id = get_bild_zu_gattung_level($this->gattung_id, $this->level_id);
+		$this->gewinn_verrechnen($belohnung);
 	}
 	
 	# Aktualisiert die Spielerdaten in der Datenbank
@@ -851,12 +869,10 @@ class Gewinn {
 
 	public function __construct($ds=null) {
 		if ($ds == null){
-			$id = $this->init_null();
+			$this->init_null();
 		} else {
 			$this->init($ds);
-			$id = $this->id;
 		}
-		return $id;
 	}
 	
 	public function init_null() {
@@ -874,7 +890,6 @@ class Gewinn {
 			echo "<br />\nQuerryfehler in Gewinn->init_null()<br />\n";
 		}
 		$this->init($gewinn);
-		return $this->id;
 	}
 	
 	public function init($ds) {
@@ -935,6 +950,23 @@ class Aktion {
 		$this->dauer = $ds[5];
 		$this->statusbild = $ds[6];
 		$this->energiebedarf = $ds[7];
+	}
+}
+
+
+class Level {
+	public $id;
+	public $name;
+	public $stufe;
+	public $beschreibung;
+	public $erfahrung_naechster_level;
+
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->name = $ds[1];
+		$this->stufe = $ds[2];
+		$this->beschreibung = $ds[3];
+		$this->erfahrung_naechster_level = $ds[4];
 	}
 }
 

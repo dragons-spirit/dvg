@@ -514,67 +514,83 @@
 					<!-- Anzeige für Spielerdaten -->
 					<div id="charakter">
 						<table>
+							<colgroup>
+								<col width="50%">
+								<col width="50%">
+							 </colgroup>
 							<tr>
-								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($spieler->bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
+								<td colspan="2" align="center"><img src="<?php echo get_bild_zu_id($spieler->bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($spieler->gattung_id) . " " . $spieler->name;?></p></td>
 							</tr>
 							<tr><td><br/>    </td></tr>
 							<tr>
-								<td><p align="left">Geschlecht</p></td>
-								<td><p align="left">
-								<?php 
-								switch ($spieler->geschlecht){
-									case "W":
-										echo "weiblich";
-										break;
-									default:
-										echo "männlich";
-										break;
-								}
-								?>
-								</p></td>
-							</tr>
-							<tr>
 								<td><p align="left">Gesundheit</p></td>
-								<td><p align="left">
-									<?php 
-									if (($spieler->gesundheit / $spieler->max_gesundheit) < 0.5){
-										echo "<font color='red'>".$spieler->gesundheit . "/" . $spieler->max_gesundheit."</font>";
-									} else {
-										echo $spieler->gesundheit . "/" . $spieler->max_gesundheit;
-									}
-									?>
-								</p></td>
+								<td id="char_attr_spalte" width="100%">
+									<div id="gesundheit_balken" style="bottom:0px; background:red;" breite="<?php echo (($spieler->gesundheit / $spieler->max_gesundheit)); ?>">
+										<div id="gesundheit_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												var breite = document.getElementById('char_attr_spalte').offsetWidth;
+												var div = document.getElementById('gesundheit_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('gesundheit_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->gesundheit."/".$spieler->max_gesundheit; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><p align="left">Energie</p></td>
-								<td><p align="left">
-									<?php 
-									if (($spieler->energie / $spieler->max_energie) < 0.3){
-										echo "<font color='red'>".$spieler->energie . "/" . $spieler->max_energie."</font>";
-									} else {
-										echo $spieler->energie . "/" . $spieler->max_energie;
-									}
-									?>
-								</p></td>
+								<td>
+									<div id="energie_balken" style="bottom:0px; background:green;" breite="<?php echo (($spieler->energie / $spieler->max_energie)); ?>">
+										<div id="energie_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('energie_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('energie_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->energie."/".$spieler->max_energie; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><p align="left">Zauberpunkte</p></td>
-								<td><p align="left">
-									<?php 
-									if (($spieler->zauberpunkte / $spieler->max_zauberpunkte) < 0.5){
-										echo "<font color='red'>".$spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte."</font>";
-									} else {
-										echo $spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte;
-									}
-									?>
-								</p></td>
+								<td>
+									<div id="zauberpunkte_balken" style="bottom:0px; background:blue;" breite="<?php echo (($spieler->zauberpunkte / $spieler->max_zauberpunkte)); ?>">
+										<div id="zauberpunkte_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('zauberpunkte_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('zauberpunkte_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->zauberpunkte."/".$spieler->max_zauberpunkte; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
+							<?php
+							if ($spieler->level_id == 1) $erfahrung_benoetigt_davor = 0;
+								else $erfahrung_benoetigt_davor = get_erfahrung_naechster_level($spieler->level_id - 1);
+							$erfahrung_benoetigt_aktuell = get_erfahrung_naechster_level($spieler->level_id);
+							if 	($erfahrung_benoetigt_aktuell == 0) $erfahrung_benoetigt_aktuell = $spieler->erfahrung;
+							?>
 							<tr>
 								<td><p align="left">Erfahrung</p></td>
-								<td><p align="left"><?php echo floor_x($spieler->erfahrung, 0);?></p></td>
+								<td>
+									<div id="erfahrung_balken" style="bottom:0px; background:purple;" breite="<?php echo ((($spieler->erfahrung - $erfahrung_benoetigt_davor) / $erfahrung_benoetigt_aktuell)); ?>">
+										<div id="erfahrung_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('erfahrung_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('erfahrung_inhalt').style.width = breite;
+											</script>
+											<text><?php echo floor_x($spieler->erfahrung, 0)."/".$erfahrung_benoetigt_aktuell; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 						</table>
 					</div>

@@ -904,4 +904,11 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 		return [xmin, xmin+xmax, ymin, ymin+ymax];
 	}
 	
+	/* Bestimme Breite der aktuellen Tabellenzelle */
+	function getBreite(elementId) {
+		var elem=document.getElementById(elementId);
+		alert(elem.offsetWidth);
+		return elem.offsetWidth;
+	}
+	
 </script>
