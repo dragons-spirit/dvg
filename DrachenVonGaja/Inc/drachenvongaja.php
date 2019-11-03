@@ -2,6 +2,8 @@
 
 <?php
 	session_start();
+	session_cache_limiter('private');
+	session_cache_expire(0);
 	include("connect.inc.php");
 	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>
@@ -69,12 +71,6 @@
 		} else {
 			echo "Keine Spielerdaten gefunden.<br/>";
 		}
-		
-######################################################################################
-# Weitere fiktive Spielerdaten setzen || sollten später mit aus der Datenbank kommen #
-######################################################################################
-		$speipunkte = 5;
-		$flugpunkte = 5;
 		?>
 		
 <!--
@@ -99,9 +95,9 @@
 			<div id="obere_Leiste">
 				<table align="center">
 					<tr>
-						<td>Stärke <?php echo $spieler->staerke ?></td>
-						<td>Intelligenz <?php echo $spieler->intelligenz ?></td>
-						<td>Magie <?php echo $spieler->magie ?></td>
+						<td>Stärke <?php echo "&#160;".floor_x($spieler->staerke, 0); ?></td>
+						<td style="padding-left:30pt;">Intelligenz <?php echo "&#160;".floor_x($spieler->intelligenz, 0); ?></td>
+						<td style="padding-left:30pt;">Magie <?php echo "&#160;".floor_x($spieler->magie, 0); ?></td>
 					</tr>
 				</table>
 			</div>
@@ -192,18 +188,11 @@
 								case "Jagen":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 									$npc_id = $aktion_spieler->any_id_1;
-									if ($npc = get_npc($npc_id)){		
-										while($row = $npc->fetch_array(MYSQLI_NUM)){
-											?>
-											<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-												<?php echo "Ihr habt das NPC " . $row[1] . " gestellt und macht euch für den Kampf bereit."; ?>
-											</p>
-											<?php
-										}
-									} else {
-										echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
-									}
+									$npc = get_npc($npc_id);
 									?>
+									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+										<?php echo "Ihr habt das NPC " . $npc->name . " gestellt und macht euch für den Kampf bereit."; ?>
+									</p>
 									<table style="margin:auto;margin-top:20px;">
 										<tr align="center">
 											<td style="background:url(./../Bilder/drachenkampf.png); background-repeat:no-repeat;">
@@ -228,12 +217,13 @@
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 									$npc_id = $aktion_spieler->any_id_1;
 									add_npc_spieler_statistik($spieler->id, $npc_id);
-									zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Pflänzchen \"", "\" ausgebeutet und folgende Items erhalten:");
+									zeige_erbeutete_items($spieler, $npc_id, "Pflanzen");
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
 									</p>
 									<?php
+									$spieler->neuberechnung();
 									break;
 								
 								#################################################################
@@ -252,10 +242,7 @@
 										if ($gewinner_seite == 0){
 											$npc_ids = get_all_npcs_kampf($kampf_id);
 											add_npc_spieler_statistik($spieler->id, $npc_ids);
-											foreach ($npc_ids as $npc_id){
-												zeige_erbeutete_items($spieler->id, $npc_id, "<br><br><br>Ihr habt das arme Tierchen \"", "\" zerfleddert, um danach mit Erschrecken festzustellen, dass man doch das ein oder andere hätte verwerten können.<br>Naja ein paar Dinge konntet ihr noch retten:");
-												echo "<br>";
-											}
+											zeige_erbeutete_items($spieler, $npc_ids, "Tiere");
 										} else {
 										?>
 											<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
@@ -268,6 +255,7 @@
 											<input type="submit" name="weiter" value="weiter">
 										</p>
 										<?php
+										$spieler->neuberechnung();
 									} else {
 										# Backup falls Kampf nicht sauber beendet wurde // F5-Bug nach Aktion "Jagen"
 										zeige_hintergrundbild($spieler->gebiet_id);
@@ -341,8 +329,7 @@
 							####################
 							if($dinge_anzeigen){
 								if(isset($_POST["button_inventar"])){
-									if ($items = get_all_items_spieler($spieler->id)){	
-										$counter = 0;
+									if ($items = get_all_items_spieler($spieler->id)){
 										?>
 										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="700px" >
 											<tr>
@@ -352,34 +339,33 @@
 												<td>Typ</td>
 												<td>Anzahl</td>
 											</tr>
-										<?php
-										while($row = $items->fetch_array(MYSQLI_NUM)){
-											$counter = $counter + 1;
-											?>
-											<tr>
-												<td align="left"><?php echo $row[1] ?></td>
-												<td align="center"><img src="<?php echo get_bild_zu_id($row[5]) ?>" width="75px" alt=""/></td>
-												<td align="left"><?php echo $row[2] ?></td>
-												<td align="left"><?php echo $row[3] ?></td>
-												<td align="right"><?php echo $row[4] ?></td>
-											</tr>
 											<?php
-										}
-										if($counter == 0){
+											foreach ($items as $item){
+												?>
+												<tr>
+													<td align="left"><?php echo $item->name ?></td>
+													<td align="center"><img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/></td>
+													<td align="left"><?php echo $item->beschreibung ?></td>
+													<td align="left"><?php echo $item->typ ?></td>
+													<td align="right"><?php echo $item->anzahl ?></td>
+												</tr>
+												<?php
+											}
+											if(!isset($items[0])){
+												?>
+												<tr>
+													<td colspan=4>Keine Items gefunden.</td>
+												</tr>
+												<?php
+											}
 											?>
-											<tr>
-												<td colspan=4>Keine Items gefunden.</td>
-											</tr>
-											<?php
-										}
-										?>
 										</table>
 										<p align="center" style="padding-top:10pt;">
 											<input type="submit" name="zurueck" value="zurück">
 										</p>
 										<?php
 									} else {
-										echo "<br />\nItems für den Spieler mit id=[" . $spieler->id . "] konnten nicht abgerufen werden.<br />\n";
+										echo "<br />\nEs sind noch keine Items im Rucksack vorhanden.<br />\n";
 									}
 								}
 								
@@ -396,7 +382,16 @@
 									if ($statistikdaten = get_npc_spieler_statistik($spieler->id)){	
 										$counter = 0;
 										?>
-										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="400px">
+										<p align="center" style="margin-top:5%;">
+											<?php
+											if ($statistik = get_spieler_statistik_balance($spieler)){
+												echo "<font style='font-size:14pt;'>Aktuelle Balance ".floor_x($spieler->balance, 0)."%</font><br />";
+												echo "Tiere : ".$statistik["angreifbar"]."<br />";
+												echo "Pflanzen : ".$statistik["sammelbar"]."<br /><br />";
+											}
+											?>
+										</p>
+										<table border="1px" border-color="white" align="center" width="400px">
 											<tr>
 												<td>NPC</td>
 												<td align="right">Anzahl</td>
@@ -427,7 +422,18 @@
 										</p>
 										<?php
 									} else {
-										echo "<br />\nStatistikdaten für den Spieler mit id=[" . $spieler->id . "] konnten nicht abgerufen werden.<br />\n";
+										?>
+										<p align="center" style="margin-top:5%;">
+											<?php
+											if ($statistik = get_spieler_statistik_balance($spieler)){
+												echo "<font style='font-size:14pt;'>Aktuelle Balance ".floor_x($spieler->balance, 0)."%</font><br />";
+												echo "Tiere : ".$statistik["angreifbar"]."<br />";
+												echo "Pflanzen : ".$statistik["sammelbar"]."<br /><br />";
+											}
+											?>
+										</p>
+										<?php
+										echo "<br />\nEs liegen noch keine Statistikdaten vor.<br />\n";
 									}
 								}
 							}
@@ -508,59 +514,83 @@
 					<!-- Anzeige für Spielerdaten -->
 					<div id="charakter">
 						<table>
+							<colgroup>
+								<col width="50%">
+								<col width="50%">
+							 </colgroup>
 							<tr>
-								<td colspan="2"><img align="center" src="<?php echo get_bild_zu_id($spieler->bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
+								<td colspan="2" align="center"><img src="<?php echo get_bild_zu_id($spieler->bilder_id); ?>" width="200px" alt="Spielerbild"/></td>
 							</tr>
 							<tr>
 								<td colspan="2"><p align="center" style="font-size:14pt"><?php echo get_gattung_titel($spieler->gattung_id) . " " . $spieler->name;?></p></td>
 							</tr>
 							<tr><td><br/>    </td></tr>
 							<tr>
-								<td><p align="left">Geschlecht</p></td>
-								<td><p align="left">
-								<?php 
-								switch ($spieler->geschlecht){
-									case "W":
-										echo "weiblich";
-										break;
-									default:
-										echo "männlich";
-										break;
-								}
-								?>
-								</p></td>
-							</tr>
-							<tr>
-								<td><p align="left">Element Feuer</p></td>
-								<td><p align="left"><?php echo $spieler->element_feuer;?></p></td>
-							</tr>
-							<tr>
-								<td><p align="left">Element Erde</p></td>
-								<td><p align="left"><?php echo $spieler->element_erde;?></p></td>
-							</tr>
-							<tr>
-								<td><p align="left">Element Wasser</p></td>
-								<td><p align="left"><?php echo $spieler->element_wasser;?></p></td>
-							</tr>
-							<tr>
-								<td><p align="left">Element Luft</p></td>
-								<td><p align="left"><?php echo $spieler->element_luft;?></p></td>
-							</tr>
-							<tr>
 								<td><p align="left">Gesundheit</p></td>
-								<td><p align="left"><?php echo $spieler->gesundheit . "/" . $spieler->max_gesundheit;?></p></td>
+								<td id="char_attr_spalte" width="100%">
+									<div id="gesundheit_balken" style="bottom:0px; background:red;" breite="<?php echo (($spieler->gesundheit / $spieler->max_gesundheit)); ?>">
+										<div id="gesundheit_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												var breite = document.getElementById('char_attr_spalte').offsetWidth;
+												var div = document.getElementById('gesundheit_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('gesundheit_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->gesundheit."/".$spieler->max_gesundheit; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><p align="left">Energie</p></td>
-								<td><p align="left"><?php echo $spieler->energie . "/" . $spieler->max_energie;?></p></td>
+								<td>
+									<div id="energie_balken" style="bottom:0px; background:green;" breite="<?php echo (($spieler->energie / $spieler->max_energie)); ?>">
+										<div id="energie_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('energie_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('energie_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->energie."/".$spieler->max_energie; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td><p align="left">Zauberpunkte</p></td>
-								<td><p align="left"><?php echo $spieler->zauberpunkte . "/" . $spieler->max_zauberpunkte;?></p></td>
+								<td>
+									<div id="zauberpunkte_balken" style="bottom:0px; background:blue;" breite="<?php echo (($spieler->zauberpunkte / $spieler->max_zauberpunkte)); ?>">
+										<div id="zauberpunkte_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('zauberpunkte_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('zauberpunkte_inhalt').style.width = breite;
+											</script>
+											<text><?php echo $spieler->zauberpunkte."/".$spieler->max_zauberpunkte; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
+							<?php
+							if ($spieler->level_id == 1) $erfahrung_benoetigt_davor = 0;
+								else $erfahrung_benoetigt_davor = get_erfahrung_naechster_level($spieler->level_id - 1);
+							$erfahrung_benoetigt_aktuell = get_erfahrung_naechster_level($spieler->level_id);
+							if 	($erfahrung_benoetigt_aktuell == 0) $erfahrung_benoetigt_aktuell = $spieler->erfahrung;
+							?>
 							<tr>
-								<td><p align="left">Balance</p></td>
-								<td><p align="left"><?php echo $spieler->balance;?></p></td>
+								<td><p align="left">Erfahrung</p></td>
+								<td>
+									<div id="erfahrung_balken" style="bottom:0px; background:purple;" breite="<?php echo ((($spieler->erfahrung - $erfahrung_benoetigt_davor) / $erfahrung_benoetigt_aktuell)); ?>">
+										<div id="erfahrung_inhalt" style="border:1px solid white; text-align:center;">
+											<script>
+												div = document.getElementById('erfahrung_balken');
+												div.style.width = div.getAttribute('breite') * breite;
+												document.getElementById('erfahrung_inhalt').style.width = breite;
+											</script>
+											<text><?php echo floor_x($spieler->erfahrung, 0)."/".$erfahrung_benoetigt_aktuell; ?></text>
+										</div>
+									</div>
+								</td>
 							</tr>
 						</table>
 					</div>
@@ -640,9 +670,10 @@
 			<div id="untere_Leiste">
 				<table align="center">
 					<tr>
-						<td>Feuer Speien <?php echo $speipunkte ?></td>
-						<td>Karte</td>
-						<td>Fliegen <?php echo $flugpunkte ?></td>
+						<td>Feuer <?php echo "&#160;".floor_x($spieler->element_feuer, 0); ?></td>
+						<td style="padding-left:30pt;">Erde <?php echo "&#160;".floor_x($spieler->element_erde, 0); ?></td>
+						<td style="padding-left:30pt;">Wasser <?php echo "&#160;".floor_x($spieler->element_wasser, 0); ?></td>
+						<td style="padding-left:30pt;">Luft <?php echo "&#160;".floor_x($spieler->element_luft, 0); ?></td>
 					</tr>
 				</table>
 			</div>

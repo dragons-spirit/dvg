@@ -703,14 +703,7 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 
 #-------------------------------- SELECT items.* (NPC) --------------------------------
 # 	-> npc.id (int)
-#	Array mit Items [Position]
-#	<- [0] id
-#	<- [1] titel
-#	<- [2] beschreibung
-#	<- [3] typ
-#	<- [4] wahrscheinlichkeit
-#	<- [5] anzahl_min
-#	<- [6] anzahl_max
+#	<- alle_items_npc (array [Item])
 
 function get_items_npc($npc_id)
 {
@@ -720,24 +713,32 @@ function get_items_npc($npc_id)
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
 				items.id,
+				items.bilder_id,
 				items.titel,
 				items.beschreibung,
 				items.typ,
 				npc_items.wahrscheinlichkeit,
 				npc_items.anzahl_min,
 				npc_items.anzahl_max
-			FROM
-				items
+			FROM items
 				JOIN npc_items ON items.id = npc_items.items_id
-			WHERE
-				npc_items.npc_id = ?
-			ORDER BY items.titel"))
-	{
+			WHERE npc_items.npc_id = ?
+			ORDER BY items.titel")){
 		$stmt->bind_param('d', $npc_id);
 		$stmt->execute();
-		if ($debug) echo "<br />\nItems für: [npc_id=" . $npc_id . "] geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		$counter = 0;
+		if ($items_all = $stmt->get_result()){
+			while($item = $items_all->fetch_array(MYSQLI_NUM)){
+				$item_data = array_slice($item, 0, 5);
+				$fund_data = array_slice($item, 5);
+				$alle_items_npc[$counter] = new Item($item_data);
+				$alle_items_npc[$counter]->fund = new ItemFund($fund_data);
+				$counter = $counter + 1;
+			}
+		}
+		if ($debug) echo "<br />\nAlle " . $counter . " Items für: [npc_id=" . $npc_id . "] wurden geladen.<br />\n";
+		if (isset($alle_items_npc)) return $alle_items_npc;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_items_npc()<br />\n";
 		return false;
@@ -747,13 +748,7 @@ function get_items_npc($npc_id)
 
 #----------------------------------- SELECT items.* (Spieler) -----------------------------------
 # 	-> spieler.id (int)
-#	Array mit Items [Position]
-#	<- [0] id
-#	<- [1] titel
-#	<- [2] beschreibung
-#	<- [3] typ
-#	<- [4] anzahl
-#	<- [5] bilder_id
+#	<- alle_items_spieler (array [Item])
 
 function get_all_items_spieler($spieler_id)
 {
@@ -763,23 +758,29 @@ function get_all_items_spieler($spieler_id)
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT
 				items.id,
+				items.bilder_id,
 				items.titel,
 				items.beschreibung,
 				items.typ,
-				items_spieler.anzahl,
-				items.bilder_id
-			FROM
-				items
+				items_spieler.anzahl				
+			FROM items
 				JOIN items_spieler ON items.id = items_spieler.items_id
-			WHERE
-				items_spieler.spieler_id = ?
-			ORDER BY items.titel"))
-	{
+			WHERE items_spieler.spieler_id = ?
+			ORDER BY items.titel")){
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();
+		$counter = 0;
+		if ($items_all = $stmt->get_result()){
+			while($item = $items_all->fetch_array(MYSQLI_NUM)){
+				$item_data = array_slice($item, 0, 5);
+				$alle_items_spieler[$counter] = new Item($item_data);
+				$alle_items_spieler[$counter]->anzahl = $item[5];
+				$counter = $counter + 1;
+			}
+		}
 		if ($debug) echo "<br />\nItems für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		if (isset($alle_items_spieler[0])) return $alle_items_spieler;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_all_items_spieler()<br />\n";
 		return false;
@@ -991,22 +992,20 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 {
 	global $debug;
 	global $connect_db_dvg;
+	global $kampf_log_detail;
 	
 	$return_wert = false;
 	$keine_abwehr = false;
-	if ($kt->kt_id == $kt_ziel->kt_id) $ziel_name = "sich selbst";
+	if ($kt->kt_id == $kt_ziel->kt_id AND $kampf_log_detail > 0) $ziel_name = "sich selbst";
 		else $ziel_name = $kt_ziel->name;
 	$zauberpunkte_verbrauch = berechne_zauberpunkte_verbrauch($zauber);
 	$timer_verbrauch = berechne_timer_verbrauch($kt);
-	$ist_zauber = $zauber->ist_zauber();
 	
 	foreach ($zauber->zaubereffekte as $zauber_effekt){
 		# Ist der Angriff/Zauber sinnvoll?
 		if (($kt->seite != $kt_ziel->seite AND $zauber_effekt->art == "verteidigung") OR ($kt->seite == $kt_ziel->seite AND $zauber_effekt->art == "angriff") OR $kt_ziel->ist_tot()){
-			if ($ist_zauber) $ausgabe = $kt->name." will den Zauber ".$zauber->titel." auf ".$ziel_name." anwenden und stellt dabei fest, ";
-				else $ausgabe = $kt->name." will ".$ziel_name." mit ".$zauber->titel." angreifen und stellt dabei fest, ";
-			if ($kt_ziel->ist_tot()) $ausgabe = $ausgabe . "dass das Ziel bereits tot ist.";
-				else $ausgabe = $ausgabe . "dass das ziemlich dämlich wäre.";
+			if ($kt_ziel->ist_tot()) $ausgabe = $zauber->ausgabe_log("ziel_tot", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
+				else $ausgabe = $zauber->ausgabe_log("ziel_falsch", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 			$return_wert = [0, true, $ausgabe];
 		}
 		# Muss ein Zauber abgewehrt werden? (Ziel = Verbündeter)
@@ -1027,8 +1026,7 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 		}
 		# Sind ausreichend Zauberpunkte vorhanden?
 		if (($kt->zauberpunkte - $zauberpunkte_verbrauch) < 0){
-			if ($ist_zauber) $ausgabe = $kt->name." will den Zauber ".$zauber->titel." auf ".$ziel_name." anwenden, verfügt aber nicht über genügend Zauberpunkte. (vorhanden=".$kt->zauberpunkte.", benötigt=".$zauberpunkte_verbrauch.")";
-				else $ausgabe = "Einen Angriff mit Zauberpunkteverbrauch dürfte es nicht geben.";
+			$ausgabe = $zauber->ausgabe_log("zauberpunkte", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 			$return_wert = [1, true, $ausgabe];
 		}
 	}
@@ -1043,21 +1041,18 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			case 001:
 			case 010:
 			case 011:
-				if ($ist_zauber) $ausgabe = $kt->name." patzt beim Zaubern von ".$zauber->titel." auf ".$ziel_name.".";
-					else $ausgabe = $kt->name." patzt Ausführen von ".$zauber->titel." auf ".$ziel_name.".";
+				$ausgabe = $zauber->ausgabe_log("patzer", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel ist ausgewichen
 			case 110:
 			case 111:
-				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann dem Zauber jedoch ausweichen.";
-					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann dem Angriff jedoch ausweichen.";
+				$ausgabe = $zauber->ausgabe_log("ausweichen", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel hat abgewehrt
 			case 101:
-				if ($ist_zauber) $ausgabe = $kt->name." zaubert ".$zauber->titel." auf ".$ziel_name.". ".$ziel_name." kann den Zauber jedoch abwehren.";
-					else $ausgabe = $kt->name." greift ".$ziel_name." mit ".$zauber->titel." an. ".$ziel_name." kann den Angriff jedoch abwehren.";
+				$ausgabe = $zauber->ausgabe_log("abwehr", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 				$return_wert = [3, false, $ausgabe];
 				break;
 			# Treffer
@@ -1139,8 +1134,7 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			}
 		}
 		if (!$return_wert){
-			if ($ist_zauber) $ausgabe = $kt->name." wendet den Zauber ".$zauber->titel." erfolgreich auf ".$ziel_name." an.";
-				else $ausgabe = $kt->name." greift ".$ziel_name." erfolgreich mit ".$zauber->titel." an.";
+			$ausgabe = $zauber->ausgabe_log("erfolg", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
 			$return_wert = [4, false, $ausgabe];
 		}
 	}
@@ -1155,7 +1149,7 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 # 	-> seite (int)
 #	<- kampf_teilnehmer.id (int)
 
-function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $seite)
+function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $seite, $start_timer=0)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -1168,7 +1162,7 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 			break;
 		#################################################################
 		case "npc":
-			$npc = new NPC(get_npc_alldata($teilnehmer_id));
+			$npc = get_npc($teilnehmer_id);
 			$kampf_teilnehmer = new KampfTeilnehmer($npc, $teilnehmer_typ, $seite);
 			break;
 		#################################################################
@@ -1176,7 +1170,7 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 			echo "Kein Spielertyp übergeben?";
 			break;
 	}
-	
+	$timer = $kampf_teilnehmer->timer + $start_timer;
 	if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO kampf_teilnehmer(
 				kampf_id,
@@ -1215,7 +1209,7 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 				$kampf_teilnehmer->initiative,
 				$kampf_teilnehmer->abwehr,
 				$kampf_teilnehmer->ausweichen,
-				$kampf_teilnehmer->timer,
+				$timer,
 				$kampf_teilnehmer->gewinn_id);
 		$stmt->execute();
 		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM kampf_teilnehmer");
@@ -1273,6 +1267,7 @@ function get_all_kampf_teilnehmer($kampf_id, $seite, $lebendig=false)
 			WHERE kampf_teilnehmer.kampf_id = ?
 				AND kampf_teilnehmer.seite = ?
 				AND kampf_teilnehmer.gesundheit >= ?
+				AND kampf_teilnehmer.deaktiviert = 0
 			ORDER BY typ, kampf_teilnehmer.id")){
 		$stmt->bind_param('ddd', $kampf_id, $seite, $min_gesundheit);
 		$stmt->execute();
@@ -1292,6 +1287,56 @@ function get_all_kampf_teilnehmer($kampf_id, $seite, $lebendig=false)
 }
 
 
+#------------------------------------- SELECT kampf_teilnehmer.* (alle) -------------------------------------
+# 	-> kampf.id (int)
+#	<- alle_kampf_teilnehmer (array [kampf_teilnehmer])
+
+function get_kampf_teilnehmer_by_id($kampfteilnehmer_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT
+				case when npc.id IS NULL then spieler.name ELSE npc.titel END AS name,
+				case when npc.id IS NULL then spieler.bilder_id ELSE npc.bilder_id END AS bilder_id,
+				case when npc.id IS NULL then spieler.id ELSE npc.id END AS id,
+				kampf_teilnehmer.teilnehmer_typ AS typ,
+				kampf_teilnehmer.seite AS seite,
+				kampf_teilnehmer.gesundheit AS gesundheit,
+				case when npc.id IS NULL then spieler.max_gesundheit ELSE npc.gesundheit END AS gesundheit_max,
+				kampf_teilnehmer.zauberpunkte AS zauberpunkte,
+				case when npc.id IS NULL then spieler.max_zauberpunkte ELSE npc.zauberpunkte END AS zauberpunkte_max,
+				kampf_teilnehmer.staerke AS staerke,
+				kampf_teilnehmer.intelligenz AS intelligenz,
+				kampf_teilnehmer.magie AS magie,
+				kampf_teilnehmer.element_feuer AS element_feuer,
+				kampf_teilnehmer.element_wasser AS element_wasser,
+				kampf_teilnehmer.element_erde AS element_erde,
+				kampf_teilnehmer.element_luft AS element_luft,
+				kampf_teilnehmer.initiative AS initiative,
+				kampf_teilnehmer.abwehr AS abwehr,
+				kampf_teilnehmer.ausweichen AS ausweichen,
+				kampf_teilnehmer.timer AS timer,
+				kampf_teilnehmer.id AS kt_id,
+				case when npc.id IS NULL then 0 ELSE npc.ki_id END AS ki_id,
+				kampf_teilnehmer.gewinn_id
+			FROM kampf_teilnehmer
+				LEFT JOIN npc ON npc.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'npc'
+				LEFT JOIN spieler ON spieler.id = kampf_teilnehmer.teilnehmer_id AND kampf_teilnehmer.teilnehmer_typ = 'spieler'
+			WHERE kampf_teilnehmer.id = ?")){
+		$stmt->bind_param('d', $kampfteilnehmer_id);
+		$stmt->execute();
+		$kampf_teilnehmer = new KampfTeilnehmer($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		if ($debug) echo "<br />\nKampfteilnehmer [id=".$kampfteilnehmer_id."] wurde geladen.<br />\n";
+		return $kampf_teilnehmer;
+	} else {
+		echo "<br />\nQuerryfehler in get_kampf_teilnehmer_by_id()<br />\n";
+		return false;
+	}
+}
+
+
 #------------------------------------- SELECT npc.id (alle zum Kampf) -------------------------------------
 # 	-> kampf.id (int)
 #	<- alle_npcs (array [npc.id])
@@ -1305,7 +1350,8 @@ function get_all_npcs_kampf($kampf_id)
 			SELECT kampf_teilnehmer.teilnehmer_id
 			FROM kampf_teilnehmer
 			WHERE kampf_id = ?
-				AND kampf_teilnehmer.teilnehmer_typ = 'npc'")){
+				AND kampf_teilnehmer.teilnehmer_typ = 'npc'
+				AND kampf_teilnehmer.seite = 1")){
 		$stmt->bind_param('d', $kampf_id);
 		$stmt->execute();
 		$counter = 0;
@@ -1529,6 +1575,29 @@ function kampf_effekte_ausführen($kt, $param, $kt_an_der_reihe=true)
 							$kampf->log_effekt($kt, $kampf_effekt, true);
 						}
 						break;
+					# Spezial
+					case "spezial":
+						if ($effekt_anwenden){
+							switch ($kampf_effekt->spezial->art){
+								case "Beschwörung":
+									$kt_id = insert_kampf_teilnehmer($kampf->id, $kampf_effekt->spezial->spezial_id, $kampf_effekt->spezial->spezial_tabelle, $kt->seite, $kt->timer);
+									kt_array_korrigieren($kt_id, "hinzufügen");
+									break;
+								default: break;
+							}
+							$kampf->log_effekt($kt, $kampf_effekt, false);
+						}
+						if ($effekt_beenden){
+							switch ($kampf_effekt->spezial->art){
+								case "Beschwörung":
+									$kt_id = deaktiviere_kampf_teilnehmer($kampf->id, $kampf_effekt->spezial->spezial_tabelle, $kampf_effekt->spezial->spezial_id);
+									kt_array_korrigieren($kt_id, "entfernen");
+									break;
+								default: break;
+							}
+							$kampf->log_effekt($kt, $kampf_effekt, true);
+						}
+						break;
 					# Kein Attribut definiert?
 					default:
 						break;
@@ -1627,6 +1696,44 @@ function update_kampf_teilnehmer($kt_all)
 }
 
 
+#------------------------------------- DELETE kampf_teilnehmer.* (z.B. bei Beschwörungszaubern) -------------------------------------
+# 	-> kampf_id (int)
+#	-> teilnehmer_typ (str)
+#	-> teilnehmer_id (int)
+#	<- true/false
+function deaktiviere_kampf_teilnehmer($kampf_id, $teilnehmer_typ, $teilnehmer_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT MIN(id)
+			FROM kampf_teilnehmer
+			WHERE kampf_id = ?
+				AND teilnehmer_typ = ?
+				AND teilnehmer_id = ?
+				AND deaktiviert = 0")){
+		$stmt->bind_param('dsd', $kampf_id, $teilnehmer_typ, $teilnehmer_id);
+		$stmt->execute();
+		$kampf_teilnehmer_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+	} else {
+		echo "<br />\nQuerryfehler in delete_kampf_teilnehmer() - select kt_id<br />\n";
+		return false;
+	}
+	if ($stmt = $connect_db_dvg->prepare("
+			UPDATE kampf_teilnehmer
+			SET deaktiviert = 1
+			WHERE id = ?")){
+		$stmt->bind_param('d', $kampf_teilnehmer_id);
+		$stmt->execute();
+		return $kampf_teilnehmer_id;
+	} else {
+		echo "<br />\nQuerryfehler in delete_kampf_teilnehmer() - deaktiviere kt<br />\n";
+		return false;
+	}
+}
+
+
 
 #**************************************************************************************************************
 #***************************************************** KI *****************************************************
@@ -1654,6 +1761,62 @@ function get_ki($ki_id)
 		return $ki;
 	} else {
 		echo "<br />\nQuerryfehler in get_ki()<br />\n";
+		return false;
+	}
+}
+
+
+
+#**************************************************************************************************************
+#*************************************************** LEVEL ****************************************************
+#**************************************************************************************************************
+
+#----------------------------------------- SELECT level.* (Erfahrung) -----------------------------------------
+# 	-> level.id (int)
+# 	<- erfahrung_naechster_level (int)
+
+function get_erfahrung_naechster_level($level_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT level.erfahrung_naechster_level
+			FROM level
+			WHERE id = ?")){
+		$stmt->bind_param('d', $level_id);
+		$stmt->execute();
+		$erfahrung_naechster_level = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($debug) echo "<br />\nBenötigte Erfahrung für Level '".$level_id."' wurde geladen.<br />\n";
+		return $erfahrung_naechster_level;
+	} else {
+		echo "<br />\nQuerryfehler in get_erfahrung_naechster_level()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------- SELECT level.* (Gewinn Aufstieg) -----------------------------------------
+# 	-> level.id (int)
+# 	<- Gewinn (obj)
+
+function get_gewinn_naechster_level($level_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT gewinn.*
+			FROM level
+				JOIN gewinn on gewinn.id = level.gewinn_id
+			WHERE level.id = ?")){
+		$stmt->bind_param('d', $level_id);
+		$stmt->execute();
+		$erfahrung_naechster_level = new Gewinn($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		if ($debug) echo "<br />\nGewinn bei Levelaufstieg für Level '".$level_id."' wurde geladen.<br />\n";
+		return $erfahrung_naechster_level;
+	} else {
+		echo "<br />\nQuerryfehler in get_gewinn_naechster_level()<br />\n";
 		return false;
 	}
 }
@@ -1703,63 +1866,11 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 }
 
 
-#----------------------------------- SELECT npc.* (einzel, Kopfdaten) -----------------------------------
+#----------------------------------- SELECT npc.* (einzel) -----------------------------------
 # 	-> npc.id (int)
-#	Array mit npc-Daten [Position]
-#	<- [0] id
-#	<- [1] titel
-#	<- [2] beschreibung
+# 	<- NPC (obj)
 
 function get_npc($npc_id)
-{
-	global $debug;
-	global $connect_db_dvg;
-	
-	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	npc.id,
-				npc.titel,
-				npc.beschreibung
-			FROM 	npc
-			WHERE 	npc.id = ?"))
-	{
-		$stmt->bind_param('d', $npc_id);
-		$stmt->execute();
-		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
-	} else {
-		echo "<br />\nQuerryfehler in get_npc()<br />\n";
-		return false;
-	}
-}
-
-
-#----------------------------------- SELECT npc.* (einzel, alle Daten) -----------------------------------
-# 	-> npc.id (int)
-#	Array mit npc-Daten [Position]
-#	<- [0] id
-#	<- [1] bilder_id
-#	<- [2] element_id
-#	<- [3] titel
-#	<- [4] familie
-#	<- [5] staerke
-#	<- [6] intelligenz
-#	<- [7] magie
-#	<- [8] element_feuer
-#	<- [9] element_wasser
-#	<- [10] element_erde
-#	<- [11] element_luft
-#	<- [12] gesundheit
-#	<- [13] energie
-#	<- [14] zauberpunkte
-#	<- [15] initiative
-#	<- [16] abwehr
-#	<- [17] ausweichen
-#	<- [18] beschreibung
-#	<- [19] typ
-#	<- [20] ki_id
-
-function get_npc_alldata($npc_id)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -1772,11 +1883,10 @@ function get_npc_alldata($npc_id)
 		$stmt->bind_param('d', $npc_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nNPC-Daten für: [npc_id=" . $npc_id . "] geladen.<br />\n";
-		$result = $stmt->get_result();
-		$row = $result->fetch_array(MYSQLI_NUM);
-		return $row;
+		$npc = new NPC($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		return $npc;
 	} else {
-		echo "<br />\nQuerryfehler in get_npc_alldata()<br />\n";
+		echo "<br />\nQuerryfehler in get_npc()<br />\n";
 		return false;
 	}
 }
@@ -1860,6 +1970,7 @@ function get_spieler_login($login)
 #	<- [23] abwehr,
 #	<- [24] ausweichen,
 #	<- [25] zuletzt_gespielt
+#	<- [26] erfahrung
 
 function get_spieler($spieler_id)
 {
@@ -1923,7 +2034,7 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 				initiative,
 				abwehr,
 				ausweichen) 
-			VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 100, 10, 10)")){
+			VALUES (?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 100, 100, 10, 10)")){
 		$spieler = new Spieler();
 		if ($account_id = get_account_id($login)){
 			$spieler->account_id = $account_id;
@@ -2145,6 +2256,39 @@ function add_npc_spieler_statistik($spieler_id, $alle_npcs)
 }
 
 
+#---------------------------------- SELECT spieler_statistik_balance.*  ----------------------------------
+# 	-> spieler.id (int)
+#	<- statistik (array [Statistik])
+
+function get_spieler_statistik_balance($spieler)
+{
+	global $debug;
+	global $connect_db_dvg;
+	if ($stmt = $connect_db_dvg->prepare("
+		SELECT npc.typ,
+			SUM(npc_spieler_statistik.anzahl) AS anz
+		FROM npc_spieler_statistik
+			JOIN npc ON npc.id = npc_spieler_statistik.npc_id
+		WHERE npc_spieler_statistik.spieler_id = ?
+			AND npc.typ IN ('angreifbar','sammelbar')
+		GROUP BY npc.typ")){
+		$stmt->bind_param('d', $spieler->id);
+		$stmt->execute();
+		$statistik = array("angreifbar" => 0, "sammelbar" => 0);
+		if ($statistik_all = $stmt->get_result()){
+			while($statistik_einzel = $statistik_all->fetch_array(MYSQLI_NUM)){
+				$statistik[$statistik_einzel[0]] = $statistik_einzel[1];
+			}
+		}
+		if ($debug) echo "<br />\nSpieler-Statistik-Balance für ".$spieler->name." wurde geladen.<br />\n";
+		return $statistik;
+	} else {
+		echo "<br />\nQuerryfehler in get_spieler_statistik_balance()<br />\n";
+		return false;
+	}
+}
+
+
 
 #***************************************************************************************************************
 #*************************************************** ZAUBER ****************************************************
@@ -2169,7 +2313,8 @@ function get_zauberarten_zu_hauptelement($hauptelement_titel)
 				join zauberart on zauberart.id = zauber.zauberart_id
 				join element on element.id = zauber.hauptelement_id
 			WHERE
-				element.titel = ?")){
+				element.titel = ?
+				AND zauber.nutzbar_von IN ('spieler','alle')")){
 		$stmt->bind_param('s', $hauptelement_titel);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -2203,7 +2348,8 @@ function get_nebenelement_zu_hauptelement_zauberart($hauptelement_titel, $zauber
 				element1.titel = ?
 				and zauberart.titel = ?
 			ORDER BY
-				element2.titel")){
+				element2.titel
+				AND zauber.nutzbar_von IN ('spieler','alle')")){
 		$stmt->bind_param('ss', $hauptelement_titel, $zauberart);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -2251,13 +2397,14 @@ function get_zauber_zu_hauptelement_nebenelement_zauberart($hauptelement_titel, 
 				zauber.beschreibung
 			FROM
 				zauber
-				join zauberart on zauberart.id = zauber.zauberart_id
-				join element element1 on element1.id = zauber.hauptelement_id
-				join element element2 on element2.id = zauber.nebenelement_id
+				JOIN zauberart ON zauberart.id = zauber.zauberart_id
+				JOIN element element1 ON element1.id = zauber.hauptelement_id
+				JOIN element element2 ON element2.id = zauber.nebenelement_id
 			WHERE
 				element1.titel = ?
-				and element2.titel = ?
-				and zauberart.titel = ?
+				AND element2.titel = ?
+				AND zauberart.titel = ?
+				AND zauber.nutzbar_von IN ('spieler','alle')
 			ORDER BY
 				hauptelement_wert,
 				nebenelement_wert")){
@@ -2307,7 +2454,9 @@ function get_zauber_von_objekt($obj)
 				zauber.nebenelement_id,
 				zauber.verbrauch,
 				zauber.beschreibung,
-				CASE WHEN zauber_npc.id IS NULL then 100 ELSE zauber_npc.wahrscheinlichkeit END AS wkt
+				CASE WHEN zauber_npc.id IS NULL then 100 ELSE zauber_npc.wahrscheinlichkeit END AS wkt,
+				zauber.nutzbar_von,
+				zauber.zauber_text_id
 			FROM zauber
 				LEFT JOIN zauber_spieler ON zauber_spieler.zauber_id = zauber.id AND 'spieler' = ? AND zauber_spieler.spieler_id = ?
 				LEFT JOIN zauber_npc ON zauber_npc.zauber_id = zauber.id AND 'npc' = ? AND zauber_npc.npc_id = ?
@@ -2353,7 +2502,9 @@ function get_zauber($zauber_id)
 				zauber.nebenelement_id,
 				zauber.verbrauch,
 				zauber.beschreibung,
-				100 AS wkt
+				100 AS wkt,
+				zauber.nutzbar_von,
+				zauber.zauber_text_id
 			FROM zauber
 				JOIN zauberart ON zauberart.id = zauber.zauberart_id
 			WHERE zauber.id = ?")){
@@ -2404,6 +2555,39 @@ function get_zauber_effekte($zauber_id)
 		return $alle_zauber_effekte;
 	} else {
 		echo "<br />\nQuerryfehler in get_zauber_effekte()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------- SELECT zauber_effekt.* (Zusatzdaten für Spezialzauber aus separater Tabelle) -----------------------------------------
+# 	-> zauber_effekt_spezial.id (int) entspricht zauber_effekt.wert
+# 	<- zauber_effekt_spezial (array [zauber_effekt])
+
+function get_zauber_effekt_spezial($zauber_effekt_spezial_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT DISTINCT
+				zauber_effekt_spezial.id,
+				zauber_effekt_spezial.art,
+				zauber_effekt_spezial.spezial_tabelle,
+				zauber_effekt_spezial.spezial_id,
+				zauber_effekt_spezial.sql,
+				zauber_effekt_spezial.text1,
+				zauber_effekt_spezial.text2,
+				zauber_effekt_spezial.text3
+			FROM zauber_effekt_spezial
+			WHERE zauber_effekt_spezial.id = ?")){
+		$stmt->bind_param('d', $zauber_effekt_spezial_id);
+		$stmt->execute();
+		$zauber_effekt_spezial = new ZauberEffektSpezial($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		if ($debug) echo "<br />\nZaubereffekt (Spezial) [".$zauber_effekt_spezial_id."] zum Zauber wurde geladen.<br />\n";
+		return $zauber_effekt_spezial;
+	} else {
+		echo "<br />\nQuerryfehler in get_zauber_effekt_spezial()<br />\n";
 		return false;
 	}
 }
@@ -2486,6 +2670,8 @@ function get_zauber_aktiv($kt)
 				zauber.verbrauch,
 				zauber.beschreibung,
 				0 AS wkt,
+				zauber.nutzbar_von,
+				zauber.zauber_text_id,
 				kampf_aktion.id
 			FROM zauber
 				JOIN zauberart ON zauberart.id = zauber.zauberart_id
@@ -2503,7 +2689,7 @@ function get_zauber_aktiv($kt)
 		$alle_aktiven_zauber=null;
 		if ($zauber_all = $stmt->get_result()){
 			while($zauber = $zauber_all->fetch_array(MYSQLI_NUM)){
-				$alle_aktiven_zauber[$counter] = new KampfZauber($zauber, select_kampf_effekte_spezial($zauber[10]));
+				$alle_aktiven_zauber[$counter] = new KampfZauber($zauber, select_kampf_effekte_spezial($zauber[12]));
 				$counter = $counter + 1;
 			}
 		}

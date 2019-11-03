@@ -89,7 +89,8 @@ function anzeige_attribut($attr){
 		case "initiative": return "Initiative";
 		case "ausweichen": return "Ausweichen";
 		case "abwehr": return "Abwehr";
-		default: return "Fehler beim umkodieren von Attribut";
+		case "spezial": return "Spezial";
+		default: return "Fehler beim umkodieren von Attribut [".$attr."]";
 	}
 }
 
@@ -98,14 +99,17 @@ function anzeige_attribut($attr){
 ### STARTWERTE SPIELER / BALANCING ###
 ######################################
 
+# Allgemeine Parameter
+$balance_aktiv = 1;
+
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen
 $gew_attr = 0.5; # Gewichtung von Attributen
 $max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
 $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
-$anzeige_npc_zauber = true; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$kampf_detail = 1; # Im Kampf angezeigte Parameter (0-2)
+$anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$kampf_detail = 0; # Im Kampf angezeigte Parameter (0-2)
 $kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
 
 $helferlein = false;
@@ -133,6 +137,19 @@ function berechne_max_zauberpunkte($akteur){
 }
 
 
+# Balance
+function berechne_balance($spieler){
+	if ($werte = get_spieler_statistik_balance($spieler)){
+		if ($werte["angreifbar"] >= $werte["sammelbar"]){
+			return floor_x((2 - ($werte["angreifbar"] + 100) / ($werte["sammelbar"] + 100)) * 100, 3);
+		} else {
+			return floor_x((2 - ($werte["sammelbar"] + 100) / ($werte["angreifbar"] + 100)) * 100, 3);
+		}
+	} else {
+		return 100;
+	}
+}
+
 
 ######################
 ### KAMPFGESCHEHEN ###
@@ -156,7 +173,7 @@ function berechne_angriff_erfolg($kt){
 
 # Bestimmt den Erfolg des Ausweichens
 function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
-	if (!$zauber->ist_angriff()){
+	if ($zauber->ist_art("verteidigung")){
 		$ausweichchance = 0;
 	} else {
 		if (!$zauber->ist_zauber()){
@@ -177,7 +194,7 @@ function berechne_ausweichen_erfolg($kt, $kt_ziel, $zauber){
 
 # Bestimmt den Erfolg der Abwehr eines Angriffs/Zaubers
 function berechne_abwehr_erfolg($kt, $kt_ziel, $zauber){
-	if (!$zauber->ist_angriff()){
+	if ($zauber->ist_art("verteidigung")){
 		$abwehrchance = 0;
 	} else {
 		if (!$zauber->ist_zauber()){
@@ -236,9 +253,10 @@ function ist_kampf_beendet($kt_all){
 	$gewinner = 0;
 	foreach ($kt_all as $kt){
 		if ($kt->gesundheit > 0){
-			if ($kt->seite == 0){
+			if ($kt->seite == 0 AND $kt->typ == "spieler"){
 				$kt_lebend_0 = $kt_lebend_0 + 1;
-			} else {
+			}
+			if ($kt->seite == 1){
 				$kt_lebend_1 = $kt_lebend_1 + 1;
 				$gewinner = 1;
 			}
@@ -389,11 +407,53 @@ function berechne_effekt_wert($kt, $kt_ziel, $zauber, $effekt, $abwehr){
 					break;
 			}
 			break;
+		case "spezial": break;
 		default:
 			return false;
 	}
 	return true;
 }
+
+
+# Anzeige von Attributnamen korrigieren
+function kt_array_korrigieren($kt_id, $param){
+	global $kt_0;
+	global $kt_1;
+	global $kt_all;
+	$kt = get_kampf_teilnehmer_by_id($kt_id);
+	
+	switch ($param){
+		case "hinzufügen":
+			if ($kt->seite == 0) array_push($kt_0, $kt);
+				else array_push($kt_1, $kt);
+			break;
+		case "entfernen":
+			$counter = 0;
+			if ($kt->seite == 0){
+				foreach ($kt_0 as $kt_temp){
+					if ($kt_temp->kt_id == $kt_id){
+						unset($kt_0[$counter]);
+						array_values($kt_0);
+						break;
+					}
+					$counter = $counter + 1;
+				}
+			} else {
+				foreach ($kt_1 as $kt_temp){
+					if ($kt_temp->kt_id == $kt_id){
+						unset($kt_1[$counter]);
+						array_values($kt_1);
+						break;
+					}
+					$counter = $counter + 1;
+				}
+			}
+			break;
+		default: break;
+	}
+	$kt_all = array_merge($kt_0, $kt_1);
+}
+
 
 
 ##############################
@@ -473,48 +533,53 @@ function zeige_gebietslinks($gebiet_id){
 
 
 # Aufbau der Seite mit erhaltenen Items
-function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
-	if ($npc = get_npc($npc_id)){		
-		while($row = $npc->fetch_array(MYSQLI_NUM)){
-			?>
-			<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
-				<?php echo $text1 . $row[1] . $text2; ?>
-			</p>
-			<?php
+function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
+	if (!is_array($npc_ids)) $npc_ids = array($npc_ids);
+	?>
+	<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
+		<?php 
+		switch ($npc_typ){
+			case "Tiere": echo "Folgende Tiere wurden besiegt:<br><br>"; break;
+			case "Pflanzen": echo "Folgende Pflanzen wurden geerntet:<br><br>"; break;
+			default: echo "Ups da ist was schief gegangen.<br><br>"; break;
 		}
-	} else {
-		echo "<br />\nNPC mit id=[" . $npc_id . "] nicht gefunden.<br />\n";
-	}
-	
-	if ($items = get_items_npc($npc_id)){		
-		$counter = 0;
 		?>
-		<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
-			<tr>
-				<td>Item</td>
-				<td>Beschreibung</td>
-				<td>Anzahl</td>
-			</tr>
+	</p>
+	<?php
+	$erfahrung = 0;
+	foreach ($npc_ids as $npc_id){
+		$npc = get_npc($npc_id);
+		echo "* ".$npc->name."<br>";
+		$erfahrung = $erfahrung + $npc->erfahrung;
+	}
+	$spieler->erfahrung_addieren($erfahrung);
+	$items = get_items_npc($npc_id)
+	?>
+	<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
+		<tr>
+			<td>Item</td>
+			<td>Beschreibung</td>
+			<td>Anzahl</td>
+		</tr>
 		<?php
-		while($row = $items->fetch_array(MYSQLI_NUM)){
-			$item_wkt = $row[4];
-			if(check_wkt($item_wkt)){
-				$item_id = $row[0];
-				$item_titel = $row[1];
-				$item_beschreibung = $row[2];
-				$item_anzahl = rand($row[5], $row[6]);
-				$counter = $counter + 1;
-				insert_items_spieler($spieler_id, $item_id, $item_anzahl);
-				?>
-				<tr>
-					<td><?php echo $item_titel ?></td>
-					<td><?php echo $item_beschreibung ?></td>
-					<td><?php echo $item_anzahl ?></td>
-				</tr>
-				<?php
+		$counter = 0;
+		if (isset($items[0])){
+			foreach ($items as $item){
+				if(check_wkt($item->fund->wahrscheinlichkeit)){
+					$item_anzahl = rand($item->fund->anzahl_min, $item->fund->anzahl_max);
+					if ($item_anzahl > 0) $counter = $counter + 1;
+					insert_items_spieler($spieler->id, $item->id, $item_anzahl);
+					?>
+					<tr>
+						<td><?php echo $item->name ?></td>
+						<td><?php echo $item->beschreibung ?></td>
+						<td><?php echo $item_anzahl ?></td>
+					</tr>
+					<?php
+				}
 			}
 		}
-		if($counter == 0){
+		if (!isset($items[0]) OR $counter == 0){
 			?>
 			<tr>
 				<td colspan=3>Hehe ... nix gefunden. :P</td>
@@ -522,11 +587,8 @@ function zeige_erbeutete_items($spieler_id, $npc_id, $text1, $text2){
 			<?php
 		}
 		?>
-		</table>
-		<?php
-	} else {
-		echo "<br />\nItems zum NPC mit id=[" . $npc_id . "] konnten nicht abgerufen werden.<br />\n";
-	}
+	</table>		
+	<?php
 }
 
 
@@ -589,10 +651,12 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 										$zauber_beschreibung = $row[5];
 										$zauber_bilder_id = $row[1];
 										$inaktiv = true;
-										foreach ($alle_zauber as $z){
-											if ($z->id == $zauber_id){
-												$inaktiv = false;
-												break;
+										if (isset($alle_zauber[0])){
+											foreach ($alle_zauber as $z){
+												if ($z->id == $zauber_id){
+													$inaktiv = false;
+													break;
+												}
 											}
 										}
 										?>
@@ -618,6 +682,7 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 }
 
 ?>
+
 
 <script>
 	/* Berechnung der Zeitanzeige Aktionen */
@@ -837,6 +902,13 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 					elem=elem.offsetParent;
 		}
 		return [xmin, xmin+xmax, ymin, ymin+ymax];
+	}
+	
+	/* Bestimme Breite der aktuellen Tabellenzelle */
+	function getBreite(elementId) {
+		var elem=document.getElementById(elementId);
+		alert(elem.offsetWidth);
+		return elem.offsetWidth;
 	}
 	
 </script>
