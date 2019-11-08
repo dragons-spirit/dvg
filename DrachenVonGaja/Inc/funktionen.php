@@ -39,7 +39,15 @@ function check_wkt_spezial($wkt){
 
 # Schneidet analog zu floor alle Nachkommastellen bis zur angegebenen Stelle ab
 function floor_x($zahl,$nachkommastellen=3){   
-     return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
+    return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
+}
+
+
+function ausgabeProzent($zahl, $nachkommastellen=2) {
+	$prozent = sprintf("%.3f", $zahl * 100);
+	$prozent = explode(".", $prozent, 2);
+	$shortCount = strlen($prozent[1]) - $nachkommastellen;
+	return $prozent[0].",".substr($prozent[1], 0, (($shortCount <= 0) ? strlen($prozent[1]) : -$shortCount))." %";
 }
 
 
@@ -910,5 +918,16 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 		alert(elem.offsetWidth);
 		return elem.offsetWidth;
 	}
+	
+	/* Dynamische Balkenanzeige */
+	function balkenanzeige(balken_div, inhalt_div, farbe, breite, prozent) {
+		var balken = document.getElementById(balken_div);
+		var inhalt = document.getElementById(inhalt_div);
+		balken.style.width = breite * prozent;
+		balken.style.background = farbe;
+		inhalt.style.width = breite;
+	}
+	
+	
 	
 </script>

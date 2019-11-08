@@ -89,7 +89,13 @@
 				}
 			} else {
 				echo "<br />\nKeine Aktionen gefunden.<br />\n";
-			} ?>
+			}
+			
+			if ($spieler->level_id == 1) $erfahrung_benoetigt_davor = 0;
+				else $erfahrung_benoetigt_davor = get_erfahrung_naechster_level($spieler->level_id - 1);
+			$erfahrung_benoetigt_aktuell = get_erfahrung_naechster_level($spieler->level_id);
+			if 	($erfahrung_benoetigt_aktuell == 0) $erfahrung_benoetigt_aktuell = $spieler->erfahrung;
+			?>
 			
 			<!-- Obere Leiste -->
 			<div id="obere_Leiste">
@@ -306,7 +312,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]));
 							
 							######################
 							# Start von Aktionen #
@@ -436,6 +442,9 @@
 										echo "<br />\nEs liegen noch keine Statistikdaten vor.<br />\n";
 									}
 								}
+								if(isset($_POST["button_charakterdaten"])){
+									include('charakterdaten.php');
+								}
 							}
 							else {
 								if(!$aktion_starten){
@@ -527,31 +536,12 @@
 							<tr><td><br/>    </td></tr>
 							<tr>
 								<td><p align="left">Gesundheit</p></td>
-								<td id="char_attr_spalte" width="100%">
-									<div id="gesundheit_balken" style="bottom:0px; background:red;" breite="<?php echo (($spieler->gesundheit / $spieler->max_gesundheit)); ?>">
-										<div id="gesundheit_inhalt" style="border:1px solid white; text-align:center;">
-											<script>
-												var breite = document.getElementById('char_attr_spalte').offsetWidth;
-												var div = document.getElementById('gesundheit_balken');
-												div.style.width = div.getAttribute('breite') * breite;
-												document.getElementById('gesundheit_inhalt').style.width = breite;
-											</script>
+								<td id="char_kurz_spalte2" width="100%">
+									<script>var char_kurz_spalte2_breite = document.getElementById('char_kurz_spalte2').offsetWidth;</script>
+									<div id="char_kurz_balken_1" style="bottom:0px;">
+										<div id="char_kurz_inhalt_1" style="border:1px solid white; text-align:center;">
+											<script>balkenanzeige('char_kurz_balken_1', 'char_kurz_inhalt_1', 'red', char_kurz_spalte2_breite, <?php echo "'".($spieler->gesundheit / $spieler->max_gesundheit)."'"; ?>);</script>
 											<text><?php echo $spieler->gesundheit."/".$spieler->max_gesundheit; ?></text>
-										</div>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td><p align="left">Energie</p></td>
-								<td>
-									<div id="energie_balken" style="bottom:0px; background:green;" breite="<?php echo (($spieler->energie / $spieler->max_energie)); ?>">
-										<div id="energie_inhalt" style="border:1px solid white; text-align:center;">
-											<script>
-												div = document.getElementById('energie_balken');
-												div.style.width = div.getAttribute('breite') * breite;
-												document.getElementById('energie_inhalt').style.width = breite;
-											</script>
-											<text><?php echo $spieler->energie."/".$spieler->max_energie; ?></text>
 										</div>
 									</div>
 								</td>
@@ -559,34 +549,31 @@
 							<tr>
 								<td><p align="left">Zauberpunkte</p></td>
 								<td>
-									<div id="zauberpunkte_balken" style="bottom:0px; background:blue;" breite="<?php echo (($spieler->zauberpunkte / $spieler->max_zauberpunkte)); ?>">
-										<div id="zauberpunkte_inhalt" style="border:1px solid white; text-align:center;">
-											<script>
-												div = document.getElementById('zauberpunkte_balken');
-												div.style.width = div.getAttribute('breite') * breite;
-												document.getElementById('zauberpunkte_inhalt').style.width = breite;
-											</script>
+									<div id="char_kurz_balken_2" style="bottom:0px;">
+										<div id="char_kurz_inhalt_2" style="border:1px solid white; text-align:center;">
+											<script>balkenanzeige('char_kurz_balken_2', 'char_kurz_inhalt_2', 'blue', char_kurz_spalte2_breite, <?php echo "'".($spieler->zauberpunkte / $spieler->max_zauberpunkte)."'"; ?>);</script>
 											<text><?php echo $spieler->zauberpunkte."/".$spieler->max_zauberpunkte; ?></text>
 										</div>
 									</div>
 								</td>
 							</tr>
-							<?php
-							if ($spieler->level_id == 1) $erfahrung_benoetigt_davor = 0;
-								else $erfahrung_benoetigt_davor = get_erfahrung_naechster_level($spieler->level_id - 1);
-							$erfahrung_benoetigt_aktuell = get_erfahrung_naechster_level($spieler->level_id);
-							if 	($erfahrung_benoetigt_aktuell == 0) $erfahrung_benoetigt_aktuell = $spieler->erfahrung;
-							?>
+							<tr>
+								<td><p align="left">Energie</p></td>
+								<td>
+									<div id="char_kurz_balken_3" style="bottom:0px;">
+										<div id="char_kurz_inhalt_3" style="border:1px solid white; text-align:center;">
+											<script>balkenanzeige('char_kurz_balken_3', 'char_kurz_inhalt_3', 'green', char_kurz_spalte2_breite, <?php echo "'".($spieler->energie / $spieler->max_energie)."'"; ?>);</script>
+											<text><?php echo $spieler->energie."/".$spieler->max_energie; ?></text>
+										</div>
+									</div>
+								</td>
+							</tr>
 							<tr>
 								<td><p align="left">Erfahrung</p></td>
 								<td>
-									<div id="erfahrung_balken" style="bottom:0px; background:purple;" breite="<?php echo ((($spieler->erfahrung - $erfahrung_benoetigt_davor) / $erfahrung_benoetigt_aktuell)); ?>">
-										<div id="erfahrung_inhalt" style="border:1px solid white; text-align:center;">
-											<script>
-												div = document.getElementById('erfahrung_balken');
-												div.style.width = div.getAttribute('breite') * breite;
-												document.getElementById('erfahrung_inhalt').style.width = breite;
-											</script>
+									<div id="char_kurz_balken_4" style="bottom:0px;">
+										<div id="char_kurz_inhalt_4" style="border:1px solid white; text-align:center;">
+											<script>balkenanzeige('char_kurz_balken_4', 'char_kurz_inhalt_4', 'purple', char_kurz_spalte2_breite, <?php echo "'".(($spieler->erfahrung - $erfahrung_benoetigt_davor) / $erfahrung_benoetigt_aktuell)."'"; ?>);</script>
 											<text><?php echo floor_x($spieler->erfahrung, 0)."/".$erfahrung_benoetigt_aktuell; ?></text>
 										</div>
 									</div>

@@ -126,6 +126,8 @@
 	<br><br>
 	<input type="submit" alt="Ausruhen" name="button_ausruhen" value="Ausruhen">
 	<br><br>
+	<input type="submit" alt="Charakterdaten" name="button_charakterdaten" value="Charakterdaten">
+	<br><br>
 	<input type="submit" alt="Statistik" name="button_statistik" value="Statistik">
  
 </div>
