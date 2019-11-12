@@ -214,7 +214,6 @@
 									#insert_kampf_teilnehmer($kampf_id, 45, "spieler", 0); # Flammi
 									insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
 									#insert_kampf_teilnehmer($kampf_id, 2, "npc", 1); # Ratte
-									if ($helferlein) insert_kampf_teilnehmer($kampf_id, 45, "npc", 0); # Helferlein im Kampf
 									break;
 									
 								
@@ -222,8 +221,20 @@
 								case "Sammeln":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 									$npc_id = $aktion_spieler->any_id_1;
-									add_npc_spieler_statistik($spieler->id, $npc_id);
-									zeige_erbeutete_items($spieler, $npc_id, "Pflanzen");
+									$gewinn = new Gewinn();
+									$anzahl_neu = add_npc_spieler_statistik($spieler->id, $npc_id);
+									if ($anzahl_neu == 1){
+										$gewinn->staerke = $s_bonus_neu_staerke;
+										$gewinn->intelligenz = $s_bonus_neu_intelligenz;
+										$gewinn->magie = $s_bonus_neu_magie;
+									} else {
+										$gewinn->staerke = $s_bonus_staerke;
+										$gewinn->intelligenz = $s_bonus_intelligenz;
+										$gewinn->magie = $s_bonus_magie;
+									}
+									$gewinn->erfahrung = zeige_erbeutete_items($spieler, $npc_id, "Pflanzen");
+									$gewinn->db_update();
+									$spieler->gewinn_verrechnen($gewinn, true);
 									?>
 									<p align="center" style="padding-top:10pt;">
 										<input type="submit" name="weiter" value="weiter">
@@ -242,13 +253,17 @@
 										foreach ($kt_0 as $kt){
 											if ($kt->id == $spieler->id AND $kt->typ == "spieler"){
 												$spieler->uebernehme_kt_werte($kt);
+												$gewinn_id = $kt->gewinn_id;
 											}
 										}
 										$gewinner_seite = ist_kampf_beendet(array_merge($kt_0, $kt_1));
 										if ($gewinner_seite == 0){
 											$npc_ids = get_all_npcs_kampf($kampf_id);
 											add_npc_spieler_statistik($spieler->id, $npc_ids);
-											zeige_erbeutete_items($spieler, $npc_ids, "Tiere");
+											$gewinn = get_gewinn($gewinn_id);
+											$gewinn->erfahrung = zeige_erbeutete_items($spieler, $npc_ids, "Tiere");
+											$gewinn->db_update();
+											$spieler->gewinn_verrechnen($gewinn, true);
 										} else {
 										?>
 											<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">

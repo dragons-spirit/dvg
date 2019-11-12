@@ -38,8 +38,8 @@ function check_wkt_spezial($wkt){
 
 
 # Schneidet analog zu floor alle Nachkommastellen bis zur angegebenen Stelle ab
-function floor_x($zahl,$nachkommastellen=3){   
-    return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
+function floor_x($zahl,$nachkommastellen=3){
+	return floor($zahl*pow(10,$nachkommastellen))/pow(10,$nachkommastellen);
 }
 
 
@@ -108,7 +108,7 @@ function anzeige_attribut($attr){
 ######################################
 
 # Allgemeine Parameter
-$balance_aktiv = 1;
+$balance_aktiv = true;
 
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen
@@ -117,10 +117,30 @@ $max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
 $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
 $anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$kampf_detail = 0; # Im Kampf angezeigte Parameter (0-2)
+$kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
 $kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
 
-$helferlein = false;
+# Parameter für Gewinne im Kampf
+$k_bonus_patzer = 0.1; # Multiplikator wenn Zauber/Angriff fehl schlägt (ausgenommen Zielfehler)
+$k_bonus_ausweichen = 0.2; # Multiplikator wenn Ziel ausweicht
+$k_bonus_abwehr = 0.5; # Multiplikator wenn Ziel abwehrt
+$k_bonus_erfolg = 1.0; # Multiplikator bei Treffer
+$k_bonus_staerke = 0.01; # Grundgewinn Stärke
+$k_bonus_intelligenz = 0.02; # Grundgewinn Intelligenz
+$k_bonus_magie = 0.02; # Grundgewinn Magie
+$k_bonus_elemente = 0.5; # Multiplikator für Elementpunkte allgemein
+$k_bonus_hauptelement = 0.05; # Grundgewinn für Hauptelement Zauber
+$k_bonus_nebenelement = 0.01; # Grundgewinn für Nebenelement Zauber
+$k_bonus_gegenelement = 0.02; # Grundgewinn für Gegenelement (Hauptzauber) zum Zauber
+$k_bonus_zauberpunkte = 0.1; # Multiplikator für Zauberpunkte allgemein
+
+# Parameter für Gewinne beim Sammeln
+$s_bonus_neu_staerke = 0.01; # Grundgewinn Stärke wenn Pflanze zum ersten Mal geerntet
+$s_bonus_neu_intelligenz = 0.1; # Grundgewinn Intelligenz wenn Pflanze zum ersten Mal geerntet
+$s_bonus_neu_magie = 0.2; # Grundgewinn Magie wenn Pflanze zum ersten Mal geerntet
+$s_bonus_staerke = 0.0; # Grundgewinn Stärke
+$s_bonus_intelligenz = 0.01; # Grundgewinn Intelligenz
+$s_bonus_magie = 0.0; # Grundgewinn Magie
 
 
 # Maximale Gesundheit
@@ -210,8 +230,8 @@ function berechne_abwehr_erfolg($kt, $kt_ziel, $zauber){
 			$abwehrchance = $kt_ziel->abwehr;
 		} else {
 			# Abwehrchance bei Zaubern um Malus reduziert (Ziel->Element_Wert >= Angreifer->Element_Wert dann kein Malus)
-			$element = $zauber->hauptelement_attribut_bez();
-			$gegenelement = $zauber->gegenelement_attribut_bez();
+			$element = $zauber->attribut_bez("hauptelement");
+			$gegenelement = $zauber->attribut_bez("gegenelement");
 			if ($element AND $kt->$element > 0) $malus = floor_x($kt_ziel->$gegenelement / $kt->$element, 3);
 				else $malus = 1;
 			if ($malus > 1) $malus = 1;
@@ -365,10 +385,10 @@ function ki_ausfuehren($kt, $alle_zauber){
 function berechne_effekt_wert($kt, $kt_ziel, $zauber, $effekt, $abwehr){
 	global $max_abwehr_standard;
 	global $max_abwehr_zauber;
-	$element = $zauber->hauptelement_attribut_bez();
+	$element = $zauber->attribut_bez("hauptelement");
 	if ($element){
 		$c1 = 1;
-		$gegenelement = $zauber->gegenelement_attribut_bez();
+		$gegenelement = $zauber->attribut_bez("gegenelement");
 	} else {
 		$c1 = 0;
 		$gegenelement = false;
@@ -560,7 +580,6 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 		echo "* ".$npc->name."<br>";
 		$erfahrung = $erfahrung + $npc->erfahrung;
 	}
-	$spieler->erfahrung_addieren($erfahrung);
 	$items = get_items_npc($npc_id)
 	?>
 	<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
@@ -597,6 +616,7 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 		?>
 	</table>		
 	<?php
+	return $erfahrung;
 }
 
 

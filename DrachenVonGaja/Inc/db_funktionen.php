@@ -698,6 +698,36 @@ function exist_gebiet_gebiet($von_gebiet_id, $nach_gebiet_id)
 
 
 #***************************************************************************************************************
+#*************************************************** GEWINN ****************************************************
+#***************************************************************************************************************
+
+#----------------------------------------- SELECT gewinn.* (Gewinn allgemein) -----------------------------------------
+# 	-> gewinn.id (int)
+# 	<- Gewinn (obj)
+
+function get_gewinn($gewinn_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT gewinn.*
+			FROM gewinn
+			WHERE id = ?")){
+		$stmt->bind_param('d', $gewinn_id);
+		$stmt->execute();
+		$gewinn = new Gewinn($stmt->get_result()->fetch_array(MYSQLI_NUM));
+		if ($debug) echo "<br />\nGewinn mit ID=".$gewinn_id." wurde geladen.<br />\n";
+		return $gewinn;
+	} else {
+		echo "<br />\nQuerryfehler in get_gewinn()<br />\n";
+		return false;
+	}
+}
+
+
+
+#***************************************************************************************************************
 #**************************************************** ITEMS ****************************************************
 #***************************************************************************************************************
 
@@ -996,6 +1026,8 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	
 	$return_wert = false;
 	$keine_abwehr = false;
+	if ($kt->gewinn_id == null) $gewinn = false;
+		else $gewinn = get_gewinn($kt->gewinn_id);
 	if ($kt->kt_id == $kt_ziel->kt_id AND $kampf_log_detail > 0) $ziel_name = "sich selbst";
 		else $ziel_name = $kt_ziel->name;
 	$zauberpunkte_verbrauch = berechne_zauberpunkte_verbrauch($zauber);
@@ -1042,17 +1074,20 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 			case 010:
 			case 011:
 				$ausgabe = $zauber->ausgabe_log("patzer", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
+				if ($gewinn) $gewinn->erhoehen("patzer", $zauber);
 				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel ist ausgewichen
 			case 110:
 			case 111:
 				$ausgabe = $zauber->ausgabe_log("ausweichen", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
+				if ($gewinn) $gewinn->erhoehen("ausweichen", $zauber);
 				$return_wert = [2, false, $ausgabe];
 				break;
 			# Ziel hat abgewehrt
 			case 101:
 				$ausgabe = $zauber->ausgabe_log("abwehr", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
+				if ($gewinn) $gewinn->erhoehen("abwehr", $zauber);
 				$return_wert = [3, false, $ausgabe];
 				break;
 			# Treffer
@@ -1135,9 +1170,11 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 		}
 		if (!$return_wert){
 			$ausgabe = $zauber->ausgabe_log("erfolg", array("zaubernder"=>$kt->name, "zauberziel"=>$ziel_name, "zauber"=>$zauber->titel), $kampf_log_detail);
+			if ($gewinn) $gewinn->erhoehen("erfolg", $zauber);
 			$return_wert = [4, false, $ausgabe];
 		}
 	}
+	if ($gewinn) $gewinn->db_update();
 	return $return_wert;
 }
 
@@ -2224,7 +2261,8 @@ function add_npc_spieler_statistik($spieler_id, $alle_npcs)
 		else $alle_npc_ids = [$alle_npcs];
 	
 	foreach ($alle_npc_ids as $npc_id){
-		if (get_npc_spieler_statistik($spieler_id, $npc_id) == false){
+		$statistik = get_npc_spieler_statistik($spieler_id, $npc_id);
+		if ($statistik == false){
 			if ($stmt = $connect_db_dvg->prepare("
 					INSERT INTO npc_spieler_statistik(
 						spieler_id,
@@ -2234,6 +2272,7 @@ function add_npc_spieler_statistik($spieler_id, $alle_npcs)
 				$stmt->bind_param('dd', $spieler_id, $npc_id);
 				$stmt->execute();
 				if ($debug) echo "<br />\nNPC: [" . $npc_id . " wurde bei Spieler " . $spieler_id . "] zur Statistik hinzugefügt<br />\n";
+				return 1;
 			} else {
 				echo "<br />\nQuerryfehler in add_npc_spieler_statistik() - Insert<br />\n";
 				return false;
@@ -2247,6 +2286,7 @@ function add_npc_spieler_statistik($spieler_id, $alle_npcs)
 				$stmt->bind_param('dd', $spieler_id, $npc_id);
 				$stmt->execute();
 				if ($debug) echo "<br />\nNPC: [" . $npc_id . " wurde bei Spieler " . $spieler_id . "] zur Statistik hinzugefügt<br />\n";
+				return $statistik[0]->anzahl + 1;
 			} else {
 				echo "<br />\nQuerryfehler in add_npc_spieler_statistik() - Update<br />\n";
 				return false;

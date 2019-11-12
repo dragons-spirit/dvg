@@ -86,21 +86,39 @@ class Spieler {
 		$this->erfahrung = $ds[26];
 	}
 	
-	public function gewinn_verrechnen($gewinn) {
-		$this->staerke = $this->staerke + $gewinn->staerke;
-		$this->intelligenz = $this->intelligenz + $gewinn->intelligenz;
-		$this->magie = $this->magie + $gewinn->magie;
-		$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
-		$this->element_wasser = $this->element_wasser + $gewinn->element_wasser;
-		$this->element_erde = $this->element_erde + $gewinn->element_erde;
-		$this->element_luft = $this->element_luft + $gewinn->element_luft;
-		$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
-		$this->energie = $this->energie + $gewinn->energie;
-		$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
-		$this->initiative = $this->initiative + $gewinn->initiative;
-		$this->abwehr = $this->abwehr + $gewinn->abwehr;
-		$this->ausweichen = $this->ausweichen + $gewinn->ausweichen;
-		$this->erfahrung = $this->erfahrung + $gewinn->erfahrung;
+	public function gewinn_verrechnen($gewinn, $mit_balance) {
+		global $balance_aktiv;
+		if ($balance_aktiv AND $mit_balance){
+			$this->staerke = $this->staerke + floor_x($gewinn->staerke * ($this->balance / 100), 10);
+			$this->intelligenz = $this->intelligenz + floor_x($gewinn->intelligenz * ($this->balance / 100), 10);
+			$this->magie = $this->magie + floor_x($gewinn->magie * ($this->balance / 100), 10);
+			$this->element_feuer = $this->element_feuer + floor_x($gewinn->element_feuer * ($this->balance / 100), 10);
+			$this->element_wasser = $this->element_wasser + floor_x($gewinn->element_wasser * ($this->balance / 100), 10);
+			$this->element_erde = $this->element_erde + floor_x($gewinn->element_erde * ($this->balance / 100), 10);
+			$this->element_luft = $this->element_luft + floor_x($gewinn->element_luft * ($this->balance / 100), 10);
+			$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
+			$this->energie = $this->energie + $gewinn->energie;
+			$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
+			$this->initiative = $this->initiative + floor_x($gewinn->initiative * ($this->balance / 100), 10);
+			$this->abwehr = $this->abwehr + floor_x($gewinn->abwehr * ($this->balance / 100), 10);
+			$this->ausweichen = $this->ausweichen + floor_x($gewinn->ausweichen * ($this->balance / 100), 10);
+			$this->erfahrung = $this->erfahrung + floor_x($gewinn->erfahrung * ($this->balance / 100), 10);
+		} else {
+			$this->staerke = $this->staerke + $gewinn->staerke;
+			$this->intelligenz = $this->intelligenz + $gewinn->intelligenz;
+			$this->magie = $this->magie + $gewinn->magie;
+			$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
+			$this->element_wasser = $this->element_wasser + $gewinn->element_wasser;
+			$this->element_erde = $this->element_erde + $gewinn->element_erde;
+			$this->element_luft = $this->element_luft + $gewinn->element_luft;
+			$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
+			$this->energie = $this->energie + $gewinn->energie;
+			$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
+			$this->initiative = $this->initiative + $gewinn->initiative;
+			$this->abwehr = $this->abwehr + $gewinn->abwehr;
+			$this->ausweichen = $this->ausweichen + $gewinn->ausweichen;
+			$this->erfahrung = $this->erfahrung + $gewinn->erfahrung;
+		}
 	}
 	
 	# Regeneration der Spielerwerte (Gesundheit, Energie, Zauberpunkte) um Prozent vom jeweiligen Maximum
@@ -121,17 +139,9 @@ class Spieler {
 	# Übernimmt aktuelle Werte des Kampfteilnehmers
 	public function uebernehme_kt_werte($kt){
 		$this->gesundheit = $kt->gesundheit;
+		if ($this->gesundheit > $this->max_gesundheit) $this->gesundheit = $this->max_gesundheit;
 		$this->zauberpunkte = $kt->zauberpunkte;
-	}
-	
-	# Addiert Erfahrung (abhängig von aktueller Balance des Spielers)
-	public function erfahrung_addieren($erfahrung){
-		global $balance_aktiv;
-		if ($balance_aktiv){
-			$this->erfahrung = ($this->erfahrung + floor_x(($erfahrung * ($this->balance / 100)), 3));
-		} else {
-			$this->erfahrung = ($this->erfahrung + $erfahrung);
-		}
+		if ($this->zauberpunkte > $this->max_zauberpunkte) $this->zauberpunkte = $this->max_zauberpunkte;
 	}
 	
 	# Spieler rekonfigurieren (Neuberechnung von Gesundheit, Energie, Zauberpunkte, Balance)
@@ -158,7 +168,7 @@ class Spieler {
 		$belohnung = get_gewinn_naechster_level($this->level_id);
 		$this->level_id = $this->level_id + 1;
 		$this->bilder_id = get_bild_zu_gattung_level($this->gattung_id, $this->level_id);
-		$this->gewinn_verrechnen($belohnung);
+		$this->gewinn_verrechnen($belohnung, false);
 	}
 	
 	# Aktualisiert die Spielerdaten in der Datenbank
@@ -625,25 +635,43 @@ class KampfZauber {
 		else return false;
 	}
 	
-	# Prüft das Hauptelement des Zaubers und gibt die korrespondierende Attributbezeichnung für den Kampfteilnehmer zurück
-	public function hauptelement_attribut_bez(){
-		switch ($this->hauptelement_id){
-			case 2: $element = "element_feuer"; break;
-			case 3: $element = "element_wasser"; break;
-			case 4: $element = "element_erde"; break;
-			case 5: $element = "element_luft"; break;
-			default: $element = false; break;
+	# Prüft das Element des Zaubers und gibt die korrespondierende Attributbezeichnung für den Kampfteilnehmer zurück
+	# Es muss das erwartete Element übergeben werden ("hauptelement", "nebenelement" oder "gegenelement" für das Gegenstück zum Hauptelement)
+	public function attribut_bez($topic){
+		switch ($topic){
+			case "hauptelement": $id = $this->hauptelement_id; break;
+			case "nebenelement": $id = $this->nebenelement_id; break;
+			case "gegenelement": $id = $this->hauptelement_id; break;
+			default: $id = false; break;
 		}
-		return $element;
-	}
-	
-	# Prüft das Hauptelement des Zaubers und gibt die korrespondierende Attributbezeichnung des Gegenelements für den Kampfteilnehmer zurück
-	public function gegenelement_attribut_bez(){
-		switch ($this->hauptelement_id){
-			case 2: $element = "element_luft"; break;
-			case 3: $element = "element_erde"; break;
-			case 4: $element = "element_feuer"; break;
-			case 5: $element = "element_wasser"; break;
+		switch ($topic){
+			case "hauptelement":
+				switch ($id){
+					case 2: $element = "element_feuer"; break;
+					case 3: $element = "element_wasser"; break;
+					case 4: $element = "element_erde"; break;
+					case 5: $element = "element_luft"; break;
+					default: $element = false; break;
+				}
+				break;
+			case "nebenelement":
+				switch ($id){
+					case 2: $element = "element_feuer"; break;
+					case 3: $element = "element_wasser"; break;
+					case 4: $element = "element_erde"; break;
+					case 5: $element = "element_luft"; break;
+					default: $element = false; break;
+				}
+				break;
+			case "gegenelement":
+				switch ($id){
+					case 2: $element = "element_luft"; break;
+					case 3: $element = "element_erde"; break;
+					case 4: $element = "element_feuer"; break;
+					case 5: $element = "element_wasser"; break;
+					default: $element = false; break;
+				}
+				break;
 			default: $element = false; break;
 		}
 		return $element;
@@ -908,6 +936,123 @@ class Gewinn {
 		$this->abwehr = $ds[12];
 		$this->ausweichen = $ds[13];
 		$this->erfahrung = $ds[14];
+	}
+	
+	# Fügt dem Gewinn je nach Fall entsprechende Werte hinzu
+	public function erhoehen($param, $zauber){
+		global $k_bonus_patzer;
+		global $k_bonus_ausweichen;
+		global $k_bonus_abwehr;
+		global $k_bonus_erfolg;
+		global $k_bonus_staerke;
+		global $k_bonus_intelligenz;
+		global $k_bonus_magie;
+		global $k_bonus_elemente;
+		global $k_bonus_hauptelement;
+		global $k_bonus_nebenelement;
+		global $k_bonus_gegenelement;
+		global $k_bonus_zauberpunkte;
+		# Vorlagen
+		$hauptelement_attribut = $zauber->attribut_bez("hauptelement");
+		$nebenelement_attribut = $zauber->attribut_bez("nebenelement");
+		$gegenelement_attribut = $zauber->attribut_bez("gegenelement");
+		# Gewinne für Zauber
+		if ($zauber->ist_zauber()){
+			$k_bonus_zp = $k_bonus_zauberpunkte * $zauber->verbrauch;
+			$bonus_elem_zp = $k_bonus_elemente * $k_bonus_zp;
+			switch ($param){
+				case "patzer": 
+					$this->magie = $this->magie + $k_bonus_patzer * $k_bonus_magie * $k_bonus_zp;
+					$this->$hauptelement_attribut = $this->$hauptelement_attribut + $k_bonus_patzer * $bonus_elem_zp * $k_bonus_hauptelement;
+					break;
+				case "ausweichen": 
+					$this->intelligenz = $this->intelligenz + $k_bonus_ausweichen * $k_bonus_intelligenz * $k_bonus_zp;
+					$this->$hauptelement_attribut = $this->$hauptelement_attribut + $k_bonus_ausweichen * $bonus_elem_zp * $k_bonus_hauptelement;
+					$this->$nebenelement_attribut = $this->$nebenelement_attribut + $k_bonus_ausweichen * $bonus_elem_zp * $k_bonus_nebenelement;
+					$this->$gegenelement_attribut = $this->$gegenelement_attribut + $k_bonus_ausweichen * $bonus_elem_zp * $k_bonus_gegenelement;
+					break;
+				case "abwehr": 
+					$this->magie = $this->magie + $k_bonus_abwehr * $k_bonus_magie * $k_bonus_zp;
+					$this->intelligenz = $this->intelligenz + $k_bonus_abwehr * $k_bonus_intelligenz * $k_bonus_zp;
+					$this->$hauptelement_attribut = $this->$hauptelement_attribut + $k_bonus_abwehr * $bonus_elem_zp * $k_bonus_hauptelement;
+					$this->$nebenelement_attribut = $this->$nebenelement_attribut + $k_bonus_abwehr * $bonus_elem_zp * $k_bonus_nebenelement;
+					$this->$gegenelement_attribut = $this->$gegenelement_attribut + $k_bonus_abwehr * $bonus_elem_zp * $k_bonus_gegenelement;
+					break;
+				case "erfolg": 
+					$this->magie = $this->magie + $k_bonus_erfolg * $k_bonus_magie * $k_bonus_zp;
+					$this->intelligenz = $this->intelligenz + $k_bonus_erfolg * $k_bonus_intelligenz * $k_bonus_zp;
+					$this->$hauptelement_attribut = $this->$hauptelement_attribut + $k_bonus_erfolg * $bonus_elem_zp * $k_bonus_hauptelement;
+					$this->$nebenelement_attribut = $this->$nebenelement_attribut + $k_bonus_erfolg * $bonus_elem_zp * $k_bonus_nebenelement;
+					break;
+				default: return false;
+			}
+		# Gewinne für Standardangriffe
+		} else {
+			$k_bonus_zp = $k_bonus_zauberpunkte * 1;
+			switch ($param){
+				case "patzer": 
+					$this->staerke = $this->staerke + $k_bonus_patzer * $k_bonus_staerke;
+					break;
+				case "ausweichen": 
+					$this->intelligenz = $this->intelligenz + $k_bonus_ausweichen * $k_bonus_intelligenz * $k_bonus_zp;
+					break;
+				case "abwehr": 
+					$this->staerke = $this->staerke + $k_bonus_abwehr * $k_bonus_staerke;
+					$this->intelligenz = $this->intelligenz + $k_bonus_abwehr * $k_bonus_intelligenz * $k_bonus_zp;
+					break;
+				case "erfolg": 
+					$this->staerke = $this->staerke + $k_bonus_erfolg * $k_bonus_staerke;
+					$this->intelligenz = $this->intelligenz + $k_bonus_erfolg * $k_bonus_intelligenz * $k_bonus_zp;
+					break;
+				default: return false;
+			}
+		}
+	}
+	
+	# Schreibt Gewinndaten in DB zurück
+	public function db_update(){
+		global $debug;
+		global $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+				UPDATE gewinn
+				SET staerke = ?,
+					intelligenz = ?,
+					magie = ?,
+					element_feuer = ?,
+					element_wasser = ?,
+					element_erde = ?,
+					element_luft = ?,
+					gesundheit = ?,
+					energie = ?,
+					zauberpunkte = ?,
+					initiative = ?,
+					abwehr = ?,
+					ausweichen = ?,
+					erfahrung = ?
+				WHERE id = ?")){
+			$stmt->bind_param('ddddddddddddddd', 
+					$this->staerke,
+					$this->intelligenz,
+					$this->magie,
+					$this->element_feuer,
+					$this->element_wasser,
+					$this->element_erde,
+					$this->element_luft,
+					$this->gesundheit,
+					$this->energie,
+					$this->zauberpunkte,
+					$this->initiative,
+					$this->abwehr,
+					$this->ausweichen,
+					$this->erfahrung,
+					$this->id);
+			$stmt->execute();
+			if ($debug) echo "<br />\nGewinn mit ID=".$gewinn_id." wurde in die Datenbank zurückgeschrieben.<br />\n";
+			return true;
+		} else {
+			echo "<br />\nQuerryfehler in gewinn->update()<br />\n";
+			return false;
+		}
 	}
 }
 
