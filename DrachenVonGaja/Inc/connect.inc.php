@@ -1,7 +1,7 @@
 <?php
 
 # Testumgebung auf bei Bedarf auf localhost
-$umgebung_localhost = false;
+$umgebung_localhost = true;
 
 $debug = false;
 $debug_connection = false;
