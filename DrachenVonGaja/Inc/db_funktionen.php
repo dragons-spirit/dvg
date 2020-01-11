@@ -746,7 +746,23 @@ function get_items_npc($npc_id)
 				items.bilder_id,
 				items.titel,
 				items.beschreibung,
-				items.typ,
+				items.essbar,
+				items.ausruestbar,
+				items.verarbeitbar,
+				items.gesundheit,
+				items.energie,
+				items.zauberpunkte,
+				items.staerke,
+				items.intelligenz,
+				items.magie,
+				items.element_feuer,
+				items.element_wasser,
+				items.element_erde,
+				items.element_luft,
+				items.initiative,
+				items.abwehr,
+				items.ausweichen,
+				items.prozent,
 				npc_items.wahrscheinlichkeit,
 				npc_items.anzahl_min,
 				npc_items.anzahl_max
@@ -759,10 +775,9 @@ function get_items_npc($npc_id)
 		$counter = 0;
 		if ($items_all = $stmt->get_result()){
 			while($item = $items_all->fetch_array(MYSQLI_NUM)){
-				$item_data = array_slice($item, 0, 5);
-				$fund_data = array_slice($item, 5);
-				$alle_items_npc[$counter] = new Item($item_data);
-				$alle_items_npc[$counter]->fund = new ItemFund($fund_data);
+				$item_data = array_slice($item, 0, 21);
+				$fund_data = array_slice($item, 21);
+				$alle_items_npc[$counter] = new Item("Fund", $item_data, $fund_data);
 				$counter = $counter + 1;
 			}
 		}
@@ -791,10 +806,31 @@ function get_all_items_spieler($spieler_id)
 				items.bilder_id,
 				items.titel,
 				items.beschreibung,
-				items.typ,
-				items_spieler.anzahl				
+				items.essbar,
+				items.ausruestbar,
+				items.verarbeitbar,
+				items.gesundheit,
+				items.energie,
+				items.zauberpunkte,
+				items.staerke,
+				items.intelligenz,
+				items.magie,
+				items.element_feuer,
+				items.element_wasser,
+				items.element_erde,
+				items.element_luft,
+				items.initiative,
+				items.abwehr,
+				items.ausweichen,
+				items.prozent,
+				items_spieler.anzahl,
+				slots.id,
+				slots.titel,
+				items_spieler.angelegt,
+				slots.max
 			FROM items
 				JOIN items_spieler ON items.id = items_spieler.items_id
+				JOIN slots ON items.slot_id = slots.id
 			WHERE items_spieler.spieler_id = ?
 			ORDER BY items.titel")){
 		$stmt->bind_param('d', $spieler_id);
@@ -802,9 +838,9 @@ function get_all_items_spieler($spieler_id)
 		$counter = 0;
 		if ($items_all = $stmt->get_result()){
 			while($item = $items_all->fetch_array(MYSQLI_NUM)){
-				$item_data = array_slice($item, 0, 5);
-				$alle_items_spieler[$counter] = new Item($item_data);
-				$alle_items_spieler[$counter]->anzahl = $item[5];
+				$item_data = array_slice($item, 0, 22);
+				$slot_data = array_slice($item, 22);
+				$alle_items_spieler[$counter] = new Item("Ausrüstung", $item_data, $slot_data);
 				$counter = $counter + 1;
 			}
 		}

@@ -29,7 +29,7 @@
 	if ($im_kampf AND !$kampf_vorbei){
 		# Spieleraktion verarbeiten
 		if (isset($_POST["kt_id_ziel_value"]) AND $_POST["kt_id_ziel_value"] > 0){
-			$kampf->log = "<br>" . $kampf->log;
+			$kampf->log = "<br />" . $kampf->log;
 			$kt_zaubert = false;
 			$kt_ziel = false;
 			$zauber = get_zauber($_POST["zauber_id_value"]);
@@ -42,7 +42,7 @@
 				}
 			}
 			$temp = insert_kampf_aktion($kampf->id, $kt_zaubert, $kt_ziel, $zauber);
-			$kampf->log = $temp[2] . "<br>" . $kampf->log;
+			$kampf->log = $temp[2] . "<br />" . $kampf->log;
 			# Wenn kein Fehler dann neue Aktion und nachfolgende Kampfrunden (NPCs)
 			if ($temp AND !$temp[1]){
 				$neue_aktion = true;
@@ -76,13 +76,13 @@
 							$zauber_und_ziel = ki_ausfuehren($kt, $alle_zauber);
 						} else {
 							$zauber_und_ziel = false;
-							echo "Für ".$kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br>";
+							echo "Für ".$kt->name." wurden keine verfügbaren Angriffe/Zauber zugewiesen oder es wurden keine gefunden.<br />";
 							break;
 						}
 						# Mit ermitteltem Angriff/Zauber und Ziel Kampfaktion hinzufügen
 						if ($zauber_und_ziel){
 							$temp = insert_kampf_aktion($kampf->id, $kt, $zauber_und_ziel[1], $zauber_und_ziel[0]);
-							$kampf->log = $temp[2] . "<br>" . $kampf->log;
+							$kampf->log = $temp[2] . "<br />" . $kampf->log;
 						}
 						# Wenn keine Aktion durchgeführt -> Abbruch
 						if ($temp == null OR $temp[1]) break;
@@ -117,11 +117,11 @@
 			switch($gewinner_seite){
 				case 0:
 					$kampf_vorbei = true;
-					$kampf->log = "<font color='green'>Gewonnen</font><br>" . $kampf->log;
+					$kampf->log = "<font color='green'>Gewonnen</font><br />" . $kampf->log;
 					break;
 				case 1:
 					$kampf_vorbei = true;
-					$kampf->log = "<font color='red'>Verloren</font><br>" . $kampf->log;
+					$kampf->log = "<font color='red'>Verloren</font><br />" . $kampf->log;
 					break;
 				default:
 					break;
@@ -377,7 +377,7 @@
 	} else {
 		?>
 		<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-			Derzeit befindet Ihr Euch in keinem Kampf!<br>
+			Derzeit befindet Ihr Euch in keinem Kampf!<br />
 		</p>
 		<?php
 	}

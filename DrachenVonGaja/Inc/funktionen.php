@@ -118,7 +118,7 @@ $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
 $anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
 $kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
-$kampf_log_detail = 2; # Im Kampf-Log angezeigte Details (0-2)
+$kampf_log_detail = 1; # Im Kampf-Log angezeigte Details (0-2)
 
 # Parameter für Gewinne im Kampf
 $k_bonus_patzer = 0.1; # Multiplikator wenn Zauber/Angriff fehl schlägt (ausgenommen Zielfehler)
@@ -369,13 +369,13 @@ function ki_ausfuehren($kt, $alle_zauber){
 			}
 			break;
 		default:
-			echo "Keine passende KI für ".$kt->name." gefunden.<br>";
+			echo "Keine passende KI für ".$kt->name." gefunden.<br />";
 			break;
 	}
 	if ($zauber AND $kt_ziel){
 		return [$zauber, $kt_ziel];
 	} else {
-		echo "Angriff/Zauber und/oder Ziel konnten nicht ermittelt werden.<br>";
+		echo "Angriff/Zauber und/oder Ziel konnten nicht ermittelt werden.<br />";
 		return false;
 	}
 }
@@ -520,7 +520,7 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false){
 		if ($aktion_titel)
 		{?>
 			<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-				Ihr seid noch beschäftigt!<br>
+				Ihr seid noch beschäftigt!<br />
 			</p>
 			<p align="center">
 				<input type="submit" name="zurueck" value="zurück">
@@ -567,9 +567,9 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 	<p align="center" style="margin-top:5%; margin-bottom:0px; font-size:14pt;">
 		<?php 
 		switch ($npc_typ){
-			case "Tiere": echo "Folgende Tiere wurden besiegt:<br><br>"; break;
-			case "Pflanzen": echo "Folgende Pflanzen wurden geerntet:<br><br>"; break;
-			default: echo "Ups da ist was schief gegangen.<br><br>"; break;
+			case "Tiere": echo "Folgende Tiere wurden besiegt:<br /><br />"; break;
+			case "Pflanzen": echo "Folgende Pflanzen wurden geerntet:<br /><br />"; break;
+			default: echo "Ups da ist was schief gegangen.<br /><br />"; break;
 		}
 		?>
 	</p>
@@ -577,7 +577,7 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 	$erfahrung = 0;
 	foreach ($npc_ids as $npc_id){
 		$npc = get_npc($npc_id);
-		echo "* ".$npc->name."<br>";
+		echo "* ".$npc->name."<br />";
 		$erfahrung = $erfahrung + $npc->erfahrung;
 	}
 	$items = get_items_npc($npc_id)
@@ -630,7 +630,7 @@ function beginne_aktion($spieler, $aktion_titel, $id_1=0, $id_2=0){
 	} else {
 		?>
 		<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-			Ihr habt nicht genügend Energie für diese Aktion.<br>
+			Ihr habt nicht genügend Energie für diese Aktion.<br />
 		</p>
 		<p align="center" style="padding-top:10pt;">
 			<input type="submit" name="zurueck" value="zurück">

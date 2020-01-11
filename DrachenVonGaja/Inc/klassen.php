@@ -319,23 +319,62 @@ class Item {
 	public $bilder_id;
 	public $name;
 	public $beschreibung;
-	public $typ;
+	public $essbar;
+	public $ausruestbar;
+	public $verarbeitbar;
+	public $gesundheit;
+	public $energie;
+	public $zauberpunkte;
+	public $staerke;
+	public $intelligenz;
+	public $magie;
+	public $element_feuer;
+	public $element_wasser;
+	public $element_erde;
+	public $element_luft;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
+	public $prozent;
 	public $fund;
+	public $slot;
 	public $anzahl;
 
-	public function __construct($ds=null) {
+	public function __construct($verwendung, $ds=null, $ds_zusatz=null) {
 		if ($ds == null) $this->set_null();
-			else $this->set($ds);
+			else $this->set($verwendung, $ds, $ds_zusatz);
 	}
 	
-	public function set($ds) {
+	public function set($verwendung, $ds, $ds_zusatz) {
 		$this->id = $ds[0];
 		$this->bilder_id = $ds[1];
 		$this->name = $ds[2];
 		$this->beschreibung = $ds[3];
-		$this->typ = $ds[4];
-		$this->fund = null;
-		$this->anzahl = 0;
+		$this->essbar = $ds[4];
+		$this->ausruestbar = $ds[5];
+		$this->verarbeitbar = $ds[6];
+		$this->gesundheit = $ds[7];
+		$this->energie = $ds[8];
+		$this->zauberpunkte = $ds[9];
+		$this->staerke = $ds[10];
+		$this->intelligenz = $ds[11];
+		$this->magie = $ds[12];
+		$this->element_feuer = $ds[13];
+		$this->element_wasser = $ds[14];
+		$this->element_erde = $ds[15];
+		$this->element_luft = $ds[16];
+		$this->initiative = $ds[17];
+		$this->abwehr = $ds[18];
+		$this->ausweichen = $ds[19];
+		$this->prozent = $ds[20];
+		if ($verwendung == "Fund") {$this->fund = new ItemFund($ds_zusatz);
+			} else {$this->fund = null;}
+		if ($verwendung == "Ausrüstung") {
+			$this->slot = new Slot($ds_zusatz);
+			$this->anzahl = $ds[21];
+			} else {
+			$this->slot = null;
+			$this->anzahl = 0;}
 	}
 	
 	public function set_null() {
@@ -343,8 +382,25 @@ class Item {
 		$this->bilder_id = null;
 		$this->name = null;
 		$this->beschreibung = null;
-		$this->typ = null;
+		$this->essbar = null;
+		$this->ausruestbar = null;
+		$this->verarbeitbar = null;
+		$this->gesundheit = null;
+		$this->energie = null;
+		$this->zauberpunkte = null;
+		$this->staerke = null;
+		$this->intelligenz = null;
+		$this->magie = null;
+		$this->element_feuer = null;
+		$this->element_wasser = null;
+		$this->element_erde = null;
+		$this->element_luft = null;
+		$this->initiative = null;
+		$this->abwehr = null;
+		$this->ausweichen = null;
+		$this->prozent = null;
 		$this->fund = null;
+		$this->slot = null;
 		$this->anzahl = 0;
 	}
 }
@@ -359,6 +415,21 @@ class ItemFund {
 		$this->wahrscheinlichkeit = $ds[0];
 		$this->anzahl_min = $ds[1];
 		$this->anzahl_max = $ds[2];
+	}
+}
+
+
+class Slot {
+	public $id;
+	public $name;
+	public $aktuell;
+	public $max;
+	
+	public function __construct($ds) {
+		$this->id = $ds[0];
+		$this->name = $ds[1];
+		$this->aktuell = $ds[2];
+		$this->max = $ds[3];
 	}
 }
 
@@ -530,50 +601,50 @@ class KampfTeilnehmer {
 	}
 	
 	public function ausgabe(){
-		echo "name : " . $this->name . "<br>";
-		echo "bilder_id : " . $this->bilder_id . "<br>";
-		echo "id : " . $this->id . "<br>";
-		echo "typ : " . $this->typ . "<br>";
-		echo "seite : " . $this->seite . "<br>";
-		echo "gesundheit : " . $this->gesundheit . "<br>";
-		echo "gesundheit_max : " . $this->gesundheit_max . "<br>";
-		echo "zauberpunkte : " . $this->zauberpunkte . "<br>";
-		echo "zauberpunkte_max : " . $this->zauberpunkte_max . "<br>";
-		echo "staerke : " . $this->staerke . "<br>";
-		echo "intelligenz : " . $this->intelligenz . "<br>";
-		echo "magie : " . $this->magie . "<br>";
-		echo "element_feuer : " . $this->element_feuer . "<br>";
-		echo "element_wasser : " . $this->element_wasser . "<br>";
-		echo "element_erde : " . $this->element_erde . "<br>";
-		echo "element_luft : " . $this->element_luft . "<br>";
-		echo "initiative : " . $this->initiative . "<br>";
-		echo "abwehr : " . $this->abwehr . "<br>";
-		echo "ausweichen : " . $this->ausweichen . "<br>";
-		echo "timer : " . $this->timer . "<br>";
-		echo "kt_id : " . $this->kt_id . "<br>";
-		echo "ki_id : " . $this->ki_id . "<br>";
-		echo "gewinn_id : " . $this->gewinn_id . "<br>";
+		echo "name : " . $this->name . "<br />";
+		echo "bilder_id : " . $this->bilder_id . "<br />";
+		echo "id : " . $this->id . "<br />";
+		echo "typ : " . $this->typ . "<br />";
+		echo "seite : " . $this->seite . "<br />";
+		echo "gesundheit : " . $this->gesundheit . "<br />";
+		echo "gesundheit_max : " . $this->gesundheit_max . "<br />";
+		echo "zauberpunkte : " . $this->zauberpunkte . "<br />";
+		echo "zauberpunkte_max : " . $this->zauberpunkte_max . "<br />";
+		echo "staerke : " . $this->staerke . "<br />";
+		echo "intelligenz : " . $this->intelligenz . "<br />";
+		echo "magie : " . $this->magie . "<br />";
+		echo "element_feuer : " . $this->element_feuer . "<br />";
+		echo "element_wasser : " . $this->element_wasser . "<br />";
+		echo "element_erde : " . $this->element_erde . "<br />";
+		echo "element_luft : " . $this->element_luft . "<br />";
+		echo "initiative : " . $this->initiative . "<br />";
+		echo "abwehr : " . $this->abwehr . "<br />";
+		echo "ausweichen : " . $this->ausweichen . "<br />";
+		echo "timer : " . $this->timer . "<br />";
+		echo "kt_id : " . $this->kt_id . "<br />";
+		echo "ki_id : " . $this->ki_id . "<br />";
+		echo "gewinn_id : " . $this->gewinn_id . "<br />";
 	}
 	
 	public function ausgabe_kampf($log_detail = 1){
 		if ($log_detail >= 0){
-			echo "Gesundheit : " . $this->gesundheit . "/" . $this->gesundheit_max . "<br>";
-			echo "Zauberpunkte : " . $this->zauberpunkte . "/" . $this->zauberpunkte_max . "<br>";
+			echo "Gesundheit : " . $this->gesundheit . "/" . $this->gesundheit_max . "<br />";
+			echo "Zauberpunkte : " . $this->zauberpunkte . "/" . $this->zauberpunkte_max . "<br />";
 		}
 		if ($log_detail >= 1){
-			echo "Initiative : " . $this->initiative . "<br>";
-			echo "Abwehr : " . $this->abwehr . "<br>";
-			echo "Ausweichen : " . $this->ausweichen . "<br>";
-			echo "Timer : " . $this->timer . "<br>";
+			echo "Initiative : " . $this->initiative . "<br />";
+			echo "Abwehr : " . $this->abwehr . "<br />";
+			echo "Ausweichen : " . $this->ausweichen . "<br />";
+			echo "Timer : " . $this->timer . "<br />";
 		}
 		if ($log_detail >= 2){
-			echo "Staerke : " . $this->staerke . "<br>";
-			echo "Intelligenz : " . $this->intelligenz . "<br>";
-			echo "Magie : " . $this->magie . "<br>";
-			echo "Feuer : " . $this->element_feuer . "<br>";
-			echo "Wasser : " . $this->element_wasser . "<br>";
-			echo "Erde : " . $this->element_erde . "<br>";
-			echo "Luft : " . $this->element_luft . "<br>";
+			echo "Staerke : " . $this->staerke . "<br />";
+			echo "Intelligenz : " . $this->intelligenz . "<br />";
+			echo "Magie : " . $this->magie . "<br />";
+			echo "Feuer : " . $this->element_feuer . "<br />";
+			echo "Wasser : " . $this->element_wasser . "<br />";
+			echo "Erde : " . $this->element_erde . "<br />";
+			echo "Luft : " . $this->element_luft . "<br />";
 		}
 	}
 	
@@ -864,16 +935,16 @@ class Kampf {
 			}
 			if ($attribut <> "Spezial"){
 				if ($zuruecksetzen){
-					$this->log = $kt->name.": ".-$kampf_effekt->wert." ".$attribut." durch Beendigung von ".$kampf_effekt->zauber_name."<br>" . $this->log;
+					$this->log = $kt->name.": ".-$kampf_effekt->wert." ".$attribut." durch Beendigung von ".$kampf_effekt->zauber_name."<br />" . $this->log;
 				} else {
-					$this->log = $kt->name.": ".$kampf_effekt->wert." ".$attribut." durch ".$kampf_effekt->zauber_name."<br>" . $this->log;
+					$this->log = $kt->name.": ".$kampf_effekt->wert." ".$attribut." durch ".$kampf_effekt->zauber_name."<br />" . $this->log;
 				}
 			}
 		}
 	}
 	
 	public function log_tot($kt){
-		$this->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br>" . $this->log;
+		$this->log = "<font color='red'>" . $kt->name . " stirbt im Kampf.</font><br />" . $this->log;
 	}
 }
 

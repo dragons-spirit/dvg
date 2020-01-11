@@ -124,11 +124,11 @@
     
     <h1 align="center">Titel</h1>
     <p align="center">Textinhalt</p>
-	<br><br>
+	<br /><br />
 	<input type="submit" alt="Ausruhen" name="button_ausruhen" value="Ausruhen">
-	<br><br>
+	<br /><br />
 	<input type="submit" alt="Charakterdaten" name="button_charakterdaten" value="Charakterdaten">
-	<br><br>
+	<br /><br />
 	<input type="submit" alt="Statistik" name="button_statistik" value="Statistik">
         <div>
      <h1 style="margin-top:15px">3D-Ansicht vom Planeten Gaja</h1>

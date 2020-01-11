@@ -182,7 +182,7 @@
 									?>
 									</table>
 									<p align="center" style="margin-top:25px; margin-bottom:0px; font-size:14pt;">
-										Zum Erlegen von Tieren oder zum Sammeln von Pflanzen und anderem, klickt auf die Buttons hinter den Dingen.<br>
+										Zum Erlegen von Tieren oder zum Sammeln von Pflanzen und anderem, klickt auf die Buttons hinter den Dingen.<br />
 									</p>
 									<p align="center">
 										<input type="submit" name="verwerfen" value="gefundene Dinge ignorieren">
@@ -357,8 +357,9 @@
 												<td>Item</td>
 												<td>Bild</td>
 												<td>Beschreibung</td>
-												<td>Typ</td>
+												<td>Platz</td>
 												<td>Anzahl</td>
+												<td>Verwendung</td>
 											</tr>
 											<?php
 											foreach ($items as $item){
@@ -367,8 +368,15 @@
 													<td align="left"><?php echo $item->name ?></td>
 													<td align="center"><img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/></td>
 													<td align="left"><?php echo $item->beschreibung ?></td>
-													<td align="left"><?php echo $item->typ ?></td>
+													<td align="left"><?php echo $item->slot->name ?></td>
 													<td align="right"><?php echo $item->anzahl ?></td>
+													<td align="left">
+														<?php 
+														if($item->essbar) echo "essbar<br />";
+														if($item->ausruestbar) echo "ausrüstbar<br />";
+														if($item->verarbeitbar) echo "verarbeitbar<br />";
+														?>
+													</td>
 												</tr>
 												<?php
 											}
@@ -588,7 +596,7 @@
 								<td>
 									<div id="char_kurz_balken_4" style="bottom:0px;">
 										<div id="char_kurz_inhalt_4" style="border:1px solid white; text-align:center;">
-											<script>balkenanzeige('char_kurz_balken_4', 'char_kurz_inhalt_4', 'purple', char_kurz_spalte2_breite, <?php echo "'".(($spieler->erfahrung - $erfahrung_benoetigt_davor) / $erfahrung_benoetigt_aktuell)."'"; ?>);</script>
+											<script>balkenanzeige('char_kurz_balken_4', 'char_kurz_inhalt_4', 'purple', char_kurz_spalte2_breite, <?php echo "'".(($spieler->erfahrung - $erfahrung_benoetigt_davor) / ($erfahrung_benoetigt_aktuell - $erfahrung_benoetigt_davor))."'"; ?>);</script>
 											<text><?php echo floor_x($spieler->erfahrung, 0)."/".$erfahrung_benoetigt_aktuell; ?></text>
 										</div>
 									</div>
@@ -629,7 +637,7 @@
 									<p align="center">
 										<b id="aktion_text">
 											<?php echo $aktion_spieler->text; ?>
-										</b><br>
+										</b><br />
 									</p>
 										
 								</td>
