@@ -350,52 +350,7 @@
 							####################
 							if($dinge_anzeigen){
 								if(isset($_POST["button_inventar"])){
-									if ($items = get_all_items_spieler($spieler->id)){
-										?>
-										<table border="1px" border-color="white" align="center" style="margin-top:10%;" width="700px" >
-											<tr>
-												<td>Item</td>
-												<td>Bild</td>
-												<td>Beschreibung</td>
-												<td>Platz</td>
-												<td>Anzahl</td>
-												<td>Verwendung</td>
-											</tr>
-											<?php
-											foreach ($items as $item){
-												?>
-												<tr>
-													<td align="left"><?php echo $item->name ?></td>
-													<td align="center"><img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/></td>
-													<td align="left"><?php echo $item->beschreibung ?></td>
-													<td align="left"><?php echo $item->slot->name ?></td>
-													<td align="right"><?php echo $item->anzahl ?></td>
-													<td align="left">
-														<?php 
-														if($item->essbar) echo "essbar<br />";
-														if($item->ausruestbar) echo "ausrüstbar<br />";
-														if($item->verarbeitbar) echo "verarbeitbar<br />";
-														?>
-													</td>
-												</tr>
-												<?php
-											}
-											if(!isset($items[0])){
-												?>
-												<tr>
-													<td colspan=4>Keine Items gefunden.</td>
-												</tr>
-												<?php
-											}
-											?>
-										</table>
-										<p align="center" style="padding-top:10pt;">
-											<input type="submit" name="zurueck" value="zurück">
-										</p>
-										<?php
-									} else {
-										echo "<br />\nEs sind noch keine Items im Rucksack vorhanden.<br />\n";
-									}
+									include('inventar.php');
 								}
 								
 								if(isset($_POST["button_tagebuch"])){

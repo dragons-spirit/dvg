@@ -33,6 +33,16 @@ input[type=button]
     height: 20px;
 }
 
+button[type=submit]{
+    cursor:pointer;
+    color:white;
+    background-color:black;
+    line-height:normal;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-size:smaller;
+    height: 20px;
+}
+
 
 .storylink
 {
