@@ -129,6 +129,14 @@ class Spieler {
 		$this->db_update();
 	}
 	
+	# Regeneration der Spielerwerte (Gesundheit, Energie, Zauberpunkte) um volle Punkte
+	public function erholung_punkte($gesundheit_pkt = 0, $energie_pkt = 0, $zauberpunkte_pkt = 0){
+		$this->attribut_aendern("gesundheit", $gesundheit_pkt, 0, $this->max_gesundheit);
+		$this->attribut_aendern("energie", $energie_pkt, 0, $this->max_energie);
+		$this->attribut_aendern("zauberpunkte", $zauberpunkte_pkt, 0, $this->max_zauberpunkte);
+		$this->db_update();
+	}
+	
 	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
 	public function attribut_aendern($attribut, $wert, $min=-9999999, $max=9999999){
 		$this->$attribut = $this->$attribut + $wert;

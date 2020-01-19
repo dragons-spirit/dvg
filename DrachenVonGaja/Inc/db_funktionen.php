@@ -891,6 +891,55 @@ function get_items_spieler($spieler_id, $items_id)
 }
 
 
+#----------------------------------- SELECT item -----------------------------------
+#	-> items.id (int)
+#	<- Item (obj)
+
+function get_item($item_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				items.id,
+				items.bilder_id,
+				items.titel,
+				items.beschreibung,
+				items.essbar,
+				items.ausruestbar,
+				items.verarbeitbar,
+				items.gesundheit,
+				items.energie,
+				items.zauberpunkte,
+				items.staerke,
+				items.intelligenz,
+				items.magie,
+				items.element_feuer,
+				items.element_wasser,
+				items.element_erde,
+				items.element_luft,
+				items.initiative,
+				items.abwehr,
+				items.ausweichen,
+				items.prozent
+			FROM items
+			WHERE id = ? ")){
+		$stmt->bind_param('d', $item_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem " . $items_id . " geladen.<br />\n";
+		if ($item_data = $stmt->get_result()){
+			$item = new Item("ohne", $item_data->fetch_array(MYSQLI_NUM));
+		}
+		if (isset($item)) return $item;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_item()<br />\n";
+		return false;
+	}
+}
+
+
 #------------------------------------------- INSERT items_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
 #	-> items.id (int)
@@ -899,16 +948,19 @@ function get_items_spieler($spieler_id, $items_id)
 
 function insert_items_spieler($spieler_id, $items_id, $anzahl)
 {
-	
-	# ToDo:
-	#	* Bei negativer Anzahl prüfen, ob ausreichend Items vorhanden
-	#	* Wenn Item-Anzahl = negativer Anzahl -> Datensatz löschen
-	
 	global $debug;
 	global $connect_db_dvg;
+	$anzahl_spieler = get_items_spieler($spieler_id, $items_id);
+	$anzahl_spieler_neu = $anzahl_spieler + $anzahl;
 	
-	if(get_items_spieler($spieler_id, $items_id) == 0)
-	{
+	# Fehler bei Anzahl oder zu wenig Items vorhanden
+	if($anzahl_spieler < 0 OR $anzahl_spieler_neu < 0){
+		if($anzahl_spieler_neu < 0) return $anzahl_spieler_neu;
+			else return false;
+	}
+	
+	# Neuen Datensatz Einfügen
+	if($anzahl_spieler == 0 AND $anzahl_spieler_neu > 0){
 		if ($stmt = $connect_db_dvg->prepare("
 				INSERT INTO items_spieler(
 					items_id,
@@ -918,15 +970,30 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 			$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
 			$stmt->execute();
 			if ($debug) echo "<br />\nItem: [" . $items_id . " wurde Spieler " . $spieler_id . "]<br />\n";
-			$result = $stmt->get_result();
-			return $result;
+			return $anzahl_spieler_neu;
 		} else {
 			echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
 			echo "<br />\n" . $spieler_id . " | " . $items_id . " | " . $anzahl . "<br />\n";
 			return false;
 		}
-	} else {
-		update_items_spieler($spieler_id, $items_id, $anzahl);
+	}
+
+	# Datensatz löschen da 0
+	if($anzahl_spieler > 0 AND $anzahl_spieler_neu == 0){
+		if(delete_items_spieler($spieler_id, $items_id)){
+			return $anzahl_spieler_neu;
+		} else {
+			return false;
+		}
+	}
+	
+	# Anzahl Items aktualisieren
+	if($anzahl_spieler > 0 AND $anzahl_spieler_neu > 0){
+		if(update_items_spieler($spieler_id, $items_id, $anzahl)){
+			return $anzahl_spieler_neu;
+		} else {
+			return false;
+		}
 	}
 }
 
@@ -951,10 +1018,35 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nItem " . $items_id . " wurde Spieler " . $spieler_id . " genau " . $anzahl . " mal hinzugefügt.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		return true;
 	} else {
 		echo "<br />\nQuerryfehler in update_items_spieler()<br />\n";
+		return false;
+	}
+}
+
+
+#------------------------------------------- UPDATE delete_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	<- true/false
+
+function delete_items_spieler($spieler_id, $items_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			DELETE FROM items_spieler
+			WHERE
+				items_id = ?
+				AND spieler_id = ?")){
+		$stmt->bind_param('dd', $items_id, $spieler_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem " . $items_id . " wurde bei Spieler " . $spieler_id . " entfernt.<br />\n";
+		return true;
+	} else {
+		echo "<br />\nQuerryfehler in delete_items_spieler()<br />\n";
 		return false;
 	}
 }
