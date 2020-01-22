@@ -39,13 +39,13 @@ input[type=input]
 
 #allg_info_eingabe
 {
-	min-width:100px;
+	min-width:200px;
 	text-align:right;
 }
 
 #allg_info_eingabe_text
 {
-	min-width:100px;
+	min-width:200px;
 	text-align:left;
 }
 
@@ -57,7 +57,7 @@ input[type=input]
 
 select
 {
-	min-width:160px;
+	min-width:200px;
 } 
 
 #rahmen

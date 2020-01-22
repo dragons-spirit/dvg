@@ -220,14 +220,9 @@ function get_gebiete_titel()
 #**************************************************** ITEM *****************************************************
 #***************************************************************************************************************
 
-#----------------------------------- SELECT item.* (einzel) -----------------------------------
-# 	-> item.id (int)
-#	Array mit item-Daten [Position]
-#	<- [0] id
-#	<- [1] bilder_id
-#	<- [2] titel
-#	<- [3] beschreibung
-#	<- [4] typ
+#----------------------------------- SELECT items.* (einzel) -----------------------------------
+#	-> items.id (int)
+#	<- Item (obj)
 
 function get_item_by_id($item_id)
 {
@@ -235,19 +230,48 @@ function get_item_by_id($item_id)
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	id,
-				bilder_id,
-				titel,
-				beschreibung,
-				typ
+			SELECT 	
+				items.id,
+				items.bilder_id,
+				items.titel,
+				items.beschreibung,
+				items.essbar,
+				items.ausruestbar,
+				items.verarbeitbar,
+				items.gesundheit,
+				items.energie,
+				items.zauberpunkte,
+				items.staerke,
+				items.intelligenz,
+				items.magie,
+				items.element_feuer,
+				items.element_wasser,
+				items.element_erde,
+				items.element_luft,
+				items.initiative,
+				items.abwehr,
+				items.ausweichen,
+				items.prozent,
+				0,
+				slots.id,
+				slots.titel,
+				0,
+				slots.max
 			FROM 	items
+				LEFT JOIN slots ON slots.id = items.slot_id
 			WHERE 	items.id = ?"))
 	{
 		$stmt->bind_param('d', $item_id);
 		$stmt->execute();
+		if ($item_row = $stmt->get_result()){
+			$item_array = $item_row->fetch_array(MYSQLI_NUM);
+			$item_data = array_slice($item_array, 0, 22);
+			$slot_data = array_slice($item_array, 22);
+			$item = new Item("Ausrüstung", $item_data, $slot_data);
+		}
 		if ($debug) echo "<br />\nItem-Daten für: [item_id=" . $item_id . "] geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		if (isset($item)) return $item;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_item_by_id()<br />\n";
 		return false;
@@ -281,32 +305,69 @@ function get_items_titel()
 #----------------------------------- SELECT items.* (auswahl) -----------------------------------
 #	-> items.titel (str)
 #	-> items.beschreibung (str)
-#	-> items.typ (str)
-#	Array mit item-Daten [Position]
-#	<- [0] id
-#	<- [1] titel
-#	<- [2] beschreibung
-#	<- [3] typ
-#	<- [4] bilder_id
+#	-> slots.titel (str)
+#	-> items.essbar (str)
+#	-> items.ausruestbar (str)
+#	-> items.verarbeitbar (str)
+#	<- alle_items (array [Item])
 
-function suche_items($titel, $beschreibung, $typ)
+function suche_items($titel, $beschreibung, $slot, $essbar, $ausruestbar, $verarbeitbar)
 {
 	global $debug;
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	*
+			SELECT 	
+				items.id,
+				items.bilder_id,
+				items.titel,
+				items.beschreibung,
+				items.essbar,
+				items.ausruestbar,
+				items.verarbeitbar,
+				items.gesundheit,
+				items.energie,
+				items.zauberpunkte,
+				items.staerke,
+				items.intelligenz,
+				items.magie,
+				items.element_feuer,
+				items.element_wasser,
+				items.element_erde,
+				items.element_luft,
+				items.initiative,
+				items.abwehr,
+				items.ausweichen,
+				items.prozent,
+				0,
+				slots.id,
+				slots.titel,
+				0,
+				slots.max
 			FROM 	items
+				LEFT JOIN slots ON slots.id = items.slot_id
 			WHERE 	items.titel like ?
 				and items.beschreibung like ?
-				and items.typ like ?
-			ORDER BY titel"))
+				and slots.titel like ?
+				and items.essbar like ?
+				and items.ausruestbar like ?
+				and items.verarbeitbar like ?
+			ORDER BY items.titel"))
 	{
-		$stmt->bind_param('sss', $titel, $beschreibung, $typ);
+		$stmt->bind_param('ssssss', $titel, $beschreibung, $slot, $essbar, $ausruestbar, $verarbeitbar);
 		$stmt->execute();
+		$counter = 0;
+		if ($items_all = $stmt->get_result()){
+			while($item = $items_all->fetch_array(MYSQLI_NUM)){
+				$item_data = array_slice($item, 0, 22);
+				$slot_data = array_slice($item, 22);
+				$alle_items[$counter] = new Item("Ausrüstung", $item_data, $slot_data);
+				$counter = $counter + 1;
+			}
+		}
 		if ($debug) echo "<br />\nItems geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		if (isset($alle_items[0])) return $alle_items;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in suche_items()<br />\n";
 		return false;
@@ -314,38 +375,34 @@ function suche_items($titel, $beschreibung, $typ)
 }
 
 
+
 #----------------------------------------------- Typennamen ----------------------------------------------
 #	<- titel (str)
 
-function get_item_typen_titel()
+function get_slots_titel()
 {
 	global $debug;
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT DISTINCT	typ
-			FROM 	items
-			ORDER BY typ")){
+			SELECT id, titel
+			FROM 	slots
+			ORDER BY titel")){
 		$stmt->execute();
 		$result = $stmt->get_result();
 		return $result;
 	} else {
-		echo "<br />\nQuerryfehler in get_item_typen_titel()<br />\n";
+		echo "<br />\nQuerryfehler in get_slots_titel()<br />\n";
 		return false;
 	}
 }
 
 
 #----------------------------------- UPDATE item -----------------------------------
-#	Array mit item-Daten [Position]
-#	-> [0] id
-#	-> [1] bilder_id
-#	-> [2] titel
-#	-> [3] beschreibung
-#	-> [4] typ
+#	-> Item (obj)
 #	<- true/false
 
-function updateItem($item_daten)
+function updateItem($item)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -355,14 +412,48 @@ function updateItem($item_daten)
 			SET bilder_id = ?,
 				titel = ?,
 				beschreibung = ?,
-				typ = ?				
+				essbar = ?,
+				ausruestbar = ?,
+				verarbeitbar = ?,
+				gesundheit = ?,
+				energie = ?,
+				zauberpunkte = ?,
+				staerke = ?,
+				intelligenz = ?,
+				magie = ?,
+				element_feuer = ?,
+				element_wasser = ?,
+				element_erde = ?,
+				element_luft = ?,
+				initiative = ?,
+				abwehr = ?,
+				ausweichen = ?,
+				prozent = ?,
+				slot_id = ?
 			WHERE id = ?")){
-		$stmt->bind_param('sssss', 
-			$item_daten["item_bild"], 
-			$item_daten["item_titel"], 
-			$item_daten["item_beschreibung"], 
-			$item_daten["item_typ"], 
-			$item_daten["item_id"]);
+		$stmt->bind_param('dssddddddddddddddddddd', 
+			$item->bilder_id,
+			$item->name,
+			$item->beschreibung,
+			$item->essbar,
+			$item->ausruestbar,
+			$item->verarbeitbar,
+			$item->gesundheit,
+			$item->energie,
+			$item->zauberpunkte,
+			$item->staerke,
+			$item->intelligenz,
+			$item->magie,
+			$item->element_feuer,
+			$item->element_wasser,
+			$item->element_erde,
+			$item->element_luft,
+			$item->initiative,
+			$item->abwehr,
+			$item->ausweichen,
+			$item->prozent,
+			$item->slot->id,
+			$item->id);
 		$stmt->execute();
 		$result = $stmt->affected_rows;
 		if($result == 1)
@@ -376,32 +467,93 @@ function updateItem($item_daten)
 }
 
 
-#----------------------------------- INSERT item -----------------------------------
-#	Array mit item-Daten [Position]
-#	-> [0] id
-#	-> [1] bilder_id
-#	-> [2] titel
-#	-> [3] beschreibung
-#	-> [4] typ
-#	<- true/false
+#----------------------------------- SELECT slot -----------------------------------
+#	-> slot.id (int)
+#	<- Slot (obj)
 
-function insertItem($item_daten)
+function get_slot($slot_id)
 {
 	global $debug;
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				slots.id,
+				slots.titel,
+				0,
+				slots.max
+			FROM slots
+			WHERE id = ?")){
+		$stmt->bind_param('d', $slot_id);
+		$stmt->execute();
+		if ($slot_data = $stmt->get_result()){
+			$slot = new Slot($slot_data->fetch_array(MYSQLI_NUM));
+		}
+		if (isset($slot)) return $slot;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_slot()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------- INSERT item -----------------------------------
+#	Item (obj)
+#	<- true/false
+
+function insertItem($item)
+{
+	global $debug;
+	global $connect_db_dvg;
+	var_dump($item);
+	echo "<br />";
+	if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO items (
 				bilder_id,
 				titel,
 				beschreibung,
-				typ)				
-			VALUES (?, ?, ?, ?)")){
-		$stmt->bind_param('ssss', 
-			$item_daten["item_bild"], 
-			$item_daten["item_titel"], 
-			$item_daten["item_beschreibung"], 
-			$item_daten["item_typ"]);
+				essbar,
+				ausruestbar,
+				verarbeitbar,
+				gesundheit,
+				energie,
+				zauberpunkte,
+				staerke,
+				intelligenz,
+				magie,
+				element_feuer,
+				element_wasser,
+				element_erde,
+				element_luft,
+				initiative,
+				abwehr,
+				ausweichen,
+				prozent,
+				slot_id)				
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")){
+		$stmt->bind_param('dssdddddddddddddddddd', 
+			$item->bilder_id,
+			$item->name,
+			$item->beschreibung,
+			$item->essbar,
+			$item->ausruestbar,
+			$item->verarbeitbar,
+			$item->gesundheit,
+			$item->energie,
+			$item->zauberpunkte,
+			$item->staerke,
+			$item->intelligenz,
+			$item->magie,
+			$item->element_feuer,
+			$item->element_wasser,
+			$item->element_erde,
+			$item->element_luft,
+			$item->initiative,
+			$item->abwehr,
+			$item->ausweichen,
+			$item->prozent,
+			$item->slot->id);
 		$stmt->execute();
 		$result = $stmt->affected_rows;
 		if($result == 1)

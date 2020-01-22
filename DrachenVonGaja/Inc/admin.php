@@ -40,6 +40,7 @@
 	<form id="dvg_admin" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 		#header("Content-Type: text/html; charset=utf-8");
+		include("klassen.php");
 		include("db_funktionen.php");
 		include("db_funktionen_admin.php");
 		include("funktionen_system.php");
@@ -279,16 +280,22 @@
 						$titel = "";
 						$familie = "";
 						$beschreibung = "";
-						$typ = "";
+						$slot = "";
+						$essbar = "";
+						$ausruestbar = "";
+						$verarbeitbar = "";
 						if(isset($_POST['filter_titel'])) $titel = $_POST['filter_titel'];
 						if(isset($_POST['filter_familie'])) $familie = $_POST['filter_familie'];
 						if(isset($_POST['filter_beschreibung'])) $beschreibung = $_POST['filter_beschreibung'];
-						if(isset($_POST['filter_typ'])) $typ = $_POST['filter_typ'];
+						if(isset($_POST['filter_slot'])) $slot = $_POST['filter_slot'];
+						if(isset($_POST['filter_essbar'])) $essbar = $_POST['filter_essbar'];
+						if(isset($_POST['filter_ausruestbar'])) $ausruestbar = $_POST['filter_ausruestbar'];
+						if(isset($_POST['filter_verarbeitbar'])) $verarbeitbar = $_POST['filter_verarbeitbar'];
 						?>
 						<h2>Items</h2>
 						<br>
 						<?php
-						if($items = suche_items("%".$titel."%", "%".$beschreibung."%", "%".$typ."%"))
+						if($items = suche_items("%".$titel."%", "%".$beschreibung."%", "%".$slot."%", "%".$essbar."%", "%".$ausruestbar."%", "%".$verarbeitbar."%"))
 						{
 							?>
 							<table border="1px" border-color="white">
@@ -297,38 +304,38 @@
 									<th>Id</th>
 									<th>Titel</th>
 									<th>Beschreibung</th>
-									<th>Typ</th>
+									<th>Slot</th>
 									<th>Bild</th>
+									<th>Essen</th>
+									<th>Ausrüsten</th>
+									<th>Verarbeiten</th>
 								</tr>
 								<tr align="left" style="margin:5px;">
 									<td><input type="button" name="button_ItemBearbeiten" value="hinzufügen" onclick="set_button_submit('ItemBearbeiten',0);"></td>
 									<td></td>
 									<td><input type="input" name="filter_titel" value="<?php echo $titel ?>" autofocus onFocus="set_button('ItemsSuchen','titel');"></td>
 									<td><input type="input" name="filter_beschreibung" value="<?php echo $beschreibung ?>" onFocus="set_button('ItemsSuchen','beschreibung');"></td>
-									<td><input type="input" name="filter_typ" value="<?php echo $typ ?>" onFocus="set_button('ItemsSuchen','typ');"></td>
+									<td><input type="input" name="filter_slot" value="<?php echo $slot ?>" onFocus="set_button('ItemsSuchen','slot');"></td>
 									<td></td>
+									<td align="center"><input type="input" name="filter_essbar" value="<?php echo $essbar ?>" onFocus="set_button('ItemsSuchen','essbar');"></td>
+									<td align="center"><input type="input" name="filter_ausruestbar" value="<?php echo $ausruestbar ?>" onFocus="set_button('ItemsSuchen','ausruestbar');"></td>
+									<td align="center"><input type="input" name="filter_verarbeitbar" value="<?php echo $verarbeitbar ?>" onFocus="set_button('ItemsSuchen','verarbeitbar');"></td>
 								</tr>   
 							<?php
 							$anz_gesamt = 0;
-							while($row = $items->fetch_array(MYSQLI_NUM))
-							{
+							foreach ($items as $item){
 								$anz_gesamt = $anz_gesamt + 1;
 								?>
 								<tr>
-									<td><input type="button" name="button_ItemBearbeiten" value="bearbeiten" onclick="set_button_submit('ItemBearbeiten',<?php echo $row[0]; ?>);"></td>
-									<?php
-									$i = 0;
-									$i_max = count($row) - 1;
-									while($i <= $i_max)
-									{
-										
-											?>
-											<td><?php echo $row[$i]; ?></td>
-											<?php
-										
-										$i = $i + 1;
-									}
-									?>
+									<td><input type="button" name="button_ItemBearbeiten" value="bearbeiten" onclick="set_button_submit('ItemBearbeiten',<?php echo $item->id; ?>);"></td>
+									<td align="left"><?php echo $item->id ?></td>
+									<td align="left"><?php echo $item->name ?></td>
+									<td align="left" style="max-width:500px;"><?php echo $item->beschreibung ?></td>
+									<td align="left"><?php echo $item->slot->name ?></td>
+									<td align="center"><img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/></td>
+									<td align="center"><?php echo $item->essbar; ?></td>
+									<td align="center"><?php echo $item->ausruestbar; ?></td>
+									<td align="center"><?php echo $item->verarbeitbar; ?></td>
 								</tr>
 								<?php
 							}
@@ -350,36 +357,17 @@
 						<?php
 						$item = false;
 						if($item_id > 0){
-							if($item_result = get_item_by_id($item_id)){
-								$item = $item_result->fetch_array(MYSQLI_NUM);
-						}}
-						/*
-						$npc_gebiete = false;
-						if($npc_id > 0){
-							$npc_gebiete = get_npc_gebiete($npc_id);
+							$item = get_item_by_id($item_id);
 						}
-						$npc_items = false;
-						if($npc_id > 0){
-							$npc_items = get_npc_items($npc_id);
-						}
-						*/
 						?>
 						<table>
 							<tr>
 								<td>
-									<?php eingabemaskeItem($item, $item_id); ?>
+									<?php eingabemaskeItem($item); ?>
 								</td>
 								<td valign="top" style="padding-top:50px;">
-									<img src="<?php echo get_bild_zu_id($item[1]) ?>" width="75px" alt=""/><br>
+									<img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/><br>
 								</td>
-								<!--
-								<td valign="top">
-									<?php #eingabemaskeNPCgebiete($npc_gebiete, $npc_id); ?>
-								</td>
-								<td valign="top" style="padding-left:20px;">
-									<?php #eingabemaskeNPCitems($npc_items, $npc_id); ?>
-								</td>
-								-->
 							</tr>
 						</table>
 						<?php
@@ -390,54 +378,23 @@
 						
 					/* Ausführung von Änderungen am Item */
 					case "ItemAendern":
-						
 						#Update Item-Daten
 						$item_id = $button_value;
-						$item_daten = daten_aus_post("item");
+						$item = daten_aus_post("item");
 						if($item_id > 0){
-							if (updateItem($item_daten))
+							if (updateItem($item))
 								echo "Item erfolgreich geändert";
 							else
 								echo "Keine Änderungen an Item vorgenommen";
 						} else {
-							if (insertItem($item_daten))
+							if (insertItem($item))
 								echo "Item erfolgreich hinzugefügt";								
 							else
 								echo "Fehler beim Hinzufügen des Items";
 						}
 						echo "<br><br>";
-						
-						/*
-						#Update NPC_Gebiet-Daten
-						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
-						#ausgabe_array($npc_gebiet_daten,2);
-						$anz_delete = deleteNPCgebiete($npc_id);
-						$anz_insert = 0;
-						foreach ($npc_gebiet_daten as $ds){
-							if ($ds["wkt"]>0 and $ds["gebiet_id"]<>12){ #Wahrscheinlichkeit größer 0 und Gebiet ungleich ---ohne---
-								$anz_insert += insertNPCgebiet($ds);
-							}
-						}
-						echo "Alle Vorkommen des NPC in Gebieten wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
-						echo "<br><br>";
-						
-						#Update NPC_Item-Daten
-						$npc_item_daten = daten_aus_post("npc_items");
-						#ausgabe_array($npc_item_daten,2);
-						$anz_delete = deleteNPCitems($npc_id);
-						$anz_insert = 0;
-						foreach ($npc_item_daten as $ds){
-							if ($ds["wkt"]>0 and $ds["items_id"]<>9){ #Wahrscheinlichkeit größer 0 und Item ungleich ---ohne---
-								$anz_insert += insertNPCitem($ds);
-							}
-						}
-						echo "Alle Vorkommen von Items beim NPC wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
-						echo "<br><br>";
-						*/
-						
 						zurueckButton("ItemsSuchen");
 						break;
-						
 					
 					case "AdminStart":
 						?>
@@ -857,8 +814,10 @@
 	}
 	
 	
-	function eingabemaskeItem($row, $item_id)
+	function eingabemaskeItem($item)
 	{
+		if($item) $item_id = $item->id;
+			else $item_id = 0;
 		?>
 		<table>
 			<tr>
@@ -866,7 +825,7 @@
 			</tr>
 			<tr>
 				<td>Id</td>
-				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="item_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
+				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="item_id" value="<?php if($item) echo $item->id; ?>" readonly></td>
 			</tr>
 			<tr>
 				<td>Bild</td>
@@ -879,10 +838,10 @@
 						<?php
 						while($bild = $bilder->fetch_array(MYSQLI_NUM))
 						{
-							if($row[1] != $bild[0]){
-								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item_id.");\">".$bild[1]."</option>";
+							if($item->bilder_id != $bild[0]){
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item->id.");\">".$bild[1]."</option>";
 							} else {
-								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item_id.");\" selected>".$bild[1]."</option>";
+								echo "<option value='".$bild[0]."' onFocus=\"set_button('ItemAendern',".$item->id.");\" selected>".$bild[1]."</option>";
 							}
 						}
 						?>
@@ -896,36 +855,120 @@
 			</tr>
 			<tr>
 				<td>Titel</td>
-				<td><input id="allg_info_eingabe_text" type="input" name="item_titel" value="<?php if($row) echo $row[2]; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input id="allg_info_eingabe_text" type="input" name="item_titel" value="<?php if($item) echo $item->name; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="item_beschreibung" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"><?php if($row) echo $row[3]; ?></textarea></td>
+				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="item_beschreibung" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"><?php if($item) echo $item->beschreibung; ?></textarea></td>
 			</tr>
 			<tr>
-				<td>Typ</td>
+				<td>Slot</td>
 				<td>
 					<?php
-					if($typen = get_item_typen_titel())
+					if($slots = get_slots_titel())
 					{
 						?>
-						<select name="item_typ">
+						<select name="item_slot">
 						<?php
-						while($typ = $typen->fetch_array(MYSQLI_NUM))
+						while($slot = $slots->fetch_array(MYSQLI_NUM))
 						{
-							if($row[4] != $typ[0]){
-								echo "<option value='".$typ[0]."' onFocus=\"set_button('ItemAendern',".$npc_id.");\">".$typ[0]."</option>";
+							if($item->slot->id != $slot[0]){
+								echo "<option value='".$slot[0]."' onFocus=\"set_button('ItemAendern',".$item->id.");\">".$slot[1]."</option>";
 							} else {
-								echo "<option value='".$typ[0]."' onFocus=\"set_button('ItemAendern',".$npc_id.");\" selected>".$typ[0]."</option>";
+								echo "<option value='".$slot[0]."' onFocus=\"set_button('ItemAendern',".$item->id.");\" selected>".$slot[1]."</option>";
 							}
 						}
 						?>
-						</select> 
+						</select>
 					<?php
 					} else {
-						echo "Fehler beim Laden von Typen.";
+						echo "Fehler beim Laden von Slots.";
 					}
 					?>
+				</td>
+			</tr>
+			<tr>
+				<td>Essbar</td>
+				<td>
+					<select name="item_essbar">
+						<?php optionJaNein($item->id, $item->essbar); ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Ausrüstbar</td>
+				<td>
+					<select name="item_ausruestbar">
+						<?php optionJaNein($item->id, $item->ausruestbar); ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Verarbeitbar</td>
+				<td>
+					<select name="item_verarbeitbar">
+						<?php optionJaNein($item->id, $item->verarbeitbar); ?>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Gesundheit</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_gesundheit" value="<?php if($item) echo $item->gesundheit; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Energie</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_energie" value="<?php if($item) echo $item->energie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Zauberpunkte</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_zauberpunkte" value="<?php if($item) echo $item->zauberpunkte; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Stärke</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_staerke" value="<?php if($item) echo $item->staerke; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Intelligenz</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_intelligenz" value="<?php if($item) echo $item->intelligenz; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Magie</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_magie" value="<?php if($item) echo $item->magie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Element Feuer</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_element_feuer" value="<?php if($item) echo $item->element_feuer; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Element Wasser</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_element_wasser" value="<?php if($item) echo $item->element_wasser; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Element Erde</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_element_erde" value="<?php if($item) echo $item->element_erde; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Element Luft</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_element_luft" value="<?php if($item) echo $item->element_luft; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Initiative</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_initiative" value="<?php if($item) echo $item->initiative; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Abwehr</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_abwehr" value="<?php if($item) echo $item->abwehr; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Ausweichen</td>
+				<td><input id="allg_info_eingabe" type="input" name="item_ausweichen" value="<?php if($item) echo $item->ausweichen; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>In Prozent</td>
+				<td>
+					<select name="item_prozent">
+						<?php optionJaNein($item->id, $item->prozent); ?>
+					</select>
 				</td>
 			</tr>
 		</table>
@@ -1024,17 +1067,52 @@
 			####################
 			# ToDo
 			####################
-			# Item-Daten aus $_POST auslesen und in separates Array schreiben
+			# Item-Daten aus $_POST auslesen und in Item-Objekt schreiben
+			
 			case "item":
-				$daten = array(
-					"item_id" => $_POST["item_id"],
-					"item_bild" => $_POST["item_bild"]);
-				if($_POST["item_titel"] != "") $daten["item_titel"] = $_POST["item_titel"];
-				else $daten["item_titel"] = "---ohne---";
-				if($_POST["item_beschreibung"] != "") $daten["item_beschreibung"] = $_POST["item_beschreibung"];
-				else $daten["item_beschreibung"] = "---ohne---";
-				$daten["item_typ"] = $_POST["item_typ"];
-				return $daten;
+				$item = new Item("neu");
+				$item->id = $_POST["item_id"];
+				$item->bilder_id = $_POST["item_bild"];
+				if($_POST["item_titel"] != "") $item->name = $_POST["item_titel"];
+					else $item->name = "---ohne---";
+				if($_POST["item_beschreibung"] != "") $item->beschreibung = $_POST["item_beschreibung"];
+					else $item->beschreibung = "---ohne---";
+				if($_POST["item_essbar"] != "") $item->essbar = $_POST["item_essbar"];
+					else $item->essbar = 0;
+				if($_POST["item_ausruestbar"] != "") $item->ausruestbar = $_POST["item_ausruestbar"];
+					else $item->ausruestbar = 0;
+				if($_POST["item_verarbeitbar"] != "") $item->verarbeitbar = $_POST["item_verarbeitbar"];
+					else $item->verarbeitbar = 0;
+				if($_POST["item_gesundheit"] != "") $item->gesundheit = $_POST["item_gesundheit"];
+					else $item->gesundheit = 0;
+				if($_POST["item_energie"] != "") $item->energie = $_POST["item_energie"];
+					else $item->energie = 0;
+				if($_POST["item_zauberpunkte"] != "") $item->zauberpunkte = $_POST["item_zauberpunkte"];
+					else $item->zauberpunkte = 0;
+				if($_POST["item_staerke"] != "") $item->staerke = $_POST["item_staerke"];
+					else $item->staerke = 0;
+				if($_POST["item_intelligenz"] != "") $item->intelligenz = $_POST["item_intelligenz"];
+					else $item->intelligenz = 0;
+				if($_POST["item_magie"] != "") $item->magie = $_POST["item_magie"];
+					else $item->magie = 0;
+				if($_POST["item_element_feuer"] != "") $item->element_feuer = $_POST["item_element_feuer"];
+					else $item->element_feuer = 0;
+				if($_POST["item_element_wasser"] != "") $item->element_wasser = $_POST["item_element_wasser"];
+					else $item->element_wasser = 0;
+				if($_POST["item_element_erde"] != "") $item->element_erde = $_POST["item_element_erde"];
+					else $item->element_erde = 0;
+				if($_POST["item_element_luft"] != "") $item->element_luft = $_POST["item_element_luft"];
+					else $item->element_luft = 0;
+				if($_POST["item_initiative"] != "") $item->initiative = $_POST["item_initiative"];
+					else $item->initiative = 0;
+				if($_POST["item_abwehr"] != "") $item->abwehr = $_POST["item_abwehr"];
+					else $item->abwehr = 0;
+				if($_POST["item_ausweichen"] != "") $item->ausweichen = $_POST["item_ausweichen"];
+					else $item->ausweichen = 0;
+				if($_POST["item_prozent"] != "") $item->prozent = $_POST["item_prozent"];
+					else $item->prozent = 0;
+				$item->slot = get_slot($_POST["item_slot"]);
+				return $item;
 			
 			# Keine Ahnung
 			default:
@@ -1048,6 +1126,18 @@
 		?>
 		<input type="button" name="update" value="Hinzufügen/Ändern" style="float:left;" onclick="set_button_submit('<?php echo $topic ?>','<?php echo $id ?>');">
 		<?php
+	}
+	
+	
+	function optionJaNein($obj_id, $aktueller_wert)
+	{
+		if($aktueller_wert == 0){
+			echo "<option value=0 onFocus=\"set_button('ItemAendern',".$obj_id.");\" selected>nein</option>";
+			echo "<option value=1 onFocus=\"set_button('ItemAendern',".$obj_id.");\">ja</option>";
+		} else {
+			echo "<option value=0 onFocus=\"set_button('ItemAendern',".$obj_id.");\">nein</option>";
+			echo "<option value=1 onFocus=\"set_button('ItemAendern',".$obj_id.");\" selected>ja</option>";
+		}
 	}
 ?>
 
