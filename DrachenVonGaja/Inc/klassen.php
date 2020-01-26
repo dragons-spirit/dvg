@@ -430,13 +430,13 @@ class ItemFund {
 class Slot {
 	public $id;
 	public $name;
-	public $aktuell;
+	public $angelegt;
 	public $max;
 	
 	public function __construct($ds) {
 		$this->id = $ds[0];
 		$this->name = $ds[1];
-		$this->aktuell = $ds[2];
+		$this->angelegt = $ds[2];
 		$this->max = $ds[3];
 	}
 }

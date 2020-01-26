@@ -854,12 +854,12 @@ function get_all_items_spieler($spieler_id)
 }
 
 
-#----------------------------------- SELECT item (Spieler) -----------------------------------
+#----------------------------------- SELECT item-anz (Spieler) -----------------------------------
 # 	-> spieler.id (int)
 #	-> items.id (int)
 #	<- Anzahl des Items
 
-function get_items_spieler($spieler_id, $items_id)
+function get_items_spieler_anz($spieler_id, $items_id)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -871,7 +871,8 @@ function get_items_spieler($spieler_id, $items_id)
 				items_spieler
 			WHERE
 				spieler_id = ?
-				AND items_id = ? "))
+				AND items_id = ?
+				AND angelegt = 0"))
 	{
 		$stmt->bind_param('dd', $spieler_id, $items_id);
 		$stmt->execute();
@@ -885,7 +886,45 @@ function get_items_spieler($spieler_id, $items_id)
 			return 0;
 		}
 	} else {
-		echo "<br />\nQuerryfehler in get_items_spieler()<br />\n";
+		echo "<br />\nQuerryfehler in get_items_spieler_anz()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------- SELECT item-anz-angelegt (Spieler) -----------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	<- Anzahl der angelegten Items
+
+function get_items_spieler_anz_angelegt($spieler_id, $items_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT
+				anzahl
+			FROM
+				items_spieler
+			WHERE
+				spieler_id = ?
+				AND items_id = ?
+				AND angelegt = 1"))
+	{
+		$stmt->bind_param('dd', $spieler_id, $items_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nAngelegte Anzahl von Item " . $items_id . " für Spieler " . $spieler_id . " geladen.<br />\n";
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		if ($row)
+		{
+			return $row[0];
+		} else {
+			return 0;
+		}
+	} else {
+		echo "<br />\nQuerryfehler in get_items_spieler_anz_angelegt()<br />\n";
 		return false;
 	}
 }
@@ -940,60 +979,151 @@ function get_item($item_id)
 }
 
 
+#------------------------------------------- ÄNDERN items_spieler.* -------------------------------------------
+# 	-> spieler.id (int)
+#	-> items.id (int)
+#	-> anzahl (int)
+#	-> items_spieler.id (int)
+#	<- true/false
+
+function items_spieler_aendern($spieler_id, $items_id, $anzahl, $parameter="standard")
+{
+	global $debug;
+	global $connect_db_dvg;
+		
+	switch ($parameter){
+		case "standard":
+			$anzahl_aktuell = get_items_spieler_anz($spieler_id, $items_id);
+			$anzahl_neu = $anzahl_aktuell + $anzahl;
+			# Fehler bei Anzahl oder zu wenig Items vorhanden
+			if($anzahl_aktuell < 0 OR $anzahl_neu < 0){
+				if($anzahl_neu < 0){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			# Neuen Datensatz Einfügen
+			if($anzahl_aktuell == 0 AND $anzahl_neu > 0){
+				if(insert_items_spieler($spieler_id, $items_id, $anzahl, 0)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			# Datensatz löschen da 0
+			if($anzahl_aktuell > 0 AND $anzahl_neu == 0){
+				if(delete_items_spieler($spieler_id, $items_id, 0)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			# Anzahl Items aktualisieren
+			if($anzahl_aktuell > 0 AND $anzahl_neu > 0){
+				if(update_items_spieler($spieler_id, $items_id, $anzahl, 0)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			break;
+		case "anlegen":
+			$anzahl_aktuell = get_items_spieler_anz($spieler_id, $items_id);
+			$anzahl_neu = $anzahl_aktuell - 1;
+			$anzahl_angelegt = get_items_spieler_anz_angelegt($spieler_id, $items_id);
+			$anzahl_angelegt_neu = $anzahl_angelegt + 1;
+			if($slot_data = get_slot_data($spieler_id, $items_id)){
+				$anzahl_slot_aktuell = $slot_data[0];
+				$anzahl_slot_neu = $anzahl_slot_aktuell + 1;
+				$anzahl_slot_max = $slot_data[1];
+			} else {
+				$anzahl_slot_aktuell = 0;
+				$anzahl_slot_neu = $anzahl_slot_aktuell + 1;
+				$anzahl_slot_max = 0;
+			}
+			# Fehler bei Anzahl oder zu wenig Items vorhanden
+			if($anzahl_aktuell < 0 OR $anzahl_neu < 0 OR $anzahl_angelegt < 0 OR $anzahl_slot_neu > $anzahl_slot_max){
+				return false;
+			}
+			# Neuen Datensatz Einfügen
+			if($anzahl_angelegt == 0){
+				insert_items_spieler($spieler_id, $items_id, 1, 1);
+			}
+			# Datensatz löschen da 0
+			if($anzahl_aktuell > 0 AND $anzahl_neu == 0){
+				delete_items_spieler($spieler_id, $items_id, 0);
+			}
+			# Anzahl Items aktualisieren
+			if($anzahl_aktuell > 0 AND $anzahl_neu > 0){
+				update_items_spieler($spieler_id, $items_id, -1, 0);
+			}
+			if($anzahl_angelegt > 0 AND $anzahl_angelegt_neu > 0){
+				update_items_spieler($spieler_id, $items_id, 1, 1);
+			}
+			return true;
+			break;
+		case "ablegen":
+			$anzahl_aktuell = get_items_spieler_anz($spieler_id, $items_id);
+			$anzahl_neu = $anzahl_aktuell + 1;
+			$anzahl_angelegt = get_items_spieler_anz_angelegt($spieler_id, $items_id);
+			$anzahl_angelegt_neu = $anzahl_angelegt - 1;
+			# Fehler bei Anzahl oder zu wenig Items vorhanden
+			if($anzahl_aktuell < 0 OR $anzahl_neu < 0 OR $anzahl_angelegt < 0 OR $anzahl_angelegt_neu < 0){
+				return false;
+			}
+			# Neuen Datensatz Einfügen
+			if($anzahl_aktuell == 0){
+				insert_items_spieler($spieler_id, $items_id, 1, 0);
+			}
+			# Datensatz löschen da 0
+			if($anzahl_angelegt > 0 AND $anzahl_angelegt_neu == 0){
+				delete_items_spieler($spieler_id, $items_id, 1);
+			}
+			# Anzahl Items aktualisieren
+			if($anzahl_aktuell > 0 AND $anzahl_neu > 0){
+				update_items_spieler($spieler_id, $items_id, 1, 0);
+			}
+			if($anzahl_angelegt > 0 AND $anzahl_angelegt_neu > 0){
+				update_items_spieler($spieler_id, $items_id, -1, 1);
+			}
+			return true;
+			break;
+		default:
+			# Keine Ahnung was ich da machen soll!
+			break;
+	}
+}
+
+
 #------------------------------------------- INSERT items_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
 #	-> items.id (int)
 #	-> anzahl (int)
+#	-> angelegt (int)
 #	<- true/false
 
-function insert_items_spieler($spieler_id, $items_id, $anzahl)
+function insert_items_spieler($spieler_id, $items_id, $anzahl, $angelegt)
 {
 	global $debug;
 	global $connect_db_dvg;
-	$anzahl_spieler = get_items_spieler($spieler_id, $items_id);
-	$anzahl_spieler_neu = $anzahl_spieler + $anzahl;
-	
-	# Fehler bei Anzahl oder zu wenig Items vorhanden
-	if($anzahl_spieler < 0 OR $anzahl_spieler_neu < 0){
-		if($anzahl_spieler_neu < 0) return $anzahl_spieler_neu;
-			else return false;
-	}
-	
+		
 	# Neuen Datensatz Einfügen
-	if($anzahl_spieler == 0 AND $anzahl_spieler_neu > 0){
-		if ($stmt = $connect_db_dvg->prepare("
-				INSERT INTO items_spieler(
-					items_id,
-					spieler_id, 
-					anzahl) 
-				VALUES (?, ?, ?)")){
-			$stmt->bind_param('ddd', $items_id, $spieler_id, $anzahl);
-			$stmt->execute();
-			if ($debug) echo "<br />\nItem: [" . $items_id . " wurde Spieler " . $spieler_id . "]<br />\n";
-			return $anzahl_spieler_neu;
-		} else {
-			echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
-			echo "<br />\n" . $spieler_id . " | " . $items_id . " | " . $anzahl . "<br />\n";
-			return false;
-		}
-	}
-
-	# Datensatz löschen da 0
-	if($anzahl_spieler > 0 AND $anzahl_spieler_neu == 0){
-		if(delete_items_spieler($spieler_id, $items_id)){
-			return $anzahl_spieler_neu;
-		} else {
-			return false;
-		}
-	}
-	
-	# Anzahl Items aktualisieren
-	if($anzahl_spieler > 0 AND $anzahl_spieler_neu > 0){
-		if(update_items_spieler($spieler_id, $items_id, $anzahl)){
-			return $anzahl_spieler_neu;
-		} else {
-			return false;
-		}
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO items_spieler(
+				items_id,
+				spieler_id, 
+				anzahl,
+				angelegt) 
+			VALUES (?, ?, ?, ?)")){
+		$stmt->bind_param('dddd', $items_id, $spieler_id, $anzahl, $angelegt);
+		$stmt->execute();
+		if ($debug) echo "<br />\nItem: [" . $items_id . " wurde Spieler " . $spieler_id . "]<br />\n";
+		return true;
+	} else {
+		echo "<br />\nQuerryfehler in insert_items_spieler()<br />\n";
+		echo "<br />\n" . $spieler_id . " | " . $items_id . " | " . $anzahl . " | " . $angelegt . "<br />\n";
+		return false;
 	}
 }
 
@@ -1002,9 +1132,10 @@ function insert_items_spieler($spieler_id, $items_id, $anzahl)
 # 	-> spieler.id (int)
 #	-> items.id (int)
 #	-> anzahl (int)
+#	-> angelegt (int)
 #	<- true/false
 
-function update_items_spieler($spieler_id, $items_id, $anzahl)
+function update_items_spieler($spieler_id, $items_id, $anzahl, $angelegt)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -1014,8 +1145,9 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 			SET anzahl = anzahl + ?
 			WHERE
 				items_id = ?
-				AND spieler_id = ?")){
-		$stmt->bind_param('ddd', $anzahl, $items_id, $spieler_id);
+				AND spieler_id = ?
+				AND angelegt = ?")){
+		$stmt->bind_param('dddd', $anzahl, $items_id, $spieler_id, $angelegt);
 		$stmt->execute();
 		if ($debug) echo "<br />\nItem " . $items_id . " wurde Spieler " . $spieler_id . " genau " . $anzahl . " mal hinzugefügt.<br />\n";
 		return true;
@@ -1029,9 +1161,10 @@ function update_items_spieler($spieler_id, $items_id, $anzahl)
 #------------------------------------------- UPDATE delete_spieler.* -------------------------------------------
 # 	-> spieler.id (int)
 #	-> items.id (int)
+#	-> angelegt (int)
 #	<- true/false
 
-function delete_items_spieler($spieler_id, $items_id)
+function delete_items_spieler($spieler_id, $items_id, $angelegt)
 {
 	global $debug;
 	global $connect_db_dvg;
@@ -1040,13 +1173,55 @@ function delete_items_spieler($spieler_id, $items_id)
 			DELETE FROM items_spieler
 			WHERE
 				items_id = ?
-				AND spieler_id = ?")){
-		$stmt->bind_param('dd', $items_id, $spieler_id);
+				AND spieler_id = ?
+				AND angelegt = ?")){
+		$stmt->bind_param('ddd', $items_id, $spieler_id, $angelegt);
 		$stmt->execute();
 		if ($debug) echo "<br />\nItem " . $items_id . " wurde bei Spieler " . $spieler_id . " entfernt.<br />\n";
 		return true;
 	} else {
 		echo "<br />\nQuerryfehler in delete_items_spieler()<br />\n";
+		return false;
+	}
+}
+
+
+#------------------------------------------- SELECT slots.* (Slot Spieler) -------------------------------------------
+#	-> spieler.id (int)
+#	-> items.id (int)
+#	<- aktuell (int)
+#	<- max (int)
+
+function get_slot_data($spieler_id, $item_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				sum(items_spieler.anzahl) AS anz,
+				slot.max
+			FROM items_spieler
+				JOIN items ON items.id = items_spieler.items_id
+				JOIN (
+					SELECT
+						slots.id,
+						slots.max
+					FROM items
+						JOIN slots ON slots.id = items.slot_id
+					WHERE items.id = ?
+					) slot ON slot.id = items.slot_id
+			WHERE 
+				items_spieler.spieler_id = ?
+				AND items_spieler.angelegt = 1
+			GROUP BY slot.max, slot.id")){
+		$stmt->bind_param('dd', $item_id, $spieler_id);
+		$stmt->execute();
+		$data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+		if ($debug) echo "<br />\nSlot-Daten von Item " . $items_id . " wurden geladen.<br />\n";
+		return $data;
+	} else {
+		echo "<br />\nQuerryfehler in get_slot_data()<br />\n";
 		return false;
 	}
 }

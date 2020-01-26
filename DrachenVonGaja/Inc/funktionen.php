@@ -595,7 +595,7 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 				if(check_wkt($item->fund->wahrscheinlichkeit)){
 					$item_anzahl = rand($item->fund->anzahl_min, $item->fund->anzahl_max);
 					if ($item_anzahl > 0) $counter = $counter + 1;
-					insert_items_spieler($spieler->id, $item->id, $item_anzahl);
+					items_spieler_aendern($spieler->id, $item->id, $item_anzahl);
 					?>
 					<tr>
 						<td><?php echo $item->name ?></td>
