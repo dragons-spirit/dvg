@@ -1500,7 +1500,6 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 		case "spieler":
 			$spieler_kt = new Spieler($teilnehmer_id);
 			$kampf_teilnehmer = new KampfTeilnehmer($spieler_kt, $teilnehmer_typ, $seite);
-			var_dump($kampf_teilnehmer);
 			break;
 		#################################################################
 		case "npc":
