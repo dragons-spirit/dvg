@@ -66,8 +66,8 @@
 ########################################
 # Spielerdaten aus der Datenbank laden #
 ########################################
-		if ($spielerdaten = get_spieler($_SESSION['spieler_id'])){
-			$spieler = new Spieler($spielerdaten);
+		if (isset($_SESSION['spieler_id'])){
+			$spieler = new Spieler($_SESSION['spieler_id']);
 		} else {
 			echo "Keine Spielerdaten gefunden.<br/>";
 		}

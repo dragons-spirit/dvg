@@ -146,14 +146,14 @@ $s_bonus_magie = 0.0; # Grundgewinn Magie
 # Maximale Gesundheit
 function berechne_max_gesundheit($akteur){
 	global $gew_attr;
-	return intval(floor($gew_attr*(5*$akteur->staerke + 3*$akteur->intelligenz + 1*$akteur->magie)));
+	return intval(floor($gew_attr*(5*$akteur->staerke + 3*$akteur->intelligenz + 1*$akteur->magie)*(1+$akteur->bonus_proz->max_gesundheit/100) + $akteur->bonus_pkt->max_gesundheit));
 }
 
 
 # Maximale Energie
 function berechne_max_energie($akteur){
 	global $gew_attr;
-	return intval(floor($gew_attr*(1*$akteur->staerke + 1*$akteur->intelligenz + 1*$akteur->magie)));
+	return intval(floor($gew_attr*(1*$akteur->staerke + 1*$akteur->intelligenz + 1*$akteur->magie)*(1+$akteur->bonus_proz->max_energie/100) + $akteur->bonus_pkt->max_energie));
 }
 
 
@@ -161,7 +161,7 @@ function berechne_max_energie($akteur){
 function berechne_max_zauberpunkte($akteur){
 	global $gew_attr, $gew_elem;
 	$summe_elemente = ($akteur->element_feuer + $akteur->element_wasser + $akteur->element_erde + $akteur->element_luft);
-	return intval(floor($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente)));
+	return intval(floor(($gew_attr*(1*$akteur->intelligenz + 2*$akteur->magie) + $gew_elem*($summe_elemente))*(1+$akteur->bonus_proz->max_zauberpunkte/100) + $akteur->bonus_pkt->max_zauberpunkte));
 }
 
 

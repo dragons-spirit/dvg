@@ -55,68 +55,87 @@ class Spieler {
 	public $ausweichen;
 	public $zuletzt_gespielt;
 	public $erfahrung;
+	public $basiswerte;
+	public $bonus_pkt;
+	public $bonus_proz;
 
-	public function __construct($ds=null) {
-		$this->id = $ds[0];
-		$this->account_id = $ds[1];
-		$this->bilder_id = $ds[2];
-		$this->gattung_id = $ds[3];
-		$this->level_id = $ds[4];
-		$this->gebiet_id = $ds[5];
-		$this->name = $ds[6];
-		$this->geschlecht = $ds[7];
-		$this->staerke = $ds[8];
-		$this->intelligenz = $ds[9];
-		$this->magie = $ds[10];
-		$this->element_feuer = $ds[11];
-		$this->element_wasser = $ds[12];
-		$this->element_erde = $ds[13];
-		$this->element_luft = $ds[14];
-		$this->gesundheit = $ds[15];
-		$this->max_gesundheit = $ds[16];
-		$this->energie = $ds[17];
-		$this->max_energie = $ds[18];
-		$this->zauberpunkte = $ds[19];
-		$this->max_zauberpunkte = $ds[20];
-		$this->balance = $ds[21];
-		$this->initiative = $ds[22];
-		$this->abwehr = $ds[23];
-		$this->ausweichen = $ds[24];
-		$this->zuletzt_gespielt = $ds[25];
-		$this->erfahrung = $ds[26];
+	public function __construct($spieler_id=null) {
+		if($spielerdaten = get_spieler($spieler_id)){
+			$grunddaten = array_slice($spielerdaten, 0, 14);
+			$basis = array_slice($spielerdaten, 24, 13);
+			$b_pkt = array_slice($spielerdaten, 37, 13);
+			$b_proz = array_slice($spielerdaten, 50, 13);
+			$gesamtwerte = array_slice($spielerdaten, 14, 10);
+			# Grunddaten
+			$this->id = $grunddaten[0];
+			$this->account_id = $grunddaten[1];
+			$this->bilder_id = $grunddaten[2];
+			$this->gattung_id = $grunddaten[3];
+			$this->level_id = $grunddaten[4];
+			$this->gebiet_id = $grunddaten[5];
+			$this->name = $grunddaten[6];
+			$this->geschlecht = $grunddaten[7];
+			$this->gesundheit = $grunddaten[8];
+			$this->energie = $grunddaten[9];
+			$this->zauberpunkte = $grunddaten[10];
+			$this->balance = $grunddaten[11];
+			$this->zuletzt_gespielt = $grunddaten[12];
+			$this->erfahrung = $grunddaten[13];
+			# Gesamtwerte
+			$this->staerke = $gesamtwerte[0];
+			$this->intelligenz = $gesamtwerte[1];
+			$this->magie = $gesamtwerte[2];
+			$this->element_feuer = $gesamtwerte[3];
+			$this->element_wasser = $gesamtwerte[4];
+			$this->element_erde = $gesamtwerte[5];
+			$this->element_luft = $gesamtwerte[6];
+			$this->initiative = $gesamtwerte[7];
+			$this->abwehr = $gesamtwerte[8];
+			$this->ausweichen = $gesamtwerte[9];
+			# Basiswerte
+			$this->basiswerte = new Werte($basis);
+			# Bonus in Punkten
+			$this->bonus_pkt = new Werte($b_pkt);
+			# Bonus in Prozent (von Basiswerten)
+			$this->bonus_proz = new Werte($b_proz);
+			# Gesamtwert Max Gesundheit, Energie, Zauberpunkte neu berechnen
+			$this->neuberechnung();
+		} else {
+			return false;
+		}
 	}
 	
 	public function gewinn_verrechnen($gewinn, $mit_balance) {
 		global $balance_aktiv;
 		if ($balance_aktiv AND $mit_balance){
-			$this->staerke = $this->staerke + floor_x($gewinn->staerke * ($this->balance / 100), 10);
-			$this->intelligenz = $this->intelligenz + floor_x($gewinn->intelligenz * ($this->balance / 100), 10);
-			$this->magie = $this->magie + floor_x($gewinn->magie * ($this->balance / 100), 10);
-			$this->element_feuer = $this->element_feuer + floor_x($gewinn->element_feuer * ($this->balance / 100), 10);
-			$this->element_wasser = $this->element_wasser + floor_x($gewinn->element_wasser * ($this->balance / 100), 10);
-			$this->element_erde = $this->element_erde + floor_x($gewinn->element_erde * ($this->balance / 100), 10);
-			$this->element_luft = $this->element_luft + floor_x($gewinn->element_luft * ($this->balance / 100), 10);
+			$this->basiswerte->staerke = $this->basiswerte->staerke + floor_x($gewinn->staerke * ($this->balance / 100), 10);
+			$this->basiswerte->intelligenz = $this->basiswerte->intelligenz + floor_x($gewinn->intelligenz * ($this->balance / 100), 10);
+			$this->basiswerte->magie = $this->basiswerte->magie + floor_x($gewinn->magie * ($this->balance / 100), 10);
+			$this->basiswerte->element_feuer = $this->basiswerte->element_feuer + floor_x($gewinn->element_feuer * ($this->balance / 100), 10);
+			$this->basiswerte->element_wasser = $this->basiswerte->element_wasser + floor_x($gewinn->element_wasser * ($this->balance / 100), 10);
+			$this->basiswerte->element_erde = $this->basiswerte->element_erde + floor_x($gewinn->element_erde * ($this->balance / 100), 10);
+			$this->basiswerte->element_luft = $this->basiswerte->element_luft + floor_x($gewinn->element_luft * ($this->balance / 100), 10);
 			$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
 			$this->energie = $this->energie + $gewinn->energie;
 			$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
-			$this->initiative = $this->initiative + floor_x($gewinn->initiative * ($this->balance / 100), 10);
-			$this->abwehr = $this->abwehr + floor_x($gewinn->abwehr * ($this->balance / 100), 10);
-			$this->ausweichen = $this->ausweichen + floor_x($gewinn->ausweichen * ($this->balance / 100), 10);
+			$this->basiswerte->initiative = $this->basiswerte->initiative + floor_x($gewinn->initiative * ($this->balance / 100), 10);
+			$this->basiswerte->abwehr = $this->basiswerte->abwehr + floor_x($gewinn->abwehr * ($this->balance / 100), 10);
+			$this->basiswerte->ausweichen = $this->basiswerte->ausweichen + floor_x($gewinn->ausweichen * ($this->balance / 100), 10);
 			$this->erfahrung = $this->erfahrung + floor_x($gewinn->erfahrung * ($this->balance / 100), 10);
 		} else {
-			$this->staerke = $this->staerke + $gewinn->staerke;
-			$this->intelligenz = $this->intelligenz + $gewinn->intelligenz;
-			$this->magie = $this->magie + $gewinn->magie;
-			$this->element_feuer = $this->element_feuer + $gewinn->element_feuer;
-			$this->element_wasser = $this->element_wasser + $gewinn->element_wasser;
-			$this->element_erde = $this->element_erde + $gewinn->element_erde;
-			$this->element_luft = $this->element_luft + $gewinn->element_luft;
+			$this->basiswerte->staerke = $this->basiswerte->staerke + $gewinn->staerke;
+			$this->basiswerte->intelligenz = $this->basiswerte->intelligenz + $gewinn->intelligenz;
+			$this->basiswerte->magie = $this->basiswerte->magie + $gewinn->magie;
+			$this->basiswerte->element_feuer = $this->basiswerte->element_feuer + $gewinn->element_feuer;
+			$this->basiswerte->element_wasser = $this->basiswerte->element_wasser + $gewinn->element_wasser;
+			$this->basiswerte->element_erde = $this->basiswerte->element_erde + $gewinn->element_erde;
+			$this->basiswerte->element_luft = $this->basiswerte->element_luft + $gewinn->element_luft;
 			$this->gesundheit = $this->gesundheit + $gewinn->gesundheit;
 			$this->energie = $this->energie + $gewinn->energie;
 			$this->zauberpunkte = $this->zauberpunkte + $gewinn->zauberpunkte;
-			$this->initiative = $this->initiative + $gewinn->initiative;
-			$this->abwehr = $this->abwehr + $gewinn->abwehr;
-			$this->ausweichen = $this->ausweichen + $gewinn->ausweichen;
+			$this->basiswerte->initiative = $this->basiswerte->initiative + $gewinn->initiative;
+			$this->basiswerte->abwehr = $this->basiswerte->abwehr + $gewinn->abwehr;
+			$this->basiswerte->ausweichen = $this->basiswerte->ausweichen + $gewinn->ausweichen;
 			$this->erfahrung = $this->erfahrung + $gewinn->erfahrung;
 		}
 	}
@@ -139,9 +158,15 @@ class Spieler {
 	
 	# Ändert Attribut um Wert (beachtet übergebene Grenzwerte)
 	public function attribut_aendern($attribut, $wert, $min=-9999999, $max=9999999){
-		$this->$attribut = $this->$attribut + $wert;
-		if ($this->$attribut < $min) $this->$attribut = $min;
-		if ($this->$attribut > $max) $this->$attribut = $max;
+		if ($attribut == "gesundheit" OR $attribut == "energie" OR $attribut == "zauberpunkte" OR $attribut == "balance" OR $attribut == "erfahrung"){
+			$this->$attribut = $this->$attribut + $wert;
+			if ($this->$attribut < $min) $this->$attribut = $min;
+			if ($this->$attribut > $max) $this->$attribut = $max;
+		} else {
+			$this->basiswerte->$attribut = $this->basiswerte->$attribut + $wert;
+			if ($this->basiswerte->$attribut < $min) $this->basiswerte->$attribut = $min;
+			if ($this->basiswerte->$attribut > $max) $this->basiswerte->$attribut = $max;
+		}
 	}
 	
 	# Übernimmt aktuelle Werte des Kampfteilnehmers
@@ -160,8 +185,11 @@ class Spieler {
 			$this->level_up();
 		}
 		$this->max_gesundheit = berechne_max_gesundheit($this);
+		$this->attribut_aendern("gesundheit", 0, 0, $this->max_gesundheit);
 		$this->max_energie = berechne_max_energie($this);
+		$this->attribut_aendern("energie", 0, 0, $this->max_energie);
 		$this->max_zauberpunkte = berechne_max_zauberpunkte($this);
+		$this->attribut_aendern("zauberpunkte", 0, 0, $this->max_zauberpunkte);
 		$this->balance = berechne_balance($this);
 		if ($level_up){
 			$this->gesundheit = $this->max_gesundheit;
@@ -211,22 +239,22 @@ class Spieler {
 					$this->bilder_id,
 					$this->level_id,
 					$this->name,
-					$this->staerke,
-					$this->intelligenz,
-					$this->magie,
-					$this->element_feuer,
-					$this->element_wasser,
-					$this->element_erde,
-					$this->element_luft,
+					$this->basiswerte->staerke,
+					$this->basiswerte->intelligenz,
+					$this->basiswerte->magie,
+					$this->basiswerte->element_feuer,
+					$this->basiswerte->element_wasser,
+					$this->basiswerte->element_erde,
+					$this->basiswerte->element_luft,
 					$this->gesundheit,
-					$this->max_gesundheit,
+					$this->basiswerte->max_gesundheit,
 					$this->energie,
-					$this->max_energie,
+					$this->basiswerte->max_energie,
 					$this->zauberpunkte,
-					$this->max_zauberpunkte,
-					$this->initiative,
-					$this->abwehr,
-					$this->ausweichen,
+					$this->basiswerte->max_zauberpunkte,
+					$this->basiswerte->initiative,
+					$this->basiswerte->abwehr,
+					$this->basiswerte->ausweichen,
 					$this->balance,
 					$this->erfahrung,
 					$this->id);
@@ -240,6 +268,37 @@ class Spieler {
 	}
 }
 
+class Werte {
+	public $staerke;
+	public $intelligenz;
+	public $magie;
+	public $element_feuer;
+	public $element_wasser;
+	public $element_erde;
+	public $element_luft;
+	public $max_gesundheit;
+	public $max_energie;
+	public $max_zauberpunkte;
+	public $initiative;
+	public $abwehr;
+	public $ausweichen;
+	
+	public function __construct($werte) {
+		$this->staerke = $werte[0];
+		$this->intelligenz = $werte[1];
+		$this->magie = $werte[2];
+		$this->element_feuer = $werte[3];
+		$this->element_wasser = $werte[4];
+		$this->element_erde = $werte[5];
+		$this->element_luft = $werte[6];
+		$this->max_gesundheit = $werte[7];
+		$this->max_energie = $werte[8];
+		$this->max_zauberpunkte = $werte[9];
+		$this->initiative = $werte[10];
+		$this->abwehr = $werte[11];
+		$this->ausweichen = $werte[12];
+	}
+}
 
 class NPC {
 	public $id;

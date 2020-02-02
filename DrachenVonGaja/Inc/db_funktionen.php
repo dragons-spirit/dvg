@@ -1219,7 +1219,8 @@ function get_slot_data($spieler_id, $item_id)
 		$stmt->execute();
 		$data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
 		if ($debug) echo "<br />\nSlot-Daten von Item " . $items_id . " wurden geladen.<br />\n";
-		return $data;
+		if(isset($data)) return $data;
+			else return array(0,1);
 	} else {
 		echo "<br />\nQuerryfehler in get_slot_data()<br />\n";
 		return false;
@@ -1276,7 +1277,7 @@ function select_kampf($kampf_id)
 		$stmt->execute();
 		$kampf_row = $stmt->get_result()->fetch_array(MYSQLI_NUM);
 		$kampf = new Kampf($kampf_row);
-		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $gebiet_id . "] wurde geladen.<br />\n";
+		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $kampf->gebiet_id . "] wurde geladen.<br />\n";
 		return $kampf;
 	} else {
 		echo "<br />\nQuerryfehler in select_kampf()<br />\n";
@@ -1301,7 +1302,7 @@ function update_kampf($kampf)
 			WHERE id = ?;")){
 		$stmt->bind_param('dsd', $kampf->gebiet_id, $kampf->log, $kampf->id);
 		$stmt->execute();
-		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] wurde in Datenbank aktualisiert.<br />\n";
+		if ($debug) echo "<br />\nKampf [" . $kampf->id . "] wurde in Datenbank aktualisiert.<br />\n";
 		return true;
 	} else {
 		echo "<br />\nQuerryfehler in update_kampf()<br />\n";
@@ -1497,8 +1498,9 @@ function insert_kampf_teilnehmer($kampf_id, $teilnehmer_id, $teilnehmer_typ, $se
 	switch($teilnehmer_typ){
 		#################################################################
 		case "spieler":
-			$spieler = new Spieler(get_spieler($teilnehmer_id));
-			$kampf_teilnehmer = new KampfTeilnehmer($spieler, $teilnehmer_typ, $seite);
+			$spieler_kt = new Spieler($teilnehmer_id);
+			$kampf_teilnehmer = new KampfTeilnehmer($spieler_kt, $teilnehmer_typ, $seite);
+			var_dump($kampf_teilnehmer);
 			break;
 		#################################################################
 		case "npc":
@@ -2284,33 +2286,7 @@ function get_spieler_login($login)
 #----------------------------------------------- SELECT spieler.* ----------------------------------------------
 # 	-> spieler.id (str)
 #	Array mit Spielerdaten [Position]
-#	<- [0] id,
-#	<- [1] account_id, 
-#	<- [2] bilder_id, 
-#	<- [3] gattung_id, 
-#	<- [4] level_id, 
-#	<- [5] gebiet_id, 
-#	<- [6] name, 
-#	<- [7] geschlecht, 
-#	<- [8] staerke, 
-#	<- [9] intelligenz, 
-#	<- [10] magie, 
-#	<- [11] element_feuer, 
-#	<- [12] element_wasser, 
-#	<- [13] element_erde, 
-#	<- [14] element_luft, 
-#	<- [15] gesundheit, 
-#	<- [16] max_gesundheit, 
-#	<- [17] energie, 
-#	<- [18] max_energie,
-#	<- [19] zauberpunkte,
-#	<- [20] max_zauberpunkte,
-#	<- [21] balance,
-#	<- [22] initiative,
-#	<- [23] abwehr,
-#	<- [24] ausweichen,
-#	<- [25] zuletzt_gespielt
-#	<- [26] erfahrung
+#	---> Viele viele Daten siehe SELECT
 
 function get_spieler($spieler_id)
 {
@@ -2318,16 +2294,183 @@ function get_spieler($spieler_id)
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	spieler.*
-			FROM 	spieler
-			WHERE 	spieler.id = ?"))
+			SELECT
+				spieler.id,
+				spieler.account_id,
+				spieler.bilder_id,
+				spieler.gattung_id,
+				spieler.level_id,
+				spieler.gebiet_id,
+				spieler.name,
+				spieler.geschlecht,
+				spieler.gesundheit,
+				spieler.energie,
+				spieler.zauberpunkte,
+				spieler.balance,
+				spieler.zuletzt_gespielt,
+				spieler.erfahrung,
+				round(spieler.staerke + bonus_pkt.staerke + spieler.staerke * bonus_proz.staerke * 0.01, 4),
+				round(spieler.intelligenz + bonus_pkt.intelligenz + spieler.intelligenz * bonus_proz.intelligenz * 0.01, 4),
+				round(spieler.magie + bonus_pkt.magie + spieler.magie * bonus_proz.magie * 0.01, 4),
+				round(spieler.element_feuer + bonus_pkt.element_feuer + spieler.element_feuer * bonus_proz.element_feuer * 0.01, 4),
+				round(spieler.element_wasser + bonus_pkt.element_wasser + spieler.element_wasser * bonus_proz.element_wasser * 0.01, 4),
+				round(spieler.element_erde + bonus_pkt.element_erde + spieler.element_erde * bonus_proz.element_erde * 0.01, 4),
+				round(spieler.element_luft + bonus_pkt.element_luft + spieler.element_luft * bonus_proz.element_luft * 0.01, 4),
+				round(spieler.initiative + bonus_pkt.initiative + spieler.initiative * bonus_proz.initiative * 0.01, 0),
+				round(spieler.abwehr + bonus_pkt.abwehr + spieler.abwehr * bonus_proz.abwehr * 0.01, 0),
+				round(spieler.ausweichen + bonus_pkt.ausweichen + spieler.ausweichen * bonus_proz.ausweichen * 0.01, 0),
+				spieler.staerke,
+				spieler.intelligenz,
+				spieler.magie,
+				spieler.element_feuer,
+				spieler.element_wasser,
+				spieler.element_erde,
+				spieler.element_luft,
+				spieler.max_gesundheit,
+				spieler.max_energie,
+				spieler.max_zauberpunkte,
+				spieler.initiative,
+				spieler.abwehr,
+				spieler.ausweichen,
+				bonus_pkt.staerke,
+				bonus_pkt.intelligenz,
+				bonus_pkt.magie,
+				bonus_pkt.element_feuer,
+				bonus_pkt.element_wasser,
+				bonus_pkt.element_erde,
+				bonus_pkt.element_luft,
+				bonus_pkt.max_gesundheit,
+				bonus_pkt.max_energie,
+				bonus_pkt.max_zauberpunkte,
+				bonus_pkt.initiative,
+				bonus_pkt.abwehr,
+				bonus_pkt.ausweichen,
+				bonus_proz.staerke,
+				bonus_proz.intelligenz,
+				bonus_proz.magie,
+				bonus_proz.element_feuer,
+				bonus_proz.element_wasser,
+				bonus_proz.element_erde,
+				bonus_proz.element_luft,
+				bonus_proz.max_gesundheit,
+				bonus_proz.max_energie,
+				bonus_proz.max_zauberpunkte,
+				bonus_proz.initiative,
+				bonus_proz.abwehr,
+				bonus_proz.ausweichen
+			FROM
+				spieler
+				LEFT JOIN (
+					SELECT
+						CASE WHEN max_gesundheit > 0 THEN max_gesundheit ELSE 0 END AS max_gesundheit,
+						CASE WHEN max_energie > 0 THEN max_energie ELSE 0 END AS max_energie,
+						CASE WHEN max_zauberpunkte > 0 THEN max_zauberpunkte ELSE 0 END AS max_zauberpunkte,
+						CASE WHEN staerke > 0 THEN staerke ELSE 0 END AS staerke,
+						CASE WHEN intelligenz > 0 THEN intelligenz ELSE 0 END AS intelligenz,
+						CASE WHEN magie > 0 THEN magie ELSE 0 END AS magie,
+						CASE WHEN element_feuer > 0 THEN element_feuer ELSE 0 END AS element_feuer,
+						CASE WHEN element_wasser > 0 THEN element_wasser ELSE 0 END AS element_wasser,
+						CASE WHEN element_erde > 0 THEN element_erde ELSE 0 END AS element_erde,
+						CASE WHEN element_luft > 0 THEN element_luft ELSE 0 END AS element_luft,
+						CASE WHEN initiative > 0 THEN initiative ELSE 0 END AS initiative,
+						CASE WHEN abwehr > 0 THEN abwehr ELSE 0 END AS abwehr,
+						CASE WHEN ausweichen > 0 THEN ausweichen ELSE 0 END AS ausweichen
+					FROM (
+						SELECT
+							sum(items_spieler.anzahl * items.gesundheit) AS max_gesundheit,
+							sum(items_spieler.anzahl * items.energie) AS max_energie,
+							sum(items_spieler.anzahl * items.zauberpunkte) AS max_zauberpunkte,
+							sum(items_spieler.anzahl * items.staerke) AS staerke,
+							sum(items_spieler.anzahl * items.intelligenz) AS intelligenz,
+							sum(items_spieler.anzahl * items.magie) AS magie,
+							sum(items_spieler.anzahl * items.element_feuer) AS element_feuer,
+							sum(items_spieler.anzahl * items.element_wasser) AS element_wasser,
+							sum(items_spieler.anzahl * items.element_erde) AS element_erde,
+							sum(items_spieler.anzahl * items.element_luft) AS element_luft,
+							sum(items_spieler.anzahl * items.initiative) AS initiative,
+							sum(items_spieler.anzahl * items.abwehr) AS abwehr,
+							sum(items_spieler.anzahl * items.ausweichen) AS ausweichen
+						FROM items_spieler
+							JOIN items ON items.id = items_spieler.items_id
+						WHERE 1=1
+							AND items_spieler.angelegt = 1
+							AND items_spieler.spieler_id = ?
+							AND items.prozent = 0
+						) inner_bonus_pkt
+					) bonus_pkt ON 1=1
+				LEFT JOIN (
+					SELECT
+						CASE WHEN max_gesundheit > 0 THEN max_gesundheit ELSE 0 END AS max_gesundheit,
+						CASE WHEN max_energie > 0 THEN max_energie ELSE 0 END AS max_energie,
+						CASE WHEN max_zauberpunkte > 0 THEN max_zauberpunkte ELSE 0 END AS max_zauberpunkte,
+						CASE WHEN staerke > 0 THEN staerke ELSE 0 END AS staerke,
+						CASE WHEN intelligenz > 0 THEN intelligenz ELSE 0 END AS intelligenz,
+						CASE WHEN magie > 0 THEN magie ELSE 0 END AS magie,
+						CASE WHEN element_feuer > 0 THEN element_feuer ELSE 0 END AS element_feuer,
+						CASE WHEN element_wasser > 0 THEN element_wasser ELSE 0 END AS element_wasser,
+						CASE WHEN element_erde > 0 THEN element_erde ELSE 0 END AS element_erde,
+						CASE WHEN element_luft > 0 THEN element_luft ELSE 0 END AS element_luft,
+						CASE WHEN initiative > 0 THEN initiative ELSE 0 END AS initiative,
+						CASE WHEN abwehr > 0 THEN abwehr ELSE 0 END AS abwehr,
+						CASE WHEN ausweichen > 0 THEN ausweichen ELSE 0 END AS ausweichen
+					FROM (
+						SELECT
+							sum(items_spieler.anzahl * items.gesundheit) AS max_gesundheit,
+							sum(items_spieler.anzahl * items.energie) AS max_energie,
+							sum(items_spieler.anzahl * items.zauberpunkte) AS max_zauberpunkte,
+							sum(items_spieler.anzahl * items.staerke) AS staerke,
+							sum(items_spieler.anzahl * items.intelligenz) AS intelligenz,
+							sum(items_spieler.anzahl * items.magie) AS magie,
+							sum(items_spieler.anzahl * items.element_feuer) AS element_feuer,
+							sum(items_spieler.anzahl * items.element_wasser) AS element_wasser,
+							sum(items_spieler.anzahl * items.element_erde) AS element_erde,
+							sum(items_spieler.anzahl * items.element_luft) AS element_luft,
+							sum(items_spieler.anzahl * items.initiative) AS initiative,
+							sum(items_spieler.anzahl * items.abwehr) AS abwehr,
+							sum(items_spieler.anzahl * items.ausweichen) AS ausweichen
+						FROM items_spieler
+							JOIN items ON items.id = items_spieler.items_id
+						WHERE 1=1
+							AND items_spieler.angelegt = 1
+							AND items_spieler.spieler_id = ?
+							AND items.prozent = 1
+						) inner_bonus_proz
+					) bonus_proz ON 1=1
+			WHERE 1 = 1
+				AND spieler.id = ?"))
 	{
-		$stmt->bind_param('s', $spieler_id);
+		$stmt->bind_param('ddd', $spieler_id, $spieler_id, $spieler_id);
 		$stmt->execute();
 		if ($debug) echo "<br />\nSpielerdaten für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
 		return $row;
+	} else {
+		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------------- SELECT spieler.* (nur für Test auf Vorhandensein) ----------------------------------------------
+# 	-> spieler.id (int)
+#	<- spieler.name (str)
+
+function get_spieler_check($spieler_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT name
+			FROM spieler
+			WHERE id = ?"))
+	{
+		$stmt->bind_param('d', $spieler_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nSpielerdaten für: [spieler_id=" . $spieler_id . "] geladen.<br />\n";
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		return $row[0];
 	} else {
 		echo "<br />\nQuerryfehler in get_spieler()<br />\n";
 		return false;
@@ -2429,7 +2572,7 @@ function delete_spieler($spieler_id)
 	global $debug;
 	global $connect_db_dvg;
 	
-	if (!$spieler_zum_loeschen = get_spieler($spieler_id))
+	if (!$spieler_zum_loeschen = get_spieler_check($spieler_id))
 	{
 		echo "<br />\nLogin nicht gefunden<br />\n";
 		return false;
@@ -2443,7 +2586,7 @@ function delete_spieler($spieler_id)
 	{
 		$stmt->bind_param('d', $spieler_id);
 		$stmt->execute();
-		echo "<br />\nSpieler: " . $spieler_zum_loeschen[6] . " wurde gelöscht.<br />\n";
+		echo "<br />\nSpieler: " . $spieler_zum_loeschen . " wurde gelöscht.<br />\n";
 		$result = $stmt->get_result();
 		return $result;
 	} else {
