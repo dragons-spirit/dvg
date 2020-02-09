@@ -650,6 +650,7 @@
 		close_connection($connect_db_dvg);
 	?>
 	<script language="javascript" type="text/javascript" src="zauber.js"></script>
+	<script language="javascript" type="text/javascript" src="mouseover.js"></script>
 </html>   
     
 </form>

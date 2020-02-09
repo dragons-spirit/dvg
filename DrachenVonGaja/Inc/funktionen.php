@@ -538,14 +538,15 @@ function zeige_gebietslinks($gebiet_id){
 		while($row = $zielgebiete->fetch_array(MYSQLI_NUM))
 		{
 	?>			
-		<div style="background-image:url(<?php echo hintergrundbild_klein($row[2]) ?>);
-					background-repeat:no-repeat;
-					background-size:contain;
-					position:absolute;
-					left:<?php echo $row[4] ?>%;
-					top:<?php echo $row[5] ?>%;
-					width:12%;
-					height:12%;">
+		<div id="gebietslinks" style="
+			background-image:url(<?php echo hintergrundbild_klein($row[2]) ?>);
+			background-repeat:no-repeat;
+			background-size:contain;
+			position:absolute;
+			left:<?php echo $row[4] ?>%;
+			top:<?php echo $row[5] ?>%;
+			width:12%;
+			height:12%;">
 			<span title="<?php echo $row[3]; ?>" >
 				<input type="submit" name="button_zum_zielgebiet" value="<?php echo $row[3]; ?>" style="width:100%; height:100%; opacity:0.0;" />
 			</span>
@@ -689,9 +690,15 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 										}
 										?>
 										<td style="background-image:url(<?php echo get_bild_zu_id($zauber_bilder_id) ?>); background-repeat:no-repeat; background-size:contain; <?php if($inaktiv) echo "border:3px red solid;"; else echo "border:3px green solid;";?>" align="left">
-											<span title="<?php echo $zauber_titel ?>" >
+											<top_mover>
+												<mover>
+													<?php
+														echo $zauber_titel.'<br />';
+														
+													?>
+												</mover>
 												<input onclick="set_button('<?php echo $hauptelement ?>', 'egal')" type="submit" name="button_zauber" value="<?php echo $zauber_id ?>" style="height:60px; width:60px; opacity:0.0;">
-											</span>
+											</top_mover>
 										</td>
 										<?php
 									}

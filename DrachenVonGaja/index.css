@@ -516,3 +516,20 @@ display:none;
 	text-align: center;
 }
 
+
+mover {
+	display:none;
+}
+top_mover:hover mover {
+	position:fixed;
+	top:0px;
+	left:0px;
+	display:none;
+	z-index:3;
+	padding:10px;
+	padding-left:15px;
+	max-width:400px;
+	background:#000000;
+	border:2px solid #555;
+	font-size:smaller;
+}

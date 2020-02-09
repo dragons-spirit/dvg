@@ -167,16 +167,20 @@
 													?>
 													<tr>
 														<td>
-															<span title="
+															<top_mover>
+																<mover>
 																<?php 
-																	echo $zauber->titel.'&#10;';
+																	echo $zauber->titel.'<br />';
 																	foreach ($zauber->zaubereffekte as $eff){
-																		if ($eff->attribut == "spezial") echo ' noch '.($eff->runden_max-$eff->runden).' Runden';
-																			else echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		if ($eff->runden_max-$eff->runden > 1) $runden_txt = "Runden";
+																			else $runden_txt = "Runde";
+																		if ($eff->attribut == "spezial") echo ' noch '.($eff->runden_max-$eff->runden).' '.$runden_txt;
+																			else echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' '.$runden_txt;
 																		if ($eff->jede_runde == 0) echo ' (temporär)';
-																		echo '&#10;';
+																		echo '<br />';
 																	}
-																?>">
+																?>
+																</mover>
 																<img style="max-height:30px; width:auto;"
 																	src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
 																	alt="<?php echo $zauber->titel ?>" 
@@ -186,7 +190,7 @@
 																	} else {
 																		echo "style='border:1px green solid;'";
 																	}?>/>
-															</span>
+															</top_mover>
 														</td>
 													</tr>
 													<?php
@@ -218,17 +222,20 @@
 												else if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)) $zauber_aktiv = 0;
 													else $zauber_aktiv = 1;
 											?>
-											<span title="<?php echo $zauber->titel ?>">
-												<img id="<?php echo "zauber_img_#".$count ?>" 
-													src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
-													alt="<?php echo $zauber->titel ?>" 
-													<?php
-													switch ($zauber_aktiv){
-														case 0: echo "style='border:1px red solid;'"; break;
-														case 1: echo "style='border:1px green solid;'"; break;
-														case 2: echo "style='border:1px grey solid;'"; break;
-													}?>/>
-											</span>
+											<top_mover>
+												<mover>
+													<?php echo $zauber->titel.'<br />'; ?>
+												</mover>
+											</top_mover>
+											<img id="<?php echo "zauber_img_#".$count ?>" 
+												src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+												alt="<?php echo $zauber->titel ?>" 
+												<?php
+												switch ($zauber_aktiv){
+													case 0: echo "style='border:1px red solid;'"; break;
+													case 1: echo "style='border:1px green solid;'"; break;
+													case 2: echo "style='border:1px grey solid;'"; break;
+												}?>/>
 											<?php 
 											if($zauber_aktiv == 1){ 
 												?>
@@ -269,15 +276,20 @@
 													?>
 													<tr>
 														<td>
-															<span title="
+															<top_mover>
+																<mover>
 																<?php 
-																	echo $zauber->titel.'&#10;';
+																	echo $zauber->titel.'<br />';
 																	foreach ($zauber->zaubereffekte as $eff){
-																		echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' Runden';
+																		if ($eff->runden_max-$eff->runden > 1) $runden_txt = "Runden";
+																			else $runden_txt = "Runde";
+																		if ($eff->attribut == "spezial") echo ' noch '.($eff->runden_max-$eff->runden).' '.$runden_txt;
+																			else echo $eff->wert.' '.anzeige_attribut($eff->attribut).' noch '.($eff->runden_max-$eff->runden).' '.$runden_txt;
 																		if ($eff->jede_runde == 0) echo ' (temporär)';
-																		echo '&#10;';
+																		echo '<br />';
 																	}
-																?>">
+																?>
+																</mover>
 																<img style="max-height:30px; width:auto;"
 																	src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
 																	alt="<?php echo $zauber->titel ?>" 
@@ -287,7 +299,7 @@
 																	} else {
 																		echo "style='border:1px green solid;'";
 																	}?>/>
-															</span>
+															</top_mover>
 														</td>
 													</tr>
 													<?php
