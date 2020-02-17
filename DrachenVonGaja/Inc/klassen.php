@@ -472,6 +472,67 @@ class Item {
 		$this->slot = null;
 		$this->anzahl = 0;
 	}
+	
+	public function ausgabe_single_attribut($attribut, $ausgabe_0=false, $in_farbe=false){
+		$farbe = false;
+		if ($this->prozent == 1) $proz = " %";
+			else $proz = "";
+		switch ($attribut){
+			case "gesundheit": $attribut_txt = "Gesundheit"; break;
+			case "energie": $attribut_txt = "Energie"; break;
+			case "zauberpunkte": $attribut_txt = "Zauberpunkte"; break;
+			case "staerke": $attribut_txt = "Stärke"; break;
+			case "intelligenz": $attribut_txt = "Intelligenz"; break;
+			case "magie": $attribut_txt = "Magie"; break;
+			case "element_feuer": $attribut_txt = "Element Feuer"; break;
+			case "element_wasser": $attribut_txt = "Element Wasser"; break;
+			case "element_erde": $attribut_txt = "Element Erde"; break;
+			case "element_luft": $attribut_txt = "Element Luft"; break;
+			case "initiative": $attribut_txt = "Initiative"; break;
+			case "abwehr": $attribut_txt = "Abwehr"; break;
+			case "ausweichen": $attribut_txt = "Ausweichen"; break;
+			default: $attribut_txt = "";
+		}
+		if ($this->$attribut < 0){
+			$vorzeichen = "-";
+			if ($in_farbe) $farbe = "darkred";
+		}
+		if ($this->$attribut > 0){
+			$vorzeichen = "+";
+			if ($in_farbe) $farbe = "darkgreen";
+		}
+		if ($this->$attribut != 0){
+			if ($farbe){
+				echo "<font color='".$farbe."'>".$vorzeichen.$this->$attribut.$proz." ".$attribut_txt."</font><br />";
+			} else {
+				echo $vorzeichen.$this->$attribut.$proz." ".$attribut_txt."<br />";
+			}
+		}
+		if ($ausgabe_0 and $this->$attribut = 0){
+			echo $this->$attribut." ".$attribut_txt."<br />";
+		}
+	}
+	
+	public function ausgabe_attribute($topic){
+		switch ($topic){
+			case "inventar":
+				$this->ausgabe_single_attribut("gesundheit", false, true);
+				$this->ausgabe_single_attribut("energie", false, true);
+				$this->ausgabe_single_attribut("zauberpunkte", false, true);
+				$this->ausgabe_single_attribut("staerke", false, true);
+				$this->ausgabe_single_attribut("intelligenz", false, true);
+				$this->ausgabe_single_attribut("magie", false, true);
+				$this->ausgabe_single_attribut("element_feuer", false, true);
+				$this->ausgabe_single_attribut("element_wasser", false, true);
+				$this->ausgabe_single_attribut("element_erde", false, true);
+				$this->ausgabe_single_attribut("element_luft", false, true);
+				$this->ausgabe_single_attribut("initiative", false, true);
+				$this->ausgabe_single_attribut("abwehr", false, true);
+				$this->ausgabe_single_attribut("ausweichen", false, true);
+				break;
+			default: # Nothing to do
+		}
+	}
 }
 
 
