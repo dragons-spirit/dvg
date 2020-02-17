@@ -146,6 +146,8 @@
 				<col width="50%">
 				<col width="50%">
 			</colgroup>
+			<!-- Leere erste Zeile um Spaltenbreiten festzulegen -->
+			<tr><td></td><td></td></tr>
 			<tr>
 				<td valign="top" style="border-right:1px solid white;">
 					<?php
@@ -214,7 +216,7 @@
 						
 						<table style="border-collapse:collapse;" width="100%">
 							<tr>
-								<td align="left" style="border-bottom:1px solid white; padding-top:5px; padding-left:5px;">
+								<td align="left" style="border-bottom:1px solid white; padding-top:1px; padding-left:5px;">
 									<?php
 									if ($alle_zauber = get_zauber_von_objekt($kt) AND count($alle_zauber) < 50){
 										foreach ($alle_zauber as $zauber){
@@ -222,27 +224,54 @@
 												else if ($kt->zauberpunkte < berechne_zauberpunkte_verbrauch($zauber)) $zauber_aktiv = 0;
 													else $zauber_aktiv = 1;
 											?>
-											<top_mover>
-												<mover>
-													<?php echo $zauber->titel.'<br />'; ?>
-												</mover>
-											</top_mover>
-											<img id="<?php echo "zauber_img_#".$count ?>" 
-												src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
-												alt="<?php echo $zauber->titel ?>" 
-												<?php
-												switch ($zauber_aktiv){
-													case 0: echo "style='border:1px red solid;'"; break;
-													case 1: echo "style='border:1px green solid;'"; break;
-													case 2: echo "style='border:1px grey solid;'"; break;
-												}?>/>
-											<?php 
-											if($zauber_aktiv == 1){ 
-												?>
-												<div id="<?php echo "zauber_div_#".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
-												</div>
+											<table style="float:left">
+												<tr>
+													<td>
+														<top_mover>
+															<mover>
+																<?php 
+																
+																if ($zauber->ist_art("verteidigung")){
+																	echo '<b><font color="darkgreen">'.$zauber->titel.'</font></b><br />';
+																} else {
+																	echo '<b><font color="darkred">'.$zauber->titel.'</font></b><br />';
+																}
+																foreach ($zauber->zaubereffekte as $eff){
+																	if ($eff->runden > 1) $runden_txt = ' für '.$eff->runden.' Runden';
+																		else $runden_txt = '';
+																	if ($eff->attribut == "spezial") echo 'Spezial-was-auch-immer'.$runden_txt;
+																		else echo $eff->wert.' '.anzeige_attribut($eff->attribut).$runden_txt;
+																	if ($eff->jede_runde == 0) echo ' (temporär)';
+																	echo '<br />';
+																}
+																if ($zauber->verbrauch > 0){
+																	echo '<b><font color="lightblue">'.$zauber->verbrauch.' Zauberpunkte</font></b><br />';
+																}
+																?>
+															</mover>
+															<img id="<?php echo "zauber_img_#".$count ?>" 
+																src="<?php echo get_bild_zu_id($zauber->bilder_id) ?>" 
+																alt="<?php echo $zauber->titel ?>"
+																<?php
+																switch ($zauber_aktiv){
+																	case 0: echo "style='float:left;border:1px red solid; width:".$anzeige_breite_zauber."px;'"; break;
+																	case 1: echo "style='float:left;border:1px green solid; width:".$anzeige_breite_zauber."px;'"; break;
+																	case 2: echo "style='float:left;border:1px grey solid; width:".$anzeige_breite_zauber."px;'"; break;
+																}?>/>
+															<?php 
+															if($zauber_aktiv == 1){
+																?>
+																<div id="<?php echo "zauber_div_#".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="<?php echo 'background:url('.get_bild_zu_id($zauber->bilder_id).');background-size: '.$anzeige_breite_zauber.'px '.$anzeige_breite_zauber.'px; width:'.$anzeige_breite_zauber.'px; height:'.$anzeige_breite_zauber.'px;' ?> margin-left:1px; margin-top:1px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
+																</div>
+														
+															<?php
+															}
+														?>
+														</top_mover>
+													</td>
+												</tr>
+											</table>
 											<?php
-											}
 											$count+=1;
 										}
 									}
@@ -368,23 +397,6 @@
 		<input type="hidden" id="kt_id_ziel_value" name="kt_id_ziel_value">
 		<input type="hidden" id="zauber_id_value" name="zauber_id_value">
 		
-		<script type="text/javascript"> 
-			var x = document.getElementsByClassName("zauberdiv");
-			var i, j, f, rahmen_top=1, rahmen_left=1;
-			for (i = 0; i < x.length; i++) {
-				if (x[i].id.split("#")[1] != ""){
-					j = x[i].id.split("#")[1];
-				} else {
-					j = x[i].id.split("#")[2];
-					rahmen_top = 1;
-					rahmen_left = 2;
-				}
-				f = getPosition(document.getElementById("zauber_img_#"+j));
-				x[i].style.top = f[0]+rahmen_top;
-				x[i].style.left = f[1]+rahmen_left;
-				x[i].style.display = "block";
-			}
-		</script>
 		<?php
 	} else {
 		?>

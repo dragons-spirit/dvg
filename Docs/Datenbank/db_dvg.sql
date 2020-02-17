@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2557 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=2589 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
 -- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.059 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
@@ -2325,7 +2325,39 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(2553, 48, 2, '2020-02-03 18:02:37', '2020-02-03 18:02:42', 'abgeschlossen', 0, 0),
 	(2554, 48, 6, '2020-02-03 18:03:19', '2020-02-03 18:03:24', 'abgeschlossen', 10, 0),
 	(2555, 48, 11, '2020-02-03 18:03:25', '2020-02-03 18:04:39', 'abgeschlossen', 433, 0),
-	(2556, 48, 12, '2020-02-03 18:05:41', '2020-02-03 18:05:44', 'abgeschlossen', 0, 0);
+	(2556, 48, 12, '2020-02-03 18:05:41', '2020-02-03 18:05:44', 'abgeschlossen', 0, 0),
+	(2557, 48, 10, '2020-02-09 09:45:01', '2020-02-09 09:45:11', 'abgeschlossen', 5, 0),
+	(2558, 48, 2, '2020-02-09 09:45:13', '2020-02-09 09:45:18', 'abgeschlossen', 0, 0),
+	(2559, 48, 7, '2020-02-09 09:45:20', '2020-02-09 09:45:25', 'abgeschlossen', 14, 0),
+	(2560, 48, 2, '2020-02-09 09:45:28', '2020-02-09 09:45:33', 'abgeschlossen', 0, 0),
+	(2561, 48, 7, '2020-02-09 09:45:34', '2020-02-09 09:45:39', 'abgeschlossen', 8, 0),
+	(2562, 48, 2, '2020-02-09 09:45:40', '2020-02-09 09:45:45', 'abgeschlossen', 0, 0),
+	(2563, 48, 7, '2020-02-09 09:45:46', '2020-02-09 09:45:51', 'abgeschlossen', 8, 0),
+	(2564, 48, 2, '2020-02-09 09:45:53', '2020-02-09 09:45:58', 'abgeschlossen', 0, 0),
+	(2565, 48, 7, '2020-02-09 09:46:00', '2020-02-09 09:46:05', 'abgeschlossen', 7, 0),
+	(2566, 48, 2, '2020-02-09 09:46:07', '2020-02-09 09:46:12', 'abgeschlossen', 0, 0),
+	(2567, 48, 7, '2020-02-09 09:46:13', '2020-02-09 09:46:18', 'abgeschlossen', 8, 0),
+	(2568, 48, 2, '2020-02-09 09:46:19', '2020-02-09 09:46:24', 'abgeschlossen', 0, 0),
+	(2569, 48, 7, '2020-02-09 09:46:25', '2020-02-09 09:46:30', 'abgeschlossen', 8, 0),
+	(2570, 48, 2, '2020-02-09 09:46:32', '2020-02-09 09:46:37', 'abgeschlossen', 0, 0),
+	(2571, 48, 7, '2020-02-09 09:46:38', '2020-02-09 09:46:43', 'abgeschlossen', 12, 0),
+	(2572, 48, 2, '2020-02-09 09:46:48', '2020-02-09 09:46:53', 'abgeschlossen', 0, 0),
+	(2573, 48, 7, '2020-02-09 09:46:59', '2020-02-09 09:47:04', 'abgeschlossen', 8, 0),
+	(2574, 48, 2, '2020-02-09 09:47:15', '2020-02-09 09:47:20', 'abgeschlossen', 0, 0),
+	(2575, 48, 7, '2020-02-09 09:47:21', '2020-02-09 09:47:26', 'abgeschlossen', 8, 0),
+	(2576, 48, 12, '2020-02-09 09:47:44', '2020-02-09 09:47:47', 'abgeschlossen', 0, 0),
+	(2577, 48, 2, '2020-02-09 09:56:27', '2020-02-09 09:56:32', 'abgeschlossen', 0, 0),
+	(2578, 48, 7, '2020-02-09 09:56:33', '2020-02-09 09:56:38', 'abgeschlossen', 8, 0),
+	(2579, 48, 2, '2020-02-09 09:56:41', '2020-02-09 09:56:46', 'abgeschlossen', 0, 0),
+	(2580, 48, 6, '2020-02-09 09:56:47', '2020-02-09 09:56:52', 'abgeschlossen', 5, 0),
+	(2581, 48, 11, '2020-02-09 09:57:19', '2020-02-09 11:41:06', 'abgeschlossen', 434, 0),
+	(2582, 48, 2, '2020-02-09 11:41:12', '2020-02-09 11:41:17', 'abgeschlossen', 0, 0),
+	(2583, 48, 6, '2020-02-09 11:41:22', '2020-02-09 11:41:27', 'abgeschlossen', 46, 0),
+	(2584, 48, 11, '2020-02-09 11:41:27', '2020-02-09 11:42:22', 'abgeschlossen', 435, 0),
+	(2585, 48, 12, '2020-02-09 11:42:26', '2020-02-09 11:42:29', 'abgeschlossen', 0, 0),
+	(2586, 48, 2, '2020-02-09 11:42:30', '2020-02-09 11:42:35', 'abgeschlossen', 0, 0),
+	(2587, 48, 6, '2020-02-09 11:42:38', '2020-02-09 11:42:43', 'abgeschlossen', 40, 0),
+	(2588, 48, 11, '2020-02-09 11:42:43', '2037-12-31 23:59:59', 'gestartet', 436, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -2826,9 +2858,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~322 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~350 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -3168,7 +3200,20 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(334, 0.02, 0.004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(335, 0.02, 0.004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(336, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(337, 0.145, 0.092, 0.063, 0, 0.07875, 0.01925, 0, 0, 0, 0, 0, 0, 0, 1);
+	(337, 0.145, 0.092, 0.063, 0, 0.07875, 0.01925, 0, 0, 0, 0, 0, 0, 0, 1),
+	(338, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(339, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(340, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(341, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(342, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(343, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(344, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(345, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(346, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(347, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(348, 0.02, 0.02, 0.016, 0, 0.02, 0, 0.004, 0, 0, 0, 0, 0, 0, 1),
+	(349, 0.065, 0.0634, 0.051, 0, 0.06375, 0, 0.0125, 0, 0, 0, 0, 0, 0, 1),
+	(350, 0, 0.026, 0.026, 0, 0.0325, 0, 0.0065, 0, 0, 0, 0, 0, 0, 0);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -3256,7 +3301,7 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   KEY `FK_spieler_id_items_spieler` (`spieler_id`),
   CONSTRAINT `FK_items_spieler_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
 -- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~66 rows (ungefähr)
 DELETE FROM `items_spieler`;
@@ -3302,7 +3347,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(68, 21, 48, 29, 0),
 	(69, 15, 48, 3, 0),
 	(70, 8, 48, 43, 0),
-	(71, 5, 48, 9, 0),
+	(71, 5, 48, 10, 0),
 	(72, 22, 48, 2, 0),
 	(74, 24, 26, 1, 0),
 	(75, 31, 48, 8, 0),
@@ -3316,18 +3361,19 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(84, 4, 48, 7, 0),
 	(85, 25, 48, 7, 0),
 	(86, 13, 48, 1, 0),
-	(87, 18, 48, 9, 0),
+	(87, 18, 48, 12, 0),
 	(88, 28, 48, 3, 0),
 	(89, 6, 48, 103, 0),
 	(90, 26, 48, 11, 0),
 	(91, 14, 48, 2, 0),
 	(92, 12, 48, 2, 0),
-	(93, 3, 48, 6, 0),
+	(93, 3, 48, 13, 0),
 	(94, 9, 48, 8, 0),
 	(100, 37, 48, 1, 0),
 	(105, 7, 48, 3, 0),
 	(115, 7, 48, 1, 1),
-	(121, 37, 48, 4, 1);
+	(121, 37, 48, 4, 1),
+	(122, 10, 48, 1, 0);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -3339,9 +3385,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=434 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~427 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~451 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -3749,7 +3795,10 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(430, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Eisbär stirbt im Kampf.</font><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine patzt beim Ausführen von Biss auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine patzt beim Ausführen von Biss auf Eisbär.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine zaubert erfolgreich Monsun auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert Monsun auf Eisbär. Eisbär kann den Zauber jedoch abwehren.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine zaubert erfolgreich Monsun auf Eisbär.<br /><br />Sumpfine zaubert erfolgreich Monsun auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert Monsun auf Eisbär. Eisbär kann den Zauber jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Monsun auf Eisbär.<br /><br />Sumpfine zaubert erfolgreich Monsun auf Eisbär.<br /><br />'),
 	(431, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Pinguin stirbt im Kampf.</font><br />Sumpfine greif Pinguin erfolgreich mit Biss an.<br /><br />Sumpfine greif Pinguin erfolgreich mit Stich an.<br /><br />'),
 	(432, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Sumpfine greif Ratte erfolgreich mit Biss an.<br /><br />Ratte greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Ratte erfolgreich mit Biss an.<br /><br />'),
-	(433, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Eisbär stirbt im Kampf.</font><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert Muräne auf Eisbär. Eisbär kann den Zauber jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />');
+	(433, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Eisbär stirbt im Kampf.</font><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert Muräne auf Eisbär. Eisbär kann den Zauber jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />'),
+	(434, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Junger Fuchs.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Junger Fuchs.<br /><br />'),
+	(435, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Alphawolf stirbt im Kampf.</font><br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf patzt beim Ausführen von Biss auf Sumpfine.<br />Alphawolf patzt beim Ausführen von Biss auf Sumpfine.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine patzt beim Zaubern von Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Monsun auf Alphawolf.<br /><br />Alphawolf greift Sumpfine mit Biss an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Alphawolf mit Biss an. Alphawolf kann dem Angriff jedoch ausweichen.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Alphawolf mit Biss an. Alphawolf kann den Angriff jedoch abwehren.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />'),
+	(436, NULL, 'Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Monsun auf Delphin.<br /><br />Delphin zaubert erfolgreich Tsunami auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -3776,7 +3825,7 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6623 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=6664 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
 -- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.489 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
@@ -10073,7 +10122,48 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(6619, 433, 2079.2, 945, 946, 77, 1, 0, 0, 0, 99.009, '2020-02-03 18:04:28'),
 	(6620, 433, 2142.88, 946, 945, 77, 1, 0, 0, 0, 142.857, '2020-02-03 18:04:28'),
 	(6621, 433, 2178.21, 945, 946, 77, 1, 0, 1, 0, 99.009, '2020-02-03 18:04:29'),
-	(6622, 433, 2277.22, 945, 946, 77, 1, 0, 1, 0, 99.009, '2020-02-03 18:04:30');
+	(6622, 433, 2277.22, 945, 946, 77, 1, 0, 1, 0, 99.009, '2020-02-03 18:04:30'),
+	(6623, 434, 0, 947, 948, 66, 1, 0, 0, 4, 99.009, '2020-02-09 09:57:30'),
+	(6624, 434, 90.909, 948, 947, 79, 1, 0, 0, 0, 90.909, '2020-02-09 09:57:30'),
+	(6625, 434, 99.009, 947, 948, 66, 1, 0, 0, 4, 99.009, '2020-02-09 09:59:43'),
+	(6626, 434, 181.818, 948, 947, 77, 1, 0, 0, 0, 90.909, '2020-02-09 09:59:43'),
+	(6627, 434, 198.018, 947, 948, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:41:02'),
+	(6628, 434, 272.727, 948, 947, 79, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:02'),
+	(6629, 434, 297.027, 947, 948, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:41:04'),
+	(6630, 435, 0, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:41:33'),
+	(6631, 435, 90.909, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:33'),
+	(6632, 435, 99.009, 949, 950, 77, 1, 0, 1, 0, 99.009, '2020-02-09 11:41:36'),
+	(6633, 435, 181.818, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:36'),
+	(6634, 435, 198.018, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:41:38'),
+	(6635, 435, 272.727, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:38'),
+	(6636, 435, 297.027, 949, 950, 77, 1, 1, 0, 0, 99.009, '2020-02-09 11:41:40'),
+	(6637, 435, 363.636, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:40'),
+	(6638, 435, 396.036, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:41:42'),
+	(6639, 435, 454.545, 950, 949, 77, 1, 0, 1, 0, 90.909, '2020-02-09 11:41:42'),
+	(6640, 435, 495.045, 949, 950, 68, 1, 0, 0, 5, 99.009, '2020-02-09 11:41:48'),
+	(6641, 435, 545.454, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:48'),
+	(6642, 435, 594.054, 949, 949, 63, 1, 0, 0, 5, 99.009, '2020-02-09 11:41:53'),
+	(6643, 435, 636.363, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:53'),
+	(6644, 435, 693.063, 949, 949, 63, 0, 0, 0, 5, 99.009, '2020-02-09 11:41:57'),
+	(6645, 435, 727.272, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:41:57'),
+	(6646, 435, 792.072, 949, 949, 63, 1, 0, 0, 5, 99.009, '2020-02-09 11:42:06'),
+	(6647, 435, 818.181, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:42:06'),
+	(6648, 435, 891.081, 949, 949, 63, 1, 0, 0, 5, 99.009, '2020-02-09 11:42:08'),
+	(6649, 435, 909.09, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:42:08'),
+	(6650, 435, 990.09, 949, 949, 63, 1, 0, 0, 5, 99.009, '2020-02-09 11:42:10'),
+	(6651, 435, 999.999, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:42:10'),
+	(6652, 435, 1089.1, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:42:15'),
+	(6653, 435, 1090.91, 950, 949, 77, 0, 0, 0, 0, 90.909, '2020-02-09 11:42:15'),
+	(6654, 435, 1181.82, 950, 949, 77, 0, 0, 1, 0, 90.909, '2020-02-09 11:42:15'),
+	(6655, 435, 1188.11, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:42:18'),
+	(6656, 435, 1272.73, 950, 949, 77, 1, 0, 0, 0, 90.909, '2020-02-09 11:42:18'),
+	(6657, 435, 1287.12, 949, 950, 77, 1, 0, 0, 0, 99.009, '2020-02-09 11:42:20'),
+	(6658, 436, 0, 951, 952, 66, 1, 0, 0, 4, 99.009, '2020-02-09 11:42:49'),
+	(6659, 436, 95.238, 952, 951, 62, 1, 0, 0, 6, 95.238, '2020-02-09 11:42:49'),
+	(6660, 436, 99.009, 951, 952, 68, 1, 0, 0, 5, 104.166, '2020-02-09 11:43:34'),
+	(6661, 436, 190.476, 952, 951, 66, 1, 0, 0, 4, 95.238, '2020-02-09 11:43:34'),
+	(6662, 436, 203.175, 951, 952, 66, 1, 0, 0, 4, 109.89, '2020-02-09 11:43:37'),
+	(6663, 436, 285.714, 952, 951, 66, 1, 0, 0, 4, 95.238, '2020-02-09 11:43:37');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -10095,9 +10185,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`),
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7114 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=7164 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.531 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.842 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -16968,7 +17058,57 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(7110, 6619, 946, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
 	(7111, 6620, 945, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
 	(7112, 6621, 946, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
-	(7113, 6622, 946, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1);
+	(7113, 6622, 946, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7114, 6623, 948, 'angriff', 'ausweichen', -3, 2, 2, 0, 0, 1),
+	(7115, 6623, 948, 'angriff', 'abwehr', -5, 2, 2, 0, 0, 1),
+	(7116, 6624, 947, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(7117, 6625, 948, 'angriff', 'ausweichen', -3, 2, 2, 0, 0, 1),
+	(7118, 6625, 948, 'angriff', 'abwehr', -5, 2, 2, 0, 0, 1),
+	(7119, 6626, 947, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(7120, 6627, 948, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7121, 6628, 947, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(7122, 6629, 948, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7123, 6630, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7124, 6631, 949, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(7125, 6632, 950, 'angriff', 'gesundheit', -4, 1, 1, 1, 1, 1),
+	(7126, 6633, 949, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(7127, 6634, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7128, 6635, 949, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(7129, 6637, 949, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(7130, 6638, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7131, 6639, 949, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(7132, 6640, 950, 'angriff', 'staerke', -7, 5, 5, 1, 1, 1),
+	(7133, 6640, 950, 'angriff', 'magie', -5, 5, 5, 1, 1, 1),
+	(7134, 6640, 950, 'angriff', 'ausweichen', -3, 5, 5, 1, 1, 1),
+	(7135, 6641, 949, 'angriff', 'gesundheit', -12, 1, 1, 1, 1, 1),
+	(7136, 6642, 949, 'verteidigung', 'gesundheit', 6, 2, 2, 1, 1, 1),
+	(7137, 6643, 949, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(7138, 6645, 949, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7139, 6646, 949, 'verteidigung', 'gesundheit', 6, 2, 2, 1, 1, 1),
+	(7140, 6647, 949, 'angriff', 'gesundheit', -4, 1, 1, 1, 1, 1),
+	(7141, 6648, 949, 'verteidigung', 'gesundheit', 6, 2, 2, 1, 1, 1),
+	(7142, 6649, 949, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(7143, 6650, 949, 'verteidigung', 'gesundheit', 6, 2, 2, 1, 1, 1),
+	(7144, 6651, 949, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(7145, 6652, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7146, 6655, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7147, 6656, 949, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(7148, 6657, 950, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(7149, 6658, 952, 'angriff', 'ausweichen', -3, 2, 2, 0, 0, 1),
+	(7150, 6658, 952, 'angriff', 'abwehr', -5, 2, 2, 0, 0, 1),
+	(7151, 6659, 951, 'angriff', 'staerke', -5, 2, 2, 1, 1, 1),
+	(7152, 6659, 951, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
+	(7153, 6659, 951, 'angriff', 'initiative', -5, 2, 2, 1, 1, 1),
+	(7154, 6659, 951, 'angriff', 'ausweichen', -5, 2, 2, 1, 1, 1),
+	(7155, 6660, 952, 'angriff', 'staerke', -7, 2, 5, 1, 0, 0),
+	(7156, 6660, 952, 'angriff', 'magie', -5, 2, 5, 1, 0, 0),
+	(7157, 6660, 952, 'angriff', 'ausweichen', -3, 2, 5, 1, 0, 0),
+	(7158, 6661, 951, 'angriff', 'ausweichen', -3, 2, 2, 0, 1, 1),
+	(7159, 6661, 951, 'angriff', 'abwehr', -5, 2, 2, 0, 1, 1),
+	(7160, 6662, 952, 'angriff', 'ausweichen', -3, 1, 2, 0, 0, 0),
+	(7161, 6662, 952, 'angriff', 'abwehr', -5, 1, 2, 0, 0, 0),
+	(7162, 6663, 951, 'angriff', 'ausweichen', -2, 1, 2, 0, 0, 0),
+	(7163, 6663, 951, 'angriff', 'abwehr', -4, 1, 2, 0, 0, 0);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -17002,9 +17142,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_kampf_teilnehmer_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=947 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=953 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~901 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~919 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -17930,7 +18070,13 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(943, 432, 48, 'spieler', 0, 95, 100, 38, 38, 24.6432, 20.0532, 15.4876, 12.599, 21.3746, 12.5676, 12.8757, 101, 11, 11, 198.018, 335, 0),
 	(944, 432, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 153.846, NULL, 0),
 	(945, 433, 48, 'spieler', 0, 44, 100, 3, 38, 24.6628, 20.0669, 15.4876, 12.599, 21.3746, 12.5676, 12.8757, 101, 11, 11, 2376.23, 337, 0),
-	(946, 433, 10, 'npc', 1, 0, 500, 0, 0, 0, 75, 20, 0, 20, 10, 0, 70, 40, 0, 2285.74, NULL, 0);
+	(946, 433, 10, 'npc', 1, 0, 500, 0, 0, 0, 75, 20, 0, 20, 10, 0, 70, 40, 0, 2285.74, NULL, 0),
+	(947, 434, 48, 'spieler', 0, 85, 101, 30, 38, 24.805, 20.2561, 15.5494, 12.599, 21.4611, 12.5865, 12.8757, 101, 11, 11, 396.036, 348, 0),
+	(948, 434, 5, 'npc', 1, 0, 25, 0, 0, 5, 5, 0, 0, 1, 5, 3, 110, 10, 30, 363.636, NULL, 0),
+	(949, 435, 48, 'spieler', 0, 37, 101, 0, 38, 24.8247, 20.2758, 15.5652, 12.599, 21.4831, 12.5865, 12.8796, 101, 11, 11, 1386.13, 349, 0),
+	(950, 435, 46, 'npc', 1, 0, 70, 6, 6, 0, 20, 0, 0, 0, 5, 0, 110, 5, 0, 1363.64, NULL, 0),
+	(951, 436, 48, 'spieler', 0, 91, 101, 4, 38, 14.889, 20.3385, 15.6156, 12.599, 21.5537, 12.5865, 12.892, 91, 7, 1, 313.065, 350, 0),
+	(952, 436, 40, 'npc', 1, 40, 40, 26, 40, 6, 40, 10, 0, 20, 0, 0, 105, 0, 26, 380.952, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -18428,19 +18574,19 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(37, 45, 31, 1),
 	(39, 48, 6, 8),
 	(40, 48, 2, 82),
-	(41, 48, 14, 13),
+	(41, 48, 14, 14),
 	(42, 48, 27, 8),
 	(43, 26, 28, 1),
 	(44, 26, 6, 2),
 	(45, 48, 32, 7),
-	(46, 48, 7, 9),
+	(46, 48, 7, 10),
 	(47, 48, 42, 2),
 	(48, 48, 29, 1),
 	(49, 48, 25, 2),
 	(50, 48, 23, 1),
 	(51, 26, 57, 2),
 	(52, 26, 53, 2),
-	(53, 48, 12, 6),
+	(53, 48, 12, 7),
 	(54, 26, 49, 1),
 	(55, 48, 56, 76),
 	(56, 48, 55, 1),
@@ -18463,15 +18609,15 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(73, 48, 37, 4),
 	(74, 48, 11, 5),
 	(75, 48, 33, 1),
-	(76, 48, 5, 6),
+	(76, 48, 5, 7),
 	(77, 48, 52, 3),
 	(78, 48, 24, 3),
 	(79, 48, 54, 3),
 	(80, 48, 22, 5),
 	(81, 48, 47, 3),
-	(82, 48, 46, 3),
+	(82, 48, 46, 4),
 	(83, 48, 30, 4),
-	(84, 48, 8, 17),
+	(84, 48, 8, 24),
 	(85, 48, 40, 5),
 	(86, 48, 26, 3),
 	(87, 48, 10, 5),
@@ -18609,7 +18755,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 	(26, 10, 216, 2, 2, 3, 'Rashiel', 'W', 15, 10, 6, 6, 10, 6, 6, 45, 55, 13, 15, 5, 16, 73.553, 100, 10, 10, '2019-11-09 17:05:30', 106.676),
 	(43, 11, 209, 3, 1, 9, 'Hilda', 'W', 10, 5, 1, 1, 1, 5, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:46', 0),
 	(45, 11, 218, 1, 3, 9, 'Flammi', 'W', 15, 10, 10, 8, 16, 3, 4, 57, 57, 17, 17, 21, 21, 60.162, 105, 0, 0, '2019-11-02 17:20:32', 11.122),
-	(48, 11, 220, 2, 3, 3, 'Sumpfine', 'W', 23.805, 19.1571, 14.5494, 11.1529, 18.2688, 11.5865, 11.8757, 101, 90, 31, 27, 38, 33, 97.701, 100, 10, 10, '2020-02-03 18:05:44', 357.828);
+	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 23.889, 19.3385, 14.6156, 11.1529, 18.3515, 11.5865, 11.892, 101, 90, 29, 27, 38, 33, 99.256, 100, 10, 10, '2020-02-09 11:42:38', 369.7);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber
@@ -19126,9 +19272,9 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~19 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~20 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
@@ -19140,7 +19286,6 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(73, 45, 81),
 	(115, 48, 77),
 	(116, 48, 80),
-	(118, 48, 66),
 	(120, 48, 63),
 	(123, 48, 68),
 	(124, 26, 63),
@@ -19152,7 +19297,9 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(132, 26, 25),
 	(133, 26, 66),
 	(134, 26, 50),
-	(136, 48, 75);
+	(136, 48, 75),
+	(138, 48, 81),
+	(139, 48, 79);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_text

@@ -14,10 +14,13 @@ var counter_0 = 0;
 var counter_1 = 0;
 var kt_div;
 var kt_divs = [[]];
+var zindex_count = 1;
 
 
 function dragstart(zauberdiv){
 	zauber_icon = zauberdiv;
+	zauber_icon.style.zIndex = zindex_count;
+	zindex_count++;
 	dragx = posx - zauber_icon.offsetLeft;
 	dragy = posy - zauber_icon.offsetTop;
 }

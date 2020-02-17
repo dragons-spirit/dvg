@@ -117,6 +117,7 @@ $max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
 $max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
 
 $anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$anzeige_breite_zauber = 50; # Maximale Breite der angezeigten Zauber im Kampf in Pixel (px)
 $kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
 $kampf_log_detail = 1; # Im Kampf-Log angezeigte Details (0-2)
 

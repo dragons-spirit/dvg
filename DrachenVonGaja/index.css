@@ -74,9 +74,11 @@ a:active
 .zauberdiv
 {
 position:absolute;
+/*
 left:0px;
 top:0px;
 display:none;
+*/
 }
 
 /* Divs Anmeldung */

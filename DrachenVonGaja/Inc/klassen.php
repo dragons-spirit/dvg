@@ -268,6 +268,7 @@ class Spieler {
 	}
 }
 
+
 class Werte {
 	public $staerke;
 	public $intelligenz;
@@ -299,6 +300,7 @@ class Werte {
 		$this->ausweichen = $werte[12];
 	}
 }
+
 
 class NPC {
 	public $id;
