@@ -98,9 +98,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2589 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=2619 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.059 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.089 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -2357,7 +2357,37 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(2585, 48, 12, '2020-02-09 11:42:26', '2020-02-09 11:42:29', 'abgeschlossen', 0, 0),
 	(2586, 48, 2, '2020-02-09 11:42:30', '2020-02-09 11:42:35', 'abgeschlossen', 0, 0),
 	(2587, 48, 6, '2020-02-09 11:42:38', '2020-02-09 11:42:43', 'abgeschlossen', 40, 0),
-	(2588, 48, 11, '2020-02-09 11:42:43', '2037-12-31 23:59:59', 'gestartet', 436, 0);
+	(2588, 48, 11, '2020-02-09 11:42:43', '2037-12-31 23:59:59', 'gestartet', 436, 0),
+	(2589, 26, 2, '2020-02-17 18:23:33', '2020-02-17 18:23:38', 'abgeschlossen', 0, 0),
+	(2590, 26, 6, '2020-02-17 18:23:41', '2020-02-17 18:23:46', 'abgeschlossen', 27, 0),
+	(2591, 26, 11, '2020-02-17 18:23:49', '2020-02-17 18:24:19', 'abgeschlossen', 437, 0),
+	(2592, 26, 2, '2020-02-17 18:24:22', '2020-02-17 18:24:27', 'abgeschlossen', 0, 0),
+	(2593, 26, 6, '2020-02-17 18:24:31', '2020-02-17 18:24:36', 'abgeschlossen', 26, 0),
+	(2594, 26, 11, '2020-02-17 18:24:37', '2020-02-17 18:24:58', 'abgeschlossen', 438, 0),
+	(2595, 26, 10, '2020-02-17 18:25:02', '2020-02-17 18:25:12', 'abgeschlossen', 5, 0),
+	(2596, 26, 12, '2020-02-17 18:25:21', '2020-02-17 18:25:24', 'abgeschlossen', 0, 0),
+	(2597, 26, 2, '2020-02-17 18:25:29', '2020-02-17 18:25:34', 'abgeschlossen', 0, 0),
+	(2598, 26, 7, '2020-02-17 18:25:41', '2020-02-17 18:25:46', 'abgeschlossen', 7, 0),
+	(2599, 26, 2, '2020-02-17 18:25:50', '2020-02-17 18:25:55', 'abgeschlossen', 0, 0),
+	(2600, 26, 2, '2020-02-17 18:26:00', '2020-02-17 18:26:05', 'abgeschlossen', 0, 0),
+	(2601, 26, 10, '2020-02-17 18:26:09', '2020-02-17 18:26:19', 'abgeschlossen', 7, 0),
+	(2602, 26, 2, '2020-02-17 18:26:25', '2020-02-17 18:26:30', 'abgeschlossen', 0, 0),
+	(2603, 26, 2, '2020-02-17 18:26:41', '2020-02-17 18:26:46', 'abgeschlossen', 0, 0),
+	(2604, 26, 2, '2020-02-17 18:28:02', '2020-02-17 18:28:07', 'abgeschlossen', 0, 0),
+	(2605, 26, 6, '2020-02-17 18:28:16', '2020-02-17 18:28:21', 'abgeschlossen', 4, 0),
+	(2606, 26, 11, '2020-02-17 18:28:23', '2020-02-17 18:29:00', 'abgeschlossen', 439, 0),
+	(2607, 26, 2, '2020-02-17 18:30:38', '2020-02-17 18:30:43', 'abgeschlossen', 0, 0),
+	(2608, 26, 2, '2020-02-17 18:31:27', '2020-02-17 18:31:32', 'abgeschlossen', 0, 0),
+	(2609, 26, 6, '2020-02-17 18:31:34', '2020-02-17 18:31:39', 'abgeschlossen', 30, 0),
+	(2610, 26, 11, '2020-02-17 18:31:40', '2020-02-17 18:31:51', 'abgeschlossen', 440, 0),
+	(2611, 26, 2, '2020-02-17 18:40:29', '2020-02-17 18:40:34', 'abgeschlossen', 0, 0),
+	(2612, 26, 6, '2020-02-17 18:40:37', '2020-02-17 18:40:42', 'abgeschlossen', 4, 0),
+	(2613, 26, 11, '2020-02-17 18:40:43', '2020-02-17 18:40:55', 'abgeschlossen', 441, 0),
+	(2614, 26, 2, '2020-02-17 18:41:28', '2020-02-17 18:41:33', 'abgeschlossen', 0, 0),
+	(2615, 26, 10, '2020-02-17 18:41:40', '2020-02-17 18:41:50', 'abgeschlossen', 10, 0),
+	(2616, 26, 2, '2020-02-17 18:41:53', '2020-02-17 18:41:58', 'abgeschlossen', 0, 0),
+	(2617, 26, 6, '2020-02-17 18:42:03', '2020-02-17 18:42:08', 'abgeschlossen', 30, 0),
+	(2618, 26, 11, '2020-02-17 18:42:10', '2020-02-17 18:42:18', 'abgeschlossen', 442, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -2858,9 +2888,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=351 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=358 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~350 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~357 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -3213,7 +3243,14 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(347, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(348, 0.02, 0.02, 0.016, 0, 0.02, 0, 0.004, 0, 0, 0, 0, 0, 0, 1),
 	(349, 0.065, 0.0634, 0.051, 0, 0.06375, 0, 0.0125, 0, 0, 0, 0, 0, 0, 1),
-	(350, 0, 0.026, 0.026, 0, 0.0325, 0, 0.0065, 0, 0, 0, 0, 0, 0, 0);
+	(350, 0, 0.026, 0.026, 0, 0.0325, 0, 0.0065, 0, 0, 0, 0, 0, 0, 0),
+	(351, 0.021, 0.0144, 0.01, 0, 0.0125, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
+	(352, 0.03, 0.006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(353, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(354, 0.02, 0.0296, 0.024, 0.0209, 0, 0.0175, 0, 0, 0, 0, 0, 0, 0, 1),
+	(355, 0.02, 0.012, 0.008, 0.01, 0.002, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(356, 0.04, 0.008, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(357, 0.03, 0.006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -3248,7 +3285,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   CONSTRAINT `FK_items_slots` FOREIGN KEY (`slot_id`) REFERENCES `slots` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Items';
 
--- Exportiere Daten aus Tabelle db_dvg.items: ~33 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items: ~34 rows (ungefähr)
 DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `bilder_id`, `essbar`, `ausruestbar`, `verarbeitbar`, `gesundheit`, `energie`, `zauberpunkte`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `prozent`, `slot_id`) VALUES
@@ -3256,10 +3293,10 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `bilder_id`, `essbar`, `ausr
 	(2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 84, 1, 0, 1, 5, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 95, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 95, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 270, 0, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 9),
 	(7, 'Messer', 'Ein kleines scharfes Messer. Nützlich um so allerlei Dinge zu ernten, zu teilen, zu filetieren oder was man sonst noch damit anstellen kann. Auf jeden Fall präziser als eine klobige Drachenkralle.', 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2),
-	(8, 'Knochen', 'Grau, staubig, schaurig ... ein Knochen wie er im Buche steht.', 247, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(8, 'Knochen', 'Grau, staubig, schaurig ... ein Knochen wie er im Buche steht.', 247, 0, 1, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2),
 	(9, 'Schokoladendrache', 'Süßer Drache zum Vernaschen', 1, 1, 0, 0, 50, 50, 50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
 	(10, 'Drachenfigur', 'Nicht zum Verzehr geeignet!', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(11, 'Plüschdrache', 'Einfach zum Knuddeln ... für einsame Stunden', 251, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
@@ -3267,22 +3304,22 @@ INSERT INTO `items` (`id`, `titel`, `beschreibung`, `bilder_id`, `essbar`, `ausr
 	(13, 'Drachenpuzzleteil 2', 'Das 2. Teil des 4-Teile Puzzles', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(14, 'Drachenpuzzleteil 3', 'Das 3. Teil des 4-Teile Puzzles', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(15, 'Drachenpuzzleteil 4', 'Das 4. Teil des 4-Teile Puzzles', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(18, 'Fleisch', 'Ein Stück Fleisch !', 244, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(19, 'Kürbis', 'Oranges Riesengemüse', 86, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(21, 'Katzenfisch', 'Eine Katze die im Wasser zu finden ist.', 241, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(22, 'Koala', 'Ein Haustier zum knuddeln.', 265, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(23, 'Drachenirrlicht', 'Ein funkelndes Drachenirrlicht aus alter Zeit. Ein sehr seltener, aber magischer neuer Freund.', 269, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(24, 'Aubergine', '---ohne---', 318, 1, 0, 1, 0, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
-	(25, 'Bananen', '---ohne---', 319, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(26, 'Artischocke', '---ohne---', 317, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(18, 'Fleisch', 'Ein Stück Fleisch !', 244, 1, 0, 1, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(19, 'Kürbis', 'Oranges Riesengemüse', 86, 1, 0, 1, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(21, 'Katzenfisch', 'Eine Katze die im Wasser zu finden ist.', 241, 1, 0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(22, 'Koala', 'Ein Haustier zum knuddeln.', 265, 0, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5),
+	(23, 'Drachenirrlicht', 'Ein funkelndes Drachenirrlicht aus alter Zeit. Ein sehr seltener, aber magischer neuer Freund.', 269, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 5),
+	(24, 'Aubergine', '---ohne---', 318, 1, 0, 1, 2, 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1),
+	(25, 'Bananen', '---ohne---', 319, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(26, 'Artischocke', '---ohne---', 317, 1, 0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(27, 'Farn', '---ohne---', 315, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(28, 'Kaktus', 'Eine gute Wasserquelle in der trockenen Gegend !', 321, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(29, 'Kohlrabi', '---ohne---', 322, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(28, 'Kaktus', 'Eine gute Wasserquelle in der trockenen Gegend !', 321, 1, 0, 1, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(29, 'Kohlrabi', '---ohne---', 322, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(30, 'Porre', '---ohne---', 323, 1, 0, 1, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(31, 'Pinienzapfen', 'Die Kerne kann man essen !', 316, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(31, 'Pinienzapfen', 'Die Kerne kann man essen !', 316, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(32, 'Rhabarber', 'Sollte man besser gekocht essen, sonst schmeckt er scheusslich !', 324, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(33, 'Sonnenblume', 'Kann man nicht essen, aber sieht schön aus !', 78, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(34, 'Granatapfel', '---ohne---', 320, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(34, 'Granatapfel', '---ohne---', 320, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(35, 'Grünes Osterei', '---ohne---', 207, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(36, 'Lilanes Osterei', '---ohne---', 208, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(37, 'Ring des Wasser', '---ohne---', 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 1, 9);
@@ -3301,27 +3338,27 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   KEY `FK_spieler_id_items_spieler` (`spieler_id`),
   CONSTRAINT `FK_items_spieler_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
 -- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~66 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt`) VALUES
-	(1, 3, 26, 7, 0),
+	(1, 3, 26, 6, 0),
 	(2, 6, 26, 3, 0),
 	(3, 7, 26, 2, 0),
 	(4, 1, 19, 7, 0),
 	(5, 2, 19, 1, 0),
 	(6, 8, 19, 1, 0),
-	(8, 8, 26, 54, 0),
-	(9, 5, 26, 12, 0),
+	(8, 8, 26, 58, 0),
+	(9, 5, 26, 13, 0),
 	(10, 11, 26, 3, 0),
-	(11, 1, 26, 33, 0),
+	(11, 1, 26, 13, 0),
 	(12, 2, 26, 1, 0),
 	(13, 14, 26, 2, 0),
 	(15, 15, 26, 2, 0),
 	(16, 18, 26, 24, 0),
-	(34, 4, 26, 7, 0),
+	(34, 4, 26, 8, 0),
 	(37, 10, 26, 2, 0),
 	(38, 21, 26, 7, 0),
 	(39, 19, 26, 1, 0),
@@ -3339,7 +3376,6 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(59, 6, 45, 8, 0),
 	(60, 18, 45, 21, 0),
 	(61, 5, 45, 6, 0),
-	(62, 23, 26, 1, 0),
 	(64, 2, 45, 1, 0),
 	(65, 11, 45, 1, 0),
 	(66, 1, 48, 9, 0),
@@ -3349,13 +3385,11 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(70, 8, 48, 43, 0),
 	(71, 5, 48, 10, 0),
 	(72, 22, 48, 2, 0),
-	(74, 24, 26, 1, 0),
 	(75, 31, 48, 8, 0),
-	(76, 34, 26, 3, 0),
+	(76, 34, 26, 2, 0),
 	(77, 30, 26, 2, 0),
 	(78, 29, 48, 6, 0),
 	(79, 34, 48, 8, 0),
-	(80, 25, 26, 4, 0),
 	(81, 31, 26, 2, 0),
 	(82, 24, 48, 2, 0),
 	(84, 4, 48, 7, 0),
@@ -3373,7 +3407,9 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(105, 7, 48, 3, 0),
 	(115, 7, 48, 1, 1),
 	(121, 37, 48, 4, 1),
-	(122, 10, 48, 1, 0);
+	(122, 10, 48, 1, 0),
+	(123, 23, 26, 1, 1),
+	(124, 8, 26, 1, 1);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -3385,9 +3421,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~451 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~456 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -3798,7 +3834,13 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(433, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Eisbär stirbt im Kampf.</font><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greift Sumpfine mit Schlag an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Sumpfine greift Eisbär mit Biss an. Eisbär kann den Angriff jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Eisbär erfolgreich mit Biss an.<br /><br />Eisbär greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert Muräne auf Eisbär. Eisbär kann den Zauber jedoch abwehren.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Eisbär greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />Sumpfine zaubert erfolgreich Muräne auf Eisbär.<br /><br />'),
 	(434, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Junger Fuchs.<br /><br />Junger Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Junger Fuchs.<br /><br />'),
 	(435, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Alphawolf stirbt im Kampf.</font><br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf patzt beim Ausführen von Biss auf Sumpfine.<br />Alphawolf patzt beim Ausführen von Biss auf Sumpfine.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine patzt beim Zaubern von Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine zaubert erfolgreich Monsun auf Alphawolf.<br /><br />Alphawolf greift Sumpfine mit Biss an. Sumpfine kann den Angriff jedoch abwehren.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Alphawolf mit Biss an. Alphawolf kann dem Angriff jedoch ausweichen.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greift Alphawolf mit Biss an. Alphawolf kann den Angriff jedoch abwehren.<br /><br />Alphawolf greif Sumpfine erfolgreich mit Biss an.<br />Sumpfine greif Alphawolf erfolgreich mit Biss an.<br /><br />'),
-	(436, NULL, 'Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Monsun auf Delphin.<br /><br />Delphin zaubert erfolgreich Tsunami auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />');
+	(436, NULL, 'Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will sich selbst mit Biss angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Sumpfine will den Zauber Monsun auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />Delphin zaubert erfolgreich Wasserstrahl auf Sumpfine.<br />Sumpfine zaubert erfolgreich Monsun auf Delphin.<br /><br />Delphin zaubert erfolgreich Tsunami auf Sumpfine.<br />Sumpfine zaubert erfolgreich Wasserstrahl auf Delphin.<br /><br />'),
+	(437, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Katzenfisch stirbt im Kampf.</font><br />Rashiel greif Katzenfisch erfolgreich mit Schlag an.<br /><br />Katzenfisch greif Rashiel erfolgreich mit Biss an.<br />Rashiel greift Katzenfisch mit Stich an. Katzenfisch kann dem Angriff jedoch ausweichen.<br /><br />Katzenfisch greift Rashiel mit Biss an. Rashiel kann dem Angriff jedoch ausweichen.<br />Rashiel patzt beim Ausführen von Stich auf Katzenfisch.<br /><br />Katzenfisch greift Rashiel mit Biss an. Rashiel kann dem Angriff jedoch ausweichen.<br />Rashiel zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Rashiel greif Katzenfisch erfolgreich mit Stich an.<br /><br />'),
+	(438, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Pinguin stirbt im Kampf.</font><br />Rashiel greif Pinguin erfolgreich mit Schlag an.<br /><br />Rashiel will sich selbst mit Schlag angreifen und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Pinguin zaubert erfolgreich Schneesturm auf Rashiel.<br />Rashiel greif Pinguin erfolgreich mit Schlag an.<br /><br />Rashiel greif Pinguin erfolgreich mit Stich an.<br /><br />'),
+	(439, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Fuchs stirbt im Kampf.</font><br />Rashiel greif Fuchs erfolgreich mit Schlag an.<br /><br />Fuchs greif Rashiel erfolgreich mit Schlag an.<br />Rashiel greif Fuchs erfolgreich mit Stich an.<br /><br />Fuchs greif Rashiel erfolgreich mit Schlag an.<br />Rashiel zaubert erfolgreich Ton auf Fuchs.<br /><br />Fuchs greif Rashiel erfolgreich mit Biss an.<br />Rashiel zaubert Kohle auf Fuchs. Fuchs kann dem Zauber jedoch ausweichen.<br /><br />Fuchs greif Rashiel erfolgreich mit Biss an.<br />Rashiel greift Fuchs mit Stich an. Fuchs kann dem Angriff jedoch ausweichen.<br /><br />Fuchs greif Rashiel erfolgreich mit Biss an.<br />Rashiel zaubert erfolgreich Magma auf Fuchs.<br /><br />'),
+	(440, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Skorpion stirbt im Kampf.</font><br />Rashiel greif Skorpion erfolgreich mit Biss an.<br /><br />Skorpion greif Rashiel erfolgreich mit Stich an.<br />Rashiel greif Skorpion erfolgreich mit Stich an.<br /><br />Rashiel zaubert erfolgreich Glut auf Skorpion.<br /><br />'),
+	(441, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Fuchs stirbt im Kampf.</font><br />Rashiel greif Fuchs erfolgreich mit Biss an.<br /><br />Fuchs greift Rashiel mit Biss an. Rashiel kann dem Angriff jedoch ausweichen.<br />Rashiel greif Fuchs erfolgreich mit Stich an.<br /><br />Fuchs greif Rashiel erfolgreich mit Biss an.<br />Rashiel greif Fuchs erfolgreich mit Biss an.<br /><br />Fuchs greif Rashiel erfolgreich mit Biss an.<br />Rashiel greif Fuchs erfolgreich mit Stich an.<br /><br />'),
+	(442, NULL, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Skorpion stirbt im Kampf.</font><br />Rashiel greif Skorpion erfolgreich mit Biss an.<br /><br />Skorpion zaubert erfolgreich Gift auf Rashiel.<br />Rashiel greif Skorpion erfolgreich mit Biss an.<br /><br />Rashiel greif Skorpion erfolgreich mit Stich an.<br /><br />');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -3825,9 +3867,9 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`),
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6664 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=6702 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.489 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.527 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -10163,7 +10205,45 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(6660, 436, 99.009, 951, 952, 68, 1, 0, 0, 5, 104.166, '2020-02-09 11:43:34'),
 	(6661, 436, 190.476, 952, 951, 66, 1, 0, 0, 4, 95.238, '2020-02-09 11:43:34'),
 	(6662, 436, 203.175, 951, 952, 66, 1, 0, 0, 4, 109.89, '2020-02-09 11:43:37'),
-	(6663, 436, 285.714, 952, 951, 66, 1, 0, 0, 4, 95.238, '2020-02-09 11:43:37');
+	(6663, 436, 285.714, 952, 951, 66, 1, 0, 0, 4, 95.238, '2020-02-09 11:43:37'),
+	(6664, 437, 0, 953, 954, 80, 1, 0, 0, 0, 100, '2020-02-17 18:23:59'),
+	(6665, 437, 100, 953, 953, 63, 1, 0, 0, 5, 100, '2020-02-17 18:24:11'),
+	(6666, 437, 100, 954, 953, 77, 1, 1, 0, 0, 100, '2020-02-17 18:24:11'),
+	(6667, 437, 200, 953, 954, 80, 0, 0, 0, 0, 100, '2020-02-17 18:24:13'),
+	(6668, 437, 200, 954, 953, 77, 1, 1, 0, 0, 100, '2020-02-17 18:24:13'),
+	(6669, 437, 300, 953, 954, 80, 1, 1, 0, 0, 100, '2020-02-17 18:24:15'),
+	(6670, 437, 300, 954, 953, 77, 1, 0, 0, 0, 100, '2020-02-17 18:24:15'),
+	(6671, 437, 400, 953, 954, 79, 1, 0, 0, 0, 100, '2020-02-17 18:24:17'),
+	(6672, 438, 0, 955, 956, 80, 1, 0, 0, 0, 100, '2020-02-17 18:24:47'),
+	(6673, 438, 100, 955, 956, 79, 1, 0, 0, 0, 100, '2020-02-17 18:24:49'),
+	(6674, 438, 125, 956, 955, 70, 1, 0, 0, 7, 125, '2020-02-17 18:24:50'),
+	(6675, 438, 200, 955, 956, 79, 1, 0, 0, 0, 109.89, '2020-02-17 18:24:55'),
+	(6676, 439, 0, 957, 958, 22, 1, 0, 0, 7, 100, '2020-02-17 18:28:34'),
+	(6677, 439, 90.909, 958, 957, 77, 1, 0, 0, 0, 90.909, '2020-02-17 18:28:34'),
+	(6678, 439, 100, 957, 958, 80, 1, 1, 0, 0, 100, '2020-02-17 18:28:41'),
+	(6679, 439, 181.818, 958, 957, 77, 1, 0, 0, 0, 90.909, '2020-02-17 18:28:41'),
+	(6680, 439, 200, 957, 958, 23, 1, 1, 0, 3, 100, '2020-02-17 18:28:50'),
+	(6681, 439, 272.727, 958, 957, 77, 1, 0, 0, 0, 90.909, '2020-02-17 18:28:50'),
+	(6682, 439, 300, 957, 958, 25, 1, 0, 0, 5, 100, '2020-02-17 18:28:52'),
+	(6683, 439, 363.636, 958, 957, 79, 1, 0, 0, 0, 90.909, '2020-02-17 18:28:52'),
+	(6684, 439, 400, 957, 958, 80, 1, 0, 0, 0, 100, '2020-02-17 18:28:54'),
+	(6685, 439, 454.545, 958, 957, 79, 1, 0, 0, 0, 90.909, '2020-02-17 18:28:54'),
+	(6686, 439, 500, 957, 958, 79, 1, 0, 0, 0, 100, '2020-02-17 18:28:56'),
+	(6687, 440, 0, 959, 960, 6, 1, 0, 0, 4, 100, '2020-02-17 18:31:45'),
+	(6688, 440, 100, 959, 960, 80, 1, 0, 0, 0, 100, '2020-02-17 18:31:47'),
+	(6689, 440, 100, 960, 959, 80, 1, 0, 0, 0, 100, '2020-02-17 18:31:47'),
+	(6690, 440, 200, 959, 960, 77, 1, 0, 0, 0, 100, '2020-02-17 18:31:49'),
+	(6691, 441, 0, 961, 962, 80, 1, 0, 0, 0, 100, '2020-02-17 18:40:46'),
+	(6692, 441, 90.909, 962, 961, 77, 1, 0, 0, 0, 90.909, '2020-02-17 18:40:46'),
+	(6693, 441, 100, 961, 962, 77, 1, 0, 0, 0, 100, '2020-02-17 18:40:49'),
+	(6694, 441, 181.818, 962, 961, 77, 1, 0, 0, 0, 90.909, '2020-02-17 18:40:49'),
+	(6695, 441, 200, 961, 962, 80, 1, 0, 0, 0, 100, '2020-02-17 18:40:51'),
+	(6696, 441, 272.727, 962, 961, 77, 1, 1, 0, 0, 90.909, '2020-02-17 18:40:51'),
+	(6697, 441, 300, 961, 962, 77, 1, 0, 0, 0, 100, '2020-02-17 18:40:53'),
+	(6698, 442, 0, 963, 964, 80, 1, 0, 0, 0, 100, '2020-02-17 18:42:13'),
+	(6699, 442, 100, 963, 964, 77, 1, 0, 0, 0, 100, '2020-02-17 18:42:15'),
+	(6700, 442, 100, 964, 963, 9, 1, 0, 0, 6, 100, '2020-02-17 18:42:15'),
+	(6701, 442, 200, 963, 964, 77, 1, 0, 0, 0, 100, '2020-02-17 18:42:16');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -10185,9 +10265,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`),
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7164 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=7204 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.842 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.882 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -17108,7 +17188,47 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(7160, 6662, 952, 'angriff', 'ausweichen', -3, 1, 2, 0, 0, 0),
 	(7161, 6662, 952, 'angriff', 'abwehr', -5, 1, 2, 0, 0, 0),
 	(7162, 6663, 951, 'angriff', 'ausweichen', -2, 1, 2, 0, 0, 0),
-	(7163, 6663, 951, 'angriff', 'abwehr', -4, 1, 2, 0, 0, 0);
+	(7163, 6663, 951, 'angriff', 'abwehr', -4, 1, 2, 0, 0, 0),
+	(7164, 6664, 954, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7165, 6665, 953, 'verteidigung', 'gesundheit', 4, 2, 2, 1, 1, 1),
+	(7166, 6670, 953, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(7167, 6671, 954, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7168, 6672, 956, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7169, 6673, 956, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7170, 6674, 955, 'angriff', 'gesundheit', -7, 2, 4, 1, 1, 0),
+	(7171, 6674, 955, 'angriff', 'initiative', -9, 2, 4, 1, 1, 0),
+	(7172, 6674, 955, 'angriff', 'ausweichen', -7, 2, 4, 1, 1, 0),
+	(7173, 6674, 955, 'angriff', 'abwehr', -5, 2, 4, 1, 1, 0),
+	(7174, 6675, 956, 'angriff', 'gesundheit', -8, 0, 1, 1, 1, 1),
+	(7175, 6676, 958, 'angriff', 'gesundheit', -7, 3, 3, 1, 1, 1),
+	(7176, 6676, 958, 'angriff', 'ausweichen', -2, 3, 3, 0, 0, 1),
+	(7177, 6676, 958, 'angriff', 'abwehr', -2, 3, 3, 0, 0, 1),
+	(7178, 6677, 957, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7179, 6679, 957, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7180, 6681, 957, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7181, 6682, 958, 'angriff', 'staerke', -4, 2, 2, 0, 0, 1),
+	(7182, 6682, 958, 'angriff', 'abwehr', -4, 2, 2, 0, 0, 1),
+	(7183, 6683, 957, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(7184, 6684, 958, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7185, 6685, 957, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(7186, 6686, 958, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7187, 6687, 960, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(7188, 6688, 960, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7189, 6689, 959, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
+	(7190, 6690, 960, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(7191, 6691, 962, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7192, 6692, 961, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7193, 6693, 962, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(7194, 6694, 961, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(7195, 6695, 962, 'angriff', 'gesundheit', -6, 2, 2, 1, 1, 1),
+	(7196, 6697, 962, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(7197, 6698, 964, 'angriff', 'gesundheit', -7, 2, 2, 1, 1, 1),
+	(7198, 6699, 964, 'angriff', 'gesundheit', -12, 1, 1, 1, 1, 1),
+	(7199, 6700, 963, 'angriff', 'staerke', -4, 2, 4, 0, 1, 0),
+	(7200, 6700, 963, 'angriff', 'intelligenz', -4, 2, 4, 0, 1, 0),
+	(7201, 6700, 963, 'angriff', 'magie', -4, 2, 4, 0, 1, 0),
+	(7202, 6700, 963, 'angriff', 'gesundheit', -4, 2, 4, 1, 1, 0),
+	(7203, 6701, 964, 'angriff', 'gesundheit', -11, 0, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -17142,9 +17262,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_kampf_teilnehmer_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=953 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=965 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~919 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~931 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -18076,7 +18196,19 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(949, 435, 48, 'spieler', 0, 37, 101, 0, 38, 24.8247, 20.2758, 15.5652, 12.599, 21.4831, 12.5865, 12.8796, 101, 11, 11, 1386.13, 349, 0),
 	(950, 435, 46, 'npc', 1, 0, 70, 6, 6, 0, 20, 0, 0, 0, 5, 0, 110, 5, 0, 1363.64, NULL, 0),
 	(951, 436, 48, 'spieler', 0, 91, 101, 4, 38, 14.889, 20.3385, 15.6156, 12.599, 21.5537, 12.5865, 12.892, 91, 7, 1, 313.065, 350, 0),
-	(952, 436, 40, 'npc', 1, 40, 40, 26, 40, 6, 40, 10, 0, 20, 0, 0, 105, 0, 26, 380.952, NULL, 0);
+	(952, 436, 40, 'npc', 1, 40, 40, 26, 40, 6, 40, 10, 0, 20, 0, 0, 105, 0, 26, 380.952, NULL, 0),
+	(953, 437, 26, 'spieler', 0, 47, 55, 0, 16, 15, 10, 6, 6, 10, 6, 6, 100, 10, 10, 500, 351, 0),
+	(954, 437, 27, 'npc', 1, 0, 20, 10, 10, 5, 10, 5, 0, 10, 0, 0, 100, 0, 25, 400, NULL, 0),
+	(955, 438, 26, 'spieler', 0, 33, 55, 0, 16, 15.0154, 10.0106, 6.0074, 6, 10.0092, 6, 6.0018, 82, 0, 0, 309.89, 352, 0),
+	(956, 438, 26, 'npc', 1, 0, 15, 33, 40, 5, 15, 10, 0, 30, 0, 0, 80, 5, 0, 250, NULL, 0),
+	(957, 439, 26, 'spieler', 0, 19, 55, 1, 16, 15.0372, 10.0222, 6.0074, 6, 10.0092, 6, 6.0018, 100, 10, 10, 600, 354, 0),
+	(958, 439, 4, 'npc', 1, 0, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 20, 545.454, NULL, 0),
+	(959, 440, 26, 'spieler', 0, 45, 55, 2, 16, 15.0518, 10.0438, 6.0249, 6.0153, 10.0092, 6.0128, 6.0018, 100, 10, 10, 300, 355, 0),
+	(960, 440, 30, 'npc', 1, 0, 20, 20, 20, 10, 5, 5, 20, 0, 0, 0, 100, 15, 5, 200, NULL, 0),
+	(961, 441, 26, 'spieler', 0, 29, 55, 2, 18, 15.0662, 10.0525, 6.0306, 8.0225, 12.0106, 8.0128, 8.0018, 100, 10, 10, 400, 356, 0),
+	(962, 441, 4, 'npc', 1, 0, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 20, 363.636, NULL, 0),
+	(963, 442, 26, 'spieler', 0, 42, 68, 2, 18, 16.0947, 6.0582, 2.0306, 8.0225, 12.0106, 8.0128, 8.0018, 100, 10, 10, 300, 357, 0),
+	(964, 442, 30, 'npc', 1, 0, 20, 14, 20, 10, 5, 5, 20, 0, 0, 0, 100, 15, 5, 200, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -18544,7 +18676,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(7, 45, 22, 1),
 	(8, 45, 30, 1),
 	(9, 26, 2, 13),
-	(10, 26, 27, 5),
+	(10, 26, 27, 6),
 	(11, 26, 12, 3),
 	(12, 26, 36, 1),
 	(13, 26, 10, 1),
@@ -18556,15 +18688,15 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(19, 45, 47, 8),
 	(20, 26, 47, 4),
 	(21, 26, 46, 1),
-	(22, 26, 4, 5),
+	(22, 26, 4, 7),
 	(23, 26, 11, 1),
 	(24, 26, 24, 1),
 	(25, 26, 32, 2),
 	(26, 26, 14, 2),
 	(27, 26, 44, 2),
-	(28, 26, 7, 3),
+	(28, 26, 7, 4),
 	(29, 26, 48, 1),
-	(30, 26, 30, 3),
+	(30, 26, 30, 5),
 	(31, 26, 22, 3),
 	(32, 26, 5, 3),
 	(33, 45, 46, 3),
@@ -18604,7 +18736,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(68, 48, 4, 9),
 	(69, 48, 35, 2),
 	(70, 48, 36, 4),
-	(71, 26, 26, 1),
+	(71, 26, 26, 2),
 	(72, 48, 50, 5),
 	(73, 48, 37, 4),
 	(74, 48, 11, 5),
@@ -18752,7 +18884,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 	(17, 17, 210, 1, 1, 7, 'Wüstenfuchs', 'M', 10, 5, 1, 5, 1, 1, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:48', 0),
 	(18, 17, 211, 4, 1, 8, 'Rosaroter Panter', 'M', 10, 5, 1, 1, 1, 1, 5, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:47', 0),
 	(19, 11, 233, 3, 7, 9, 'Shizophrenia', 'W', 10, 5, 1, 1, 1, 5, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:47', 0),
-	(26, 10, 216, 2, 2, 3, 'Rashiel', 'W', 15, 10, 6, 6, 10, 6, 6, 45, 55, 13, 15, 5, 16, 73.553, 100, 10, 10, '2019-11-09 17:05:30', 106.676),
+	(26, 10, 216, 2, 2, 10, 'Rashiel', 'W', 15.1158, 10.0624, 6.03064, 6.02246, 10.0106, 6.01277, 6.00184, 42, 55, 10, 15, 2, 16, 69.672, 100, 10, 10, '2020-02-17 18:42:19', 111.727),
 	(43, 11, 209, 3, 1, 9, 'Hilda', 'W', 10, 5, 1, 1, 1, 5, 1, 32, 32, 7, 7, 4, 4, 100, 100, 10, 10, '2019-11-02 17:37:46', 0),
 	(45, 11, 218, 1, 3, 9, 'Flammi', 'W', 15, 10, 10, 8, 16, 3, 4, 57, 57, 17, 17, 21, 21, 60.162, 105, 0, 0, '2019-11-02 17:20:32', 11.122),
 	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 23.889, 19.3385, 14.6156, 11.1529, 18.3515, 11.5865, 11.892, 101, 90, 29, 27, 38, 33, 99.256, 100, 10, 10, '2020-02-09 11:42:38', 369.7);
@@ -19272,9 +19404,9 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~20 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~23 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
@@ -19290,16 +19422,17 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(123, 48, 68),
 	(124, 26, 63),
 	(125, 26, 22),
-	(128, 26, 79),
 	(129, 26, 80),
 	(130, 48, 64),
 	(131, 26, 23),
 	(132, 26, 25),
-	(133, 26, 66),
 	(134, 26, 50),
 	(136, 48, 75),
 	(138, 48, 81),
-	(139, 48, 79);
+	(139, 48, 79),
+	(143, 26, 77),
+	(144, 26, 62),
+	(145, 26, 6);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_text
