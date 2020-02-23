@@ -40,7 +40,7 @@ function get_account_id($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] rolle
+#	<- [5] rolle_id
 #	<- [6] letzter_login
 
 function get_anmeldung($login)
@@ -72,7 +72,7 @@ function get_anmeldung($login)
 #	<- [2] passwort
 #	<- [3] email
 #	<- [4] aktiv
-#	<- [5] rolle
+#	<- [5] rolle_id
 #	<- [6] letzter_login
 
 function get_anmeldung_email($email)
@@ -134,9 +134,8 @@ function insert_registrierung($login, $passwort, $email)
 				login, 
 				passwort, 
 				email, 
-				aktiv, 
-				rolle) 
-			VALUES (?, ?, ?, true, 'Spieler')")){
+				aktiv) 
+			VALUES (?, ?, ?, true)")){
 		$stmt->bind_param('sss', $login, $passwort, $email);
 		$stmt->execute();
 		if ($debug) echo "<br />\nRegistrierungsdaten gespeichert: [" . $login . " | " . $passwort . " | " . $email . "]<br />\n";
@@ -2547,6 +2546,16 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 			$spieler->element_wasser = $gattung_data[5];
 			$spieler->element_erde = $gattung_data[6];
 			$spieler->element_luft = $gattung_data[7];
+			$spieler->basiswerte = new Werte();
+			$spieler->basiswerte->staerke = $gattung_data[1];
+			$spieler->basiswerte->intelligenz = $gattung_data[2];
+			$spieler->basiswerte->magie = $gattung_data[3];
+			$spieler->basiswerte->element_feuer = $gattung_data[4];
+			$spieler->basiswerte->element_wasser = $gattung_data[5];
+			$spieler->basiswerte->element_erde = $gattung_data[6];
+			$spieler->basiswerte->element_luft = $gattung_data[7];
+			$spieler->bonus_pkt = new Werte();
+			$spieler->bonus_proz = new Werte();
 		}
 		else{
 			echo "<br />\nGattung nicht gefunden<br />\n";
@@ -2555,7 +2564,6 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 		$spieler->max_gesundheit = berechne_max_gesundheit($spieler);
 		$spieler->max_energie = berechne_max_energie($spieler);
 		$spieler->max_zauberpunkte = berechne_max_zauberpunkte($spieler);
-		
 		$spieler->bilder_id = get_bild_zu_gattung_level($spieler->gattung_id, 1);
 		
 		$stmt->bind_param('ddddssddddddddddddd', $spieler->account_id, $spieler->bilder_id, $spieler->gattung_id, $spieler->gebiet_id, $name, $geschlecht, $spieler->staerke, $spieler->intelligenz, $spieler->magie, $spieler->element_feuer, $spieler->element_wasser, $spieler->element_erde, $spieler->element_luft, $spieler->max_gesundheit, $spieler->max_gesundheit, $spieler->max_energie, $spieler->max_energie, $spieler->max_zauberpunkte, $spieler->max_zauberpunkte);

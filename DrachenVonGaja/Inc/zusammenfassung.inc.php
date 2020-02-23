@@ -29,7 +29,7 @@
         }
         else
         {
-            if ($ergebnis[5] == "Admin")
+            if ($ergebnis[5] == 1)
             {
 				print "Auf in den Loginbereich ... <br/>";
 ?>
@@ -186,7 +186,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 <?php
 	}
 	
-	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht"))
+	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht" or $_SESSION['letzte_seite'] == "adminbereich_login"))
     {
 ?>
         <h3 align="center">Account</h3>

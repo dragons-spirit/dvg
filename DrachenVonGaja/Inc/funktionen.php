@@ -109,6 +109,7 @@ function anzeige_attribut($attr){
 
 # Allgemeine Parameter
 $balance_aktiv = true;
+$anzeige_gaja_3d = false;
 
 # Kampfparameter
 $gew_elem = 0.2; # Gewichtung von Elementen

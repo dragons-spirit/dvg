@@ -51,7 +51,7 @@
 		else $button_value = false;
 		
 		$ergebnis = get_anmeldung($_SESSION['login_name']);
-		if(!$ergebnis or $ergebnis[5] != "Admin" or $button_name == "zur_spielerauswahl")
+		if(!$ergebnis or $ergebnis[5] != 1 or $button_name == "zur_spielerauswahl")
 		{
 			?>
 			<script type="text/javascript">

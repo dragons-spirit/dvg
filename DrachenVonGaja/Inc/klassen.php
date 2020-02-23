@@ -99,7 +99,7 @@ class Spieler {
 			# Bonus in Prozent (von Basiswerten)
 			$this->bonus_proz = new Werte($b_proz);
 			# Gesamtwert Max Gesundheit, Energie, Zauberpunkte neu berechnen
-			$this->neuberechnung();
+			if($spieler_id != null) $this->neuberechnung();
 		} else {
 			return false;
 		}
@@ -284,20 +284,36 @@ class Werte {
 	public $abwehr;
 	public $ausweichen;
 	
-	public function __construct($werte) {
-		$this->staerke = $werte[0];
-		$this->intelligenz = $werte[1];
-		$this->magie = $werte[2];
-		$this->element_feuer = $werte[3];
-		$this->element_wasser = $werte[4];
-		$this->element_erde = $werte[5];
-		$this->element_luft = $werte[6];
-		$this->max_gesundheit = $werte[7];
-		$this->max_energie = $werte[8];
-		$this->max_zauberpunkte = $werte[9];
-		$this->initiative = $werte[10];
-		$this->abwehr = $werte[11];
-		$this->ausweichen = $werte[12];
+	public function __construct($werte=null) {
+		if($werte != null){
+			$this->staerke = $werte[0];
+			$this->intelligenz = $werte[1];
+			$this->magie = $werte[2];
+			$this->element_feuer = $werte[3];
+			$this->element_wasser = $werte[4];
+			$this->element_erde = $werte[5];
+			$this->element_luft = $werte[6];
+			$this->max_gesundheit = $werte[7];
+			$this->max_energie = $werte[8];
+			$this->max_zauberpunkte = $werte[9];
+			$this->initiative = $werte[10];
+			$this->abwehr = $werte[11];
+			$this->ausweichen = $werte[12];
+		} else {
+			$this->staerke = 0;
+			$this->intelligenz = 0;
+			$this->magie = 0;
+			$this->element_feuer = 0;
+			$this->element_wasser = 0;
+			$this->element_erde = 0;
+			$this->element_luft = 0;
+			$this->max_gesundheit = 0;
+			$this->max_energie = 0;
+			$this->max_zauberpunkte = 0;
+			$this->initiative = 0;
+			$this->abwehr = 0;
+			$this->ausweichen = 0;
+		}
 	}
 }
 
@@ -1317,7 +1333,27 @@ class Level {
 }
 
 
-
+class Konfig {
+	public $id;
+	public $name;
+	public $topic;
+	public $beschreibung;
+	public $rolle_id;
+	public $global;
+	public $default_wert;
+	public $account_wert;
+	
+	public function __construct($account_id){
+		$this->id = $ds[0];
+		$this->name = $ds[1];
+		$this->topic = $ds[2];
+		$this->beschreibung = $ds[3];
+		$this->rolle_id = $ds[4];
+		$this->global = $ds[5];
+		$this->default_wert = $ds[6];
+		$this->account_wert = $ds[7];
+	}
+}
 
 
 

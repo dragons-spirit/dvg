@@ -130,12 +130,18 @@
 	<input type="submit" alt="Charakterdaten" name="button_charakterdaten" value="Charakterdaten">
 	<br /><br />
 	<input type="submit" alt="Statistik" name="button_statistik" value="Statistik">
-        <div>
-     <h1 style="margin-top:15px">3D-Ansicht vom Planeten Gaja</h1>
-        <?php
-            include("planetgaja.html");
-            ?>
-        </div>
+    <?php
+	if($anzeige_gaja_3d){
+		?>
+		<div>
+			<h1 style="margin-top:15px">3D-Ansicht vom Planeten Gaja</h1>
+			<?php
+				include("planetgaja.html");
+			?>
+		</div>
+		<?php
+	}
+	?>
 </div>
 
 
