@@ -63,6 +63,7 @@
             {
                 $_SESSION["login_name"] = $_POST['login_user'];
 				$_SESSION["login_rolle"] = $ergebnis[5];
+				$_SESSION["account_id"] = $ergebnis[0];
 				unset ($_SESSION['registrierung_ok']); 
 				print "Anmeldung erfolgreich";
             }

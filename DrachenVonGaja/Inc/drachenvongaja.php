@@ -44,6 +44,17 @@
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 		include("klassen.php");
+		if (isset($_SESSION['account_id'])){
+			$konfig = new Konfig($_SESSION['account_id']);
+		} else {
+			$konfig = new Konfig();
+			?>
+			<!-- Zurück zur Anmeldung -->
+			<script type="text/javascript">
+				window.location.href = "../index.php"
+			</script>
+			<?php
+		}
 		include("db_funktionen.php");
 		
 		global $debug;

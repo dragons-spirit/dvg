@@ -4,6 +4,8 @@
 ### ALLGEMEINES / SYSTEM ###
 ############################
 
+global $konfig;
+
 # Zeitzone setzen
 date_default_timezone_set("Europe/Berlin");
 
@@ -108,7 +110,7 @@ function anzeige_attribut($attr){
 ######################################
 
 # Allgemeine Parameter
-$balance_aktiv = true;
+$balance_aktiv = $konfig->get("balance_aktiv");
 $anzeige_gaja_3d = false;
 
 # Kampfparameter

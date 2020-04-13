@@ -50,6 +50,11 @@
 
 <?php
 		include("Inc/klassen.php");
+		if (isset($_SESSION['account_id'])){
+			$konfig = new Konfig($_SESSION['account_id']);
+		} else {
+			$konfig = new Konfig();
+		}
 		include("Inc/db_funktionen.php");
 		include("Inc/zusammenfassung.inc.php");
 		close_connection($connect_db_dvg);

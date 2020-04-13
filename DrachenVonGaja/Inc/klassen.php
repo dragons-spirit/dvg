@@ -1334,6 +1334,65 @@ class Level {
 
 
 class Konfig {
+	private $account_id;
+	private $konfig_details;
+	
+	public function __construct($account_id=0){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				einstellungen.id,
+				einstellungen.name,
+				einstellungen.topic,
+				einstellungen.beschreibung,
+				einstellungen.rolle_id,
+				einstellungen.global,
+				einstellungen.default_wert,
+				einstellungen_account.wert
+			FROM einstellungen
+				LEFT JOIN einstellungen_account ON einstellungen_account.einstellungen_id = einstellungen.id AND einstellungen_account.account_id = ?
+			ORDER BY einstellungen.topic, einstellungen.id")){
+			$stmt->bind_param('d', $account_id);
+			$stmt->execute();
+			if ($konfig_all = $stmt->get_result()){
+				while($konfig_detail = $konfig_all->fetch_array(MYSQLI_NUM)){
+					$konfig[$konfig_detail[1]] = new KonfigDetail($konfig_detail);
+				}
+			}
+			if ($debug) echo "<br />\nKonfigdaten für Account mit id=" . $account_id . " geladen.<br />\n";
+			if (!isset($konfig)) return false;
+		} else {
+			echo "<br />\nQuerryfehler in Konifg->__constuct()<br />\n";
+			return false;
+		}
+		$this->account_id = $account_id;
+		$this->konfig_details = $konfig;
+	}
+	
+	public function get($name){
+		$wert = $this->konfig_details[$name]->account_wert;
+		if ($wert != null){
+			return $wert;
+		} else {
+			return $this->konfig_details[$name]->default_wert;
+		}
+	}
+	
+	public function get_all(){
+		$konfig_all = false;
+		foreach ($this->konfig_details as $konfig_detail){
+			$konfig_all[$konfig_detail->name] = $this->get($konfig_detail->name);
+		}
+		return $konfig_all;
+	}
+	
+	public function get_all_details(){
+		return $this->values;
+	}
+}
+
+
+class KonfigDetail {
 	public $id;
 	public $name;
 	public $topic;
@@ -1343,7 +1402,7 @@ class Konfig {
 	public $default_wert;
 	public $account_wert;
 	
-	public function __construct($account_id){
+	public function __construct($ds){
 		$this->id = $ds[0];
 		$this->name = $ds[1];
 		$this->topic = $ds[2];
