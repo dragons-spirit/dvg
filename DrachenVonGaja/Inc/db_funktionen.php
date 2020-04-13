@@ -3205,6 +3205,35 @@ function get_zauber_aktiv($kt)
 
 
 
+#***************************************************************************************************************
+#************************************************ VERSCHIEDENES ************************************************
+#***************************************************************************************************************
+
+#----------------------------------- SELECT rolle.name (einzel) -----------------------------------
+# 	-> rolle.id (int)
+# 	<- rolle.name (str)
+
+function get_rolle($rolle_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT 	rolle.titel
+			FROM 	rolle
+			WHERE 	rolle.id = ?"))
+	{
+		$stmt->bind_param('d', $rolle_id);
+		$stmt->execute();
+		if ($debug) echo "<br />\nRollenname für: [rolle_id=" . $rolle_id . "] geladen.<br />\n";
+		$rolle_name = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		if ($rolle_name) return $rolle_name;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_rolle()<br />\n";
+		return false;
+	}
+}
 
 
 

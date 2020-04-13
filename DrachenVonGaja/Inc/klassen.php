@@ -1387,7 +1387,7 @@ class Konfig {
 	}
 	
 	public function get_all_details(){
-		return $this->values;
+		return $this->konfig_details;
 	}
 }
 

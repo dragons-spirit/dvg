@@ -338,7 +338,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]));
 							
 							######################
 							# Start von Aktionen #
@@ -433,6 +433,9 @@
 								}
 								if(isset($_POST["button_charakterdaten"])){
 									include('charakterdaten.php');
+								}
+								if(isset($_POST["button_konfiguration"])){
+									include('konfiguration.php');
 								}
 							}
 							else {

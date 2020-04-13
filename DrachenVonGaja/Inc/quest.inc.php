@@ -129,6 +129,8 @@
 	<br /><br />
 	<input type="submit" alt="Charakterdaten" name="button_charakterdaten" value="Charakterdaten">
 	<br /><br />
+	<input type="submit" alt="Einstellungen" name="button_konfiguration" value="Einstellungen">
+	<br /><br />
 	<input type="submit" alt="Statistik" name="button_statistik" value="Statistik">
     <?php
 	if($anzeige_gaja_3d){
