@@ -28,11 +28,11 @@
 		if($_SESSION['browser'] == "Opera"){
 			?>
 			<style>
-				head 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				body 				{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input                           {outline:none;}
-                                input[type=submit] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input[type=button] 	{font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				head {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				body {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input {outline:none;}
+                input[type=submit] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				input[type=button] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
 			</style>
 			<?php
 		}
@@ -46,6 +46,7 @@
 		include("klassen.php");
 		if (isset($_SESSION['account_id'])){
 			$konfig = new Konfig($_SESSION['account_id']);
+			$session = new Session([0,$_SESSION['account_id'],$_SESSION['login_rolle'],"10.05.2020 - 16:00:00","01.01.2021 - 00:00:00"]);
 		} else {
 			$konfig = new Konfig();
 			?>
@@ -338,7 +339,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]));
+							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]));
 							
 							######################
 							# Start von Aktionen #
@@ -434,7 +435,7 @@
 								if(isset($_POST["button_charakterdaten"])){
 									include('charakterdaten.php');
 								}
-								if(isset($_POST["button_konfiguration"])){
+								if(isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"])){
 									include('konfiguration.php');
 								}
 							}

@@ -1348,9 +1348,13 @@ class Konfig {
 				einstellungen.rolle_id,
 				einstellungen.global,
 				einstellungen.default_wert,
-				einstellungen_account.wert
+				einstellungen_account.wert,
+				datentyp.titel,
+				einstellungen.min,
+				einstellungen.max
 			FROM einstellungen
 				LEFT JOIN einstellungen_account ON einstellungen_account.einstellungen_id = einstellungen.id AND einstellungen_account.account_id = ?
+				LEFT JOIN datentyp ON datentyp.id = einstellungen.datentyp_id
 			ORDER BY einstellungen.topic, einstellungen.id")){
 			$stmt->bind_param('d', $account_id);
 			$stmt->execute();
@@ -1367,15 +1371,64 @@ class Konfig {
 		}
 		$this->account_id = $account_id;
 		$this->konfig_details = $konfig;
+		if(isset($_POST["button_konfiguration_speichern"])){
+			foreach($this->konfig_details as $konfig_temp){
+				if(isset($_POST["konfig_global_".$konfig_temp->id])){
+					$konfig_neuer_wert = $_POST["konfig_global_".$konfig_temp->id];
+					if($konfig_neuer_wert != $konfig_temp->default_wert){
+						# update konfig default
+						$this->update_konfig("default", $konfig_temp->id, $konfig_neuer_wert);
+						$konfig_temp->default_wert = $konfig_neuer_wert;
+					}
+				}
+				if(isset($_POST["konfig_account_".$konfig_temp->id])){
+					$konfig_neuer_wert = $_POST["konfig_account_".$konfig_temp->id];
+					if($konfig_neuer_wert != $konfig_temp->account_wert){
+						if($konfig_neuer_wert != $konfig_temp->default_wert){
+							if($konfig_temp->account_wert == null){
+								$this->update_konfig("account_insert", $konfig_temp->id, $konfig_neuer_wert);
+							} else {
+								$this->update_konfig("account_update", $konfig_temp->id, $konfig_neuer_wert);
+							}
+							$konfig_temp->account_wert = $konfig_neuer_wert;
+						} else {
+							if($konfig_temp->account_wert != null){
+								$this->update_konfig("account_delete", $konfig_temp->id, $konfig_neuer_wert);
+								$konfig_temp->account_wert = null;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public function get($name){
 		$wert = $this->konfig_details[$name]->account_wert;
-		if ($wert != null){
-			return $wert;
-		} else {
-			return $this->konfig_details[$name]->default_wert;
+		if ($wert == null){
+			$wert = $this->konfig_details[$name]->default_wert;
 		}
+		switch($this->konfig_details[$name]->datentyp){
+			case "boolean":
+				switch ($wert){
+					case "true":
+					case "ja": $echter_wert = true; break;
+					case "false":
+					case "nein": $echter_wert = false; break;
+					default: $echter_wert = null; break;
+				}
+				break;
+			case "integer":
+				$echter_wert = intval($wert);
+				break;
+			case "float":
+				$echter_wert = floatval(str_replace(",", ".", $wert));
+				break;
+			default:
+				$echter_wert = $wert;
+				break;
+		}
+		return $echter_wert;
 	}
 	
 	public function get_all(){
@@ -1386,8 +1439,70 @@ class Konfig {
 		return $konfig_all;
 	}
 	
+	private function check_rolle($konfig_detail){
+		global $session;
+		if ($konfig_detail->rolle_id >= $session->rolle_id) return true;
+			else return false;
+	}
+	
 	public function get_all_details(){
-		return $this->konfig_details;
+		return array_filter($this->konfig_details, array($this, "check_rolle"));
+	}
+	
+	private function update_konfig($topic, $konfig_id, $neuer_wert){
+		global $debug, $connect_db_dvg;
+		switch($topic){
+			case "default":
+				if ($stmt = $connect_db_dvg->prepare("
+					UPDATE einstellungen
+					SET default_wert = ?
+					WHERE id = ?;")){
+					$stmt->bind_param('sd', $neuer_wert, $konfig_id);
+					$stmt->execute();
+				} else {
+					echo "<br />\nQuerryfehler in Konfig->update_konfig() - default<br />\n";
+					return false;
+				}
+				break;
+			case "account_insert":
+				if ($stmt = $connect_db_dvg->prepare("
+					INSERT INTO einstellungen_account (account_id, einstellungen_id, wert)
+					VALUES (?, ?, ?);")){
+					$stmt->bind_param('dds', $this->account_id, $konfig_id, $neuer_wert);
+					$stmt->execute();
+				} else {
+					echo "<br />\nQuerryfehler in Konfig->update_konfig() - account_insert<br />\n";
+					return false;
+				}
+				break;
+			case "account_update":
+				if ($stmt = $connect_db_dvg->prepare("
+					UPDATE einstellungen_account
+					SET wert = ?
+					WHERE account_id = ?
+						AND einstellungen_id = ?;")){
+					$stmt->bind_param('sdd', $neuer_wert, $this->account_id, $konfig_id);
+					$stmt->execute();
+				} else {
+					echo "<br />\nQuerryfehler in Konfig->update_konfig() - account_update<br />\n";
+					return false;
+				}
+				break;
+			case "account_delete":
+				if ($stmt = $connect_db_dvg->prepare("
+					DELETE FROM einstellungen_account
+					WHERE account_id = ?
+						AND einstellungen_id = ?;")){
+					$stmt->bind_param('dd', $this->account_id, $konfig_id);
+					$stmt->execute();
+				} else {
+					echo "<br />\nQuerryfehler in Konfig->update_konfig() - account_delete<br />\n";
+					return false;
+				}
+				break;
+			default:
+				echo "Konfig->update_konfig() aufgerufen aber Operation nicht bekannt.";
+		}
 	}
 }
 
@@ -1401,6 +1516,9 @@ class KonfigDetail {
 	public $global;
 	public $default_wert;
 	public $account_wert;
+	public $datentyp;
+	public $min;
+	public $max;
 	
 	public function __construct($ds){
 		$this->id = $ds[0];
@@ -1411,10 +1529,28 @@ class KonfigDetail {
 		$this->global = $ds[5];
 		$this->default_wert = $ds[6];
 		$this->account_wert = $ds[7];
+		$this->datentyp = $ds[8];
+		$this->min = $ds[9];
+		$this->max = $ds[10];
 	}
 }
 
 
+class Session {
+	public $id;
+	public $account_id;
+	public $rolle_id;
+	public $gueltig_von;
+	public $gueltig_bis;
+	
+	public function __construct($ds){
+		$this->id = $ds[0];
+		$this->account_id = $ds[1];
+		$this->rolle_id = $ds[2];
+		$this->gueltig_von = $ds[3];
+		$this->gueltig_bis = $ds[4];
+	}
+}
 
 
 

@@ -108,44 +108,44 @@ function anzeige_attribut($attr){
 ######################################
 ### STARTWERTE SPIELER / BALANCING ###
 ######################################
-
+if(isset($konfig)){
 # Allgemeine Parameter
 $balance_aktiv = $konfig->get("balance_aktiv");
-$anzeige_gaja_3d = false;
+$anzeige_gaja_3d = $konfig->get("anzeige_gaja_3d");
 
 # Kampfparameter
-$gew_elem = 0.2; # Gewichtung von Elementen
-$gew_attr = 0.5; # Gewichtung von Attributen
-$max_abwehr_standard = 0.75; # Maximal abgewehrter Schaden bei Standardangriffen
-$max_abwehr_zauber = 0.75; # Maximal abgewehrter Schaden bei Zaubern
+$gew_elem = $konfig->get("gew_elem"); # Gewichtung von Elementen
+$gew_attr = $konfig->get("gew_attr"); # Gewichtung von Attributen
+$max_abwehr_standard = $konfig->get("max_abwehr_standard"); # Maximal abgewehrter Schaden bei Standardangriffen
+$max_abwehr_zauber = $konfig->get("max_abwehr_zauber"); # Maximal abgewehrter Schaden bei Zaubern
 
-$anzeige_npc_zauber = false; # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
-$anzeige_breite_zauber = 50; # Maximale Breite der angezeigten Zauber im Kampf in Pixel (px)
-$kampf_detail = 2; # Im Kampf angezeigte Parameter (0-2)
-$kampf_log_detail = 1; # Im Kampf-Log angezeigte Details (0-2)
+$anzeige_npc_zauber = $konfig->get("anzeige_npc_zauber"); # Im Kampf werden die Angriffe/Zauber der NPCs angezeigt
+$anzeige_breite_zauber = $konfig->get("anzeige_breite_zauber"); # Maximale Breite der angezeigten Zauber im Kampf in Pixel (px)
+$kampf_detail = $konfig->get("kampf_detail"); # Im Kampf angezeigte Parameter (0-2)
+$kampf_log_detail = $konfig->get("kampf_log_detail"); # Im Kampf-Log angezeigte Details (0-2)
 
 # Parameter für Gewinne im Kampf
-$k_bonus_patzer = 0.1; # Multiplikator wenn Zauber/Angriff fehl schlägt (ausgenommen Zielfehler)
-$k_bonus_ausweichen = 0.2; # Multiplikator wenn Ziel ausweicht
-$k_bonus_abwehr = 0.5; # Multiplikator wenn Ziel abwehrt
-$k_bonus_erfolg = 1.0; # Multiplikator bei Treffer
-$k_bonus_staerke = 0.01; # Grundgewinn Stärke
-$k_bonus_intelligenz = 0.02; # Grundgewinn Intelligenz
-$k_bonus_magie = 0.02; # Grundgewinn Magie
-$k_bonus_elemente = 0.5; # Multiplikator für Elementpunkte allgemein
-$k_bonus_hauptelement = 0.05; # Grundgewinn für Hauptelement Zauber
-$k_bonus_nebenelement = 0.01; # Grundgewinn für Nebenelement Zauber
-$k_bonus_gegenelement = 0.02; # Grundgewinn für Gegenelement (Hauptzauber) zum Zauber
-$k_bonus_zauberpunkte = 0.1; # Multiplikator für Zauberpunkte allgemein
+$k_bonus_patzer = $konfig->get("k_bonus_patzer"); # Multiplikator wenn Zauber/Angriff fehl schlägt (ausgenommen Zielfehler)
+$k_bonus_ausweichen = $konfig->get("k_bonus_ausweichen"); # Multiplikator wenn Ziel ausweicht
+$k_bonus_abwehr = $konfig->get("k_bonus_abwehr"); # Multiplikator wenn Ziel abwehrt
+$k_bonus_erfolg = $konfig->get("k_bonus_erfolg"); # Multiplikator bei Treffer
+$k_bonus_staerke = $konfig->get("k_bonus_staerke"); # Grundgewinn Stärke
+$k_bonus_intelligenz = $konfig->get("k_bonus_intelligenz"); # Grundgewinn Intelligenz
+$k_bonus_magie = $konfig->get("k_bonus_magie"); # Grundgewinn Magie
+$k_bonus_elemente = $konfig->get("k_bonus_elemente"); # Multiplikator für Elementpunkte allgemein
+$k_bonus_hauptelement = $konfig->get("k_bonus_hauptelement"); # Grundgewinn für Hauptelement Zauber
+$k_bonus_nebenelement = $konfig->get("k_bonus_nebenelement"); # Grundgewinn für Nebenelement Zauber
+$k_bonus_gegenelement = $konfig->get("k_bonus_gegenelement"); # Grundgewinn für Gegenelement (Hauptzauber) zum Zauber
+$k_bonus_zauberpunkte = $konfig->get("k_bonus_zauberpunkte"); # Multiplikator für Zauberpunkte allgemein
 
 # Parameter für Gewinne beim Sammeln
-$s_bonus_neu_staerke = 0.01; # Grundgewinn Stärke wenn Pflanze zum ersten Mal geerntet
-$s_bonus_neu_intelligenz = 0.1; # Grundgewinn Intelligenz wenn Pflanze zum ersten Mal geerntet
-$s_bonus_neu_magie = 0.2; # Grundgewinn Magie wenn Pflanze zum ersten Mal geerntet
-$s_bonus_staerke = 0.0; # Grundgewinn Stärke
-$s_bonus_intelligenz = 0.01; # Grundgewinn Intelligenz
-$s_bonus_magie = 0.0; # Grundgewinn Magie
-
+$s_bonus_neu_staerke = $konfig->get("s_bonus_neu_staerke"); # Grundgewinn Stärke wenn Pflanze zum ersten Mal geerntet
+$s_bonus_neu_intelligenz = $konfig->get("s_bonus_neu_intelligenz"); # Grundgewinn Intelligenz wenn Pflanze zum ersten Mal geerntet
+$s_bonus_neu_magie = $konfig->get("s_bonus_neu_magie"); # Grundgewinn Magie wenn Pflanze zum ersten Mal geerntet
+$s_bonus_staerke = $konfig->get("s_bonus_staerke"); # Grundgewinn Stärke
+$s_bonus_intelligenz = $konfig->get("s_bonus_intelligenz"); # Grundgewinn Intelligenz
+$s_bonus_magie = $konfig->get("s_bonus_magie"); # Grundgewinn Magie
+}
 
 # Maximale Gesundheit
 function berechne_max_gesundheit($akteur){

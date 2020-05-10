@@ -559,11 +559,11 @@
 				<td><input id="allg_info_eingabe" type="input" name="npc_initiative" value="<?php if($row) echo $row[15]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
-				<td>Abwehr</td>
+				<td>Abwehr in %</td>
 				<td><input id="allg_info_eingabe" type="input" name="npc_abwehr" value="<?php if($row) echo $row[16]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
-				<td>Ausweichen</td>
+				<td>Ausweichen in %</td>
 				<td><input id="allg_info_eingabe" type="input" name="npc_ausweichen" value="<?php if($row) echo $row[17]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
