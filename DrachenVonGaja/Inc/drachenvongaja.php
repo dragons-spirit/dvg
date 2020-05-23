@@ -45,16 +45,41 @@
 		<?php
 		include("klassen.php");
 		if (isset($_SESSION['account_id'])){
-			$konfig = new Konfig($_SESSION['account_id']);
-			$session = new Session([0,$_SESSION['account_id'],$_SESSION['login_rolle'],"10.05.2020 - 16:00:00","01.01.2021 - 00:00:00"]);
+			$account_id = $_SESSION['account_id'];
+			$konfig = new Konfig($account_id);
+			$session = new Session($account_id, true);
+			if ($session == false or $session->id == null){
+				# Keine offene Session gefunden
+				session_unset();
+				?>
+				<script type="text/javascript">
+					window.location.href = "../index.php";
+					alert("Ihre letzte Session wurde unvorhergesehen beendet.");
+				</script>
+				<?php
+			} else {
+				if ($session->ist_gueltig() == false){
+					# Session abgelaufen oder andere IP-Adresse
+					session_unset();
+					?>
+					<script type="text/javascript">
+						window.location.href = "../index.php";
+						alert("Ihre Session ist abgelaufen.");
+					</script>
+					<?php
+				}
+			}
 		} else {
 			$konfig = new Konfig();
+			session_unset();
 			?>
-			<!-- Zurück zur Anmeldung -->
 			<script type="text/javascript">
-				window.location.href = "../index.php"
+				window.location.href = "../index.php";
 			</script>
 			<?php
+		}
+		if ($session->aktiv){
+			$session->aktualisieren();
 		}
 		include("db_funktionen.php");
 		
@@ -63,16 +88,15 @@
 		#Aktivieren/Deaktivieren von Anzeigen
 		$levelbilder_anzeigen = false;
 			
-# Ist der Spieler auch eingeloggt?
-# "nein"	-> zurück zur Anmeldung
-# "ja" 		-> Charakterdaten laden/setzen
+		# Ist der Spieler auch eingeloggt?
+		# "nein"	-> zurück zur Anmeldung
+		# "ja" 		-> Charakterdaten laden/setzen
 		if (!isset($_SESSION['login_name']) OR isset($_POST["button_zur_spielerauswahl"])){
-		?>
-			<!-- Zurück zur Anmeldung -->
+			?>
 			<script type="text/javascript">
-				window.location.href = "../index.php"
+				window.location.href = "../index.php";
 			</script>
-		<?php
+			<?php
 		}
 			
 ########################################

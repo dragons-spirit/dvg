@@ -1542,13 +1542,136 @@ class Session {
 	public $rolle_id;
 	public $gueltig_von;
 	public $gueltig_bis;
+	public $aktiv;
+	public $ip;
 	
-	public function __construct($ds){
-		$this->id = $ds[0];
-		$this->account_id = $ds[1];
-		$this->rolle_id = $ds[2];
-		$this->gueltig_von = $ds[3];
-		$this->gueltig_bis = $ds[4];
+	public function __construct($ds, $laden=false){
+		global $debug, $connect_db_dvg;
+		if ($laden and !is_array($ds)){
+			$account_id = $ds;
+			if ($stmt = $connect_db_dvg->prepare("
+				SELECT *
+				FROM session
+				WHERE account_id = ?
+					and aktiv = 1;")){
+				$stmt->bind_param('d', $account_id);
+				$stmt->execute();
+				$session_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+				if (isset($session_data)){
+					$this->id = $session_data[0];
+					$this->account_id = $session_data[1];
+					$this->rolle_id = $session_data[2];
+					$this->gueltig_von = $session_data[3];
+					$this->gueltig_bis = $session_data[4];
+					$this->aktiv = $session_data[5];
+					$this->ip = $session_data[6];
+				} else {
+					return false;
+				}
+			} else {
+				echo "<br />\nQuerryfehler in Session->__construct(LADEN)<br />\n";
+				return false;
+			}
+		}
+		if (!$laden and is_array($ds)){
+			if ($ds[0] == 0){
+				$this->id = $this->speichern($ds);
+			} else {
+				$this->id = $ds[0];
+			}
+			$this->account_id = $ds[1];
+			$this->rolle_id = $ds[2];
+			$this->gueltig_von = $ds[3];
+			$this->gueltig_bis = $ds[4];
+			$this->aktiv = $ds[5];
+			$this->ip = $ds[6];
+		}
+	}
+	
+	public function speichern($ds){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO session (account_id, rolle_id, gueltig_von, gueltig_bis, aktiv, ip)
+			VALUES (?, ?, ?, ?, ?, ?);")){
+			$stmt->bind_param('ddssds', $ds[1], $ds[2], $ds[3], $ds[4], $ds[5], $ds[6]);
+			$stmt->execute();
+			$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM session");
+			$stmt->execute();
+			$session_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			if ($session_id > 0)
+				$this->id = $session_id;
+		} else {
+			echo "<br />\nQuerryfehler in Session->speichern()<br />\n";
+			return false;
+		}
+	}
+	public function aktualisieren(){
+		global $debug, $connect_db_dvg, $konfig;
+		$jetzt = new DateTime();
+		$max_gueltigkeit = new DateInterval("PT".$konfig->get("gueltigkeit_session")."M");
+		$gueltig_bis_neu = (new DateTime)->add($max_gueltigkeit);
+		if ($stmt = $connect_db_dvg->prepare("
+			UPDATE session
+			SET gueltig_bis = ?
+			WHERE id = ?;")){
+			$stmt->bind_param('sd', $gueltig_bis_neu->format('Y-m-d H:i:s'), $this->id);
+			$stmt->execute();
+			$this->gueltig_bis = $gueltig_bis_neu->format('Y-m-d H:i:s');
+		} else {
+			echo "<br />\nQuerryfehler in Session->aktualisieren()<br />\n";
+			return false;
+		}
+	}
+	public function beenden_logout(){
+		global $debug, $connect_db_dvg;
+		$jetzt = new DateTime();
+		if ($stmt = $connect_db_dvg->prepare("
+			UPDATE session
+			SET gueltig_bis = ?,
+				aktiv = 0
+			WHERE id = ?;")){
+			$stmt->bind_param('sd', $jetzt->format('Y-m-d H:i:s'), $this->id);
+			$stmt->execute();
+			$this->aktiv = 0;
+			$this->gueltig_bis = $jetzt->format('Y-m-d H:i:s');
+		} else {
+			echo "<br />\nQuerryfehler in Session->beenden_logout()<br />\n";
+			return false;
+		}
+	}
+	public function beenden_abgelaufen(){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			UPDATE session
+			SET aktiv = 0
+			WHERE id = ?;")){
+			$stmt->bind_param('d', $this->id);
+			$stmt->execute();
+			$this->aktiv = 0;
+		} else {
+			echo "<br />\nQuerryfehler in Session->beenden_abgelaufen()<br />\n";
+			return false;
+		}
+	}
+	public function ist_gueltig(){
+		$abgelaufen = false;
+		# abgelaufen
+		$jetzt = new DateTime();
+		$gueltig_bis = new DateTime($this->gueltig_bis);
+		if ($gueltig_bis < $jetzt){
+			$abgelaufen = true;
+		}
+		# andere_ip
+		$neue_ip = $_SERVER["REMOTE_ADDR"];
+		if ($neue_ip != $this->ip){
+			$abgelaufen = true;
+		}
+		if ($abgelaufen){
+			$this->beenden_abgelaufen();
+			return false;
+		} else {
+			return true;
+		}
 	}
 }
 

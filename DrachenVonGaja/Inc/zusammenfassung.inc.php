@@ -14,6 +14,8 @@
 	##### Logout löscht alle Session-Parameter #####
 	if (isset($_POST["button_logout"]))
 	{
+		$session = new Session($_SESSION["account_id"], true);
+		$session->beenden_logout();
 		session_unset();
 	}
 	
@@ -64,7 +66,11 @@
                 $_SESSION["login_name"] = $_POST['login_user'];
 				$_SESSION["login_rolle"] = $ergebnis[5];
 				$_SESSION["account_id"] = $ergebnis[0];
-				unset ($_SESSION['registrierung_ok']); 
+				unset ($_SESSION['registrierung_ok']);
+				$jetzt = new DateTime();
+				$max_gueltigkeit = new DateInterval("PT".$konfig->get("gueltigkeit_session")."M");
+				$gueltig_bis = (new DateTime)->add($max_gueltigkeit);
+				$session = new Session([0, $ergebnis[0], $ergebnis[5], $jetzt->format('Y-m-d H:i:s'), $gueltig_bis->format('Y-m-d H:i:s'), 1, $_SERVER["REMOTE_ADDR"]]);
 				print "Anmeldung erfolgreich";
             }
             else
