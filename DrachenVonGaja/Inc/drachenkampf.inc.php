@@ -365,15 +365,15 @@
 													alt="<?php echo $zauber->titel ?>" 
 													<?php
 													switch ($zauber_aktiv){
-														case 0: echo "style='border:1px red solid;'"; break;
-														case 1: echo "style='border:1px green solid;'"; break;
-														case 2: echo "style='border:1px grey solid;'"; break;
+														case 0: echo "style='float:left;border:1px red solid; width:".$anzeige_breite_zauber."px;'"; break;
+														case 1: echo "style='float:left;border:1px green solid; width:".$anzeige_breite_zauber."px;'"; break;
+														case 2: echo "style='float:left;border:1px grey solid; width:".$anzeige_breite_zauber."px;'"; break;
 													}?>/>
 											</span>
 											<?php 
 											if($zauber_aktiv == 1){ 
 												?>
-												<div id="<?php echo "zauber_div_##".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="background:url(<?php echo get_bild_zu_id($zauber->bilder_id) ?>);background-size: 60px 60px;width:60px;height:60px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
+												<div id="<?php echo "zauber_div_##".$count ?>" onmousedown="dragstart(this)" class="zauberdiv" style="<?php echo 'background:url('.get_bild_zu_id($zauber->bilder_id).');background-size: '.$anzeige_breite_zauber.'px '.$anzeige_breite_zauber.'px; width:'.$anzeige_breite_zauber.'px; height:'.$anzeige_breite_zauber.'px;' ?> margin-left:1px; margin-top:1px;" zauber_id="<?php echo $zauber->id ?>" kt_id="<?php echo $kt->kt_id ?>">
 												</div>
 											<?php
 											}
