@@ -91,7 +91,7 @@
 		# Ist der Spieler auch eingeloggt?
 		# "nein"	-> zurück zur Anmeldung
 		# "ja" 		-> Charakterdaten laden/setzen
-		if (!isset($_SESSION['login_name']) OR isset($_POST["button_zur_spielerauswahl"])){
+		if (isset($_POST["button_zur_spielerauswahl"])){
 			?>
 			<script type="text/javascript">
 				window.location.href = "../index.php";

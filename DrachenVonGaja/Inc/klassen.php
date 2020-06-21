@@ -1055,7 +1055,7 @@ class Kampf {
 	
 	public function __construct($ds) {
 		$this->id = $ds[0];
-		$this->gebiet = $ds[1];
+		$this->gebiet_id = $ds[1];
 		$this->log = $ds[2];
 	}
 	

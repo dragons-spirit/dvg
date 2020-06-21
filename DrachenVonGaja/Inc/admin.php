@@ -551,7 +551,7 @@
 				<td><input id="allg_info_eingabe" type="input" name="npc_energie" value="<?php if($row) echo $row[13]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
-				<td>Zauberpunnkte</td>
+				<td>Zauberpunkte</td>
 				<td><input id="allg_info_eingabe" type="input" name="npc_zauberpunkte" value="<?php if($row) echo $row[14]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
