@@ -1030,6 +1030,12 @@ function insertNPC($npc_daten)
 			$npc_daten["npc_ki"]);
 		$stmt->execute();
 		$result = $stmt->affected_rows;
+		if ($npc_daten["npc_typ"] == "angreifbar"){
+			$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM npc");
+			$stmt->execute();
+			$npc_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			insertNPCzauberStandard($npc_id);
+		}
 		if($result == 1)
 			return true;
 		else
@@ -1244,6 +1250,36 @@ function deleteNPCitems($npc_id)
 	}
 }
 
+
+#----------------------------------- INSERT zauber_npc -----------------------------------
+#	-> npc_id
+#	-> zauber_id (default = 77 -> Biss)
+#	-> wkt (deafult = 100)
+#	<- true/false
+
+function insertNPCzauberStandard($npc_id, $zauber_id=77, $wkt=100)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO zauber_npc (
+				npc_id,
+				zauber_id,
+				wahrscheinlichkeit)
+			VALUES (?, ?, ?)")){
+		$stmt->bind_param('ddd', $npc_id, $zauber_id, $wkt);
+		$stmt->execute();
+		$result = $stmt->affected_rows;
+		if($result == 1)
+			return 1;
+		else
+			return 0;
+	} else {
+		echo "<br>\nQuerryfehler in insertNPCzauberStandard()<br>\n";
+		return false;
+	}
+}
 
 
 
