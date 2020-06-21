@@ -14,8 +14,10 @@
 	##### Logout löscht alle Session-Parameter #####
 	if (isset($_POST["button_logout"]))
 	{
-		$session = new Session($_SESSION["account_id"], true);
-		$session->beenden_logout();
+		if (isset($_SESSION["account_id"])) {
+			$session = new Session($_SESSION["account_id"], true);
+			$session->beenden_logout();
+		}
 		session_unset();
 	}
 	
