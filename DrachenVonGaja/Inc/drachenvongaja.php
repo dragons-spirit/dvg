@@ -175,15 +175,17 @@
 								#################################################################
 								case "Gegend erkunden":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
+									$aktion = get_aktion($aktion_spieler->titel);
+									$keine_npc = false;
 									?>
 									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-										Ihr habt das Gebiet erkundet und folgende Dinge entdeckt:
+										Ihr habt die Gegend erkundet.
 									</p>
 									<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
 									<?php
-									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar")){		
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar")){
 										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
-											if(check_wkt($row[3])){
+											if(check_wkt($row[3] * $aktion->faktor_1)){
 											?>
 												<tr align="center">
 													<!--<td width="25px"><?php echo $row[0] ?></td>-->
@@ -196,11 +198,11 @@
 											}
 										}
 									} else {
-										echo "<br />\nKeine NPCs gefunden.<br />\n";
+										$keine_npc = true;
 									}
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar")){		
 										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
-											if(check_wkt($row[3])){
+											if(check_wkt($row[3] * $aktion->faktor_2)){
 												?>
 												<tr align="center">
 													<!--<td	width="25px"><?php echo $row[0] ?></td>-->
@@ -213,17 +215,25 @@
 											}
 										}
 									} else {
-										echo "<br />\nKeine NPCs gefunden.<br />\n";
+										$keine_npc = true;
 									}
-									?>
-									</table>
-									<p align="center" style="margin-top:25px; margin-bottom:0px; font-size:14pt;">
-										Zum Erlegen von Tieren oder zum Sammeln von Pflanzen und anderem, klickt auf die Buttons hinter den Dingen.<br />
-									</p>
-									<p align="center">
-										<input type="submit" name="verwerfen" value="gefundene Dinge ignorieren">
-									</p>
-									<?php
+									if ($keine_npc){
+										?>
+										<br />
+										Ihr konntet leider nichts finden.<br />;
+										</table>
+										<p align="center">
+											<button class="button_standard" type="submit" name="verwerfen" value="zurück">zurück</button>
+										</p>
+										<?php
+									} else {
+										?>
+										</table>
+										<p align="center">
+											<button class="button_standard" type="submit" name="verwerfen" value="gefundene Dinge ignorieren">gefundene Dinge ignorieren</button>
+										</p>
+										<?php
+									}
 									break;
 								
 								#################################################################
@@ -273,7 +283,7 @@
 									$spieler->gewinn_verrechnen($gewinn, true);
 									?>
 									<p align="center" style="padding-top:10pt;">
-										<input type="submit" name="weiter" value="weiter">
+										<button class="button_standard" type="submit" name="weiter" value="weiter">weiter</button>
 									</p>
 									<?php
 									$spieler->neuberechnung();
@@ -309,7 +319,7 @@
 										}
 										?>
 										<p align="center" style="padding-top:10pt;">
-											<input type="submit" name="weiter" value="weiter">
+											<button class="button_standard" type="submit" name="weiter" value="weiter">weiter</button>
 										</p>
 										<?php
 										$spieler->neuberechnung();
@@ -328,7 +338,7 @@
 										Langsam schlagt ihr die Augen auf und seid bereit für neue Taten.
 									</p>
 									<p align="center" style="padding-top:10pt;">
-										<input type="submit" name="weiter" value="weiter">
+										<button class="button_standard" type="submit" name="weiter" value="weiter">weiter</button>
 									</p>
 									<?php
 									break;
@@ -362,8 +372,9 @@
 								elemente_anzeigen("---ohne---","556B2F", $spieler);
 								$elementebutton = true;
 							}
-							$aktion_starten = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = (isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]));
+							$aktion_starten = ((isset($_POST["button_gebiet_erkunden"]) AND $_POST["button_gebiet_erkunden"] != "0") OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
+							$dinge_anzeigen = ((isset($_POST["button_gebiet_erkunden"]) AND $_POST["button_gebiet_erkunden"] == "0") OR isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]));
+							
 							
 							######################
 							# Start von Aktionen #
@@ -373,7 +384,7 @@
 								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
 								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->titel);
 								if (!$aktion_spieler->titel){	
-									if(isset($_POST["button_gebiet_erkunden"])) beginne_aktion($spieler, "erkunden_kurz");
+									if(isset($_POST["button_gebiet_erkunden"])) beginne_aktion($spieler, $_POST["button_gebiet_erkunden"]);
 									if(isset($_POST["button_zum_zielgebiet"])) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
 									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen_normal", $_POST["button_jagen"]);
 									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln_normal", $_POST["button_sammeln"]);
@@ -385,6 +396,9 @@
 							# Weitere Anzeigen #
 							####################
 							if($dinge_anzeigen){
+								if(isset($_POST["button_gebiet_erkunden"])){
+									include('gebiet_erkunden.php');
+								}
 								if(isset($_POST["button_inventar"])){
 									include('inventar.php');
 								}
@@ -438,7 +452,7 @@
 											?>
 										</table>
 										<p align="center" style="padding-top:10pt;">
-											<input type="submit" name="zurueck" value="zurück">
+											<button class="button_standard" type="submit" name="zurueck" value="zurück">zurück</button>
 										</p>
 										<?php
 									} else {
@@ -478,7 +492,7 @@
 			
 					<!-- Button zur Spielerauswahl -->
 					<div id="zur_spielerauswahl">
-						<input type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">
+						<button class="button_standard" type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">Zurück zur Spielerauswahl</button>
 					</div>
 					
 					<!-- Level-/Zahlenzeichen -->
@@ -514,7 +528,7 @@
 							<script>sichtbar_elemente("menü");</script>
 							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="0"></div>
 							<div id="menu2"><input id="menu_button_klein" type="submit" name="button_fliegen" value="Fliegen"></div>
-							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="0"></div>
 							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschwören"></div>
 							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_handwerk" value="Handwerk"></div>
@@ -524,7 +538,7 @@
 						?>
 							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_drachenkampf" value="0"></div>
 							<div id="menu2"><input id="menu_button_gross" type="submit" name="button_fliegen" value="Fliegen"></div>
-							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="Gebiet erkunden"></div>
+							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="0"></div>
 							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
 							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschwören"></div>
 							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_handwerk" value="Handwerk"></div>

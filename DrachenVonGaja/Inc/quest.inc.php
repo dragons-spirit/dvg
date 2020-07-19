@@ -125,13 +125,13 @@
     <h1 align="center">Titel</h1>
     <p align="center">Textinhalt</p>
 	<br /><br />
-	<input type="submit" alt="Ausruhen" name="button_ausruhen" value="Ausruhen">
+	<button class="button_standard" type="submit" name="button_ausruhen" value="Ausruhen">Ausruhen</button>
 	<br /><br />
-	<input type="submit" alt="Charakterdaten" name="button_charakterdaten" value="Charakterdaten">
+	<button class="button_standard" type="submit" name="button_charakterdaten" value="Charakterdaten">Charakterdaten</button>
 	<br /><br />
-	<input type="submit" alt="Einstellungen" name="button_konfiguration" value="Einstellungen">
+	<button class="button_standard" type="submit" name="button_konfiguration" value="Einstellungen">Einstellungen</button>
 	<br /><br />
-	<input type="submit" alt="Statistik" name="button_statistik" value="Statistik">
+	<button class="button_standard" type="submit" name="button_statistik" value="Statistik">Statistik</button>
     <?php
 	if($anzeige_gaja_3d){
 		?>

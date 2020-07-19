@@ -427,12 +427,12 @@
 		<?php
 		if ($kampf_vorbei){
 			?>
-			<input type="submit" name="aktion_abgeschlossen" value="Kampf beenden" style="width: 200px;"/>
+			<button class="button_standard" type="submit" name="aktion_abgeschlossen" value="Kampf beenden" style="width: 200px;"/>Kampf beenden</button>
 			<?php
 		}
 		?>
 		<p align="center" style="padding-top:10pt;">
-			<input type="submit" name="zurueck" value="zurück">
+			<button class="button_standard" type="submit" name="zurueck" value="zurück">zurück</button>
 		</p>
 	</p>
 </div>

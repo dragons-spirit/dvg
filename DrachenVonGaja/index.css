@@ -33,6 +33,7 @@ input[type=button]
     height: 20px;
 }
 
+/*
 button[type=submit]{
     cursor:pointer;
     color:white;
@@ -42,7 +43,24 @@ button[type=submit]{
     font-size:smaller;
     height: 20px;
 }
+*/
 
+.button_standard
+{
+cursor:pointer;
+color:white;
+font-weight:normal;
+font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+padding:8px;
+height:30px;
+border:solid 0.5px white;
+border-radius:5px;
+background:-moz-linear-gradient(left top,#666666,#330000);
+background:-webkit-linear-gradient(left top,#666666,#330000);
+background:-o-linear-gradient(left top,#666666,#330000);
+background:-ms-linear-gradient(left top,#666666,#330000);
+background:linear-gradient(left top,#666666,#330000);
+}
 
 .storylink
 {

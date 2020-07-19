@@ -527,7 +527,7 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false){
 				Ihr seid noch beschäftigt!<br />
 			</p>
 			<p align="center">
-				<input type="submit" name="zurueck" value="zurück">
+				<button class="button_standard" type="submit" name="zurueck" value="zurück">zurück</button>
 			</p>
 		<?php
 		}?>
@@ -638,7 +638,7 @@ function beginne_aktion($spieler, $aktion_titel, $id_1=0, $id_2=0){
 			Ihr habt nicht genügend Energie für diese Aktion.<br />
 		</p>
 		<p align="center" style="padding-top:10pt;">
-			<input type="submit" name="zurueck" value="zurück">
+			<button class="button_standard" type="submit" name="zurueck" value="zurück">zurück</button>
 		</p>
 		<?php
 	}

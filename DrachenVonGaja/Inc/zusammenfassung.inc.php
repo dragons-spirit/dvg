@@ -149,8 +149,8 @@
 	{
 ?>
 		<p align="right">
-			<input type="submit" name="button_admin" value="Adminbereich">
-			<input type="submit" name="button_logout" value="Logout">
+			<button class="button_standard" type="submit" name="button_admin" value="Adminbereich">Adminbereich</button>
+			<button class="button_standard" type="submit" name="button_logout" value="Logout">Logout</button>
 		</p>
 <?php
 	}
@@ -178,12 +178,12 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 ?>
 		Benutzername: <input type="text" name="login_user" size="15">
 		Passwort: <input type="password" name="login_pswd" size="15">
-		<input type="submit" name="button_login" value="anmelden">
+		<button class="button_standard" type="submit" name="button_login" value="anmelden">anmelden</button>
 <?php
 		if (!isset($_SESSION['registrierung_ok']))
 		{
 ?>
-			<input id="temp2" type="submit" name="button_acc_neu" value="Neuer Account">
+			<button class="button_standard" id="temp2" type="submit" name="button_acc_neu" value="Neuer Account">Neuer Account</button>
 <?php
 		}
 ?>
@@ -248,7 +248,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 			echo "<br />\nKeine Spieler zum Account vorhanden.<br />\n";
 		}
 ?>
-		<input type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">
+		<button class="button_standard" type="submit" name="button_neuerSpieler" value="Neuen Spieler anlegen">Neuen Spieler anlegen</button>
 		<br />
 <?php
     }
@@ -267,7 +267,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		Benutzername:<input type="text" name="reg_user" size="15">
 		Passwort:<input type="password" name="reg_pswd" size="15">
 		E-Mail: <input type="email" name="reg_mail" size="30">
-		<input type="submit" name="button_register" value="registrieren">
+		<button class="button_standard" type="submit" name="button_register" value="registrieren">registrieren</button>
 <?php
 	}
 
@@ -275,7 +275,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 	if(isset($_POST["button_register"]) and !isset($_SESSION['registrierung_ok']))
     {
 ?>		
-		<input type="submit" name="button_acc_neu" value="Nochmal">
+		<button class="button_standard" type="submit" name="button_acc_neu" value="Nochmal">Nochmal</button>
 		<br />
 <?php
     }
@@ -412,7 +412,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 				<option value="Weiblich" name="gesch1">Weiblich</option>
 				<option value="Maennlich" name="gesch2">Männlich</option>
 			</select>
-			<tr><td><input type="submit" name="button_spieler_angelegt" value="Spieler erstellen"></td></tr>
+			<tr><td><button class="button_standard" type="submit" name="button_spieler_angelegt" value="Spieler erstellen">Spieler erstellen</button></td></tr>
 		</table>
 <?php
 	}

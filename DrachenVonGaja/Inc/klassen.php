@@ -1302,6 +1302,8 @@ class Aktion {
 	public $dauer;
 	public $statusbild;
 	public $energiebedarf;
+	public $faktor_1;
+	public $faktor_2;
 
 	public function __construct($ds) {
 		$this->id = $ds[0];
@@ -1312,6 +1314,8 @@ class Aktion {
 		$this->dauer = $ds[5];
 		$this->statusbild = $ds[6];
 		$this->energiebedarf = $ds[7];
+		$this->faktor_1 = $ds[8];
+		$this->faktor_2 = $ds[9];
 	}
 }
 
