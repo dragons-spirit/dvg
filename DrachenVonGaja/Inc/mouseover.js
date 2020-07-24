@@ -52,8 +52,8 @@ function pos_mover(ereignis){
 			mover.style.display = "none";
 		} else {
 			mover.style.display = "block";
-			mover.style.left = posx + 1 + "px";
-			mover.style.top = posy + 1 + "px";
+			mover.style.left = posx + 1 + 25 + "px";
+			mover.style.top = posy + 1 + 23 + "px";
 		}
 	}
 }

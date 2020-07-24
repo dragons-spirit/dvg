@@ -5,7 +5,7 @@ body{
     font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
     font-size:smaller;
     color:white;
-	cursor: url(Bilder/cursor_standard.png), auto;
+	cursor: url(Bilder/cursor_standard_klein.png), auto;
 }
 
 input
@@ -14,7 +14,7 @@ input
 }
 
 input[type=submit]{
-    cursor: url(Bilder/cursor_klick.png), auto;
+    cursor: url(Bilder/cursor_klick_klein.png), auto;
     color:white;
     background-color:black;
     line-height:normal;
@@ -25,7 +25,7 @@ input[type=submit]{
 
 input[type=button]
 {
-    cursor: url(Bilder/cursor_klick.png), auto;
+    cursor: url(Bilder/cursor_klick_klein.png), auto;
     color:white;
     background-color:black;
     line-height:normal;
@@ -60,7 +60,7 @@ background:-webkit-linear-gradient(left top,#666666,#330000);
 background:-o-linear-gradient(left top,#666666,#330000);
 background:-ms-linear-gradient(left top,#666666,#330000);
 background:linear-gradient(left top,#666666,#330000);
-cursor: url(Bilder/cursor_klick.png) 30 30, auto;
+cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 
 .storylink
@@ -73,7 +73,7 @@ a:link
 {
     color:black;
     text-decoration:none;
-	cursor: url(Bilder/cursor_klick.png), auto;
+	cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 a:visited
 {
