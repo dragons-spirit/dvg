@@ -184,13 +184,13 @@
 									<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
 									<?php
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar") and $aktion->art == 'erkunden'){
-										foreach($npc_gebiet as $npcs_fund){
+										foreach($npcs_gebiet as $npc_fund){
 											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_1)){
 											?>
 												<tr align="center">
-													<td width="85px"><img src="<?php echo get_bild_zu_id($npcs_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
-													<td width="150px"><span title="<?php echo $npcs_fund->beschreibung ?>"><h3><u><?php echo $npcs_fund->name ?></u></h3></span></td>
-													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $npcs_fund->id;?>"></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
+													<td width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
+													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 											<?php
 											}
@@ -199,13 +199,13 @@
 										$keine_npc = true;
 									}
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar") and $aktion->art == 'erkunden'){		
-										foreach($npc_gebiet as $npcs_fund){
+										foreach($npcs_gebiet as $npc_fund){
 											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_2)){
 												?>
 												<tr align="center">
-													<td width="85px"><img src="<?php echo get_bild_zu_id($npcs_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
-													<td	width="150px"><span title="<?php echo $npcs_fund->beschreibung ?>"><h3><u><?php echo $npcs_fund->name ?></u></h3></span></td>
-													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npcs_fund->id;?>"></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
+													<td	width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
+													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 												<?php
 											}

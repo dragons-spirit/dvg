@@ -418,7 +418,7 @@ class NPCFund {
 		$this->beschreibung = $ds[2];
 		$this->wahrscheinlichkeit = $ds[3];
 		$this->bilder_id = $ds[4];
-		$this->typ = $ds[5;
+		$this->typ = $ds[5];
 	}
 }
 
