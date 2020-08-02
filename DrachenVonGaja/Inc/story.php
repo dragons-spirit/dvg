@@ -53,7 +53,7 @@ als Sanghas Seele und auch alle anderen Seelen."<br /></p>
 
 <h1 align="center">Was ist die Welt Gaja ?</h1>
 <p align="center" style="font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;font-size:18px;">
-"Die Welt Gaja stellt den Ort der höchsten Verdichtung in Sanghas Sternenleib dar und liegt in seinem Schoß verborgen.
+"Die Welt Gaja stellt den Ort der höchsten Verdichtung in Sanghas Sternenleib dar und liegt in seinem Schoß verborgen.<br />
 Auf dieser Welt manifestierte Sangha mit seiner Fantasie alle möglichen Pflanzen, Tiere und Steine."</p>
 
 <h1 align="center">Wer sind die Drachen von Gaja ?</h1>
