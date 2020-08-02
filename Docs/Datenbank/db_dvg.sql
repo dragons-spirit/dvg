@@ -63,8 +63,8 @@ DELETE FROM `aktion`;
 /*!40000 ALTER TABLE `aktion` DISABLE KEYS */;
 INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `statusbild`, `energiebedarf`, `faktor_1`, `faktor_2`) VALUES
 	(1, 'erkunden_normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund.', 'erkunden', '00:00:10', 'laufend', 1, 1, 1),
-	(2, 'erkunden_jagen', 'Gegend erkunden', 'Du pirschst dich vorsichtig durch das Gelände und hoffst, etwas lohnenswertes für eine Jagd zu finden.', 'erkunden', '00:00:08', 'laufend', 2, 1.5, 0.25),
-	(5, 'erkunden_sammeln', 'Gegend erkunden', 'Du bewegst dich vorsichtig durch das Gelände und hälst nach seltenen Pflanzen Ausschau.', 'erkunden', '00:00:08', 'laufend', 2, 0.25, 1.5),
+	(2, 'erkunden_jagen', 'Gegend erkunden', 'Du pirschst dich vorsichtig durch das Gelände und hoffst, etwas lohnenswertes für eine Jagd zu finden.', 'erkunden', '00:00:08', 'laufend', 2, 1.75, 0),
+	(5, 'erkunden_sammeln', 'Gegend erkunden', 'Du bewegst dich vorsichtig durch das Gelände und hälst nach seltenen Pflanzen Ausschau.', 'erkunden', '00:00:08', 'laufend', 2, 0, 1.75),
 	(6, 'jagen', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:02', 'kaempfend', 1, 1, 1),
 	(7, 'sammeln', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:05', 'kaempfend', 1, 1, 1),
 	(8, 'reden', 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01', 'wartend', 0, 1, 1),
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3293 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.054 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.148 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -2244,7 +2244,44 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(3289, 49, 12, '2020-07-24 17:51:07', '2020-07-24 17:51:27', 'abgeschlossen', 0, 0),
 	(3290, 49, 1, '2020-07-24 17:51:55', '2020-07-24 17:52:05', 'abgeschlossen', 0, 0),
 	(3291, 49, 6, '2020-07-24 17:59:49', '2020-07-24 17:59:51', 'abgeschlossen', 2, 0),
-	(3292, 49, 11, '2020-07-24 17:59:53', '2020-07-24 18:00:02', 'abgeschlossen', 543, 0);
+	(3292, 49, 11, '2020-07-24 17:59:53', '2020-07-24 18:00:02', 'abgeschlossen', 543, 0),
+	(3293, 48, 1, '2020-08-02 17:14:30', '2020-08-02 17:14:40', 'abgeschlossen', 0, 0),
+	(3294, 48, 5, '2020-08-02 17:15:31', '2020-08-02 17:15:39', 'abgeschlossen', 0, 0),
+	(3295, 48, 5, '2020-08-02 17:16:11', '2020-08-02 17:16:19', 'abgeschlossen', 0, 0),
+	(3296, 48, 5, '2020-08-02 17:17:04', '2020-08-02 17:17:12', 'abgeschlossen', 0, 0),
+	(3297, 48, 7, '2020-08-02 17:17:15', '2020-08-02 17:17:20', 'abgeschlossen', 52, 0),
+	(3298, 48, 5, '2020-08-02 18:43:00', '2020-08-02 18:43:08', 'abgeschlossen', 0, 0),
+	(3299, 48, 7, '2020-08-02 18:43:09', '2020-08-02 18:43:14', 'abgeschlossen', 52, 0),
+	(3300, 48, 2, '2020-08-02 18:43:27', '2020-08-02 18:43:35', 'abgeschlossen', 0, 0),
+	(3301, 48, 6, '2020-08-02 18:43:44', '2020-08-02 18:43:46', 'abgeschlossen', 2, 0),
+	(3302, 48, 11, '2020-08-02 18:43:47', '2020-08-02 18:44:06', 'abgeschlossen', 544, 0),
+	(3303, 48, 2, '2020-08-02 18:44:10', '2020-08-02 18:44:18', 'abgeschlossen', 0, 0),
+	(3304, 48, 6, '2020-08-02 18:44:21', '2020-08-02 18:44:23', 'abgeschlossen', 30, 0),
+	(3305, 48, 11, '2020-08-02 18:44:23', '2020-08-02 18:45:00', 'abgeschlossen', 545, 0),
+	(3306, 48, 2, '2020-08-02 18:45:06', '2020-08-02 18:45:14', 'abgeschlossen', 0, 0),
+	(3307, 48, 6, '2020-08-02 18:45:16', '2020-08-02 18:45:18', 'abgeschlossen', 4, 0),
+	(3308, 48, 11, '2020-08-02 18:45:23', '2020-08-02 18:45:52', 'abgeschlossen', 546, 0),
+	(3309, 48, 1, '2020-08-02 19:09:19', '2020-08-02 19:09:29', 'abgeschlossen', 0, 0),
+	(3310, 48, 1, '2020-08-02 19:09:54', '2020-08-02 19:10:04', 'abgeschlossen', 0, 0),
+	(3311, 48, 1, '2020-08-02 19:16:50', '2020-08-02 19:17:00', 'abgeschlossen', 0, 0),
+	(3312, 48, 1, '2020-08-02 19:17:38', '2020-08-02 19:17:48', 'abgeschlossen', 0, 0),
+	(3313, 48, 1, '2020-08-02 19:17:56', '2020-08-02 19:18:06', 'abgeschlossen', 0, 0),
+	(3314, 48, 6, '2020-08-02 19:18:54', '2020-08-02 19:18:56', 'abgeschlossen', 5, 0),
+	(3315, 48, 11, '2020-08-02 19:18:56', '2020-08-02 19:19:05', 'abgeschlossen', 547, 0),
+	(3316, 48, 1, '2020-08-02 19:19:13', '2020-08-02 19:19:23', 'abgeschlossen', 0, 0),
+	(3317, 48, 1, '2020-08-02 19:19:28', '2020-08-02 19:19:38', 'abgeschlossen', 0, 0),
+	(3318, 48, 1, '2020-08-02 19:22:57', '2020-08-02 19:23:07', 'abgeschlossen', 0, 0),
+	(3319, 48, 12, '2020-08-02 19:23:12', '2020-08-02 19:23:32', 'abgeschlossen', 0, 0),
+	(3320, 48, 1, '2020-08-02 19:23:41', '2020-08-02 19:23:51', 'abgeschlossen', 0, 0),
+	(3321, 48, 1, '2020-08-02 19:24:00', '2020-08-02 19:24:10', 'abgeschlossen', 0, 0),
+	(3322, 48, 1, '2020-08-02 19:24:18', '2020-08-02 19:24:28', 'abgeschlossen', 0, 0),
+	(3323, 48, 13, '2020-08-02 19:24:35', '2020-08-02 19:24:40', 'abgeschlossen', 0, 0),
+	(3324, 48, 13, '2020-08-02 19:26:04', '2020-08-02 19:26:09', 'abgeschlossen', 0, 0),
+	(3325, 48, 10, '2020-08-02 19:26:41', '2020-08-02 19:27:11', 'abgeschlossen', 5, 0),
+	(3326, 48, 13, '2020-08-02 19:27:26', '2020-08-02 19:27:31', 'abgeschlossen', 0, 0),
+	(3327, 48, 13, '2020-08-02 19:28:09', '2020-08-02 19:28:14', 'abgeschlossen', 0, 0),
+	(3328, 48, 13, '2020-08-02 19:34:30', '2020-08-02 19:34:35', 'abgeschlossen', 0, 0),
+	(3329, 48, 13, '2020-08-02 19:34:49', '2020-08-02 19:34:54', 'abgeschlossen', 0, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bedingungen
@@ -2270,7 +2307,7 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
--- Exportiere Daten aus Tabelle db_dvg.bilder: ~259 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bilder: ~304 rows (ungefähr)
 DELETE FROM `bilder`;
 /*!40000 ALTER TABLE `bilder` DISABLE KEYS */;
 INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
@@ -2606,7 +2643,7 @@ CREATE TABLE IF NOT EXISTS `dialog_aktion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Schlüsseltabelle für Aktionen, die durch Dialoge getriggert werden (Handel, Kampf, Lernen, Queststart und -ende, Dialogende usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_aktion: ~5 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_aktion: ~6 rows (ungefähr)
 DELETE FROM `dialog_aktion`;
 /*!40000 ALTER TABLE `dialog_aktion` DISABLE KEYS */;
 INSERT INTO `dialog_aktion` (`id`, `titel`) VALUES
@@ -2634,7 +2671,7 @@ CREATE TABLE IF NOT EXISTS `dialog_link` (
   CONSTRAINT `FK_dialog_link_dialog_spieler` FOREIGN KEY (`dialog_spieler_id`) REFERENCES `dialog_spieler` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Verknüpft einzelne Dialogoptionen zwischen NPC und Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_link: ~7 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_link: ~8 rows (ungefähr)
 DELETE FROM `dialog_link`;
 /*!40000 ALTER TABLE `dialog_link` DISABLE KEYS */;
 INSERT INTO `dialog_link` (`id`, `dialog_npc_id`, `dialog_spieler_id`, `next_dialog_npc_id`) VALUES
@@ -2661,7 +2698,7 @@ CREATE TABLE IF NOT EXISTS `dialog_link_npc` (
   CONSTRAINT `FK_dialog_link_npc_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Verknüpft einzelne NPC mit ihren Initialdialogen';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_link_npc: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_link_npc: ~1 rows (ungefähr)
 DELETE FROM `dialog_link_npc`;
 /*!40000 ALTER TABLE `dialog_link_npc` DISABLE KEYS */;
 INSERT INTO `dialog_link_npc` (`id`, `npc_id`, `dialog_npc_id`) VALUES
@@ -2780,7 +2817,7 @@ CREATE TABLE IF NOT EXISTS `einstellungen_account` (
   CONSTRAINT `FK_einstellungen_account_einstellungen` FOREIGN KEY (`einstellungen_id`) REFERENCES `einstellungen` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Parameter mit Standardwerten, Änderungsberechtigungen';
 
--- Exportiere Daten aus Tabelle db_dvg.einstellungen_account: ~3 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.einstellungen_account: ~2 rows (ungefähr)
 DELETE FROM `einstellungen_account`;
 /*!40000 ALTER TABLE `einstellungen_account` DISABLE KEYS */;
 INSERT INTO `einstellungen_account` (`id`, `account_id`, `einstellungen_id`, `wert`) VALUES
@@ -2991,7 +3028,7 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~543 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~547 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -3541,7 +3578,13 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(544, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(545, 0.03, 0.0064, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
 	(546, 0.02, 0.024, 0.0206, 0.025, 0.00075, 0, 0.005, 0, 0, 0, 0, 0, 0, 1),
-	(547, 0.02, 0.0124, 0.008, 0.01, 0, 0, 0.002, 0, 0, 0, 0, 0, 0, 1);
+	(547, 0.02, 0.0124, 0.008, 0.01, 0, 0, 0.002, 0, 0, 0, 0, 0, 0, 1),
+	(548, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(549, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(550, 0.02, 0.014, 0.01, 0, 0.0125, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
+	(551, 0.02, 0.004, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(552, 0.03, 0.018, 0.012, 0.003, 0.015, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(553, 0.03, 0.006, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -3631,7 +3674,7 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~52 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~53 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt`) VALUES
@@ -3651,7 +3694,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(67, 2, 48, 2, 0),
 	(68, 21, 48, 29, 0),
 	(69, 15, 48, 4, 0),
-	(70, 8, 48, 52, 0),
+	(70, 8, 48, 57, 0),
 	(71, 5, 48, 11, 0),
 	(72, 22, 48, 1, 0),
 	(75, 31, 48, 8, 0),
@@ -3659,11 +3702,11 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(78, 29, 48, 6, 0),
 	(79, 34, 48, 8, 0),
 	(82, 24, 48, 2, 0),
-	(84, 4, 48, 9, 0),
+	(84, 4, 48, 10, 0),
 	(85, 25, 48, 7, 0),
 	(86, 13, 48, 2, 0),
-	(87, 18, 48, 26, 0),
-	(88, 28, 48, 11, 0),
+	(87, 18, 48, 27, 0),
+	(88, 28, 48, 13, 0),
 	(89, 6, 48, 103, 0),
 	(90, 26, 48, 29, 0),
 	(91, 14, 48, 3, 0),
@@ -3701,7 +3744,7 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=544 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~274 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~309 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -4013,7 +4056,11 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(540, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -7 Ausweichen durch Tornado<br />Marduk zaubert erfolgreich Tornado auf Junger Fuchs.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -10 Gesundheit durch Biss<br />Junger Fuchs: -2 Gesundheit durch Flamme<br />Marduk greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Junger Fuchs.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk greift Junger Fuchs mit Biss an. Junger Fuchs kann dem Angriff jedoch ausweichen.<br /><br />'),
 	(541, 7, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Marduk stirbt im Kampf.</font><br />Marduk: -2 Gesundheit durch Schlag<br />Fuchs greift Marduk mit Schlag an. Marduk kann den Angriff jedoch abwehren.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk will den Zauber Flamme auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk greift Fuchs mit Biss an. Fuchs kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />'),
 	(542, 3, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Ratte greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -8 Gesundheit durch Schlag<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk patzt beim Zaubern von Regenschauer auf sich selbst.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Ratte greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Ratte: -1 Gesundheit durch Blitz<br />Ratte: -1 Magie durch Blitz<br />Ratte: -2 Intelligenz durch Blitz<br />Marduk zaubert erfolgreich Blitz auf Ratte.<br /><br />'),
-	(543, 6, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />Ratte greift Marduk mit Biss an. Marduk kann dem Angriff jedoch ausweichen.<br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />');
+	(543, 6, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />Ratte greift Marduk mit Biss an. Marduk kann dem Angriff jedoch ausweichen.<br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />'),
+	(544, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -13 Gesundheit durch Biss<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Sumpfine greif Ratte erfolgreich mit Biss an.<br /><br />Sumpfine: -0 Gesundheit durch Biss<br />Ratte greif Sumpfine erfolgreich mit Biss an.<br />Ratte: -11 Gesundheit durch Schlag<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Sumpfine greif Ratte erfolgreich mit Schlag an.<br /><br />Sumpfine: -0 Gesundheit durch Biss<br />Ratte greif Sumpfine erfolgreich mit Biss an.<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Sumpfine zaubert erfolgreich Monsun auf Ratte.<br /><br />'),
+	(545, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Skorpion stirbt im Kampf.</font><br />Skorpion: -13 Gesundheit durch Biss<br />Sumpfine greif Skorpion erfolgreich mit Biss an.<br /><br />Skorpion: -11 Gesundheit durch Schlag<br />Sumpfine greif Skorpion erfolgreich mit Schlag an.<br /><br />'),
+	(546, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Fuchs stirbt im Kampf.</font><br />Fuchs: -16 Gesundheit durch Biss<br />Sumpfine: 8 Gesundheit durch Heiße Quelle<br />Sumpfine: 6 Stärke durch Heiße Quelle<br />Sumpfine greif Fuchs erfolgreich mit Biss an.<br /><br />Sumpfine: -7 Gesundheit durch Schlag<br />Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Fuchs: -12 Gesundheit durch Schlag<br />Sumpfine: 8 Gesundheit durch Heiße Quelle<br />Sumpfine: 6 Stärke durch Heiße Quelle<br />Sumpfine greif Fuchs erfolgreich mit Schlag an.<br /><br />Sumpfine: -7 Gesundheit durch Schlag<br />Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Sumpfine: 8 Gesundheit durch Heiße Quelle<br />Sumpfine: 6 Stärke durch Heiße Quelle<br />Sumpfine zaubert erfolgreich Heiße Quelle auf sich selbst.<br /><br />Sumpfine: -7 Gesundheit durch Schlag<br />Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Fuchs: -13 Gesundheit durch Biss<br />Sumpfine greif Fuchs erfolgreich mit Biss an.<br /><br />'),
+	(547, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Junger Fuchs: -13 Gesundheit durch Biss<br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Sumpfine: -2 Gesundheit durch Biss<br />Junger Fuchs greift Sumpfine mit Biss an. Sumpfine kann den Angriff jedoch abwehren.<br />Junger Fuchs: -13 Gesundheit durch Biss<br />Sumpfine greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Sumpfine: -6 Gesundheit durch Biss<br />Junger Fuchs greif Sumpfine erfolgreich mit Biss an.<br />Junger Fuchs: -11 Gesundheit durch Schlag<br />Sumpfine greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -4042,7 +4089,7 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8075 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.138 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.387 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -8432,7 +8479,26 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(8071, 543, 153.846, 1174, 1173, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:59:57'),
 	(8072, 543, 200, 1173, 1174, 77, 1, 1, 0, 0, 100, '2020-07-24 17:59:58'),
 	(8073, 543, 230.769, 1174, 1173, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:59:58'),
-	(8074, 543, 300, 1173, 1174, 77, 1, 0, 0, 0, 100, '2020-07-24 18:00:00');
+	(8074, 543, 300, 1173, 1174, 77, 1, 0, 0, 0, 100, '2020-07-24 18:00:00'),
+	(8075, 544, 0, 1175, 1176, 68, 1, 0, 0, 5, 99.009, '2020-08-02 18:44:00'),
+	(8076, 544, 76.923, 1176, 1175, 77, 1, 0, 0, 0, 76.923, '2020-08-02 18:44:00'),
+	(8077, 544, 99.009, 1175, 1176, 79, 1, 0, 0, 0, 99.009, '2020-08-02 18:44:02'),
+	(8078, 544, 153.846, 1176, 1175, 77, 1, 0, 0, 0, 76.923, '2020-08-02 18:44:02'),
+	(8079, 544, 198.018, 1175, 1176, 77, 1, 0, 0, 0, 99.009, '2020-08-02 18:44:04'),
+	(8080, 545, 0, 1177, 1178, 79, 1, 0, 0, 0, 99.009, '2020-08-02 18:44:35'),
+	(8081, 545, 99.009, 1177, 1178, 77, 1, 0, 0, 0, 99.009, '2020-08-02 18:44:38'),
+	(8082, 546, 0, 1179, 1180, 77, 1, 0, 0, 0, 99.009, '2020-08-02 18:45:29'),
+	(8083, 546, 90.909, 1180, 1179, 79, 1, 0, 0, 0, 90.909, '2020-08-02 18:45:29'),
+	(8084, 546, 99.009, 1179, 1179, 75, 1, 0, 0, 6, 99.009, '2020-08-02 18:45:39'),
+	(8085, 546, 181.818, 1180, 1179, 79, 1, 0, 0, 0, 90.909, '2020-08-02 18:45:39'),
+	(8086, 546, 198.018, 1179, 1180, 79, 1, 0, 0, 0, 99.009, '2020-08-02 18:45:45'),
+	(8087, 546, 272.727, 1180, 1179, 79, 1, 0, 0, 0, 90.909, '2020-08-02 18:45:45'),
+	(8088, 546, 297.027, 1179, 1180, 77, 1, 0, 0, 0, 99.009, '2020-08-02 18:45:48'),
+	(8089, 547, 0, 1181, 1182, 79, 1, 0, 0, 0, 99.009, '2020-08-02 19:19:00'),
+	(8090, 547, 90.909, 1182, 1181, 77, 1, 0, 0, 0, 90.909, '2020-08-02 19:19:00'),
+	(8091, 547, 99.009, 1181, 1182, 77, 1, 0, 0, 0, 99.009, '2020-08-02 19:19:01'),
+	(8092, 547, 181.818, 1182, 1181, 77, 1, 0, 1, 0, 90.909, '2020-08-02 19:19:01'),
+	(8093, 547, 198.018, 1181, 1182, 77, 1, 0, 0, 0, 99.009, '2020-08-02 19:19:02');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -8456,7 +8522,7 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8639 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~4.581 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~4.814 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -13273,7 +13339,29 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(8635, 8070, 1174, 'angriff', 'gesundheit', -2, 2, 2, 1, 1, 1),
 	(8636, 8071, 1173, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
 	(8637, 8073, 1173, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
-	(8638, 8074, 1174, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1);
+	(8638, 8074, 1174, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8639, 8075, 1176, 'angriff', 'staerke', -7, 3, 5, 1, 1, 0),
+	(8640, 8075, 1176, 'angriff', 'magie', -5, 3, 5, 1, 1, 0),
+	(8641, 8075, 1176, 'angriff', 'ausweichen', -3, 3, 5, 1, 1, 0),
+	(8642, 8076, 1175, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(8643, 8077, 1176, 'angriff', 'gesundheit', -11, 1, 1, 1, 1, 1),
+	(8644, 8078, 1175, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(8645, 8079, 1176, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(8646, 8080, 1178, 'angriff', 'gesundheit', -11, 1, 1, 1, 1, 1),
+	(8647, 8081, 1178, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(8648, 8082, 1180, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(8649, 8083, 1179, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8650, 8084, 1179, 'verteidigung', 'staerke', 6, 3, 3, 1, 1, 1),
+	(8651, 8084, 1179, 'verteidigung', 'gesundheit', 8, 3, 3, 1, 1, 1),
+	(8652, 8085, 1179, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8653, 8086, 1180, 'angriff', 'gesundheit', -12, 1, 1, 1, 1, 1),
+	(8654, 8087, 1179, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8655, 8088, 1180, 'angriff', 'gesundheit', -16, 1, 1, 1, 1, 1),
+	(8656, 8089, 1182, 'angriff', 'gesundheit', -11, 1, 1, 1, 1, 1),
+	(8657, 8090, 1181, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8658, 8091, 1182, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1),
+	(8659, 8092, 1181, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8660, 8093, 1182, 'angriff', 'gesundheit', -13, 1, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -13309,7 +13397,7 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1175 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~644 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~653 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -13965,7 +14053,15 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(1171, 542, 49, 'spieler', 0, 32, 51, 0, 13, 15.9183, 6.7506, 3.5989, 1.2453, 1.007, 1.0075, 5.0849, 100, 10, 10, 500, 546, 0),
 	(1172, 542, 2, 'npc', 1, 0, 15, 0, 0, 3, 1, 0, 0, 5, 5, 0, 130, 0, 35, 461.538, NULL, 0),
 	(1173, 543, 49, 'spieler', 0, 41, 51, 9, 13, 15.9381, 6.7744, 3.6193, 1.2701, 1.0077, 1.0075, 5.0898, 100, 10, 10, 400, 547, 0),
-	(1174, 543, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 307.692, NULL, 0);
+	(1174, 543, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 307.692, NULL, 0),
+	(1175, 544, 48, 'spieler', 0, 106, 106, 40, 45, 26.0191, 21.7616, 16.5507, 12.8433, 22.5372, 12.6751, 13.1146, 101, 11, 11, 297.027, 550, 0),
+	(1176, 544, 2, 'npc', 1, 0, 15, 0, 0, 0, 3, 0, 0, 5, 5, 0, 130, 0, 26, 230.769, NULL, 0),
+	(1177, 545, 48, 'spieler', 0, 106, 107, 40, 45, 26.0388, 21.7754, 16.5605, 12.8433, 22.5509, 12.6751, 13.1171, 101, 11, 11, 198.018, 551, 0),
+	(1178, 545, 30, 'npc', 1, 0, 20, 20, 20, 10, 5, 15, 30, 0, 0, 0, 100, 15, 5, 100, NULL, 0),
+	(1179, 546, 48, 'spieler', 0, 107, 107, 34, 45, 44.0585, 21.7793, 16.5605, 12.8433, 22.5509, 12.6751, 13.1171, 101, 11, 11, 396.036, 552, 0),
+	(1180, 546, 4, 'npc', 1, 0, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 20, 363.636, NULL, 0),
+	(1181, 547, 48, 'spieler', 0, 99, 107, 34, 45, 26.0882, 21.7971, 16.5724, 12.8464, 22.5675, 12.6751, 13.1171, 101, 11, 11, 297.027, 553, 0),
+	(1182, 547, 5, 'npc', 1, 0, 25, 0, 0, 5, 5, 0, 0, 1, 5, 3, 110, 0, 30, 272.727, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -14097,7 +14193,7 @@ CREATE TABLE IF NOT EXISTS `npc` (
   CONSTRAINT `FK_npc_ki` FOREIGN KEY (`ki_id`) REFERENCES `ki` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Objekten (Tiere, Pflanzen, Personen, usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc: ~55 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc: ~57 rows (ungefähr)
 DELETE FROM `npc`;
 /*!40000 ALTER TABLE `npc` DISABLE KEYS */;
 INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `abwehr`, `ausweichen`, `beschreibung`, `typ`, `ki_id`, `erfahrung`) VALUES
@@ -14174,7 +14270,7 @@ CREATE TABLE IF NOT EXISTS `npc_gebiet` (
   CONSTRAINT `FK_npc_gebiet_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=543 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~145 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~148 rows (ungefähr)
 DELETE FROM `npc_gebiet`;
 /*!40000 ALTER TABLE `npc_gebiet` DISABLE KEYS */;
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
@@ -14344,7 +14440,7 @@ CREATE TABLE IF NOT EXISTS `npc_items` (
   CONSTRAINT `FK_npc_items_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_items: ~83 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_items: ~85 rows (ungefähr)
 DELETE FROM `npc_items`;
 /*!40000 ALTER TABLE `npc_items` DISABLE KEYS */;
 INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
@@ -14449,7 +14545,7 @@ CREATE TABLE IF NOT EXISTS `npc_spieler_statistik` (
   CONSTRAINT `FK_npc_spieler_statistik_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~100 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~101 rows (ungefähr)
 DELETE FROM `npc_spieler_statistik`;
 /*!40000 ALTER TABLE `npc_spieler_statistik` DISABLE KEYS */;
 INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VALUES
@@ -14474,7 +14570,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(31, 26, 22, 4),
 	(32, 26, 5, 3),
 	(39, 48, 6, 8),
-	(40, 48, 2, 84),
+	(40, 48, 2, 85),
 	(41, 48, 14, 17),
 	(42, 48, 27, 8),
 	(43, 26, 28, 2),
@@ -14502,7 +14598,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(65, 48, 59, 5),
 	(66, 48, 49, 4),
 	(67, 48, 57, 1),
-	(68, 48, 4, 11),
+	(68, 48, 4, 12),
 	(69, 48, 35, 2),
 	(70, 48, 36, 4),
 	(71, 26, 26, 2),
@@ -14510,14 +14606,14 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(73, 48, 37, 4),
 	(74, 48, 11, 5),
 	(75, 48, 33, 1),
-	(76, 48, 5, 9),
-	(77, 48, 52, 11),
+	(76, 48, 5, 10),
+	(77, 48, 52, 13),
 	(78, 48, 24, 4),
 	(79, 48, 54, 5),
 	(80, 48, 22, 6),
 	(81, 48, 47, 4),
 	(82, 48, 46, 4),
-	(83, 48, 30, 6),
+	(83, 48, 30, 7),
 	(84, 48, 8, 26),
 	(85, 48, 40, 7),
 	(86, 48, 26, 4),
@@ -14574,7 +14670,7 @@ CREATE TABLE IF NOT EXISTS `quest` (
   CONSTRAINT `FK_quest_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Quests';
 
--- Exportiere Daten aus Tabelle db_dvg.quest: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.quest: ~1 rows (ungefähr)
 DELETE FROM `quest`;
 /*!40000 ALTER TABLE `quest` DISABLE KEYS */;
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
@@ -14694,7 +14790,10 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(74, 11, 1, '2020-08-01 11:06:12', '2020-08-01 12:06:12', 0, '192.168.22.49'),
 	(75, 11, 1, '2020-08-01 11:06:29', '2020-08-01 12:06:29', 0, '192.168.22.49'),
 	(76, 11, 1, '2020-08-01 11:10:05', '2020-08-01 12:10:05', 0, '192.168.22.49'),
-	(77, 11, 1, '2020-08-01 11:10:26', '2020-08-01 13:00:02', 0, '192.168.22.49');
+	(77, 11, 1, '2020-08-01 11:10:26', '2020-08-01 13:00:02', 0, '192.168.22.49'),
+	(78, 11, 1, '2020-08-02 17:14:19', '2020-08-02 17:21:14', 0, '192.168.22.49'),
+	(79, 11, 1, '2020-08-02 17:40:52', '2020-08-02 17:46:24', 0, '192.168.22.49'),
+	(80, 11, 1, '2020-08-02 18:31:03', '2020-08-02 20:36:07', 1, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots
@@ -14706,7 +14805,7 @@ CREATE TABLE IF NOT EXISTS `slots` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Mögliche Slots/Positionen an denen Items angebracht werden können.';
 
--- Exportiere Daten aus Tabelle db_dvg.slots: ~8 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.slots: ~9 rows (ungefähr)
 DELETE FROM `slots`;
 /*!40000 ALTER TABLE `slots` DISABLE KEYS */;
 INSERT INTO `slots` (`id`, `titel`, `max`) VALUES
@@ -14769,7 +14868,7 @@ DELETE FROM `spieler`;
 /*!40000 ALTER TABLE `spieler` DISABLE KEYS */;
 INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `zauberpunkte`, `max_zauberpunkte`, `balance`, `initiative`, `abwehr`, `ausweichen`, `zuletzt_gespielt`, `erfahrung`) VALUES
 	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 16.1824, 11.4179, 7.14773, 6.30188, 10.2846, 6.14772, 6.14818, 66, 55, 19, 15, 24, 16, 81.761, 100, 10, 10, '2020-07-24 14:31:16', 170.602),
-	(48, 11, 220, 2, 3, 7, 'Sumpfine', 'W', 25.0191, 20.7418, 15.5507, 11.3878, 19.2296, 11.6751, 12.1146, 106, 90, 33, 27, 45, 33, 98.969, 100, 10, 10, '2020-07-24 17:26:52', 414.161),
+	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 25.118, 20.8031, 15.5724, 11.3908, 19.2567, 11.6751, 12.1171, 107, 90, 22, 27, 45, 33, 99.661, 100, 10, 10, '2020-08-02 19:34:49', 420.089),
 	(49, 10, 211, 4, 1, 6, 'Marduk', 'M', 10.9578, 6.78661, 3.62717, 1.27998, 1.0077, 1.0075, 5.0918, 41, 33, 11, 8, 9, 5, 97.674, 100, 10, 10, '2020-07-24 18:00:03', 60.1964);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
@@ -14898,7 +14997,7 @@ CREATE TABLE IF NOT EXISTS `zauberart` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Details zu Zaubern um verschiedenste Wirkungen abbilden zu können.';
 
--- Exportiere Daten aus Tabelle db_dvg.zauberart: ~5 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauberart: ~6 rows (ungefähr)
 DELETE FROM `zauberart`;
 /*!40000 ALTER TABLE `zauberart` DISABLE KEYS */;
 INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES
@@ -15130,7 +15229,7 @@ CREATE TABLE IF NOT EXISTS `zauber_npc` (
   CONSTRAINT `FK_zauber_npc_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~141 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~154 rows (ungefähr)
 DELETE FROM `zauber_npc`;
 /*!40000 ALTER TABLE `zauber_npc` DISABLE KEYS */;
 INSERT INTO `zauber_npc` (`id`, `npc_id`, `zauber_id`, `wahrscheinlichkeit`) VALUES

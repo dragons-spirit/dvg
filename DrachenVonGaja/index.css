@@ -2,7 +2,7 @@
 body{
     margin:auto;
     min-height:30%;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
     font-size:smaller;
     color:white;
 	cursor: url(Bilder/cursor_standard_klein.png), auto;
@@ -18,7 +18,7 @@ input[type=submit]{
     color:white;
     background-color:black;
     line-height:normal;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
     font-size:smaller;
     height: 20px;
 }
@@ -29,28 +29,16 @@ input[type=button]
     color:white;
     background-color:black;
     line-height:normal;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
     font-size:smaller;
     height: 20px;
 }
-
-/*
-button[type=submit]{
-    cursor:pointer;
-    color:white;
-    background-color:black;
-    line-height:normal;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
-    font-size:smaller;
-    height: 20px;
-}
-*/
 
 .button_standard
 {
 color:white;
 font-weight:normal;
-font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
 padding:8px;
 height:30px;
 border:solid 0.5px white;
@@ -65,7 +53,7 @@ cursor: url(Bilder/cursor_klick_klein.png), auto;
 
 .storylink
 {
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;
+    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
     font-size:20pt;
 }
 

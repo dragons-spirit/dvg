@@ -28,11 +28,11 @@
 		if($_SESSION['browser'] == "Opera"){
 			?>
 			<style>
-				head {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				body {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				head {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
+				body {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
 				input {outline:none;}
-                input[type=submit] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input[type=button] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+                input[type=submit] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
+				input[type=button] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
 			</style>
 			<?php
 		}
@@ -176,7 +176,7 @@
 								case "Gegend erkunden":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
 									$aktion = get_aktion($aktion_spieler->titel);
-									$keine_npc = false;
+									$keine_npc = true;
 									?>
 									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
 										Ihr habt die Gegend erkundet.
@@ -186,21 +186,21 @@
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar") and $aktion->art == 'erkunden'){
 										foreach($npcs_gebiet as $npc_fund){
 											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_1)){
-											?>
+												$keine_npc = false;
+												?>
 												<tr align="center">
 													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
 													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
-											<?php
+												<?php
 											}
 										}
-									} else {
-										$keine_npc = true;
 									}
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar") and $aktion->art == 'erkunden'){		
 										foreach($npcs_gebiet as $npc_fund){
 											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_2)){
+												$keine_npc = false;
 												?>
 												<tr align="center">
 													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
@@ -210,14 +210,27 @@
 												<?php
 											}
 										}
-									} else {
-										$keine_npc = true;
+									}
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "ansprechbar") and $aktion->art == 'dialog'){		
+										foreach($npcs_gebiet as $npc_fund){
+											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_2)){
+												$keine_npc = false;
+												?>
+												<tr align="center">
+													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
+													<td	width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
+													<td><button class="button_standard" type="submit" name="button_dialog_start" value="<?php echo $npc_fund->id;?>">ansprechen</button></td>
+													<!--<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>-->
+												</tr>
+												<?php
+											}
+										}
 									}
 									if ($keine_npc){
 										?>
-										<br />
-										Ihr konntet leider nichts finden.<br />;
 										</table>
+										<br />
+										Ihr konntet leider nichts finden.<br />
 										<p align="center">
 											<button class="button_standard" type="submit" name="verwerfen" value="zurück">zurück</button>
 										</p>
@@ -368,8 +381,8 @@
 								elemente_anzeigen("---ohne---","556B2F", $spieler);
 								$elementebutton = true;
 							}
-							$aktion_starten = ((isset($_POST["button_gebiet_erkunden"]) AND $_POST["button_gebiet_erkunden"] != "0") OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = ((isset($_POST["button_gebiet_erkunden"]) AND $_POST["button_gebiet_erkunden"] == "0") OR isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]));
+							$aktion_starten = (isset($_POST["button_gebiet_erkunden_start"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
+							$dinge_anzeigen = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]) OR isset($_POST["button_dialog_start"]));
 							
 							
 							######################
@@ -380,7 +393,7 @@
 								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
 								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->titel);
 								if (!$aktion_spieler->titel){	
-									if(isset($_POST["button_gebiet_erkunden"])) beginne_aktion($spieler, $_POST["button_gebiet_erkunden"]);
+									if(isset($_POST["button_gebiet_erkunden_start"])) beginne_aktion($spieler, $_POST["button_gebiet_erkunden_start"]);
 									if(isset($_POST["button_zum_zielgebiet"])) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
 									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen", $_POST["button_jagen"]);
 									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln", $_POST["button_sammeln"]);
@@ -398,7 +411,6 @@
 								if(isset($_POST["button_inventar"])){
 									include('inventar.php');
 								}
-								
 								if(isset($_POST["button_tagebuch"])){
 									include('quest.inc.php');
 								}
@@ -407,6 +419,9 @@
 								}
 								if(isset($_POST["button_handwerk"])){
 									include('handwerk.inc.php');
+								}
+								if(isset($_POST["button_dialog_start"])){
+									include('dialog.php');
 								}
 								if(isset($_POST["button_statistik"])){
 									if ($statistikdaten = get_npc_spieler_statistik($spieler->id)){	

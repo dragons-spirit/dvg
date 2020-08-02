@@ -27,11 +27,11 @@
 		if($_SESSION['browser'] == "Opera"){
 		?>
 			<style>
-				head {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				body {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+				head {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
+				body {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
 				input {outline:none;}
-                input[type=submit] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
-				input[type=button] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps; font-size:smaller;}
+                input[type=submit] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
+				input[type=button] {font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic; font-size:smaller;}
 			</style>
 		<?php
 		}
@@ -42,7 +42,7 @@
     <body>
         <div id="rahmen">
 			<div id="header">
-				<h1 align="center" style="font-family:Elementary Gothic,EG Dragon Caps;">Drachen von Gaja</h1>  
+				<h1 align="center" style="font-family:Elementary Gothic,EG Dragon Caps,Elementary Gothic;">Drachen von Gaja</h1>  
 			</div>
 			
 			<div id="anmeldung" style="overflow-y: auto;">
