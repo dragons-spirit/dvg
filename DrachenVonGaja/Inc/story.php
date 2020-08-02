@@ -1,3 +1,13 @@
+<html>
+    <head>
+        <title>
+            Wer sind die Drachen von Gaja ?
+        </title>
+        <meta charset="utf-8">
+    </head>
+
+<body>
+
 <style>
 .storylink
 {
@@ -52,3 +62,6 @@ Wenn du auch ein neues Leben als Drache anfängen möchtest, dann melde dich bei u
 
 
 <p align="center"><a class="storylink" href="../index.php" alt="zurueck"/>Zur&uuml;ck</a></p>
+
+</body>
+</html>
