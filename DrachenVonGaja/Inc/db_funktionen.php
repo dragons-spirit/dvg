@@ -2178,12 +2178,7 @@ function get_gewinn_naechster_level($level_id)
 #----------------------------------- SELECT npc.* (im Gebiet) -----------------------------------
 # 	-> npc_gebiet.gebiet_id (int)
 #	-> npc.typ (str)
-#	Array mit npc-Daten [Position]
-#	<- [0] id
-#	<- [1] titel
-#	<- [2] beschreibung
-#	<- [3] wahrscheinlichkeit
-#	<- [4] bilder_id
+#	<- alle_npc_im_gebiet (array [NPCFund])
 
 function get_npcs_gebiet($gebiet_id, $npc_typ)
 {
@@ -2195,7 +2190,8 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 				npc.titel,
 				npc.beschreibung,
 				npc_gebiet.wahrscheinlichkeit,
-				npc.bilder_id
+				npc.bilder_id,
+				npc.typ
 			FROM 	npc
 				JOIN npc_gebiet ON npc.id = npc_gebiet.npc_id
 			WHERE 	npc_gebiet.gebiet_id = ?
@@ -2204,9 +2200,17 @@ function get_npcs_gebiet($gebiet_id, $npc_typ)
 	{
 		$stmt->bind_param('ds', $gebiet_id, $npc_typ);
 		$stmt->execute();
+		$counter = 0;
+		$alle_npc_im_gebiet=null;
+		if ($npc_all = $stmt->get_result()){
+			while($npc = $npc_all->fetch_array(MYSQLI_NUM)){
+				$alle_npc_im_gebiet[$counter] = new NPCFund($npc);
+				$counter = $counter + 1;
+			}
+		}
 		if ($debug) echo "<br />\nNPC-Daten für: [gebiet_id=" . $gebiet_id . "] und [npc_typ=" . $npc_typ . "]geladen.<br />\n";
-		$result = $stmt->get_result();
-		return $result;
+		if ($counter > 0) return $alle_npc_im_gebiet;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_npcs_gebiet()<br />\n";
 		return false;

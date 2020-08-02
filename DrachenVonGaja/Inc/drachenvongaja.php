@@ -183,16 +183,14 @@
 									</p>
 									<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
 									<?php
-									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar")){
-										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
-											if(check_wkt($row[3] * $aktion->faktor_1)){
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar") and $aktion->art == 'erkunden'){
+										foreach($npcs_gebiet as $npc_fund){
+											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_1)){
 											?>
 												<tr align="center">
-													<!--<td width="25px"><?php echo $row[0] ?></td>-->
-													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
-													<td width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
-													<!--<td width="25px"><?php echo $row[3] ?></td>-->
-													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $row[0];?>"></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
+													<td width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
+													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 											<?php
 											}
@@ -200,16 +198,14 @@
 									} else {
 										$keine_npc = true;
 									}
-									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar")){		
-										while($row = $npcs_gebiet->fetch_array(MYSQLI_NUM)){
-											if(check_wkt($row[3] * $aktion->faktor_2)){
+									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "sammelbar") and $aktion->art == 'erkunden'){		
+										foreach($npcs_gebiet as $npc_fund){
+											if(check_wkt($npc_fund->wahrscheinlichkeit * $aktion->faktor_2)){
 												?>
 												<tr align="center">
-													<!--<td	width="25px"><?php echo $row[0] ?></td>-->
-													<td width="85px"><img src="<?php echo get_bild_zu_id($row[4]) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
-													<td	width="150px"><span title="<?php echo $row[2] ?>"><h3><u><?php echo $row[1] ?></u></h3></span></td>
-													<!--<td	width="25px"><?php echo $row[3] ?></td>-->
-													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $row[0];?>"></td>
+													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
+													<td	width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
+													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 												<?php
 											}
@@ -386,8 +382,8 @@
 								if (!$aktion_spieler->titel){	
 									if(isset($_POST["button_gebiet_erkunden"])) beginne_aktion($spieler, $_POST["button_gebiet_erkunden"]);
 									if(isset($_POST["button_zum_zielgebiet"])) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
-									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen_normal", $_POST["button_jagen"]);
-									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln_normal", $_POST["button_sammeln"]);
+									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen", $_POST["button_jagen"]);
+									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln", $_POST["button_sammeln"]);
 									if(isset($_POST["button_ausruhen"])) beginne_aktion($spieler, "ausruhen_normal");
 								}
 							}
