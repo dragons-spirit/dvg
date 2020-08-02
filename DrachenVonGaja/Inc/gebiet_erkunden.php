@@ -39,7 +39,7 @@
 			?>
 			</p>
 		</mover>
-		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="erkunden_normal">Erkundung mit Fokus Jagd</button>
+		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="<?php echo $aktion->titel; ?>">Erkundung mit Fokus Jagd</button>
 	</top_mover>
 	<br /><br />
 	<?php $aktion = get_aktion("erkunden_sammeln"); ?>
@@ -58,7 +58,7 @@
 			?>
 			</p>
 		</mover>
-		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="erkunden_normal">Erkundung mit Fokus Sammeln</button>
+		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="<?php echo $aktion->titel; ?>">Erkundung mit Fokus Sammeln</button>
 	</top_mover>
 	<br /><br />
 	<?php $aktion = get_aktion("erkunden_reden"); ?>
@@ -77,7 +77,7 @@
 			?>
 			</p>
 		</mover>
-		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="erkunden_normal">Interessantes vor Ort</button>
+		<button class="button_standard" type="submit" name="button_gebiet_erkunden" value="<?php echo $aktion->titel; ?>">Interessantes vor Ort</button>
 	</top_mover>
 </div>
 

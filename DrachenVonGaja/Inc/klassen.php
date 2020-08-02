@@ -399,6 +399,30 @@ class NPC {
 }
 
 
+class NPCFund {
+	public $id;
+	public $name;
+	public $beschreibung;
+	public $wahrscheinlichkeit;
+	public $bilder_id;
+	public $typ;
+		
+	public function __construct($ds=null) {
+		if ($ds == null) return false;
+			else $this->set($ds);
+	}
+	
+	public function set($ds) {
+		$this->id = $ds[0];
+		$this->name = $ds[1];
+		$this->beschreibung = $ds[2];
+		$this->wahrscheinlichkeit = $ds[3];
+		$this->bilder_id = $ds[4];
+		$this->typ = $ds[5;
+	}
+}
+
+
 class Item {
 	public $id;
 	public $bilder_id;
@@ -1648,8 +1672,8 @@ class Session {
 		if ($stmt = $connect_db_dvg->prepare("
 			UPDATE session
 			SET aktiv = 0
-			WHERE id = ?;")){
-			$stmt->bind_param('d', $this->id);
+			WHERE account_id = ?;")){
+			$stmt->bind_param('d', $this->account_id);
 			$stmt->execute();
 			$this->aktiv = 0;
 		} else {

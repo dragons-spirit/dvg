@@ -55,11 +55,11 @@ padding:8px;
 height:30px;
 border:solid 0.5px white;
 border-radius:5px;
-background:-moz-linear-gradient(left top,#666666,#330000);
-background:-webkit-linear-gradient(left top,#666666,#330000);
-background:-o-linear-gradient(left top,#666666,#330000);
-background:-ms-linear-gradient(left top,#666666,#330000);
-background:linear-gradient(left top,#666666,#330000);
+background:-moz-linear-gradient(left top,#333333,#330000);
+background:-webkit-linear-gradient(left top,#333333,#330000);
+background:-o-linear-gradient(left top,#333333,#330000);
+background:-ms-linear-gradient(left top,#333333,#330000);
+background:linear-gradient(left top,#333333,#330000);
 cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 

@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `aktion` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `text` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
-  `art` enum('kurz','normal','lang') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
+  `art` enum('normal','erkunden','dialog','bewegen') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'normal',
   `dauer` time NOT NULL,
   `statusbild` enum('laufend','kaempfend','wartend','') COLLATE utf8_unicode_ci NOT NULL,
   `energiebedarf` int(10) NOT NULL DEFAULT '0',
@@ -62,17 +62,17 @@ CREATE TABLE IF NOT EXISTS `aktion` (
 DELETE FROM `aktion`;
 /*!40000 ALTER TABLE `aktion` DISABLE KEYS */;
 INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `statusbild`, `energiebedarf`, `faktor_1`, `faktor_2`) VALUES
-	(1, 'erkunden_normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund.', 'normal', '00:00:10', 'laufend', 1, 1, 1),
-	(2, 'erkunden_jagen', 'Gegend erkunden', 'Du pirschst dich vorsichtig durch das Gelände und hoffst, etwas lohnenswertes für eine Jagd zu finden.', 'normal', '00:00:08', 'laufend', 2, 1.5, 0.25),
-	(5, 'erkunden_sammeln', 'Gegend erkunden', 'Du bewegst dich vorsichtig durch das Gelände und hälst nach seltenen Pflanzen Ausschau.', 'normal', '00:00:08', 'laufend', 2, 0.25, 1.5),
-	(6, 'jagen_normal', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:02', 'kaempfend', 1, 1, 1),
-	(7, 'sammeln_normal', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:05', 'kaempfend', 1, 1, 1),
+	(1, 'erkunden_normal', 'Gegend erkunden', 'Du läufst zielstrebig im Kreis und hoffst mit etwas Glück, auf einen tollen Fund.', 'erkunden', '00:00:10', 'laufend', 1, 1, 1),
+	(2, 'erkunden_jagen', 'Gegend erkunden', 'Du pirschst dich vorsichtig durch das Gelände und hoffst, etwas lohnenswertes für eine Jagd zu finden.', 'erkunden', '00:00:08', 'laufend', 2, 1.5, 0.25),
+	(5, 'erkunden_sammeln', 'Gegend erkunden', 'Du bewegst dich vorsichtig durch das Gelände und hälst nach seltenen Pflanzen Ausschau.', 'erkunden', '00:00:08', 'laufend', 2, 0.25, 1.5),
+	(6, 'jagen', 'Jagen', 'Das böse Tierchen wird in dir seinen Meister finden und dir alle seine Schätze offenbaren.\r\nOder es läuft anders herum!', 'normal', '00:00:02', 'kaempfend', 1, 1, 1),
+	(7, 'sammeln', 'Sammeln', 'Du fällst schreiend über die Pflanze her und stellst erschrocken fest, dass es sich doch nur um eine normale Pflanze handelt, die ohnehin nicht wegrennen geschweige denn um sich schlagen kann.', 'normal', '00:00:05', 'kaempfend', 1, 1, 1),
 	(8, 'reden', 'Reden', 'Du versucht dein Gegenüber anzusprechen.', 'normal', '00:00:01', 'wartend', 0, 1, 1),
-	(9, 'fliegen', 'Fliegen', 'Du fliegst von Punkt A zu Punkt B. Das könnte ein bis drei Weilchen dauern.', 'normal', '00:01:00', 'laufend', 10, 1, 1),
-	(10, 'laufen', 'Laufen', 'Du läufst von Punkt A zu Punkt B. Das könnte zwei Weilchen dauern.', 'normal', '00:00:30', 'laufend', 2, 1, 1),
+	(9, 'fliegen', 'Fliegen', 'Du fliegst von Punkt A zu Punkt B. Das könnte ein bis drei Weilchen dauern.', 'bewegen', '00:01:00', 'laufend', 10, 1, 1),
+	(10, 'laufen', 'Laufen', 'Du läufst von Punkt A zu Punkt B. Das könnte zwei Weilchen dauern.', 'bewegen', '00:00:30', 'laufend', 2, 1, 1),
 	(11, 'kampf', 'Kampf', 'Ihr befindet euch im Kampf.', 'normal', '00:00:00', 'kaempfend', 0, 1, 1),
 	(12, 'ausruhen_normal', 'Ausruhen', 'Du rollst dich zusammen, machst ein Nickerchen und erholst dich dabei von den ganzen Strapazen.', 'normal', '00:00:20', 'wartend', 0, 1, 1),
-	(13, 'erkunden_reden', 'Gegend erkunden', 'Du streifst durch die Gegend, um vielleicht etwas Interessantes zu finden oder zumindest jemanden mit dem man sich unterhalten kann.', 'normal', '00:00:05', 'laufend', 1, 1, 1);
+	(13, 'erkunden_reden', 'Gegend erkunden', 'Du streifst durch die Gegend, um vielleicht etwas Interessantes zu finden oder zumindest jemanden mit dem man sich unterhalten kann.', 'dialog', '00:00:05', 'laufend', 1, 1, 1);
 /*!40000 ALTER TABLE `aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.aktion_spieler
@@ -91,9 +91,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3233 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=3293 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.088 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.054 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -2184,7 +2184,67 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(3229, 48, 7, '2020-07-19 19:30:42', '2020-07-19 19:30:47', 'abgeschlossen', 12, 0),
 	(3230, 48, 1, '2020-07-19 19:30:53', '2020-07-19 19:31:03', 'abgeschlossen', 0, 0),
 	(3231, 48, 1, '2020-07-19 19:31:11', '2020-07-19 19:31:21', 'abgeschlossen', 0, 0),
-	(3232, 48, 1, '2020-07-19 19:35:05', '2020-07-19 19:35:15', 'abgeschlossen', 0, 0);
+	(3232, 48, 1, '2020-07-19 19:35:05', '2020-07-19 19:35:15', 'abgeschlossen', 0, 0),
+	(3233, 26, 1, '2020-07-24 14:28:26', '2020-07-24 14:28:36', 'abgeschlossen', 0, 0),
+	(3234, 26, 7, '2020-07-24 14:28:39', '2020-07-24 14:28:44', 'abgeschlossen', 8, 0),
+	(3235, 26, 12, '2020-07-24 14:28:59', '2020-07-24 14:29:19', 'abgeschlossen', 0, 0),
+	(3236, 26, 1, '2020-07-24 14:29:38', '2020-07-24 14:29:48', 'abgeschlossen', 0, 0),
+	(3237, 26, 7, '2020-07-24 14:29:53', '2020-07-24 14:29:58', 'abgeschlossen', 8, 0),
+	(3238, 26, 1, '2020-07-24 14:30:04', '2020-07-24 14:30:14', 'abgeschlossen', 0, 0),
+	(3239, 26, 6, '2020-07-24 14:30:18', '2020-07-24 14:30:20', 'abgeschlossen', 40, 0),
+	(3240, 26, 11, '2020-07-24 14:30:22', '2020-07-24 14:30:50', 'abgeschlossen', 535, 0),
+	(3241, 26, 12, '2020-07-24 14:30:54', '2020-07-24 14:31:14', 'abgeschlossen', 0, 0),
+	(3242, 49, 10, '2020-07-24 15:25:47', '2020-07-24 15:26:17', 'abgeschlossen', 8, 0),
+	(3243, 49, 1, '2020-07-24 15:26:27', '2020-07-24 15:26:37', 'abgeschlossen', 0, 0),
+	(3244, 49, 6, '2020-07-24 15:26:58', '2020-07-24 15:27:00', 'abgeschlossen', 2, 0),
+	(3245, 49, 11, '2020-07-24 15:27:02', '2020-07-24 15:27:17', 'abgeschlossen', 536, 0),
+	(3246, 49, 1, '2020-07-24 15:27:43', '2020-07-24 15:27:53', 'abgeschlossen', 0, 0),
+	(3247, 49, 1, '2020-07-24 15:28:07', '2020-07-24 15:28:17', 'abgeschlossen', 0, 0),
+	(3248, 49, 7, '2020-07-24 15:28:22', '2020-07-24 15:28:27', 'abgeschlossen', 7, 0),
+	(3249, 49, 10, '2020-07-24 15:28:42', '2020-07-24 15:29:12', 'abgeschlossen', 4, 0),
+	(3250, 49, 1, '2020-07-24 15:29:20', '2020-07-24 15:29:30', 'abgeschlossen', 0, 0),
+	(3251, 49, 6, '2020-07-24 15:29:37', '2020-07-24 15:29:39', 'abgeschlossen', 5, 0),
+	(3252, 49, 11, '2020-07-24 15:29:41', '2020-07-24 15:29:59', 'abgeschlossen', 537, 0),
+	(3253, 49, 12, '2020-07-24 15:30:24', '2020-07-24 15:30:44', 'abgeschlossen', 0, 0),
+	(3254, 49, 10, '2020-07-24 15:30:50', '2020-07-24 15:31:20', 'abgeschlossen', 11, 0),
+	(3255, 49, 1, '2020-07-24 15:31:31', '2020-07-24 15:31:41', 'abgeschlossen', 0, 0),
+	(3256, 49, 7, '2020-07-24 15:31:48', '2020-07-24 15:31:53', 'abgeschlossen', 52, 0),
+	(3257, 49, 10, '2020-07-24 15:38:52', '2020-07-24 15:39:22', 'abgeschlossen', 7, 0),
+	(3258, 49, 1, '2020-07-24 15:39:35', '2020-07-24 15:39:45', 'abgeschlossen', 0, 0),
+	(3259, 49, 6, '2020-07-24 15:39:50', '2020-07-24 15:39:52', 'abgeschlossen', 4, 0),
+	(3260, 49, 11, '2020-07-24 15:39:54', '2020-07-24 15:40:15', 'abgeschlossen', 538, 0),
+	(3261, 49, 1, '2020-07-24 16:53:09', '2020-07-24 16:53:19', 'abgeschlossen', 0, 0),
+	(3262, 49, 7, '2020-07-24 16:53:57', '2020-07-24 16:54:02', 'abgeschlossen', 12, 0),
+	(3263, 49, 1, '2020-07-24 16:55:23', '2020-07-24 16:55:33', 'abgeschlossen', 0, 0),
+	(3264, 49, 6, '2020-07-24 16:55:36', '2020-07-24 16:55:38', 'abgeschlossen', 2, 0),
+	(3265, 49, 11, '2020-07-24 16:55:39', '2020-07-24 16:55:50', 'abgeschlossen', 539, 0),
+	(3266, 49, 12, '2020-07-24 16:55:53', '2020-07-24 16:56:13', 'abgeschlossen', 0, 0),
+	(3267, 49, 1, '2020-07-24 17:13:55', '2020-07-24 17:14:05', 'abgeschlossen', 0, 0),
+	(3268, 49, 6, '2020-07-24 17:14:08', '2020-07-24 17:14:10', 'abgeschlossen', 5, 0),
+	(3269, 49, 11, '2020-07-24 17:14:14', '2020-07-24 17:14:38', 'abgeschlossen', 540, 0),
+	(3270, 49, 10, '2020-07-24 17:14:54', '2020-07-24 17:15:24', 'abgeschlossen', 10, 0),
+	(3271, 48, 12, '2020-07-24 17:16:00', '2020-07-24 17:16:20', 'abgeschlossen', 0, 0),
+	(3272, 49, 1, '2020-07-24 17:16:20', '2020-07-24 17:16:30', 'abgeschlossen', 0, 0),
+	(3273, 48, 10, '2020-07-24 17:16:24', '2020-07-24 17:16:54', 'abgeschlossen', 7, 0),
+	(3274, 49, 7, '2020-07-24 17:16:42', '2020-07-24 17:16:47', 'abgeschlossen', 50, 0),
+	(3275, 49, 10, '2020-07-24 17:17:26', '2020-07-24 17:17:56', 'abgeschlossen', 7, 0),
+	(3276, 48, 10, '2020-07-24 17:18:04', '2020-07-24 17:18:34', 'abgeschlossen', 5, 0),
+	(3277, 49, 1, '2020-07-24 17:19:26', '2020-07-24 17:19:36', 'abgeschlossen', 0, 0),
+	(3278, 49, 6, '2020-07-24 17:19:43', '2020-07-24 17:19:45', 'abgeschlossen', 4, 0),
+	(3279, 48, 10, '2020-07-24 17:19:48', '2020-07-24 17:20:18', 'abgeschlossen', 7, 0),
+	(3280, 49, 11, '2020-07-24 17:19:54', '2020-07-24 17:20:06', 'abgeschlossen', 541, 0),
+	(3281, 48, 12, '2020-07-24 17:21:17', '2020-07-24 17:21:37', 'abgeschlossen', 0, 0),
+	(3282, 49, 10, '2020-07-24 17:21:19', '2020-07-24 17:21:49', 'abgeschlossen', 5, 0),
+	(3283, 49, 12, '2020-07-24 17:21:54', '2020-07-24 17:22:14', 'abgeschlossen', 0, 0),
+	(3284, 49, 10, '2020-07-24 17:48:53', '2020-07-24 17:49:23', 'abgeschlossen', 3, 0),
+	(3285, 49, 1, '2020-07-24 17:49:31', '2020-07-24 17:49:41', 'abgeschlossen', 0, 0),
+	(3286, 49, 6, '2020-07-24 17:49:47', '2020-07-24 17:49:49', 'abgeschlossen', 2, 0),
+	(3287, 49, 11, '2020-07-24 17:49:51', '2020-07-24 17:50:06', 'abgeschlossen', 542, 0),
+	(3288, 49, 10, '2020-07-24 17:50:25', '2020-07-24 17:50:55', 'abgeschlossen', 6, 0),
+	(3289, 49, 12, '2020-07-24 17:51:07', '2020-07-24 17:51:27', 'abgeschlossen', 0, 0),
+	(3290, 49, 1, '2020-07-24 17:51:55', '2020-07-24 17:52:05', 'abgeschlossen', 0, 0),
+	(3291, 49, 6, '2020-07-24 17:59:49', '2020-07-24 17:59:51', 'abgeschlossen', 2, 0),
+	(3292, 49, 11, '2020-07-24 17:59:53', '2020-07-24 18:00:02', 'abgeschlossen', 543, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bedingungen
@@ -2208,9 +2268,9 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `pfad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
+) ENGINE=InnoDB AUTO_INCREMENT=350 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
--- Exportiere Daten aus Tabelle db_dvg.bilder: ~285 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bilder: ~259 rows (ungefähr)
 DELETE FROM `bilder`;
 /*!40000 ALTER TABLE `bilder` DISABLE KEYS */;
 INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
@@ -2498,7 +2558,26 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(327, 'Deckblatt2', '../Bilder/Deckblatt2.png'),
 	(328, 'Erdring', '../Bilder/NPC/Erdring.png'),
 	(329, 'Luftring', '../Bilder/NPC/Luftring.png'),
-	(330, 'Wasserring', '../Bilder/NPC/Wasserring.png');
+	(330, 'Wasserring', '../Bilder/NPC/Wasserring.png'),
+	(331, 'cursor_klick', '../Bilder/cursor_klick.png'),
+	(332, 'cursor_standard', '../Bilder/cursor_standard.png'),
+	(333, 'fuchsfell', '../Bilder/NPC/fuchsfell.png'),
+	(334, 'rinde', '../Bilder/NPC/rinde.png'),
+	(335, 'puzzleteil1', '../Bilder/NPC/puzzleteil1.png'),
+	(336, 'puzzleteil10', '../Bilder/NPC/puzzleteil10.png'),
+	(337, 'puzzleteil11', '../Bilder/NPC/puzzleteil11.png'),
+	(338, 'puzzleteil12', '../Bilder/NPC/puzzleteil12.png'),
+	(339, 'puzzleteil2', '../Bilder/NPC/puzzleteil2.png'),
+	(340, 'puzzleteil3', '../Bilder/NPC/puzzleteil3.png'),
+	(341, 'puzzleteil4', '../Bilder/NPC/puzzleteil4.png'),
+	(342, 'puzzleteil5', '../Bilder/NPC/puzzleteil5.png'),
+	(343, 'puzzleteil6', '../Bilder/NPC/puzzleteil6.png'),
+	(344, 'puzzleteil7', '../Bilder/NPC/puzzleteil7.png'),
+	(345, 'puzzleteil8', '../Bilder/NPC/puzzleteil8.png'),
+	(346, 'puzzleteil9', '../Bilder/NPC/puzzleteil9.png'),
+	(347, 'puzzlevorlage', '../Bilder/NPC/puzzlevorlage.png'),
+	(348, 'cursor_klick_klein', '../Bilder/cursor_klick_klein.png'),
+	(349, 'cursor_standard_klein', '../Bilder/cursor_standard_klein.png');
 /*!40000 ALTER TABLE `bilder` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.datentyp
@@ -2527,7 +2606,7 @@ CREATE TABLE IF NOT EXISTS `dialog_aktion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Schlüsseltabelle für Aktionen, die durch Dialoge getriggert werden (Handel, Kampf, Lernen, Queststart und -ende, Dialogende usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_aktion: ~6 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_aktion: ~5 rows (ungefähr)
 DELETE FROM `dialog_aktion`;
 /*!40000 ALTER TABLE `dialog_aktion` DISABLE KEYS */;
 INSERT INTO `dialog_aktion` (`id`, `titel`) VALUES
@@ -2555,7 +2634,7 @@ CREATE TABLE IF NOT EXISTS `dialog_link` (
   CONSTRAINT `FK_dialog_link_dialog_spieler` FOREIGN KEY (`dialog_spieler_id`) REFERENCES `dialog_spieler` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Verknüpft einzelne Dialogoptionen zwischen NPC und Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_link: ~8 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_link: ~7 rows (ungefähr)
 DELETE FROM `dialog_link`;
 /*!40000 ALTER TABLE `dialog_link` DISABLE KEYS */;
 INSERT INTO `dialog_link` (`id`, `dialog_npc_id`, `dialog_spieler_id`, `next_dialog_npc_id`) VALUES
@@ -2582,7 +2661,7 @@ CREATE TABLE IF NOT EXISTS `dialog_link_npc` (
   CONSTRAINT `FK_dialog_link_npc_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Verknüpft einzelne NPC mit ihren Initialdialogen';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_link_npc: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_link_npc: ~0 rows (ungefähr)
 DELETE FROM `dialog_link_npc`;
 /*!40000 ALTER TABLE `dialog_link_npc` DISABLE KEYS */;
 INSERT INTO `dialog_link_npc` (`id`, `npc_id`, `dialog_npc_id`) VALUES
@@ -2650,9 +2729,9 @@ CREATE TABLE IF NOT EXISTS `einstellungen` (
   KEY `datentyp_id` (`datentyp_id`),
   CONSTRAINT `FK_einstellungen_datentyp` FOREIGN KEY (`datentyp_id`) REFERENCES `datentyp` (`id`),
   CONSTRAINT `FK_einstellungen_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Parameter mit Standardwerten, Änderungsberechtigungen';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Parameter mit Standardwerten, Änderungsberechtigungen';
 
--- Exportiere Daten aus Tabelle db_dvg.einstellungen: ~31 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.einstellungen: ~29 rows (ungefähr)
 DELETE FROM `einstellungen`;
 /*!40000 ALTER TABLE `einstellungen` DISABLE KEYS */;
 INSERT INTO `einstellungen` (`id`, `name`, `topic`, `beschreibung`, `rolle_id`, `global`, `default_wert`, `datentyp_id`, `min`, `max`) VALUES
@@ -2701,7 +2780,7 @@ CREATE TABLE IF NOT EXISTS `einstellungen_account` (
   CONSTRAINT `FK_einstellungen_account_einstellungen` FOREIGN KEY (`einstellungen_id`) REFERENCES `einstellungen` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Parameter mit Standardwerten, Änderungsberechtigungen';
 
--- Exportiere Daten aus Tabelle db_dvg.einstellungen_account: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.einstellungen_account: ~3 rows (ungefähr)
 DELETE FROM `einstellungen_account`;
 /*!40000 ALTER TABLE `einstellungen_account` DISABLE KEYS */;
 INSERT INTO `einstellungen_account` (`id`, `account_id`, `einstellungen_id`, `wert`) VALUES
@@ -2910,9 +2989,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=533 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=548 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~532 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~543 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -3447,7 +3526,22 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(529, 0.02, 0.038, 0.034, 0, 0.0425, 0, 0.0085, 0, 0, 0, 0, 0, 0, 1),
 	(530, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(531, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(532, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+	(532, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(533, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(534, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(535, 0.05, 0.0476, 0.034, 0.0185, 0.029, 0.0025, 0.005, 0, 0, 0, 0, 0, 0, 0),
+	(536, 0.02, 0.0152, 0.01, 0.0125, 0, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
+	(537, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(538, 0.031, 0.0124, 0.007, 0.00125, 0.0015, 0, 0.0075, 0, 0, 0, 0, 0, 0, 1),
+	(539, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(540, 0.03, 0.022, 0.016, 0.0125, 0, 0.0075, 0.004, 0, 0, 0, 0, 0, 0, 1),
+	(541, 0.01, 0.1, 0.2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(542, 0.02, 0.0128, 0.008, 0.01, 0, 0, 0.002, 0, 0, 0, 0, 0, 0, 1),
+	(543, 0.03, 0.0244, 0.018, 0.01, 0.0025, 0, 0.0145, 0, 0, 0, 0, 0, 0, 1),
+	(544, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(545, 0.03, 0.0064, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(546, 0.02, 0.024, 0.0206, 0.025, 0.00075, 0, 0.005, 0, 0, 0, 0, 0, 0, 1),
+	(547, 0.02, 0.0124, 0.008, 0.01, 0, 0, 0.002, 0, 0, 0, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -3487,9 +3581,9 @@ DELETE FROM `items`;
 /*!40000 ALTER TABLE `items` DISABLE KEYS */;
 INSERT INTO `items` (`id`, `titel`, `beschreibung`, `bilder_id`, `essbar`, `ausruestbar`, `verarbeitbar`, `gesundheit`, `energie`, `zauberpunkte`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `prozent`, `slot_id`) VALUES
 	(1, 'Apfel', 'Eine Hälfte knallrot, die andere goldgelb. Ein klassischer Apfel.', 237, 1, 0, 1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(2, 'Rinde', 'Die äußere Schale eines Apfelbaumes. Wozu die wohl gut ist?', 334, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(3, 'Knoblauchlauchknolle', 'Ein Leckerbissen für die die\'s wissen.', 84, 1, 0, 1, 5, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
-	(4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(4, 'Fuchsfell', 'Ein rotes Fell von einem Fuchs. Schön flauschig!', 333, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(5, 'Steinpilz', 'Ein schöner Pilz. Hoffentlich ist er nicht so hart, wie der Name es verspricht.', 95, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(6, 'Ring des Feuers', 'Ein funkelnder Ring in dem kleine Flammen züngeln. Passt wunderbar an eine Drachenklaue.', 270, 0, 1, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 9),
 	(7, 'Messer', 'Ein kleines scharfes Messer. Nützlich um so allerlei Dinge zu ernten, zu teilen, zu filetieren oder was man sonst noch damit anstellen kann. Auf jeden Fall präziser als eine klobige Drachenkralle.', 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2),
@@ -3535,9 +3629,9 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   KEY `FK_spieler_id_items_spieler` (`spieler_id`),
   CONSTRAINT `FK_items_spieler_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~55 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~52 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt`) VALUES
@@ -3553,7 +3647,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(34, 4, 26, 10, 0),
 	(37, 10, 26, 2, 0),
 	(40, 12, 26, 2, 0),
-	(66, 1, 48, 8, 0),
+	(66, 1, 48, 4, 0),
 	(67, 2, 48, 2, 0),
 	(68, 21, 48, 29, 0),
 	(69, 15, 48, 4, 0),
@@ -3584,18 +3678,16 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(130, 22, 48, 1, 1),
 	(131, 6, 26, 1, 1),
 	(132, 7, 26, 1, 1),
-	(136, 3, 26, 10, 0),
+	(136, 3, 26, 12, 0),
 	(138, 13, 26, 2, 0),
-	(139, 28, 26, 1, 0),
-	(142, 8, 49, 1, 1),
 	(149, 14, 49, 1, 0),
-	(151, 8, 49, 14, 0),
-	(153, 4, 49, 3, 0),
-	(165, 3, 49, 3, 0),
+	(151, 8, 49, 18, 0),
+	(153, 4, 49, 4, 0),
 	(168, 37, 48, 4, 1),
-	(171, 28, 49, 1, 0),
-	(172, 34, 49, 1, 0),
-	(173, 22, 49, 1, 0);
+	(177, 11, 49, 1, 0),
+	(180, 8, 49, 1, 1),
+	(186, 22, 49, 1, 1),
+	(187, 1, 49, 1, 0);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -3607,9 +3699,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=535 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=544 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~300 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~274 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -3912,7 +4004,16 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(531, 11, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Erdmännchen stirbt im Kampf.</font><br />Erdmännchen: -8 Gesundheit durch Explosion<br />Erdmännchen: -6 Stärke durch Explosion<br />Sumpfine zaubert erfolgreich Explosion auf Erdmännchen.<br /><br />Sumpfine: -0 Gesundheit durch Biss<br />Erdmännchen greif Sumpfine erfolgreich mit Biss an.<br />Erdmännchen: -4 Abwehr durch Explosion<br />Erdmännchen: -4 Ausweichen durch Explosion<br />Erdmännchen: -8 Gesundheit durch Explosion<br />Erdmännchen: -6 Stärke durch Explosion<br />Sumpfine zaubert erfolgreich Explosion auf Erdmännchen.<br /><br />'),
 	(532, 4, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Marduk stirbt im Kampf.</font><br />Marduk: -23 Gesundheit durch Biss<br />Löwe greif Marduk erfolgreich mit Biss an.<br />Löwe: -2 Gesundheit durch Schlag<br />Marduk greift Löwe mit Schlag an. Löwe kann den Angriff jedoch abwehren.<br /><br />Löwe: -1 Abwehr durch Beendigung von Sandhöhle<br />Löwe: -1 Ausweichen durch Beendigung von Sandhöhle<br />Löwe: -3 Stärke durch Beendigung von Sandhöhle<br />Löwe greift Marduk mit Biss an. Marduk kann dem Angriff jedoch ausweichen.<br />Löwe: -8 Gesundheit durch Schlag<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Marduk greif Löwe erfolgreich mit Schlag an.<br /><br />Marduk: -19 Gesundheit durch Schlag<br />Löwe greif Marduk erfolgreich mit Schlag an.<br />Löwe: -8 Gesundheit durch Schlag<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Marduk greif Löwe erfolgreich mit Schlag an.<br /><br />Löwe: 1 Abwehr durch Sandhöhle<br />Löwe: 1 Ausweichen durch Sandhöhle<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Löwe: 3 Stärke durch Sandhöhle<br />Löwe: -1 Abwehr durch Beendigung von Sandhöhle<br />Löwe: -1 Ausweichen durch Beendigung von Sandhöhle<br />Löwe: -3 Stärke durch Beendigung von Sandhöhle<br />Löwe zaubert erfolgreich Sandhöhle auf sich selbst.<br />Löwe: -8 Gesundheit durch Schlag<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Marduk greif Löwe erfolgreich mit Schlag an.<br /><br />Marduk: -20 Gesundheit durch Biss<br />Löwe greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Löwe: -2 Gesundheit durch Schlag<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Marduk greift Löwe mit Schlag an. Löwe kann den Angriff jedoch abwehren.<br /><br />Löwe: 1 Abwehr durch Sandhöhle<br />Löwe: 1 Ausweichen durch Sandhöhle<br />Löwe: 3 Gesundheit durch Sandhöhle<br />Löwe: 3 Stärke durch Sandhöhle<br />Löwe zaubert erfolgreich Sandhöhle auf sich selbst.<br />Löwe: -8 Gesundheit durch Schlag<br />Marduk greif Löwe erfolgreich mit Schlag an.<br /><br />Löwe: -8 Gesundheit durch Schlag<br />Marduk greif Löwe erfolgreich mit Schlag an.<br /><br />'),
 	(533, 11, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Fuchs stirbt im Kampf.</font><br />Fuchs: -12 Gesundheit durch Feuersturm<br />Fuchs: -4 Ausweichen durch Feuersturm<br />Fuchs: -12 Gesundheit durch Feuersturm<br />Sumpfine zaubert erfolgreich Feuersturm auf Fuchs.<br /><br />Sumpfine: -7 Gesundheit durch Schlag<br />Fuchs greif Sumpfine erfolgreich mit Schlag an.<br />Fuchs: -4 Ausweichen durch Feuersturm<br />Fuchs: -12 Gesundheit durch Feuersturm<br />Sumpfine zaubert erfolgreich Feuersturm auf Fuchs.<br /><br />'),
-	(534, 11, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -8 Gesundheit durch Stich<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine greif Ratte erfolgreich mit Biss an.<br /><br />Ratte greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Ratte: -8 Gesundheit durch Stich<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine greif Ratte erfolgreich mit Stich an.<br /><br />Sumpfine: -0 Gesundheit durch Biss<br />Ratte greift Sumpfine mit Biss an. Sumpfine kann den Angriff jedoch abwehren.<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Monsun auf Ratte.<br /><br />Sumpfine: -5 Gesundheit durch Biss<br />Ratte greif Sumpfine erfolgreich mit Biss an.<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Hurrikan auf Ratte.<br /><br />Ratte patzt beim Ausführen von Biss auf Sumpfine.<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Hurrikan auf Ratte.<br /><br />');
+	(534, 11, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -8 Gesundheit durch Stich<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine greif Ratte erfolgreich mit Biss an.<br /><br />Ratte greift Sumpfine mit Biss an. Sumpfine kann dem Angriff jedoch ausweichen.<br />Ratte: -8 Gesundheit durch Stich<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine greif Ratte erfolgreich mit Stich an.<br /><br />Sumpfine: -0 Gesundheit durch Biss<br />Ratte greift Sumpfine mit Biss an. Sumpfine kann den Angriff jedoch abwehren.<br />Ratte: -3 Ausweichen durch Monsun<br />Ratte: -5 Magie durch Monsun<br />Ratte: -7 Stärke durch Monsun<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Monsun auf Ratte.<br /><br />Sumpfine: -5 Gesundheit durch Biss<br />Ratte greif Sumpfine erfolgreich mit Biss an.<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Hurrikan auf Ratte.<br /><br />Ratte patzt beim Ausführen von Biss auf Sumpfine.<br />Ratte: -9 Ausweichen durch Hurrikan<br />Ratte: -7 Initiative durch Hurrikan<br />Sumpfine zaubert erfolgreich Hurrikan auf Ratte.<br /><br />'),
+	(535, 5, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Rashiel stirbt im Kampf.</font><br />Rashiel: -10 Gesundheit durch Biss<br />Delphin greif Rashiel erfolgreich mit Biss an.<br />Rashiel: -8 Gesundheit durch Schlag<br />Rashiel: 5 Abwehr durch Beendigung von Wasserstrahl<br />Rashiel: 3 Ausweichen durch Beendigung von Wasserstrahl<br />Delphin greif Rashiel erfolgreich mit Schlag an.<br />Rashiel greift Delphin mit Biss an. Delphin kann dem Angriff jedoch ausweichen.<br /><br />Rashiel: -5 Abwehr durch Wasserstrahl<br />Rashiel: -3 Ausweichen durch Wasserstrahl<br />Delphin zaubert erfolgreich Wasserstrahl auf Rashiel.<br />Delphin: -0 Gesundheit durch Biss<br />Rashiel greif Delphin erfolgreich mit Biss an.<br /><br />Rashiel: -10 Gesundheit durch Biss<br />Delphin greif Rashiel erfolgreich mit Biss an.<br />Rashiel greift Delphin mit Biss an. Delphin kann dem Angriff jedoch ausweichen.<br /><br />Rashiel: -10 Gesundheit durch Biss<br />Delphin greif Rashiel erfolgreich mit Biss an.<br />Delphin patzt beim Ausführen von Biss auf Rashiel.<br />Rashiel: 4 Gesundheit durch Wasserfall<br />Rashiel greift Delphin mit Stich an. Delphin kann dem Angriff jedoch ausweichen.<br /><br />Delphin patzt beim Ausführen von Biss auf Rashiel.<br />Rashiel: -5 Ausweichen durch Tsunami<br />Rashiel: -5 Initiative durch Tsunami<br />Rashiel: -5 Gesundheit durch Tsunami<br />Rashiel: -5 Stärke durch Tsunami<br />Rashiel: 4 Gesundheit durch Wasserfall<br />Rashiel zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Rashiel: -5 Ausweichen durch Tsunami<br />Rashiel: -5 Initiative durch Tsunami<br />Rashiel: -5 Gesundheit durch Tsunami<br />Rashiel: -5 Stärke durch Tsunami<br />Rashiel: 5 Abwehr durch Beendigung von Wasserstrahl<br />Rashiel: 3 Ausweichen durch Beendigung von Wasserstrahl<br />Delphin zaubert erfolgreich Tsunami auf Rashiel.<br />Rashiel greift Delphin mit Stich an. Delphin kann dem Angriff jedoch ausweichen.<br /><br />Rashiel: -5 Abwehr durch Wasserstrahl<br />Rashiel: -3 Ausweichen durch Wasserstrahl<br />Rashiel: 5 Abwehr durch Beendigung von Wasserstrahl<br />Rashiel: 3 Ausweichen durch Beendigung von Wasserstrahl<br />Delphin zaubert erfolgreich Wasserstrahl auf Rashiel.<br />Delphin: -7 Gesundheit durch Biss<br />Rashiel: 4 Gesundheit durch Wasserfall<br />Rashiel greif Delphin erfolgreich mit Biss an.<br /><br />Rashiel: -5 Abwehr durch Wasserstrahl<br />Rashiel: -3 Ausweichen durch Wasserstrahl<br />Delphin zaubert erfolgreich Wasserstrahl auf Rashiel.<br />Rashiel: 4 Gesundheit durch Wasserfall<br />Rashiel zaubert erfolgreich Wasserfall auf sich selbst.<br /><br />Rashiel: -10 Gesundheit durch Biss<br />Delphin greif Rashiel erfolgreich mit Biss an.<br />Delphin: -7 Gesundheit durch Stich<br />Rashiel: -5 Ausweichen durch Tsunami<br />Rashiel: -5 Initiative durch Tsunami<br />Rashiel: -5 Gesundheit durch Tsunami<br />Rashiel: -5 Stärke durch Tsunami<br />Rashiel zaubert Sandstein auf Delphin. Delphin kann dem Zauber jedoch ausweichen.<br /><br />Rashiel: -5 Ausweichen durch Tsunami<br />Rashiel: -5 Initiative durch Tsunami<br />Rashiel: -5 Gesundheit durch Tsunami<br />Rashiel: -5 Stärke durch Tsunami<br />Delphin zaubert erfolgreich Tsunami auf Rashiel.<br />Delphin: -7 Gesundheit durch Stich<br />Rashiel greif Delphin erfolgreich mit Stich an.<br /><br />Delphin greift Rashiel mit Schlag an. Rashiel kann dem Angriff jedoch ausweichen.<br />Delphin: -11 Gesundheit durch Biss<br />Delphin: -7 Gesundheit durch Stich<br />Rashiel greif Delphin erfolgreich mit Biss an.<br /><br />Rashiel: -8 Gesundheit durch Schlag<br />Delphin greif Rashiel erfolgreich mit Schlag an.<br />Delphin: -7 Gesundheit durch Stich<br />Rashiel greif Delphin erfolgreich mit Stich an.<br /><br />Rashiel: -8 Gesundheit durch Schlag<br />Delphin greif Rashiel erfolgreich mit Schlag an.<br />Delphin: -4 Abwehr durch Explosion<br />Delphin: -4 Ausweichen durch Explosion<br />Delphin: -7 Gesundheit durch Explosion<br />Delphin: -5 Stärke durch Explosion<br />Rashiel zaubert erfolgreich Explosion auf Delphin.<br /><br />'),
+	(536, 8, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk greift Ratte mit Schlag an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk greift Ratte mit Schlag an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -3 Gesundheit durch Feuerball<br />Marduk zaubert erfolgreich Feuerball auf Ratte.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />'),
+	(537, 4, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -2 Gesundheit durch Schlag<br />Junger Fuchs greift Marduk mit Schlag an. Marduk kann den Angriff jedoch abwehren.<br />Junger Fuchs: -2 Ausweichen durch Böe<br />Marduk zaubert erfolgreich Böe auf Junger Fuchs.<br /><br />Junger Fuchs greift Marduk mit Biss an. Marduk kann dem Angriff jedoch ausweichen.<br />Junger Fuchs: -10 Gesundheit durch Biss<br />Marduk greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Marduk: -5 Gesundheit durch Schlag<br />Junger Fuchs greif Marduk erfolgreich mit Schlag an.<br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk patzt beim Zaubern von Feuerball auf Junger Fuchs.<br /><br />Marduk: -5 Gesundheit durch Schlag<br />Junger Fuchs greif Marduk erfolgreich mit Schlag an.<br />Marduk greift Junger Fuchs mit Biss an. Junger Fuchs kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk patzt beim Ausführen von Schlag auf Junger Fuchs.<br /><br />'),
+	(538, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Fuchs stirbt im Kampf.</font><br />Fuchs: -10 Gesundheit durch Biss<br />Fuchs: -3 Gesundheit durch Staub<br />Marduk greif Fuchs erfolgreich mit Biss an.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Fuchs: -3 Gesundheit durch Staub<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -7 Gesundheit durch Schlag<br />Fuchs greif Marduk erfolgreich mit Schlag an.<br />Fuchs: -3 Gesundheit durch Staub<br />Marduk zaubert erfolgreich Staub auf Fuchs.<br /><br />Marduk: -7 Gesundheit durch Schlag<br />Fuchs greif Marduk erfolgreich mit Schlag an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Fuchs greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Fuchs: -3 Gesundheit durch Feuerball<br />Marduk zaubert erfolgreich Feuerball auf Fuchs.<br /><br />'),
+	(539, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Ratte greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greift Ratte mit Schlag an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />'),
+	(540, 7, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Junger Fuchs stirbt im Kampf.</font><br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -7 Ausweichen durch Tornado<br />Marduk zaubert erfolgreich Tornado auf Junger Fuchs.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -10 Gesundheit durch Biss<br />Junger Fuchs: -2 Gesundheit durch Flamme<br />Marduk greif Junger Fuchs erfolgreich mit Biss an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Junger Fuchs.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Junger Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Junger Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -6 Gesundheit durch Biss<br />Junger Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk greift Junger Fuchs mit Biss an. Junger Fuchs kann dem Angriff jedoch ausweichen.<br /><br />'),
+	(541, 7, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Marduk stirbt im Kampf.</font><br />Marduk: -2 Gesundheit durch Schlag<br />Fuchs greift Marduk mit Schlag an. Marduk kann den Angriff jedoch abwehren.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk will den Zauber Flamme auf sich selbst anwenden und stellt dabei fest, dass das nicht sinnvoll wäre.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Marduk greift Fuchs mit Biss an. Fuchs kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -8 Gesundheit durch Biss<br />Fuchs greif Marduk erfolgreich mit Biss an.<br />Fuchs: -8 Gesundheit durch Schlag<br />Marduk greif Fuchs erfolgreich mit Schlag an.<br /><br />'),
+	(542, 3, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Ratte greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -8 Gesundheit durch Schlag<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Marduk patzt beim Zaubern von Regenschauer auf sich selbst.<br /><br />Marduk: -2 Gesundheit durch Biss<br />Ratte greift Marduk mit Biss an. Marduk kann den Angriff jedoch abwehren.<br />Ratte: -1 Gesundheit durch Blitz<br />Ratte: -1 Magie durch Blitz<br />Ratte: -2 Intelligenz durch Blitz<br />Marduk zaubert erfolgreich Blitz auf Ratte.<br /><br />'),
+	(543, 6, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ratte stirbt im Kampf.</font><br />Ratte: -10 Gesundheit durch Biss<br />Marduk greif Ratte erfolgreich mit Biss an.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk greift Ratte mit Biss an. Ratte kann dem Angriff jedoch ausweichen.<br /><br />Marduk: -5 Gesundheit durch Biss<br />Ratte greif Marduk erfolgreich mit Biss an.<br />Ratte: -2 Gesundheit durch Flamme<br />Marduk zaubert erfolgreich Flamme auf Ratte.<br /><br />Ratte greift Marduk mit Biss an. Marduk kann dem Angriff jedoch ausweichen.<br />Ratte: -8 Gesundheit durch Schlag<br />Marduk greif Ratte erfolgreich mit Schlag an.<br /><br />');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -3939,9 +4040,9 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7967 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=8075 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.279 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~4.138 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -8223,7 +8324,115 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(7963, 534, 249.966, 1156, 1155, 77, 1, 0, 1, 0, 105.263, '2020-06-21 18:26:41'),
 	(7964, 534, 297.027, 1155, 1156, 80, 1, 0, 0, 0, 99.009, '2020-06-21 18:26:43'),
 	(7965, 534, 355.229, 1156, 1155, 77, 1, 1, 0, 0, 123.456, '2020-06-21 18:26:43'),
-	(7966, 534, 396.036, 1155, 1156, 77, 1, 0, 0, 0, 99.009, '2020-06-21 18:26:47');
+	(7966, 534, 396.036, 1155, 1156, 77, 1, 0, 0, 0, 99.009, '2020-06-21 18:26:47'),
+	(7967, 535, 0, 1157, 1158, 10, 1, 0, 0, 7, 99.009, '2020-07-24 14:30:25'),
+	(7968, 535, 95.238, 1158, 1157, 79, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:26'),
+	(7969, 535, 99.009, 1157, 1158, 80, 1, 0, 0, 0, 99.009, '2020-07-24 14:30:27'),
+	(7970, 535, 190.476, 1158, 1157, 79, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:27'),
+	(7971, 535, 198.018, 1157, 1158, 77, 1, 0, 0, 0, 99.009, '2020-07-24 14:30:28'),
+	(7972, 535, 285.714, 1158, 1157, 79, 1, 1, 0, 0, 95.238, '2020-07-24 14:30:28'),
+	(7973, 535, 297.027, 1157, 1158, 80, 1, 0, 0, 0, 99.009, '2020-07-24 14:30:30'),
+	(7974, 535, 380.952, 1158, 1157, 62, 1, 0, 0, 6, 95.238, '2020-07-24 14:30:30'),
+	(7975, 535, 396.036, 1157, 1158, 38, 1, 1, 0, 5, 104.166, '2020-07-24 14:30:31'),
+	(7976, 535, 476.19, 1158, 1157, 77, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:32'),
+	(7977, 535, 500.202, 1157, 1157, 63, 1, 0, 0, 5, 109.89, '2020-07-24 14:30:34'),
+	(7978, 535, 571.428, 1158, 1157, 66, 1, 0, 0, 4, 95.238, '2020-07-24 14:30:34'),
+	(7979, 535, 610.092, 1157, 1158, 77, 1, 0, 0, 0, 109.89, '2020-07-24 14:30:35'),
+	(7980, 535, 666.666, 1158, 1157, 66, 1, 0, 0, 4, 95.238, '2020-07-24 14:30:35'),
+	(7981, 535, 719.982, 1157, 1158, 80, 1, 1, 0, 0, 109.89, '2020-07-24 14:30:37'),
+	(7982, 535, 761.904, 1158, 1157, 62, 1, 0, 0, 6, 95.238, '2020-07-24 14:30:37'),
+	(7983, 535, 829.872, 1157, 1157, 63, 1, 0, 0, 5, 116.279, '2020-07-24 14:30:39'),
+	(7984, 535, 857.142, 1158, 1157, 77, 0, 0, 0, 0, 95.238, '2020-07-24 14:30:39'),
+	(7985, 535, 946.151, 1157, 1158, 80, 1, 1, 0, 0, 123.456, '2020-07-24 14:30:41'),
+	(7986, 535, 952.38, 1158, 1157, 77, 0, 0, 0, 0, 95.238, '2020-07-24 14:30:41'),
+	(7987, 535, 1047.62, 1158, 1157, 77, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:41'),
+	(7988, 535, 1069.61, 1157, 1158, 77, 1, 1, 0, 0, 123.456, '2020-07-24 14:30:42'),
+	(7989, 535, 1142.86, 1158, 1157, 77, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:42'),
+	(7990, 535, 1193.07, 1157, 1158, 77, 1, 0, 0, 0, 123.456, '2020-07-24 14:30:45'),
+	(7991, 535, 1238.1, 1158, 1157, 66, 1, 0, 0, 4, 95.238, '2020-07-24 14:30:45'),
+	(7992, 535, 1316.53, 1157, 1158, 77, 1, 1, 0, 0, 123.456, '2020-07-24 14:30:47'),
+	(7993, 535, 1333.34, 1158, 1157, 79, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:47'),
+	(7994, 535, 1428.58, 1158, 1157, 77, 1, 0, 0, 0, 95.238, '2020-07-24 14:30:47'),
+	(7995, 536, 0, 1159, 1160, 79, 1, 0, 0, 0, 100, '2020-07-24 15:27:06'),
+	(7996, 536, 76.923, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:06'),
+	(7997, 536, 100, 1159, 1160, 77, 1, 1, 0, 0, 100, '2020-07-24 15:27:08'),
+	(7998, 536, 153.846, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:08'),
+	(7999, 536, 200, 1159, 1160, 13, 1, 0, 0, 5, 100, '2020-07-24 15:27:10'),
+	(8000, 536, 230.769, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:10'),
+	(8001, 536, 300, 1159, 1160, 79, 1, 1, 0, 0, 100, '2020-07-24 15:27:11'),
+	(8002, 536, 307.692, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:11'),
+	(8003, 536, 384.615, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:11'),
+	(8004, 536, 400, 1159, 1160, 79, 1, 1, 0, 0, 100, '2020-07-24 15:27:13'),
+	(8005, 536, 461.538, 1160, 1159, 77, 1, 0, 0, 0, 76.923, '2020-07-24 15:27:13'),
+	(8006, 536, 500, 1159, 1160, 79, 1, 0, 0, 0, 100, '2020-07-24 15:27:14'),
+	(8007, 537, 0, 1161, 1162, 79, 0, 0, 0, 0, 100, '2020-07-24 15:29:47'),
+	(8008, 537, 90.909, 1162, 1161, 77, 1, 0, 0, 0, 90.909, '2020-07-24 15:29:47'),
+	(8009, 537, 100, 1161, 1162, 77, 1, 1, 0, 0, 100, '2020-07-24 15:29:48'),
+	(8010, 537, 181.818, 1162, 1161, 79, 1, 0, 0, 0, 90.909, '2020-07-24 15:29:48'),
+	(8011, 537, 200, 1161, 1162, 13, 0, 0, 0, 5, 100, '2020-07-24 15:29:51'),
+	(8012, 537, 272.727, 1162, 1161, 77, 1, 0, 0, 0, 90.909, '2020-07-24 15:29:51'),
+	(8013, 537, 300, 1161, 1162, 79, 1, 0, 0, 0, 100, '2020-07-24 15:29:52'),
+	(8014, 537, 363.636, 1162, 1161, 79, 1, 0, 0, 0, 90.909, '2020-07-24 15:29:52'),
+	(8015, 537, 400, 1161, 1162, 77, 1, 0, 0, 0, 100, '2020-07-24 15:29:54'),
+	(8016, 537, 454.545, 1162, 1161, 77, 1, 1, 0, 0, 90.909, '2020-07-24 15:29:54'),
+	(8017, 537, 500, 1161, 1162, 53, 1, 0, 0, 3, 100, '2020-07-24 15:29:56'),
+	(8018, 537, 545.454, 1162, 1161, 79, 1, 0, 1, 0, 90.909, '2020-07-24 15:29:56'),
+	(8019, 537, 600, 1161, 1162, 79, 1, 0, 0, 0, 100, '2020-07-24 15:29:57'),
+	(8020, 538, 0, 1163, 1164, 13, 1, 0, 0, 5, 100, '2020-07-24 15:40:03'),
+	(8021, 538, 90.909, 1164, 1163, 77, 1, 0, 1, 0, 90.909, '2020-07-24 15:40:03'),
+	(8022, 538, 100, 1163, 1164, 79, 1, 0, 0, 0, 100, '2020-07-24 15:40:05'),
+	(8023, 538, 181.818, 1164, 1163, 79, 1, 0, 0, 0, 90.909, '2020-07-24 15:40:05'),
+	(8024, 538, 200, 1163, 1164, 29, 1, 0, 0, 3, 100, '2020-07-24 15:40:06'),
+	(8025, 538, 272.727, 1164, 1163, 79, 1, 0, 0, 0, 90.909, '2020-07-24 15:40:06'),
+	(8026, 538, 300, 1163, 1164, 79, 1, 0, 0, 0, 100, '2020-07-24 15:40:07'),
+	(8027, 538, 363.636, 1164, 1163, 77, 1, 0, 0, 0, 90.909, '2020-07-24 15:40:07'),
+	(8028, 538, 400, 1163, 1164, 77, 1, 0, 0, 0, 100, '2020-07-24 15:40:09'),
+	(8029, 539, 0, 1165, 1166, 12, 1, 0, 0, 4, 100, '2020-07-24 16:55:42'),
+	(8030, 539, 76.923, 1166, 1165, 77, 1, 0, 0, 0, 76.923, '2020-07-24 16:55:42'),
+	(8031, 539, 100, 1165, 1166, 79, 1, 1, 0, 0, 100, '2020-07-24 16:55:44'),
+	(8032, 539, 153.846, 1166, 1165, 77, 1, 0, 0, 0, 76.923, '2020-07-24 16:55:44'),
+	(8033, 539, 200, 1165, 1166, 77, 1, 1, 0, 0, 100, '2020-07-24 16:55:45'),
+	(8034, 539, 230.769, 1166, 1165, 77, 1, 0, 0, 0, 76.923, '2020-07-24 16:55:45'),
+	(8035, 539, 300, 1165, 1166, 77, 1, 0, 0, 0, 100, '2020-07-24 16:55:46'),
+	(8036, 539, 307.692, 1166, 1165, 77, 1, 0, 0, 0, 76.923, '2020-07-24 16:55:47'),
+	(8037, 539, 384.615, 1166, 1165, 77, 1, 0, 1, 0, 76.923, '2020-07-24 16:55:47'),
+	(8038, 539, 400, 1165, 1166, 79, 1, 0, 0, 0, 100, '2020-07-24 16:55:48'),
+	(8039, 540, 0, 1167, 1168, 77, 1, 1, 0, 0, 100, '2020-07-24 17:14:23'),
+	(8040, 540, 90.909, 1168, 1167, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:14:23'),
+	(8041, 540, 100, 1167, 1168, 79, 1, 0, 0, 0, 100, '2020-07-24 17:14:27'),
+	(8042, 540, 181.818, 1168, 1167, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:14:27'),
+	(8043, 540, 200, 1167, 1168, 12, 1, 0, 0, 4, 100, '2020-07-24 17:14:30'),
+	(8044, 540, 272.727, 1168, 1167, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:14:30'),
+	(8045, 540, 300, 1167, 1168, 77, 1, 0, 0, 0, 100, '2020-07-24 17:14:32'),
+	(8046, 540, 363.636, 1168, 1167, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:14:32'),
+	(8047, 540, 400, 1167, 1168, 56, 1, 0, 0, 5, 100, '2020-07-24 17:14:34'),
+	(8048, 540, 454.545, 1168, 1167, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:14:34'),
+	(8049, 540, 500, 1167, 1168, 79, 1, 0, 0, 0, 100, '2020-07-24 17:14:36'),
+	(8050, 541, 0, 1169, 1170, 79, 1, 0, 0, 0, 100, '2020-07-24 17:20:00'),
+	(8051, 541, 90.909, 1170, 1169, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:20:00'),
+	(8052, 541, 100, 1169, 1170, 77, 1, 1, 1, 0, 100, '2020-07-24 17:20:01'),
+	(8053, 541, 181.818, 1170, 1169, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:20:01'),
+	(8054, 541, 200, 1169, 1170, 79, 0, 1, 0, 0, 100, '2020-07-24 17:20:02'),
+	(8055, 541, 272.727, 1170, 1169, 77, 1, 0, 0, 0, 90.909, '2020-07-24 17:20:02'),
+	(8056, 541, 300, 1169, 1170, 79, 1, 0, 0, 0, 100, '2020-07-24 17:20:05'),
+	(8057, 541, 363.636, 1170, 1169, 79, 1, 0, 1, 0, 90.909, '2020-07-24 17:20:05'),
+	(8058, 542, 0, 1171, 1172, 15, 1, 0, 0, 6, 100, '2020-07-24 17:49:56'),
+	(8059, 542, 76.923, 1172, 1171, 77, 1, 0, 1, 0, 76.923, '2020-07-24 17:49:56'),
+	(8060, 542, 100, 1171, 1171, 65, 0, 0, 0, 3, 100, '2020-07-24 17:49:57'),
+	(8061, 542, 153.846, 1172, 1171, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:49:57'),
+	(8062, 542, 200, 1171, 1172, 12, 1, 0, 0, 4, 100, '2020-07-24 17:50:01'),
+	(8063, 542, 230.769, 1172, 1171, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:50:01'),
+	(8064, 542, 300, 1171, 1172, 79, 1, 0, 0, 0, 100, '2020-07-24 17:50:02'),
+	(8065, 542, 307.692, 1172, 1171, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:50:02'),
+	(8066, 542, 384.615, 1172, 1171, 77, 1, 0, 1, 0, 76.923, '2020-07-24 17:50:02'),
+	(8067, 542, 400, 1171, 1172, 77, 1, 0, 0, 0, 100, '2020-07-24 17:50:04'),
+	(8068, 543, 0, 1173, 1174, 79, 1, 0, 0, 0, 100, '2020-07-24 17:59:56'),
+	(8069, 543, 76.923, 1174, 1173, 77, 1, 1, 0, 0, 76.923, '2020-07-24 17:59:56'),
+	(8070, 543, 100, 1173, 1174, 12, 1, 0, 0, 4, 100, '2020-07-24 17:59:57'),
+	(8071, 543, 153.846, 1174, 1173, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:59:57'),
+	(8072, 543, 200, 1173, 1174, 77, 1, 1, 0, 0, 100, '2020-07-24 17:59:58'),
+	(8073, 543, 230.769, 1174, 1173, 77, 1, 0, 0, 0, 76.923, '2020-07-24 17:59:58'),
+	(8074, 543, 300, 1173, 1174, 77, 1, 0, 0, 0, 100, '2020-07-24 18:00:00');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -8245,9 +8454,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8539 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=8639 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~4.714 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~4.581 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -12964,7 +13173,107 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(8535, 7962, 1156, 'angriff', 'ausweichen', -3, 3, 5, 1, 1, 0),
 	(8536, 7963, 1155, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
 	(8537, 7964, 1156, 'angriff', 'gesundheit', -8, 2, 2, 1, 1, 1),
-	(8538, 7966, 1156, 'angriff', 'gesundheit', -13, 0, 1, 1, 1, 1);
+	(8538, 7966, 1156, 'angriff', 'gesundheit', -13, 0, 1, 1, 1, 1),
+	(8539, 7967, 1158, 'angriff', 'staerke', -5, 1, 1, 1, 1, 1),
+	(8540, 7967, 1158, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8541, 7967, 1158, 'angriff', 'ausweichen', -4, 1, 1, 1, 1, 1),
+	(8542, 7967, 1158, 'angriff', 'abwehr', -4, 1, 1, 1, 1, 1),
+	(8543, 7968, 1157, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8544, 7969, 1158, 'angriff', 'gesundheit', -7, 2, 2, 1, 1, 1),
+	(8545, 7970, 1157, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8546, 7971, 1158, 'angriff', 'gesundheit', -11, 1, 1, 1, 1, 1),
+	(8547, 7973, 1158, 'angriff', 'gesundheit', -7, 2, 2, 1, 1, 1),
+	(8548, 7974, 1157, 'angriff', 'staerke', -5, 2, 2, 1, 1, 1),
+	(8549, 7974, 1157, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
+	(8550, 7974, 1157, 'angriff', 'initiative', -5, 2, 2, 1, 1, 1),
+	(8551, 7974, 1157, 'angriff', 'ausweichen', -5, 2, 2, 1, 1, 1),
+	(8552, 7976, 1157, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8553, 7977, 1157, 'verteidigung', 'gesundheit', 4, 2, 2, 1, 1, 1),
+	(8554, 7978, 1157, 'angriff', 'ausweichen', -3, 2, 2, 0, 1, 1),
+	(8555, 7978, 1157, 'angriff', 'abwehr', -5, 2, 2, 0, 1, 1),
+	(8556, 7979, 1158, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8557, 7980, 1157, 'angriff', 'ausweichen', -3, 2, 2, 0, 1, 1),
+	(8558, 7980, 1157, 'angriff', 'abwehr', -5, 2, 2, 0, 1, 1),
+	(8559, 7982, 1157, 'angriff', 'staerke', -5, 2, 2, 1, 1, 1),
+	(8560, 7982, 1157, 'angriff', 'gesundheit', -5, 2, 2, 1, 1, 1),
+	(8561, 7982, 1157, 'angriff', 'initiative', -5, 2, 2, 1, 1, 1),
+	(8562, 7982, 1157, 'angriff', 'ausweichen', -5, 2, 2, 1, 1, 1),
+	(8563, 7983, 1157, 'verteidigung', 'gesundheit', 4, 2, 2, 1, 1, 1),
+	(8564, 7987, 1157, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8565, 7989, 1157, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8566, 7990, 1158, 'angriff', 'gesundheit', -0, 1, 1, 1, 1, 1),
+	(8567, 7991, 1157, 'angriff', 'ausweichen', -3, 2, 2, 0, 1, 1),
+	(8568, 7991, 1157, 'angriff', 'abwehr', -5, 2, 2, 0, 1, 1),
+	(8569, 7993, 1157, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8570, 7994, 1157, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8571, 7995, 1160, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8572, 7996, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8573, 7998, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8574, 7999, 1160, 'angriff', 'gesundheit', -3, 1, 1, 1, 1, 1),
+	(8575, 8000, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8576, 8002, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8577, 8003, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8578, 8005, 1159, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8579, 8006, 1160, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8580, 8008, 1161, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8581, 8010, 1161, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8582, 8012, 1161, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8583, 8013, 1162, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8584, 8014, 1161, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8585, 8015, 1162, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8586, 8017, 1162, 'angriff', 'ausweichen', -2, 2, 3, 0, 1, 0),
+	(8587, 8018, 1161, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8588, 8019, 1162, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8589, 8020, 1164, 'angriff', 'gesundheit', -3, 1, 1, 1, 1, 1),
+	(8590, 8021, 1163, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8591, 8022, 1164, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8592, 8023, 1163, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8593, 8024, 1164, 'angriff', 'gesundheit', -3, 3, 3, 1, 1, 1),
+	(8594, 8025, 1163, 'angriff', 'gesundheit', -7, 1, 1, 1, 1, 1),
+	(8595, 8026, 1164, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8596, 8027, 1163, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8597, 8028, 1164, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8598, 8029, 1166, 'angriff', 'gesundheit', -2, 2, 2, 1, 1, 1),
+	(8599, 8030, 1165, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8600, 8032, 1165, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8601, 8034, 1165, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8602, 8035, 1166, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8603, 8036, 1165, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8604, 8037, 1165, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8605, 8038, 1166, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8606, 8040, 1167, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8607, 8041, 1168, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8608, 8042, 1167, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8609, 8043, 1168, 'angriff', 'gesundheit', -2, 2, 2, 1, 1, 1),
+	(8610, 8044, 1167, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8611, 8045, 1168, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8612, 8046, 1167, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8613, 8047, 1168, 'angriff', 'ausweichen', -7, 2, 3, 0, 1, 0),
+	(8614, 8048, 1167, 'angriff', 'gesundheit', -6, 1, 1, 1, 1, 1),
+	(8615, 8049, 1168, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8616, 8050, 1170, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8617, 8051, 1169, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8618, 8053, 1169, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8619, 8054, 1170, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8620, 8055, 1169, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8621, 8056, 1170, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8622, 8057, 1169, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8623, 8058, 1172, 'angriff', 'intelligenz', -2, 1, 1, 1, 1, 1),
+	(8624, 8058, 1172, 'angriff', 'magie', -1, 1, 1, 1, 1, 1),
+	(8625, 8058, 1172, 'angriff', 'gesundheit', -1, 1, 1, 1, 1, 1),
+	(8626, 8059, 1171, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8627, 8061, 1171, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8628, 8062, 1172, 'angriff', 'gesundheit', -2, 2, 2, 1, 1, 1),
+	(8629, 8063, 1171, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8630, 8064, 1172, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8631, 8065, 1171, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8632, 8066, 1171, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(8633, 8067, 1172, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(8634, 8068, 1174, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(8635, 8070, 1174, 'angriff', 'gesundheit', -2, 2, 2, 1, 1, 1),
+	(8636, 8071, 1173, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8637, 8073, 1173, 'angriff', 'gesundheit', -5, 1, 1, 1, 1, 1),
+	(8638, 8074, 1174, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -12998,9 +13307,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_kampf_teilnehmer_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1157 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=1175 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~635 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~644 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -13638,7 +13947,25 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(1153, 533, 48, 'spieler', 0, 99, 106, 17, 45, 25.9992, 21.6462, 16.489, 12.8071, 22.4897, 12.6751, 13.0991, 101, 11, 11, 198.018, 528, 0),
 	(1154, 533, 4, 'npc', 1, 0, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 12, 181.818, NULL, 0),
 	(1155, 534, 48, 'spieler', 0, 94, 106, 0, 45, 25.9992, 21.674, 16.5168, 12.8433, 22.4897, 12.6751, 13.1061, 101, 11, 11, 495.045, 529, 0),
-	(1156, 534, 2, 'npc', 1, 0, 15, 0, 0, 0, 3, 0, 0, 5, 5, 0, 74, 0, 0, 478.685, NULL, 0);
+	(1156, 534, 2, 'npc', 1, 0, 15, 0, 0, 0, 3, 0, 0, 5, 5, 0, 74, 0, 0, 478.685, NULL, 0),
+	(1157, 535, 26, 'spieler', 0, 0, 66, 2, 24, 0, 12.4179, 8.1477, 12.3019, 13.2846, 9.1477, 9.1482, 81, 11, 3, 1439.99, 535, 0),
+	(1158, 535, 40, 'npc', 1, 27, 80, 16, 40, 15, 40, 20, 0, 20, 0, 0, 105, 0, 46, 1523.82, NULL, 0),
+	(1159, 536, 49, 'spieler', 0, 20, 50, 3, 8, 15.7776, 6.5351, 3.3416, 1.1992, 1.003, 1, 5.0545, 100, 10, 10, 600, 536, 0),
+	(1160, 536, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 538.461, NULL, 0),
+	(1161, 537, 49, 'spieler', 0, 13, 51, 5, 13, 15.7976, 6.5602, 3.3516, 1.2117, 1.003, 1, 5.057, 100, 10, 10, 700, 538, 0),
+	(1162, 537, 5, 'npc', 1, 0, 25, 0, 0, 5, 5, 0, 0, 1, 5, 3, 110, 0, 28, 636.363, NULL, 0),
+	(1163, 538, 49, 'spieler', 0, 27, 51, 5, 13, 15.8286, 6.5825, 3.3586, 1.2129, 1.0045, 1, 5.0645, 100, 10, 10, 500, 540, 0),
+	(1164, 538, 4, 'npc', 1, 0, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 20, 454.545, NULL, 0),
+	(1165, 539, 49, 'spieler', 0, 6, 51, 1, 13, 15.8685, 6.7037, 3.573, 1.2254, 1.0045, 1.0075, 5.0685, 100, 10, 10, 500, 542, 0),
+	(1166, 539, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 461.538, NULL, 0),
+	(1167, 540, 49, 'spieler', 0, 21, 51, 4, 13, 15.8885, 6.7165, 3.581, 1.2354, 1.0045, 1.0075, 5.0705, 100, 10, 10, 600, 543, 0),
+	(1168, 540, 5, 'npc', 1, 0, 25, 0, 0, 5, 5, 0, 0, 1, 5, 3, 110, 0, 23, 545.454, NULL, 0),
+	(1169, 541, 49, 'spieler', 0, 0, 51, 4, 13, 15.9183, 6.7506, 3.5989, 1.2453, 1.007, 1.0075, 5.0849, 100, 10, 10, 400, 545, 0),
+	(1170, 541, 4, 'npc', 1, 11, 35, 0, 0, 10, 10, 0, 0, 2, 10, 5, 110, 5, 20, 454.545, NULL, 0),
+	(1171, 542, 49, 'spieler', 0, 32, 51, 0, 13, 15.9183, 6.7506, 3.5989, 1.2453, 1.007, 1.0075, 5.0849, 100, 10, 10, 500, 546, 0),
+	(1172, 542, 2, 'npc', 1, 0, 15, 0, 0, 3, 1, 0, 0, 5, 5, 0, 130, 0, 35, 461.538, NULL, 0),
+	(1173, 543, 49, 'spieler', 0, 41, 51, 9, 13, 15.9381, 6.7744, 3.6193, 1.2701, 1.0077, 1.0075, 5.0898, 100, 10, 10, 400, 547, 0),
+	(1174, 543, 2, 'npc', 1, 0, 15, 0, 0, 3, 3, 0, 0, 5, 5, 0, 130, 0, 35, 307.692, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -13770,7 +14097,7 @@ CREATE TABLE IF NOT EXISTS `npc` (
   CONSTRAINT `FK_npc_ki` FOREIGN KEY (`ki_id`) REFERENCES `ki` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Alle möglichen Objekten (Tiere, Pflanzen, Personen, usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc: ~57 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc: ~55 rows (ungefähr)
 DELETE FROM `npc`;
 /*!40000 ALTER TABLE `npc` DISABLE KEYS */;
 INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `abwehr`, `ausweichen`, `beschreibung`, `typ`, `ki_id`, `erfahrung`) VALUES
@@ -13847,7 +14174,7 @@ CREATE TABLE IF NOT EXISTS `npc_gebiet` (
   CONSTRAINT `FK_npc_gebiet_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=543 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~148 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~145 rows (ungefähr)
 DELETE FROM `npc_gebiet`;
 /*!40000 ALTER TABLE `npc_gebiet` DISABLE KEYS */;
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
@@ -14017,7 +14344,7 @@ CREATE TABLE IF NOT EXISTS `npc_items` (
   CONSTRAINT `FK_npc_items_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_items: ~85 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_items: ~83 rows (ungefähr)
 DELETE FROM `npc_items`;
 /*!40000 ALTER TABLE `npc_items` DISABLE KEYS */;
 INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
@@ -14120,7 +14447,7 @@ CREATE TABLE IF NOT EXISTS `npc_spieler_statistik` (
   KEY `spieler_id` (`spieler_id`),
   CONSTRAINT `FK_npc_spieler_statistik_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_npc_spieler_statistik_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
 
 -- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~100 rows (ungefähr)
 DELETE FROM `npc_spieler_statistik`;
@@ -14170,7 +14497,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(60, 26, 56, 1),
 	(61, 26, 33, 1),
 	(62, 26, 25, 2),
-	(63, 26, 8, 23),
+	(63, 26, 8, 25),
 	(64, 48, 28, 6),
 	(65, 48, 59, 5),
 	(66, 48, 49, 4),
@@ -14205,27 +14532,28 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(95, 26, 65, 2),
 	(96, 48, 61, 4),
 	(97, 49, 28, 2),
-	(98, 49, 2, 8),
-	(99, 49, 7, 6),
+	(98, 49, 2, 12),
+	(99, 49, 7, 7),
 	(100, 49, 49, 1),
 	(101, 49, 57, 1),
 	(102, 49, 6, 1),
-	(103, 49, 50, 2),
+	(103, 49, 50, 3),
 	(104, 49, 14, 1),
 	(105, 49, 27, 2),
-	(106, 49, 4, 3),
+	(106, 49, 4, 4),
 	(107, 49, 23, 1),
 	(108, 49, 32, 2),
 	(109, 49, 30, 3),
 	(110, 26, 67, 1),
 	(111, 49, 8, 6),
-	(112, 49, 52, 3),
-	(113, 49, 5, 4),
+	(112, 49, 52, 4),
+	(113, 49, 5, 6),
 	(114, 48, 70, 1),
 	(115, 49, 22, 1),
 	(116, 49, 53, 1),
 	(117, 49, 42, 1),
-	(118, 49, 33, 1);
+	(118, 49, 33, 1),
+	(119, 49, 12, 1);
 /*!40000 ALTER TABLE `npc_spieler_statistik` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.quest
@@ -14246,7 +14574,7 @@ CREATE TABLE IF NOT EXISTS `quest` (
   CONSTRAINT `FK_quest_bilder` FOREIGN KEY (`bilder_id`) REFERENCES `bilder` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Quests';
 
--- Exportiere Daten aus Tabelle db_dvg.quest: ~1 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.quest: ~0 rows (ungefähr)
 DELETE FROM `quest`;
 /*!40000 ALTER TABLE `quest` DISABLE KEYS */;
 INSERT INTO `quest` (`id`, `bilder_id`, `titel`, `titel_erweitert`, `voraussetzung_level`, `belohnung`, `text_start`, `text_mitte`, `text_sieg`, `text_niederlage`) VALUES
@@ -14305,9 +14633,9 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `rolle_id` (`rolle_id`),
   CONSTRAINT `FK_session_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`),
   CONSTRAINT `FK_session_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
 
--- Exportiere Daten aus Tabelle db_dvg.session: ~18 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.session: ~56 rows (ungefähr)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_bis`, `aktiv`, `ip`) VALUES
@@ -14325,10 +14653,48 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(33, 10, 1, '2020-06-21 17:30:53', '2020-06-21 17:31:17', 0, '192.168.22.50'),
 	(34, 10, 1, '2020-06-21 17:31:19', '2020-06-21 17:43:41', 0, '192.168.22.50'),
 	(35, 10, 1, '2020-06-21 17:33:10', '2020-06-21 18:26:42', 0, '192.168.22.50'),
-	(36, 10, 1, '2020-06-21 18:06:14', '2020-06-21 19:06:14', 1, '192.168.22.50'),
-	(37, 11, 1, '2020-07-19 16:08:58', '2020-07-19 20:35:18', 1, '192.168.22.49'),
-	(38, 11, 1, '2020-07-19 16:49:37', '2020-07-19 17:49:37', 1, '192.168.22.49'),
-	(39, 11, 1, '2020-07-19 17:23:12', '2020-07-19 18:23:12', 1, '192.168.22.49');
+	(36, 10, 1, '2020-06-21 18:06:14', '2020-06-21 19:06:14', 0, '192.168.22.50'),
+	(37, 11, 1, '2020-07-19 16:08:58', '2020-07-19 19:50:21', 0, '192.168.22.49'),
+	(38, 11, 1, '2020-07-19 16:49:37', '2020-07-19 17:49:37', 0, '192.168.22.49'),
+	(39, 11, 1, '2020-07-19 17:23:12', '2020-07-19 18:23:12', 0, '192.168.22.49'),
+	(40, 10, 1, '2020-07-24 14:27:34', '2020-07-24 17:20:40', 0, '192.168.22.50'),
+	(41, 10, 1, '2020-07-24 14:27:41', '2020-07-24 15:27:41', 0, '192.168.22.50'),
+	(42, 11, 1, '2020-07-24 15:29:09', '2020-07-24 15:29:52', 0, '192.168.22.49'),
+	(43, 11, 1, '2020-07-24 15:29:22', '2020-07-24 17:30:27', 0, '192.168.22.49'),
+	(44, 11, 1, '2020-07-24 15:29:41', '2020-07-24 16:29:41', 0, '192.168.22.49'),
+	(45, 11, 1, '2020-07-24 15:29:58', '2020-07-24 16:29:58', 0, '192.168.22.49'),
+	(46, 11, 1, '2020-07-24 15:33:46', '2020-07-24 16:33:46', 0, '192.168.22.49'),
+	(47, 11, 1, '2020-07-24 15:36:23', '2020-07-24 16:36:23', 0, '192.168.22.49'),
+	(48, 11, 1, '2020-07-24 15:38:10', '2020-07-24 16:38:10', 0, '192.168.22.49'),
+	(49, 11, 1, '2020-07-24 15:39:41', '2020-07-24 16:39:41', 0, '192.168.22.49'),
+	(50, 11, 1, '2020-07-24 15:40:18', '2020-07-24 16:40:18', 0, '192.168.22.49'),
+	(51, 11, 1, '2020-07-24 15:41:58', '2020-07-24 16:41:58', 0, '192.168.22.49'),
+	(52, 11, 1, '2020-07-24 15:58:01', '2020-07-24 16:58:01', 0, '192.168.22.49'),
+	(53, 11, 1, '2020-07-24 15:58:59', '2020-07-24 16:58:59', 0, '192.168.22.49'),
+	(54, 11, 1, '2020-07-24 16:00:07', '2020-07-24 17:00:07', 0, '192.168.22.49'),
+	(55, 11, 1, '2020-07-24 16:01:44', '2020-07-24 17:01:44', 0, '192.168.22.49'),
+	(56, 11, 1, '2020-07-24 16:06:24', '2020-07-24 17:06:24', 0, '192.168.22.49'),
+	(57, 11, 1, '2020-07-24 16:16:23', '2020-07-24 17:16:23', 0, '192.168.22.49'),
+	(58, 11, 1, '2020-07-24 16:20:02', '2020-07-24 17:20:02', 0, '192.168.22.49'),
+	(59, 11, 1, '2020-07-24 16:52:22', '2020-07-24 17:52:22', 0, '192.168.22.49'),
+	(60, 11, 1, '2020-07-24 17:01:08', '2020-07-24 18:01:08', 0, '192.168.22.49'),
+	(61, 11, 1, '2020-07-24 17:05:21', '2020-07-24 18:05:21', 0, '192.168.22.49'),
+	(62, 11, 1, '2020-07-24 17:07:05', '2020-07-24 18:07:05', 0, '192.168.22.49'),
+	(63, 11, 1, '2020-07-24 17:08:01', '2020-07-24 18:08:01', 0, '192.168.22.49'),
+	(64, 10, 1, '2020-07-24 17:13:28', '2020-07-24 18:00:08', 0, '192.168.22.50'),
+	(65, 11, 1, '2020-07-24 17:19:37', '2020-07-24 18:19:37', 0, '192.168.22.49'),
+	(66, 10, 1, '2020-07-24 17:21:12', '2020-07-24 18:21:12', 1, '192.168.22.50'),
+	(67, 10, 1, '2020-07-24 17:21:16', '2020-07-24 18:21:16', 1, '192.168.22.50'),
+	(68, 11, 1, '2020-07-24 17:23:37', '2020-07-24 18:23:37', 0, '192.168.22.49'),
+	(69, 11, 1, '2020-08-01 11:05:01', '2020-08-01 12:05:01', 0, '192.168.22.49'),
+	(70, 11, 1, '2020-08-01 11:06:08', '2020-08-01 12:06:08', 0, '192.168.22.49'),
+	(71, 11, 1, '2020-08-01 11:06:10', '2020-08-01 12:06:10', 0, '192.168.22.49'),
+	(72, 11, 1, '2020-08-01 11:06:11', '2020-08-01 12:06:11', 0, '192.168.22.49'),
+	(73, 11, 1, '2020-08-01 11:06:11', '2020-08-01 12:06:11', 0, '192.168.22.49'),
+	(74, 11, 1, '2020-08-01 11:06:12', '2020-08-01 12:06:12', 0, '192.168.22.49'),
+	(75, 11, 1, '2020-08-01 11:06:29', '2020-08-01 12:06:29', 0, '192.168.22.49'),
+	(76, 11, 1, '2020-08-01 11:10:05', '2020-08-01 12:10:05', 0, '192.168.22.49'),
+	(77, 11, 1, '2020-08-01 11:10:26', '2020-08-01 13:00:02', 0, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots
@@ -14340,7 +14706,7 @@ CREATE TABLE IF NOT EXISTS `slots` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Mögliche Slots/Positionen an denen Items angebracht werden können.';
 
--- Exportiere Daten aus Tabelle db_dvg.slots: ~9 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.slots: ~8 rows (ungefähr)
 DELETE FROM `slots`;
 /*!40000 ALTER TABLE `slots` DISABLE KEYS */;
 INSERT INTO `slots` (`id`, `titel`, `max`) VALUES
@@ -14402,9 +14768,9 @@ CREATE TABLE IF NOT EXISTS `spieler` (
 DELETE FROM `spieler`;
 /*!40000 ALTER TABLE `spieler` DISABLE KEYS */;
 INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `zauberpunkte`, `max_zauberpunkte`, `balance`, `initiative`, `abwehr`, `ausweichen`, `zuletzt_gespielt`, `erfahrung`) VALUES
-	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 16.1824, 11.4018, 7.14773, 6.30188, 10.2846, 6.14772, 6.14818, 15, 55, 11, 15, 13, 16, 80.254, 100, 10, 10, '2020-06-21 16:06:11', 168.989),
-	(48, 11, 220, 2, 3, 11, 'Sumpfine', 'W', 25.0191, 20.7418, 15.5507, 11.3878, 19.2296, 11.6751, 12.1146, 106, 90, 6, 27, 45, 33, 98.969, 100, 10, 10, '2020-07-19 19:35:05', 414.161),
-	(49, 10, 211, 4, 1, 4, 'Marduk', 'M', 10.7776, 6.53509, 3.34157, 1.19916, 1.00298, 1, 5.05448, 50, 33, 12, 8, 8, 5, 100, 100, 10, 10, '2020-06-21 18:26:37', 49.2669);
+	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 16.1824, 11.4179, 7.14773, 6.30188, 10.2846, 6.14772, 6.14818, 66, 55, 19, 15, 24, 16, 81.761, 100, 10, 10, '2020-07-24 14:31:16', 170.602),
+	(48, 11, 220, 2, 3, 7, 'Sumpfine', 'W', 25.0191, 20.7418, 15.5507, 11.3878, 19.2296, 11.6751, 12.1146, 106, 90, 33, 27, 45, 33, 98.969, 100, 10, 10, '2020-07-24 17:26:52', 414.161),
+	(49, 10, 211, 4, 1, 6, 'Marduk', 'M', 10.9578, 6.78661, 3.62717, 1.27998, 1.0077, 1.0075, 5.0918, 41, 33, 11, 8, 9, 5, 97.674, 100, 10, 10, '2020-07-24 18:00:03', 60.1964);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber
@@ -14532,7 +14898,7 @@ CREATE TABLE IF NOT EXISTS `zauberart` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Details zu Zaubern um verschiedenste Wirkungen abbilden zu können.';
 
--- Exportiere Daten aus Tabelle db_dvg.zauberart: ~6 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauberart: ~5 rows (ungefähr)
 DELETE FROM `zauberart`;
 /*!40000 ALTER TABLE `zauberart` DISABLE KEYS */;
 INSERT INTO `zauberart` (`id`, `titel`, `modifikator`, `beschreibung`) VALUES
@@ -14764,7 +15130,7 @@ CREATE TABLE IF NOT EXISTS `zauber_npc` (
   CONSTRAINT `FK_zauber_npc_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~154 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_npc: ~141 rows (ungefähr)
 DELETE FROM `zauber_npc`;
 /*!40000 ALTER TABLE `zauber_npc` DISABLE KEYS */;
 INSERT INTO `zauber_npc` (`id`, `npc_id`, `zauber_id`, `wahrscheinlichkeit`) VALUES
@@ -14935,9 +15301,9 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~27 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~28 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
@@ -14961,13 +15327,14 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(155, 26, 38),
 	(156, 26, 42),
 	(157, 26, 43),
-	(158, 49, 66),
-	(159, 49, 13),
 	(160, 49, 77),
 	(161, 49, 79),
-	(162, 49, 63),
 	(163, 49, 53),
-	(164, 49, 29);
+	(165, 49, 34),
+	(166, 49, 65),
+	(167, 49, 12),
+	(168, 49, 56),
+	(169, 49, 15);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_text
