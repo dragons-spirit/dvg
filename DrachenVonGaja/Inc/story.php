@@ -57,7 +57,7 @@ Auf dieser Welt manifestierte Sangha mit seiner Fantasie alle möglichen Pflanzen
 <p align="center" style="font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps;font-size:18px;">
 "Die Drachen von Gaja sind die Bewohner des Planetens Gaja. Früher waren sie Menschen gewesen bis sie in einem neuen Leben<br>
 als kleine Drachen aus Eiern geschlüpft waren. Als Drache bekamen die Menschen die Chance die Welt aus einen anderen Blickwinkel<br>
-kennen zu lernen und die Elemente zu beherrschen die ihre Welt einst erschuff und formte."</b>
+kennen zu lernen und die Elemente zu beherrschen die ihre Welt einst erschuff und formte."<br>
 Wenn du auch ein neues Leben als Drache anfängen möchtest, dann melde dich bei uns an !</p>
 
 
