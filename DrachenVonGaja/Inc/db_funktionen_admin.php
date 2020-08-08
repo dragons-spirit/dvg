@@ -506,8 +506,6 @@ function insertItem($item)
 {
 	global $debug;
 	global $connect_db_dvg;
-	var_dump($item);
-	echo "<br />";
 	if ($stmt = $connect_db_dvg->prepare("
 			INSERT INTO items (
 				bilder_id,

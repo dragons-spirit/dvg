@@ -325,8 +325,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Dschungel<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/dschungel_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Dschungel" name="button_dschungel" value="                                             "></td>
-                <td>Kristallhöhle<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Kristallhoehle" name="button_kristallhoehle" value="                                             "></td>
+                <td>Karmana<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/dschungel_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Karmana" name="button_dschungel" value="                                             "></td>
+                <td>Koban<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/kristallhoehle_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Koban" name="button_kristallhoehle" value="                                             "></td>
             </tr>            
         </table>
  <?php
@@ -343,8 +343,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-				<td>Eissee<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/eissee_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Eissee" name="button_eissee" value="                                             "></td>
-				<td>Sumpf<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/sumpf_klein.jpg);width:150px; height:94px; background-repeat:no-repeat;" alt="Sumpf" name="button_sumpf" value="                                             "></td>
+				<td>Irakon<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/eissee_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Irakon" name="button_eissee" value="                                             "></td>
+				<td>Ormanko<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/sumpf_klein.jpg);width:150px; height:94px; background-repeat:no-repeat;" alt="Ormanko" name="button_sumpf" value="                                             "></td>
             </tr>
         </table>
 <?php
@@ -361,8 +361,8 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Vulkan<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/vulkan_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Vulkan" name="button_vulkan" value="                                      "></td>
-                <td>Wüste<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Wueste" name="button_wueste" value="                                      "></td>
+                <td>Rapano<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/vulkan_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Rapano" name="button_vulkan" value="                                      "></td>
+                <td>Aktor<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/wueste_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Aktor" name="button_wueste" value="                                      "></td>
             </tr>
         </table>
 <?php
@@ -379,21 +379,21 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
         <h3 align="center">Auswahl des Heimatgebietes</h3>
         <table align="center">
             <tr>
-                <td>Klippe<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/klippe_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Klippe" name="button_klippe" value="                                             "></td>
-                <td>Mammutbaum<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/mammutbaum_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Mammutbaum" name="button_mammutbaum" value="                                             "></td>
+                <td>Rastagy<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/klippe_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Rastagy" name="button_klippe" value="                                             "></td>
+                <td>Everleen<br><input type="submit" style="background-image:url(./Platzhalter_gebiete/Klein/mammutbaum_klein.jpg); width:150px; height:94px; background-repeat:no-repeat;" alt="Everleen" name="button_mammutbaum" value="                                             "></td>
             </tr>
         </table>
 <?php
 	}
 
-	if(isset($_POST["button_dschungel"])) $_SESSION['startgebiet'] = "Dschungel";
-	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Kristallhöhle";
-	if(isset($_POST["button_eissee"])) $_SESSION['startgebiet'] = "Eissee";
-	if(isset($_POST["button_sumpf"])) $_SESSION['startgebiet'] = "Sumpf";
-	if(isset($_POST["button_vulkan"])) $_SESSION['startgebiet'] = "Vulkan";
-	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Wüste";
-    if(isset($_POST["button_klippe"])) $_SESSION['startgebiet'] = "Klippe";
-	if(isset($_POST["button_mammutbaum"])) $_SESSION['startgebiet'] = "Mammutbaum"; 
+	if(isset($_POST["button_dschungel"])) $_SESSION['startgebiet'] = "Karmana";
+	if(isset($_POST["button_kristallhoehle"])) $_SESSION['startgebiet'] = "Koban";
+	if(isset($_POST["button_eissee"])) $_SESSION['startgebiet'] = "Irakon";
+	if(isset($_POST["button_sumpf"])) $_SESSION['startgebiet'] = "Ormanko";
+	if(isset($_POST["button_vulkan"])) $_SESSION['startgebiet'] = "Rapano";
+	if(isset($_POST["button_wueste"])) $_SESSION['startgebiet'] = "Aktor";
+    if(isset($_POST["button_klippe"])) $_SESSION['startgebiet'] = "Rastagy";
+	if(isset($_POST["button_mammutbaum"])) $_SESSION['startgebiet'] = "Everleen"; 
 
 
 ###############################################
