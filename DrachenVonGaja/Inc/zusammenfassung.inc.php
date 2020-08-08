@@ -202,17 +202,17 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
-			$count = 0; 
+			
 ?>			
-			<table align="center" border="1px" color="black">
+			<table align="center" color="black">
 				<tr>
-					<td>Nummer</td>
+					
 					<td>Name</td>
                     <td>Bild</td>
 					<td>Gattung</td>
-					<td>Geschlecht</td>
+					<td align="center">Geschlecht</td>
 					<td>Level</td>
-					<td>Aktueller Ort</td>
+					<td align="center">Aktueller Ort</td>
                     <td>LÖSCHEN</td>
 				</tr>
 <?php		
@@ -220,18 +220,18 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 			while($row = $spieler_zu_account->fetch_array(MYSQLI_NUM))
 			{
 				$spieler->set($row);
-				$count = $count + 1;
+				
 ?>			
 				<tr>
-					<td><?php echo $count ?></td>
+					
 					<td><?php echo $spieler->name . "<br />\n";?></td>
                     <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $spieler->id;?>">
 					</td>
 					<td><?php echo $spieler->gattung . "<br />\n"; ?></td>
-					<td><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
+					<td align="center"><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
 					<td><?php echo $spieler->level_id . "<br />\n"; ?></td>
-					<td><?php echo $spieler->startgebiet . "<br />\n"; ?></td>
+					<td align="center"><?php echo $spieler->startgebiet . "<br />\n"; ?></td>
                     <td align="center">
 						<input type="button" id="<?php echo 'b_sp_loe_' . $spieler->id . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
 						<input type="submit" id="<?php echo 'b_sp_loe_' . $spieler->id . '_2' ?>" name="button_spielerloeschen_endgueltig" value="<?php echo $spieler->id; ?>" style="visibility:hidden;">
