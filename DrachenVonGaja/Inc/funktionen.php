@@ -587,11 +587,11 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 	}
 	$items = get_items_npc($npc_id)
 	?>
-	<table border="1px" border-color="white" align="center" style="margin-top:5%;" width="500px" >
-		<tr>
+	<table class="tabelle" align="center" style="margin-top:5%;" width="500px" cellpadding="5px">
+		<tr class="table_tr_kopf">
 			<td>Item</td>
 			<td>Beschreibung</td>
-			<td>Anzahl</td>
+			<td align="right">Anzahl</td>
 		</tr>
 		<?php
 		$counter = 0;
@@ -602,10 +602,10 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 					if ($item_anzahl > 0) $counter = $counter + 1;
 					items_spieler_aendern($spieler->id, $item->id, $item_anzahl);
 					?>
-					<tr>
+					<tr class="table_tr_inhalt">
 						<td><?php echo $item->name ?></td>
 						<td><?php echo $item->beschreibung ?></td>
-						<td><?php echo $item_anzahl ?></td>
+						<td align="right"><?php echo $item_anzahl ?></td>
 					</tr>
 					<?php
 				}

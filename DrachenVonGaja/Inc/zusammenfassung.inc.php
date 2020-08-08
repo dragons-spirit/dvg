@@ -198,22 +198,22 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 	if(isset($_SESSION['login_name']) and ($_SESSION['letzte_seite'] == "login" or $_SESSION['letzte_seite'] == "neuer_spieler_name_geschlecht" or $_SESSION['letzte_seite'] == "adminbereich_login"))
     {
 ?>
-        <h3 align="center">Account</h3>
+        <h1 align="center">Account</h1>
 <?php
     	if ($spieler_zu_account = get_spieler_login($_SESSION['login_name']))
 		{
 			
 ?>			
-			<table align="center" color="black" backgroundcolor="darkred"; border="1px;solid"; border-spacing="5px";>
-				<tr>
+			<table class="tabelle" cellpadding="5px">
+				<tr class="table_tr_kopf">
 					
-					<td>Name</td>
-                                        <td align="center">Avatarbild</td>
-					<td>Gattung</td>
-					<td align="center">Geschlecht</td>
-					<td align="center">Level</td>
-					<td align="center">Aktueller Ort</td>
-                                        <td>LÖSCHEN</td>
+                                        <td align="center";><b>Avatarbild<b></td>
+					<td><b>Name<b></td>
+                                        <td align="center"><b>Gattung<b></td>
+					<td align="center"><b>Geschlecht<b></td>
+					<td align="center"><b>Level<b></td>
+					<td align="center"><b>Aktueller Ort<b></td>
+                                        <td><b>LÖSCHEN<b></td>
 				</tr>
 <?php		
 			$spieler = new LoginSpieler();
@@ -222,13 +222,13 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 				$spieler->set($row);
 				
 ?>			
-				<tr>
+				<tr class="table_tr_inhalt" >
 					
-					<td><?php echo $spieler->name . "<br />\n";?></td>
-                    <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
+					 <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $spieler->id;?>">
 					</td>
-					<td><?php echo $spieler->gattung . "<br />\n"; ?></td>
+                                        <td><?php echo $spieler->name . "<br />\n";?></td>
+					<td align="center"><?php echo $spieler->gattung . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->level_id . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->startgebiet . "<br />\n"; ?></td>

@@ -181,7 +181,7 @@
 									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
 										Ihr habt die Gegend erkundet.
 									</p>
-									<table border="1px" border-color="white" style="margin:auto;margin-top:20px;">
+									<table style="margin:auto;margin-top:20px;">
 									<?php
 									if ($npcs_gebiet = get_npcs_gebiet($spieler->gebiet_id, "angreifbar") and $aktion->art == 'erkunden'){
 										foreach($npcs_gebiet as $npc_fund){
@@ -436,8 +436,8 @@
 											}
 											?>
 										</p>
-										<table border="1px" border-color="white" align="center" width="400px">
-											<tr>
+										<table class="tabelle" cellpadding="5px" align="center" width="400px">
+											<tr class="table_tr_kopf">
 												<td>NPC</td>
 												<td align="right">Anzahl</td>
 												<td align="center">Wie</td>
@@ -446,7 +446,7 @@
 											foreach ($statistikdaten as $statistik){
 												$counter = $counter + 1;
 												?>
-												<tr>
+												<tr class="table_tr_inhalt">
 													<td align="left"><?php echo $statistik->npc_name ?></td>
 													<td align="right"><?php echo $statistik->anzahl ?></td>
 													<td align="center"><?php echo $statistik->wie ?></td>
@@ -455,7 +455,7 @@
 											}
 											if($counter == 0){
 												?>
-												<tr>
+												<tr class="table_tr_inhalt">
 													<td colspan=3>Noch keine Statistikdaten vorhanden.</td>
 												</tr>
 												<?php
@@ -638,7 +638,7 @@
 						}
 						
 						?>			
-						<table border="1px" border-color="white">
+						<table>
 							<tr>
 								<td style="display:none;">
 									Clientzeit: <b id="clientzeit"></b>

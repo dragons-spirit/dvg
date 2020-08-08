@@ -51,6 +51,30 @@ background:linear-gradient(left top,#333333,#330000);
 cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 
+.table_tr_kopf
+{
+    background:darkred;
+    color:white;
+    align:center;
+}
+
+.table_tr_inhalt
+{
+    background:#F7F2E0;
+    color:black;
+    align:center;
+
+}
+
+.tabelle
+{
+    color:white;
+    margin:auto;
+
+}
+
+
+
 .storylink
 {
     font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
