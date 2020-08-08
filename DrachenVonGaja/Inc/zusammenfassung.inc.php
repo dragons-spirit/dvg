@@ -204,7 +204,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		{
 			
 ?>			
-			<table align="center" color="black" border="1px;solid;" border-spacing="5px";>
+			<table align="center" color="black" backgroundcolor="darkred"; border="1px;solid"; border-spacing="5px";>
 				<tr>
 					
 					<td>Name</td>
