@@ -204,16 +204,16 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 		{
 			
 ?>			
-			<table align="center" color="black">
+			<table align="center" color="black" backgroundcolor="darkred"; border="1px;solid"; border-spacing="5px";>
 				<tr>
 					
 					<td>Name</td>
-                    <td>Bild</td>
+                                        <td align="center">Avatarbild</td>
 					<td>Gattung</td>
 					<td align="center">Geschlecht</td>
-					<td>Level</td>
+					<td align="center">Level</td>
 					<td align="center">Aktueller Ort</td>
-                    <td>LÖSCHEN</td>
+                                        <td>LÖSCHEN</td>
 				</tr>
 <?php		
 			$spieler = new LoginSpieler();
@@ -230,7 +230,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 					</td>
 					<td><?php echo $spieler->gattung . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
-					<td><?php echo $spieler->level_id . "<br />\n"; ?></td>
+					<td align="center"><?php echo $spieler->level_id . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->startgebiet . "<br />\n"; ?></td>
                     <td align="center">
 						<input type="button" id="<?php echo 'b_sp_loe_' . $spieler->id . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
