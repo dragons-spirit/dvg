@@ -505,7 +505,7 @@ function hintergrundbild_klein($gebiet_id){
 
 
 # Aufbau des Hintergrundbildes mit Gebietslinks
-function zeige_hintergrundbild($gebiet_id, $aktion_titel=false){
+function zeige_hintergrundbild($gebiet_id, $aktion_text=false, $bewusstlos=false){
 	?>
 	<!-- # Links Zielgebiete -->
 	<div id="hintergrundbild">
@@ -521,11 +521,32 @@ function zeige_hintergrundbild($gebiet_id, $aktion_titel=false){
 		</p>
 		<?php
 		# Hinweis, falls Spieler eine noch nicht abgeschlossene Aktion hat
-		if ($aktion_titel)
-		{?>
-			<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-				Ihr seid noch beschäftigt!<br />
-			</p>
+		$aktion_verboten = 0;
+		if($aktion_text) $aktion_verboten = 1;
+		if($bewusstlos and !isset($_POST["button_ausruhen"])) $aktion_verboten = 2;
+		
+		if ($aktion_verboten > 0){
+			switch($aktion_verboten){
+				case 1:	?>
+					<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+						<font color="red">Ihr seid noch beschäftigt!</font><br />
+					</p>
+					<?php
+					break;
+				case 2:	?>
+					<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+						<font color="red">Ihr seid bewusslos und damit höchstens im Stande euch auszuruhen!</font><br />
+					</p>
+					<?php
+					break;
+				default: ?>
+					<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+						<font color="red">Das Starten von Aktionen ist euch aktuell verboten. Warum weiß keiner.
+						-> Admin fragen!</font><br />
+					</p>
+					<?php
+					break;
+			}?>
 			<p align="center">
 				<button class="button_standard" type="submit" name="zurueck" value="zurück">zurück</button>
 			</p>
@@ -588,7 +609,7 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 	$items = get_items_npc($npc_id)
 	?>
 	<table class="tabelle" align="center" style="margin-top:5%;" width="500px" cellpadding="5px">
-		<tr class="table_tr_kopf">
+		<tr class="tabelle_kopf">
 			<td>Item</td>
 			<td>Beschreibung</td>
 			<td align="right">Anzahl</td>
@@ -602,7 +623,7 @@ function zeige_erbeutete_items($spieler, $npc_ids, $npc_typ){
 					if ($item_anzahl > 0) $counter = $counter + 1;
 					items_spieler_aendern($spieler->id, $item->id, $item_anzahl);
 					?>
-					<tr class="table_tr_inhalt">
+					<tr class="tabelle_inhalt">
 						<td><?php echo $item->name ?></td>
 						<td><?php echo $item->beschreibung ?></td>
 						<td align="right"><?php echo $item_anzahl ?></td>
