@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 include("funktionen.php");
 
@@ -2574,11 +2574,62 @@ function insert_spieler($login, $gebiet, $gattung, $name, $geschlecht)
 		$stmt->execute();
 		if ($debug) echo "<br />\nNeuer Spieler gespeichert: [" . $spieler->account_id . " | " . $name . " | " . $geschlecht . " | " . $gattung . " | " . $gebiet . "]<br />\n";
 		$result = $stmt->get_result();
+		$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM spieler");
+		$stmt->execute();
+		$spieler_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+		insertSpielerZauberStandard($spieler_id, $spieler->gattung_id);
 		return $result;
 	} else {
 		echo "<br />\nQuerryfehler in insert_spieler()<br />\n";
 		return false;
 	}
+}
+
+
+#----------------------------------- INSERT zauber_spieler -----------------------------------
+#	-> spieler_id
+#	-> gattung_id
+#	<- true/false
+
+function insertSpielerZauberStandard($spieler_id, $gattung_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	$count = 0;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT zauber_id
+			FROM gattung_zauber
+			WHERE gattung_id = ?")){
+		$stmt->bind_param('d', $gattung_id);
+		$stmt->execute();
+		if ($zauber_all = $stmt->get_result()){
+			while($zauber_einzel = $zauber_all->fetch_array(MYSQLI_NUM)){
+				$zauber[$count] = $zauber_einzel[0];
+				$count = $count + 1;
+			}
+		}
+		if ($debug) echo "<br />\nStartzauber für: [spieler_id=" . $spieler_id . " und gattung_id=" . $gattung_id . "] geladen.<br />\n";
+	} else {
+		echo "<br />\nQuerryfehler in insertNPCzauberStandard() - Select<br />\n";
+		return false;
+	}
+	if ($count > 0){
+		if ($stmt = $connect_db_dvg->prepare("
+				INSERT INTO zauber_spieler (
+					spieler_id,
+					zauber_id)
+				VALUES (?, ?)")){
+			foreach ($zauber as $zauber_id){
+				$stmt->bind_param('dd', $spieler_id, $zauber_id);
+				$stmt->execute();
+			}
+		} else {
+			echo "<br>\nQuerryfehler in insertNPCzauberStandard() - Insert<br>\n";
+			return false;
+		}
+	}
+	return true;
 }
 
 

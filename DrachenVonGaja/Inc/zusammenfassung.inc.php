@@ -205,7 +205,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 			
 ?>			
 			<table class="tabelle" cellpadding="5px">
-				<tr class="table_tr_kopf">
+				<tr class="tabelle_kopf">
 					
                                         <td align="center";><b>Avatarbild<b></td>
 					<td><b>Name<b></td>
@@ -222,7 +222,7 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 				$spieler->set($row);
 				
 ?>			
-				<tr class="table_tr_inhalt" >
+				<tr class="tabelle_inhalt" >
 					
 					 <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $spieler->id;?>">

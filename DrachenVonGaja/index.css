@@ -1,5 +1,6 @@
 /* Allgemeine Definitionen */
-body{
+body
+{
     margin:auto;
     min-height:30%;
     font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
@@ -13,7 +14,8 @@ input
     outline:none;
 }
 
-input[type=submit]{
+input[type=submit]
+{
     cursor: url(Bilder/cursor_klick_klein.png), auto;
     color:white;
     background-color:black;
@@ -36,43 +38,58 @@ input[type=button]
 
 .button_standard
 {
-color:white;
-font-weight:normal;
-font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-padding:8px;
-height:30px;
-border:solid 0.5px white;
-border-radius:5px;
-background:-moz-linear-gradient(left top,#333333,#330000);
-background:-webkit-linear-gradient(left top,#333333,#330000);
-background:-o-linear-gradient(left top,#333333,#330000);
-background:-ms-linear-gradient(left top,#333333,#330000);
-background:linear-gradient(left top,#333333,#330000);
-cursor: url(Bilder/cursor_klick_klein.png), auto;
-}
-
-.table_tr_kopf
-{
-    background:darkred;
-    color:white;
-    align:center;
-}
-
-.table_tr_inhalt
-{
-    background:#F7F2E0;
-    color:black;
-    align:center;
-
+	color:white;
+	font-weight:normal;
+	font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+	padding:8px;
+	height:30px;
+	border:solid 0.5px white;
+	border-radius:5px;
+	background:-moz-linear-gradient(left top,#333333,#330000);
+	background:-webkit-linear-gradient(left top,#333333,#330000);
+	background:-o-linear-gradient(left top,#333333,#330000);
+	background:-ms-linear-gradient(left top,#333333,#330000);
+	background:linear-gradient(left top,#333333,#330000);
+	cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 
 .tabelle
 {
     color:white;
     margin:auto;
-
+}
+.tabelle_kopf
+{
+    background:darkred;
+    color:white;
+    align:center;
+}
+.tabelle_inhalt
+{
+    background:#F7F2E0;
+    color:black;
+    align:center;
 }
 
+mover
+{
+	display:none;
+}
+top_mover:hover mover
+{
+	color:white;
+	position:fixed;
+	top:0px;
+	left:0px;
+	display:none;
+	z-index:3;
+	padding:10px;
+	padding-left:15px;
+	max-width:400px;
+	background:#000000;
+	border:2px solid #555;
+	font-size:smaller;
+}
 
 
 .storylink
@@ -232,7 +249,8 @@ display:none;
     z-index: 1;
 }
 
-#levelanzeige{
+#levelanzeige
+{
 	
 }
 
@@ -548,22 +566,4 @@ display:none;
 {
 	display: none;
 	text-align: center;
-}
-
-
-mover {
-	display:none;
-}
-top_mover:hover mover {
-	position:fixed;
-	top:0px;
-	left:0px;
-	display:none;
-	z-index:3;
-	padding:10px;
-	padding-left:15px;
-	max-width:400px;
-	background:#000000;
-	border:2px solid #555;
-	font-size:smaller;
 }

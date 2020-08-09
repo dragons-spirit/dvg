@@ -391,12 +391,12 @@
 							if($aktion_starten){				
 								# Hintergrundbild einblenden, wenn neue Aktion gestartet werden soll
 								# + Hinweis, falls noch eine Aktion aktiv ist (siehe zeige_hintergrundbild())
-								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->titel);
+								zeige_hintergrundbild($spieler->gebiet_id, $aktion_spieler->text, $spieler->bewusstlos());
 								if (!$aktion_spieler->titel){	
-									if(isset($_POST["button_gebiet_erkunden_start"])) beginne_aktion($spieler, $_POST["button_gebiet_erkunden_start"]);
-									if(isset($_POST["button_zum_zielgebiet"])) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
-									if(isset($_POST["button_jagen"])) beginne_aktion($spieler, "jagen", $_POST["button_jagen"]);
-									if(isset($_POST["button_sammeln"])) beginne_aktion($spieler, "sammeln", $_POST["button_sammeln"]);
+									if(isset($_POST["button_gebiet_erkunden_start"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, $_POST["button_gebiet_erkunden_start"]);
+									if(isset($_POST["button_zum_zielgebiet"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
+									if(isset($_POST["button_jagen"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "jagen", $_POST["button_jagen"]);
+									if(isset($_POST["button_sammeln"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "sammeln", $_POST["button_sammeln"]);
 									if(isset($_POST["button_ausruhen"])) beginne_aktion($spieler, "ausruhen_normal");
 								}
 							}
@@ -437,7 +437,7 @@
 											?>
 										</p>
 										<table class="tabelle" cellpadding="5px" align="center" width="400px">
-											<tr class="table_tr_kopf">
+											<tr class="tabelle_kopf">
 												<td>NPC</td>
 												<td align="right">Anzahl</td>
 												<td align="center">Wie</td>
@@ -446,7 +446,7 @@
 											foreach ($statistikdaten as $statistik){
 												$counter = $counter + 1;
 												?>
-												<tr class="table_tr_inhalt">
+												<tr class="tabelle_inhalt">
 													<td align="left"><?php echo $statistik->npc_name ?></td>
 													<td align="right"><?php echo $statistik->anzahl ?></td>
 													<td align="center"><?php echo $statistik->wie ?></td>
@@ -455,7 +455,7 @@
 											}
 											if($counter == 0){
 												?>
-												<tr class="table_tr_inhalt">
+												<tr class="tabelle_inhalt">
 													<td colspan=3>Noch keine Statistikdaten vorhanden.</td>
 												</tr>
 												<?php
