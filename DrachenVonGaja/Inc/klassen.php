@@ -1711,157 +1711,345 @@ class Session {
 
 
 class Dialog {
+	public $id;
+	public $spieler_id;
 	public $npc_id;
 	public $npc_text_aktuell_id;
 	public $npc_text_aktuell;
-	public $npc_texte;
 	public $spieler_texte;
+	public $aktion_offen;
 	
-	/*
-	public function __construct($ds, $laden=false){
+	public function __construct(){
+		$this->set_null();
+		$this->aktion_offen = null;
+	}
+	
+	#Neuen Dialog starten
+	public function neu($spieler_id, $npc_id){
+		# NPC-Text laden
+		$npc_starttext = $this->startoptionen_npc($npc_id);
+		if (!$npc_starttext){
+			echo "Es konnte kein passender Startdialog gefunden werden.<br />";
+			return false;
+		}
+		# Vorhandenen Log-Eintrag laden
+		$dialog_log_id = $this->log_id_laden($spieler_id);
+		if ($dialog_log_id){
+			$test = $this->update($dialog_log_id, $npc_starttext->id);
+			if (!$test) return false;
+			else $this->id = $dialog_log_id;
+		} else {
+			$test = $this->insert($spieler_id, $npc_starttext->id);
+			if (!$test) return false;
+		}
+		$this->spieler_id = $spieler_id;
+		$this->npc_id = $npc_id;
+		$this->npc_text_aktuell_id = $npc_starttext->id;
+		$this->npc_text_aktuell = $npc_starttext->text;
+		# Spielertexte laden
+		$test = $this->optionen_spieler_laden();
+		if (!$test) return false;
+		return true;
+	}
+	
+	# Dialog fortsetzen
+	public function fortsetzen($spieler_id, $dialog_link_spieler_id){
+		# Bestehenden Dialog laden
+		$test = $this->log_laden($spieler_id);
+		if (!$test){
+			echo "Keinen bestehenden Dialog gefunden.<br />";
+			return false;
+		}
+		# Weitere Informationen zur gewählten Spieleroption laden 
+		$test = $this->optionen_spieler_laden($dialog_link_spieler_id);
+		if (!$test){
+			echo "Keine Spielerdialoge gefunden.<br />";
+			return false;
+		}
+		# Nächsten NPC-Text laden
+		$this->npc_text_aktuell_id = $this->spieler_texte[0]->next_npc_text_id;
+		# Wenn Aktion, dann ausführen (Welche Aktion und mit welchem NPC?)
+		if ($this->spieler_texte[0]->aktion_id != null){
+			$this->aktion_offen = array($this->spieler_texte[0]->aktion_text_intern, $this->spieler_texte[0]->any_id);
+		}
+		# Wenn kein Folgetext, dann Dialog beenden
+		if ($this->npc_text_aktuell_id == null){
+			$test = $this->delete();
+			if (!$test) return false;
+			$this->set_null();
+		} else {
+		# Wenn Folgetext, dann Dialog Update
+			$test = $this->update($this->id, $this->npc_text_aktuell_id);
+			if (!$test) return false;
+			$test = $this->neue_option_npc();
+			if (!$test) return false;
+			# Spielertexte laden
+			$test = $this->optionen_spieler_laden();
+			if (!$test) return false;
+		}
+		return true;
+	}
+	
+	# NPC-Optionen laden (Start)
+	private function startoptionen_npc($npc_id){
 		global $debug, $connect_db_dvg;
-		if ($laden and !is_array($ds)){
-			$account_id = $ds;
-			if ($stmt = $connect_db_dvg->prepare("
-				SELECT *
-				FROM session
-				WHERE account_id = ?
-					and aktiv = 1;")){
-				$stmt->bind_param('d', $account_id);
-				$stmt->execute();
-				$session_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
-				if (isset($session_data)){
-					$this->id = $session_data[0];
-					$this->account_id = $session_data[1];
-					$this->rolle_id = $session_data[2];
-					$this->gueltig_von = $session_data[3];
-					$this->gueltig_bis = $session_data[4];
-					$this->aktiv = $session_data[5];
-					$this->ip = $session_data[6];
-				} else {
-					return false;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				dialog_link_npc.id,
+				dialog_link_npc.dialog_text_id,
+				dialog_text.inhalt
+			FROM dialog_link_npc
+				LEFT JOIN dialog_text ON dialog_text.id = dialog_link_npc.dialog_text_id
+			WHERE dialog_link_npc.aktiv = 1
+				AND dialog_link_npc.startdialog = 1
+				AND dialog_link_npc.npc_id = ?")){
+			$stmt->bind_param('d', $npc_id);
+			$stmt->execute();
+			$dialog_data = false;
+			$count = 0;
+			if ($dialog_data_all = $stmt->get_result()){
+				while($dialog_data_einzel = $dialog_data_all->fetch_array(MYSQLI_NUM)){
+					$dialog = new DialogNPC($dialog_data_einzel);
+					if ($this->bed_prf($dialog)){
+						$dialog_data = $dialog;
+						$count = $count + 1;
+					}
 				}
-			} else {
-				echo "<br />\nQuerryfehler in Session->__construct(LADEN)<br />\n";
+			}
+			if (!$dialog_data or $count != 1){
+				echo "<br />Keinen oder meherere Startdialoge gefunden<br />";
 				return false;
 			}
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->startoptionen_npc()<br />\n";
+			return false;
 		}
-		if (!$laden and is_array($ds)){
-			if ($ds[0] == 0){
-				$this->id = $this->speichern($ds);
-			} else {
-				$this->id = $ds[0];
-			}
-			$this->account_id = $ds[1];
-			$this->rolle_id = $ds[2];
-			$this->gueltig_von = $ds[3];
-			$this->gueltig_bis = $ds[4];
-			$this->aktiv = $ds[5];
-			$this->ip = $ds[6];
+		return $dialog_data;
+	}
+
+	# Neuen Datensatz in dialog_log einfügen
+	private function insert($spieler_id, $dialog_link_npc_id){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			INSERT INTO dialog_log (spieler_id, dialog_link_npc_id)
+			VALUES (?, ?);")){
+			$stmt->bind_param('dd', $spieler_id, $dialog_link_npc_id);
+			$stmt->execute();
+			$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM dialog_log");
+			$stmt->execute();
+			$dialog_log_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			$this->id = $dialog_log_id;
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->insert()<br />\n";
+			return false;
 		}
+		return true;
 	}
 	
-	public function speichern($ds){
+	# Bestehenden Datensatz in dialog_log ändern
+	private function update($dialog_log_id, $dialog_link_npc_id){
 		global $debug, $connect_db_dvg;
 		if ($stmt = $connect_db_dvg->prepare("
-			INSERT INTO session (account_id, rolle_id, gueltig_von, gueltig_bis, aktiv, ip)
-			VALUES (?, ?, ?, ?, ?, ?);")){
-			$stmt->bind_param('ddssds', $ds[1], $ds[2], $ds[3], $ds[4], $ds[5], $ds[6]);
-			$stmt->execute();
-			$stmt = $connect_db_dvg->prepare("SELECT MAX(id) FROM session");
-			$stmt->execute();
-			$session_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
-			if ($session_id > 0)
-				$this->id = $session_id;
-		} else {
-			echo "<br />\nQuerryfehler in Session->speichern()<br />\n";
-			return false;
-		}
-	}
-	public function aktualisieren(){
-		global $debug, $connect_db_dvg, $konfig;
-		$jetzt = new DateTime();
-		$max_gueltigkeit = new DateInterval("PT".$konfig->get("gueltigkeit_session")."M");
-		$gueltig_bis_neu = (new DateTime)->add($max_gueltigkeit);
-		if ($stmt = $connect_db_dvg->prepare("
-			UPDATE session
-			SET gueltig_bis = ?
+			UPDATE dialog_log
+			SET dialog_link_npc_id = ?
 			WHERE id = ?;")){
-			$stmt->bind_param('sd', $gueltig_bis_neu->format('Y-m-d H:i:s'), $this->id);
+			$stmt->bind_param('dd', $dialog_link_npc_id, $dialog_log_id);
 			$stmt->execute();
-			$this->gueltig_bis = $gueltig_bis_neu->format('Y-m-d H:i:s');
 		} else {
-			echo "<br />\nQuerryfehler in Session->aktualisieren()<br />\n";
+			echo "<br />\nQuerryfehler in Dialog->update()<br />\n";
 			return false;
 		}
+		return true;
 	}
-	public function beenden_logout(){
-		global $debug, $connect_db_dvg;
-		$jetzt = new DateTime();
-		if ($stmt = $connect_db_dvg->prepare("
-			UPDATE session
-			SET gueltig_bis = ?,
-				aktiv = 0
-			WHERE id = ?;")){
-			$stmt->bind_param('sd', $jetzt->format('Y-m-d H:i:s'), $this->id);
-			$stmt->execute();
-			$this->aktiv = 0;
-			$this->gueltig_bis = $jetzt->format('Y-m-d H:i:s');
-		} else {
-			echo "<br />\nQuerryfehler in Session->beenden_logout()<br />\n";
-			return false;
-		}
-	}
-	public function beenden_abgelaufen(){
+	
+	# Prüfen ob bereits ein Eintrag in dialog_log existiert
+	private function log_id_laden($spieler_id){
 		global $debug, $connect_db_dvg;
 		if ($stmt = $connect_db_dvg->prepare("
-			UPDATE session
-			SET aktiv = 0
-			WHERE account_id = ?;")){
-			$stmt->bind_param('d', $this->account_id);
+			SELECT id
+			FROM dialog_log
+			WHERE spieler_id = ?;")){
+			$stmt->bind_param('d', $spieler_id);
 			$stmt->execute();
-			$this->aktiv = 0;
+			$dialog_log_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			if (isset($dialog_log_id)){
+				return $dialog_log_id;
+			} else {
+				return false;
+			}
 		} else {
-			echo "<br />\nQuerryfehler in Session->beenden_abgelaufen()<br />\n";
+			echo "<br />\nQuerryfehler in Dialog->log_id_laden()<br />\n";
 			return false;
 		}
+		return true;
 	}
-	public function ist_gueltig(){
-		$abgelaufen = false;
-		# abgelaufen
-		$jetzt = new DateTime();
-		$gueltig_bis = new DateTime($this->gueltig_bis);
-		if ($gueltig_bis < $jetzt){
-			$abgelaufen = true;
-		}
-		# andere_ip
-		$neue_ip = $_SERVER["REMOTE_ADDR"];
-		if ($neue_ip != $this->ip){
-			$abgelaufen = true;
-		}
-		if ($abgelaufen){
-			$this->beenden_abgelaufen();
-			return false;
+	
+	# Bedingungsprüfung für Dialogtexte (noch inaktiv)
+	private function bed_prf($dialog){
+		# Funktion zur Bedingungsüberprüfung
+		return true;
+	}
+	
+	# Spieleroptionen laden
+	private function optionen_spieler_laden($dialog_link_spieler_id=null){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				dialog_link_spieler.id,
+				dialog_link_spieler.dialog_text_spieler_id,
+				dialog_text.inhalt,
+				dialog_link_spieler.next_dialog_link_npc_id,
+				dialog_link_spieler.dialog_aktion_id,
+				dialog_aktion.titel,
+				dialog_aktion.titel_intern,
+				dialog_link_spieler.any_id
+			FROM dialog_link_spieler
+				LEFT JOIN dialog_text ON dialog_text.id = dialog_link_spieler.dialog_text_spieler_id
+				LEFT JOIN dialog_aktion ON dialog_aktion.id = dialog_link_spieler.dialog_aktion_id
+			WHERE dialog_link_spieler.aktiv = 1
+				AND dialog_link_spieler.dialog_link_npc_id = ?;")){
+			$stmt->bind_param('d', $this->npc_text_aktuell_id);
+			$stmt->execute();
+			$dialog_data = false;
+			$count = 0;
+			if ($dialog_data_all = $stmt->get_result()){
+				while($dialog_data_einzel = $dialog_data_all->fetch_array(MYSQLI_NUM)){
+					$dialog = new DialogSpieler($dialog_data_einzel);
+					if ($this->bed_prf($dialog) and ($dialog_link_spieler_id == null or $dialog_link_spieler_id == $dialog->id)){
+						$dialog_data[$count] = $dialog;
+						$count = $count + 1;
+					}
+				}
+			}
+			if (!$dialog_data) return false;
+			else $this->spieler_texte = $dialog_data;
 		} else {
-			return true;
+			echo "<br />\nQuerryfehler in Dialog->optionen_spieler_laden()<br />\n";
+			return false;
 		}
+		return true;
 	}
-	*/
+	
+	# Aktuellen Dialogstand laden
+	private function log_laden($spieler_id){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT dialog_log.*,
+				dialog_link_npc.npc_id
+			FROM dialog_log
+				JOIN dialog_link_npc ON dialog_link_npc.id = dialog_log.dialog_link_npc_id
+			WHERE spieler_id = ?;")){
+			$stmt->bind_param('d', $spieler_id);
+			$stmt->execute();
+			$dialog_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+			if (isset($dialog_data)){
+				$this->id = $dialog_data[0];
+				$this->spieler_id = $dialog_data[1];
+				$this->npc_text_aktuell_id = $dialog_data[2];
+				$this->npc_id = $dialog_data[3];
+			} else {
+				return false;
+			}
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->log_laden()<br />\n";
+			return false;
+		}
+		return true;
+	}
+	
+	# NPC-Option laden (zwischendrin)
+	private function neue_option_npc(){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT dialog_text.inhalt
+			FROM dialog_link_npc 
+				JOIN dialog_text ON dialog_text.id = dialog_link_npc.dialog_text_id
+			WHERE dialog_link_npc.id = ?;")){
+			$stmt->bind_param('d', $this->npc_text_aktuell_id);
+			$stmt->execute();
+			if ($dialog_data = $stmt->get_result()->fetch_array(MYSQLI_NUM)){
+				$this->npc_text_aktuell = $dialog_data[0];
+			} else {
+				echo "<br />\nKeinen NPC-Dialog gefunden<br />\n";
+				return false;
+			}
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->neue_option_npc()<br />\n";
+			return false;
+		}
+		return true;
+	}
+	
+	# Dialog Ende
+	private function delete(){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			DELETE FROM dialog_log
+			WHERE spieler_id = ?;")){
+			$stmt->bind_param('d', $this->spieler_id);
+			$stmt->execute();
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->delete()<br />\n";
+			return false;
+		}
+		return true;
+	}
+	
+	# Dialog initialisieren bzw. leeren
+	private function set_null(){
+		$this->id = null;
+		$this->spieler_id = null;
+		$this->npc_id = null;
+		$this->npc_text_aktuell_id = null;
+		$this->npc_text_aktuell = null;
+		$this->spieler_texte = null;
+	}
 }
 
 
 class DialogNPC {
 	public $id;
+	public $text_id;
 	public $text;
+	
+	public function __construct($ds){
+		if (is_array($ds)){
+			$this->id = $ds[0];
+			$this->text_id = $ds[1];
+			$this->text = $ds[2];
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 
 class DialogSpieler {
 	public $id;
+	public $text_id;
 	public $text;
+	public $next_npc_text_id;
 	public $aktion_id;
 	public $aktion_text;
-	public $next_npc_text_id;
+	public $aktion_text_intern;
+	public $any_id;
+	
+	public function __construct($ds){
+		if (is_array($ds)){
+			$this->id = $ds[0];
+			$this->text_id = $ds[1];
+			$this->text = $ds[2];
+			$this->next_npc_text_id = $ds[3];
+			$this->aktion_id = $ds[4];
+			$this->aktion_text = $ds[5];
+			$this->aktion_text_intern = $ds[6];
+			$this->any_id = $ds[7];
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 	
 

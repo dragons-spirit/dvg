@@ -657,9 +657,9 @@
 								while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 								{
 									if($npc_gebiet[0] != $gebiet[0]){
-										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
+										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]." (".$gebiet[2].")</option>";
 									} else {
-										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$gebiet[1]."</option>";
+										echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$gebiet[1]." (".$gebiet[2].")</option>";
 									}
 								}
 								?>
@@ -694,7 +694,7 @@
 						<?php
 						while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 						{
-							echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]."</option>";
+							echo "<option value='".$gebiet[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$gebiet[1]." (".$gebiet[2].")</option>";
 						}
 						?>
 						</select> 

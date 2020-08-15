@@ -203,7 +203,7 @@ function get_gebiete_titel()
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
-			SELECT 	id, titel
+			SELECT 	id, titel, titel_intern
 			FROM 	gebiet
 			ORDER BY titel")){
 		$stmt->execute();

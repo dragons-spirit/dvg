@@ -238,6 +238,7 @@
 									} else {
 										?>
 										</table>
+										<br />
 										<p align="center">
 											<button class="button_standard" type="submit" name="verwerfen" value="gefundene Dinge ignorieren">gefundene Dinge ignorieren</button>
 										</p>
@@ -265,10 +266,7 @@
 									$kampf_id = insert_kampf($spieler->gebiet_id);
 									insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
 									insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 0);
-									#insert_kampf_teilnehmer($kampf_id, 26, "spieler", 0); # Rashiel
-									#insert_kampf_teilnehmer($kampf_id, 45, "spieler", 0); # Flammi
 									insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
-									#insert_kampf_teilnehmer($kampf_id, 2, "npc", 1); # Ratte
 									break;
 									
 								
@@ -341,7 +339,7 @@
 								#################################################################
 								case "Ausruhen":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
-									$spieler->erholung_prozent(100, 100, 100);
+									$spieler->erholung_prozent(50, 100, 50);
 									?>
 									<p align="center" style="padding-top:10pt;">
 										Langsam schlagt ihr die Augen auf und seid bereit für neue Taten.
@@ -382,7 +380,7 @@
 								$elementebutton = true;
 							}
 							$aktion_starten = (isset($_POST["button_gebiet_erkunden_start"]) OR isset($_POST["button_zum_zielgebiet"]) OR isset($_POST["button_jagen"]) OR isset($_POST["button_sammeln"]) OR isset($_POST["button_ausruhen"]));
-							$dinge_anzeigen = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]) OR isset($_POST["button_dialog_start"]));
+							$dinge_anzeigen = (isset($_POST["button_gebiet_erkunden"]) OR isset($_POST["button_inventar"]) OR $elementebutton > 0 OR isset($_POST["button_tagebuch"]) OR isset($_POST["button_drachenkampf"]) OR isset($_POST["button_handwerk"]) OR isset($_POST["button_kampf"]) OR (isset($_POST["kt_id_value"]) AND $_POST["kt_id_value"] > 0) OR isset($_POST["button_statistik"]) OR isset($_POST["button_charakterdaten"]) OR isset($_POST["button_konfiguration"]) OR isset($_POST["button_konfiguration_speichern"]) OR isset($_POST["button_dialog_start"]) OR isset($_POST["button_dialog_weiter"]));
 							
 							
 							######################
@@ -420,7 +418,7 @@
 								if(isset($_POST["button_handwerk"])){
 									include('handwerk.inc.php');
 								}
-								if(isset($_POST["button_dialog_start"])){
+								if(isset($_POST["button_dialog_start"]) OR isset($_POST["button_dialog_weiter"])){
 									include('dialog.php');
 								}
 								if(isset($_POST["button_statistik"])){

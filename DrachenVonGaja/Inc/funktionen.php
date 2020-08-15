@@ -306,7 +306,10 @@ function ki_ausfuehren($kt, $alle_zauber){
 	global $kt_0, $kt_1;
 	$ki = get_ki($kt->ki_id);	
 	switch ($ki->name){
-		case "Standard_wkt":
+		case "spezielle KI":
+			break;
+		default: # "Standard_wkt"
+			# Keine passende KI für Kampfteilnehmer gefunden gefunden. Nutze "Standard_wkt"
 			############################
 			##### Zauber bestimmen #####
 			############################
@@ -371,9 +374,6 @@ function ki_ausfuehren($kt, $alle_zauber){
 					break;
 				}
 			}
-			break;
-		default:
-			echo "Keine passende KI für ".$kt->name." gefunden.<br />";
 			break;
 	}
 	if ($zauber AND $kt_ziel){
