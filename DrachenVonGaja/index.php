@@ -20,7 +20,7 @@
 		<meta charset="utf-8">
 	
 		<link rel="stylesheet" type="text/css" href="index.css">
-		<script src="index.js" type="text/javascript"></script>
+		<!--<script src="index.js" type="text/javascript"></script>-->
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja</title>
 		<?php
@@ -55,7 +55,7 @@
 			$konfig = new Konfig();
 		}
 		include("Inc/db_funktionen.php");
-		include("Inc/zusammenfassung.inc.php");
+		include("Inc/anmeldung.php");
 		close_connection($connect_db_dvg);
 ?>	
 			</div>

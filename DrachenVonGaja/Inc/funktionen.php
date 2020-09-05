@@ -904,8 +904,21 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 	
 	/* Löschfunktion für Spieler */
 	function buttonwechsel(spieler_id) {
-		document.getElementById("b_sp_loe_" + spieler_id + "_1").style.visibility="hidden";
-		document.getElementById("b_sp_loe_" + spieler_id + "_2").style.visibility="visible";
+		elem_1 = document.getElementById("b_sp_loe_" + spieler_id + "_1");
+		elem_2a = document.getElementById("b_sp_loe_" + spieler_id + "_2a");
+		elem_2b = document.getElementById("b_sp_loe_" + spieler_id + "_2b");
+		elem_2c = document.getElementById("b_sp_loe_" + spieler_id + "_2c");
+		if(elem_2a.style.visibility=="hidden"){
+			elem_1.style.visibility="hidden";
+			elem_2a.style.visibility="visible";
+			elem_2b.style.visibility="visible";
+			elem_2c.style.visibility="visible";
+		} else {
+			elem_1.style.visibility="visible";
+			elem_2a.style.visibility="hidden";
+			elem_2b.style.visibility="hidden";
+			elem_2c.style.visibility="hidden";
+		}
 	}
 	
 	/* Setzt einen Button ohne dass dieser gedrückt wurde */

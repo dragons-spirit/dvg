@@ -1,4 +1,4 @@
-<form id="zusammenfassung" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
+<form id="anmeldung_form" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 
 <?php
 	
@@ -206,14 +206,13 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 ?>			
 			<table class="tabelle" cellpadding="5px">
 				<tr class="tabelle_kopf">
-					
-                                        <td align="center";><b>Avatarbild<b></td>
+					<td align="center";><b>Avatarbild<b></td>
 					<td><b>Name<b></td>
-                                        <td align="center"><b>Gattung<b></td>
+                    <td align="center"><b>Gattung<b></td>
 					<td align="center"><b>Geschlecht<b></td>
 					<td align="center"><b>Level<b></td>
 					<td align="center"><b>Aktueller Ort<b></td>
-                                        <td><b>LÖSCHEN<b></td>
+                    <td align="center"><b>Optionen<b></td>
 				</tr>
 <?php		
 			$spieler = new LoginSpieler();
@@ -223,18 +222,19 @@ if(isset($_POST["button_spielerloeschen_endgueltig"]))
 				
 ?>			
 				<tr class="tabelle_inhalt" >
-					
-					 <td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
+					<td style="background-image:url(<?php echo pfad_fuer_style(get_bild_zu_id($spieler->bilder_id)); ?>); background-repeat:no-repeat; background-size:contain;">
 						<input type="submit" style="height:94px; width:150px; opacity: 0.0;" alt="Spieler auswählen" name="button_spielerlogin" value="<?php echo $spieler->id;?>">
 					</td>
-                                        <td><?php echo $spieler->name . "<br />\n";?></td>
+                    <td><?php echo $spieler->name . "<br />\n";?></td>
 					<td align="center"><?php echo $spieler->gattung . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->geschlecht . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->level_id . "<br />\n"; ?></td>
 					<td align="center"><?php echo $spieler->startgebiet . "<br />\n"; ?></td>
-                    <td align="center">
-						<input type="button" id="<?php echo 'b_sp_loe_' . $spieler->id . '_1' ?>" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $row[0] . ')' ?>" >
-						<input type="submit" id="<?php echo 'b_sp_loe_' . $spieler->id . '_2' ?>" name="button_spielerloeschen_endgueltig" value="<?php echo $spieler->id; ?>" style="visibility:hidden;">
+                    <td align="center" style="padding-bottom:15pt;">
+						<font id="<?php echo 'b_sp_loe_' . $spieler->id . '_2a' ?>" style="visibility:hidden;">Wirklich löschen?<br /></font>
+						<button class="button_standard" id="<?php echo 'b_sp_loe_' . $spieler->id . '_2b' ?>" style="visibility:hidden;" type="submit" name="button_spielerloeschen_endgueltig" value="<?php echo $spieler->id; ?>" align="left">&nbsp;Ja&nbsp;</button>
+						<button class="button_standard" id="<?php echo 'b_sp_loe_' . $spieler->id . '_1' ?>" type="button" name="button_spielerloeschen" value="Ja" onclick="<?php echo 'buttonwechsel(' . $spieler->id . ')' ?>" title="Löschen"><font color="red"><b>X</b></font></button>
+						<button class="button_standard" id="<?php echo 'b_sp_loe_' . $spieler->id . '_2c' ?>" style="visibility:hidden;" type="button" name="button_spielerloeschen" value="Nein" onclick="<?php echo 'buttonwechsel(' . $spieler->id . ')' ?>" align="right">Nein</button>
 					</td>
 				</tr>
 <?php
