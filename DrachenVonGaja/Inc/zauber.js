@@ -1,6 +1,8 @@
 var zauber = document.getElementById('divzauber');
-zauber.addEventListener('mousemove', drag);
-zauber.addEventListener('mouseup', dragstop);
+if(zauber != null){
+	zauber.addEventListener('mousemove', drag);
+	zauber.addEventListener('mouseup', dragstop);
+}
 
 var zauber_icon = null;
 var dragx = 0;
