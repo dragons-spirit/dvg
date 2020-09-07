@@ -892,16 +892,6 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 		}
 	}
 	
-	/* Anzeige Elemente umschalten */
-	function sichtbar_elemente(wert) {
-		switch(wert)
-		{
-			case 'menü':		
-				document.getElementById('spielmenü_2').style.display = 'block';
-			break;
-		}
-	}
-	
 	/* Löschfunktion für Spieler */
 	function buttonwechsel(spieler_id) {
 		elem_1 = document.getElementById("b_sp_loe_" + spieler_id + "_1");

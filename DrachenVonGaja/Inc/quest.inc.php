@@ -124,15 +124,7 @@
     
     <h1 align="center">Titel</h1>
     <p align="center">Textinhalt</p>
-	<br /><br />
-	<button class="button_standard" type="submit" name="button_ausruhen" value="Ausruhen">Ausruhen</button>
-	<br /><br />
-	<button class="button_standard" type="submit" name="button_charakterdaten" value="Charakterdaten">Charakterdaten</button>
-	<br /><br />
-	<button class="button_standard" type="submit" name="button_konfiguration" value="Einstellungen">Einstellungen</button>
-	<br /><br />
-	<button class="button_standard" type="submit" name="button_statistik" value="Statistik">Statistik</button>
-    <?php
+	<?php
 	if($anzeige_gaja_3d){
 		?>
 		<div>

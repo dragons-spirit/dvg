@@ -1,165 +1,320 @@
 /* Allgemeine Definitionen */
 body
 {
-    margin:auto;
-    min-height:30%;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-    font-size:smaller;
-    color:white;
+    margin: auto;
+    min-height: 30%;
+    font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+    font-size: smaller;
+    color: white;
 	cursor: url(Bilder/cursor_standard_klein.png), auto;
 }
 
 input
 {
-    outline:none;
+    outline: none;
 }
 
 input[type=submit]
 {
     cursor: url(Bilder/cursor_klick_klein.png), auto;
-    color:white;
-    background-color:black;
-    line-height:normal;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-    font-size:smaller;
+    color: white;
+    background-color: black;
+    line-height: normal;
+    font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+    font-size: smaller;
     height: 20px;
 }
 
 input[type=button]
 {
     cursor: url(Bilder/cursor_klick_klein.png), auto;
-    color:white;
-    background-color:black;
-    line-height:normal;
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-    font-size:smaller;
+    color: white;
+    background-color: black;
+    line-height: normal;
+    font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+    font-size: smaller;
     height: 20px;
 }
 
 .button_standard
 {
-	color:white;
-	font-weight:normal;
-	font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-	padding:8px;
-	height:30px;
-	border:solid 0.5px white;
-	border-radius:5px;
-	background:-moz-linear-gradient(left top,#333333,#330000);
-	background:-webkit-linear-gradient(left top,#333333,#330000);
-	background:-o-linear-gradient(left top,#333333,#330000);
-	background:-ms-linear-gradient(left top,#333333,#330000);
-	background:linear-gradient(left top,#333333,#330000);
+	color: white;
+	font-weight: normal;
+	font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+	padding: 8px;
+	height: 30px;
+	border: solid 0.5px white;
+	border-radius: 5px;
+	background: -moz-linear-gradient(left top,#333333,#330000);
+	background: -webkit-linear-gradient(left top,#333333,#330000);
+	background: -o-linear-gradient(left top,#333333,#330000);
+	background: -ms-linear-gradient(left top,#333333,#330000);
+	background: linear-gradient(left top,#333333,#330000);
 	cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 
+.button_standard_menue
+{
+	color: white;
+	font-weight: normal;
+	font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+	padding: 5px;
+	height: 50px;
+	width: 130px;
+	border: solid 0.5px white;
+	border-radius: 5px;
+	background: -moz-linear-gradient(left top,#333333,#330000);
+	background: -webkit-linear-gradient(left top,#333333,#330000);
+	background: -o-linear-gradient(left top,#333333,#330000);
+	background: -ms-linear-gradient(left top,#333333,#330000);
+	background: linear-gradient(left top,#333333,#330000);
+	cursor: url(Bilder/cursor_klick_klein.png), auto;
+}
+
+.button_bild
+{
+	height: 60px;
+	width: 120px;
+	cursor: url(Bilder/cursor_klick_klein.png), auto;
+	border: none;
+}
+
+.button_link
+{
+	color: white;
+	font-weight: normal;
+	font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+	padding: 5px;
+	height: 50px;
+	width: 130px;
+	border: solid 0.5px white;
+	border-radius: 5px;
+	background: -moz-linear-gradient(left top,#333333,#330000);
+	background: -webkit-linear-gradient(left top,#333333,#330000);
+	background: -o-linear-gradient(left top,#333333,#330000);
+	background: -ms-linear-gradient(left top,#333333,#330000);
+	background: linear-gradient(left top,#333333,#330000);
+	cursor: url(Bilder/cursor_klick_klein.png), auto;
+}
+
+#btn_weltkarte
+{
+    background: url(././Bilder/Buttons/weltkarte.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_gegend_erkunden
+{
+    background: url(././Bilder/Buttons/gegend_erkunden.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_drachenkampf
+{
+    background: url(././Bilder/Buttons/drachenkampf.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_gepaeck_betrachten
+{
+    background: url(././Bilder/Buttons/gepaeck_betrachten.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_ausruhen
+{
+    background: url(././Bilder/Buttons/ausruhen.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_elemente_beschwoeren
+{
+    background: url(././Bilder/Buttons/elemente_beschwoeren.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_fliegen
+{
+    background: url(././Bilder/Buttons/fliegen.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_handwerk
+{
+    background: url(././Bilder/Buttons/handwerk.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_tagebuch
+{
+    background: url(././Bilder/Buttons/tagebuch.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_elemente_der_erde
+{
+    background: url(././Bilder/Buttons/elemente_der_erde.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_elemente_des_wassers
+{
+    background: url(././Bilder/Buttons/elemente_des_wassers.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_elemente_des_feuers
+{
+    background: url(././Bilder/Buttons/elemente_des_feuers.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_elemente_der_luft
+{
+    background: url(././Bilder/Buttons/elemente_der_luft.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+#btn_standardangriffe
+{
+    background: url(././Bilder/Buttons/standardangriffe.png);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.dropdown {
+  position: relative;
+  display: block;
+  width: 130px;
+  margin-top: 10px;
+}
+
+.dropdown-inhalt-standard {
+  display: none;
+  position: absolute;
+  width: 130px;
+  z-index: 1;
+  margin-left: 130px;
+  margin-top: -50px;
+}
+
+.dropdown-inhalt-bild {
+  display: none;
+  position: absolute;
+  width: 120px;
+  z-index: 1;
+  margin-left: 130px;
+  margin-top: -60px;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-inhalt-bild {display: block;}
+.dropdown:hover .dropdown-inhalt-standard {display: block;}
+
 .tabelle
 {
-    color:white;
-    margin:auto;
+    color: white;
+    margin: auto;
 }
 .tabelle_kopf
 {
-    background:darkred;
-    color:white;
-    align:center;
+    background: darkred;
+    color: white;
+    align: center;
 }
 .tabelle_inhalt
 {
-    background:#F7F2E0;
-    color:black;
-    align:center;
+    background: #F7F2E0;
+    color: black;
+    align: center;
 }
 
 mover
 {
-	display:none;
+	display: none;
 }
 top_mover:hover mover
 {
-	color:white;
-	position:fixed;
-	top:0px;
-	left:0px;
-	display:none;
-	z-index:3;
-	padding:10px;
-	padding-left:15px;
-	max-width:400px;
-	background:#000000;
-	border:2px solid #555;
-	font-size:smaller;
+	color: white;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	display: none;
+	z-index: 3;
+	padding: 10px;
+	padding-left: 15px;
+	max-width: 400px;
+	background: #000000;
+	border: 2px solid #555;
+	font-size: smaller;
 }
 
 
 .storylink
 {
-    font-family:Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
-    font-size:20pt;
+    font-family: Lucida Calligraphy,Georgia,fantasy,EG Dragon Caps,Elementary Gothic;
+    font-size: 20pt;
 }
 
+/*
 a:link
 {
-    color:black;
-    text-decoration:none;
+    color: black;
+    text-decoration: none;
 	cursor: url(Bilder/cursor_klick_klein.png), auto;
 }
 a:visited
 {
-    color:black;
-    text-decoration:none;
+    color: black;
+    text-decoration: none;
 }
 a:hover
 {
-    color:blue;
-    text-decoration:none;
+    color: blue;
+    text-decoration: none;
 }
 a:active
 {
-    color:black;
-    text-decoration:none;
+    color: black;
+    text-decoration: none;
 }
+*/
 
 .zauberdiv
 {
-position:absolute;
-/*
-left:0px;
-top:0px;
-display:none;
-*/
+position: absolute;
 }
 
 /* Divs Anmeldung */
 #header
 {
-    position:absolute;
-    top:0px;
-    left:0px;
-    right:0px;
-    height:100px;
-    background-color:#000000;
-    color:#ffffff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 100px;
+    background-color: #000000;
+    color: #ffffff;
 }
 #footer
 {
-    position:absolute;
-    bottom:0px;
-    left:0px;
-    right:0px;
-    height:70px;
-    background-color:#000000;
-    color:#ffffff;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 70px;
+    background-color: #000000;
+    color: #ffffff;
 }
 #anmeldung
 {
-    position:absolute;
-    top:100px;
-    left:0px;
-    right:0px;
-    bottom:70px;
-    color:#000000;
-    padding:10px;
+    position: absolute;
+    top: 100px;
+    left: 0px;
+    right: 0px;
+    bottom: 70px;
+    color: #000000;
+    padding: 10px;
 }
 
 
@@ -169,41 +324,41 @@ display:none;
     position: absolute;
     top: 0px;
     left: 0px;
-    width:100%;
-    height:100%;
-    min-height:600px;
-    min-width:1024px;
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+    min-width: 1024px;
 }
 #obere_Leiste
 {
     
-    position:absolute;
-    top:0px;
-    left:0px;
-    right:0px;
-    height:30px;
-    width:100%;
-    background-color:darkgrey;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+    width: 100%;
+    background-color: darkgrey;
     z-index: 1;
 }
 #mitte
 {
-    position:absolute;
-    top:30px;
-	bottom:30px;
-    left:0%;
-    right:0%;
-    width:100%;
-    background-color:black;
+    position: absolute;
+    top: 30px;
+	bottom: 30px;
+    left: 0%;
+    right: 0%;
+    width: 100%;
+    background-color: black;
 }
 #untere_Leiste
 {
-    position:absolute;
-    bottom:0px;
-    left:0px;
-    height:30px;
-    width:100%;
-    background-color:darkgrey;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 30px;
+    width: 100%;
+    background-color: darkgrey;
     z-index: 1;
 }
 
@@ -211,117 +366,101 @@ display:none;
 /* Rahmen-Divs für Mitte */
 #mitte_links
 {
-    position:absolute;
-    top:0px;
-    left:0%;
-    right:80%;
-    height:100%;
+    position: absolute;
+    top: 0px;
+    left: 0%;
+    right: 80%;
+    height: 100%;
     width:20%;
 	overflow-y: auto;
 }
 #mitte_zentral
 {
-    position:absolute;
-    top:0px;
-    left:20%;
-    right:20%;
-    height:100%;
-    width:60%;
+    position: absolute;
+    top: 0px;
+    left: 20%;
+    right: 20%;
+    height: 100%;
+    width: 60%;
 }
 #mitte_rechts
 {
-    position:absolute;
-    top:0px;
-    left:80%;
-	right:0%;
-    height:100%;
-    min-width:120px;
+    position: absolute;
+    top: 0px;
+    left: 80%;
+	right: 0%;
+    height: 100%;
+    min-width: 120px;
 	overflow-y: auto;
 }
 
 
 /* Mitte Links */
-#zur_spielerauswahl
-{
-    position:absolute;
-    top:30px;
-    left:20px;
-    z-index: 1;
-}
-
 #levelanzeige
 {
 	
 }
 
-#spielmenü_1
+#spielmenü
 {
-	position:absolute;
-	top:100px;
-	left:20px;
-}
-
-#spielmenü_2
-{
-	position:absolute;
-	top:100px;
-	left:120px;
-	display:none;
+	position: absolute;
+	top: 20px;
+	left: 20px;
 }
 
 /* Mitte Zentral */
 #hauptfenster{
-	position:absolute;
-    width:100%;
-	height:100%;
+	position: absolute;
+    width: 100%;
+	height: 100%;
 	overflow-y: auto;
 }
 
 #hintergrundbild{
-	position:absolute;
-	max-width:100%;
-	height:60%;
-	margin-top:10%;
+	position: absolute;
+	max-width: 100%;
+	height: 60%;
+	margin-top: 10%;
 	left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
 }
 
 #hintergrundbild_gebietslinks{
-	position:absolute;
-	left:0px;
-	top:0px;
-	width:100%;
-	height:100%;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
 	z-index: 1;
 }
 
 #hintergrundbild_text{
-	position:absolute;
-	top:75%;
-	left:50%;
+	position: absolute;
+	top: 75%;
+	left: 50%;
 	margin-right: -50%;
     transform: translate(-50%, 0%);
 }
 
 #kampf_log
 {
-    width:100%;
-	height:20%;
+    width: 100%;
+	height: 20%;
 	overflow-y: auto;
 }
 
 #kampf_menue
 {
-    width:100%;
-	height:5%;
+    width: 100%;
+	height: 5%;
 }
 
 /* Mitte Rechts */
 #charakter
 {
-    position:absolute;
-    top:20px;
+    position: absolute;
+    top: 20px;
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
@@ -329,192 +468,82 @@ display:none;
 
 #aktionenrahmen
 {
-	position:absolute;
+	position: absolute;
 	top: 65%;
 	left: 50%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
 }
 
-#musik
-{
-	position:absolute;
-	top: 95%;
-	width: 100%;
-	text-align:center;
-}
-
-/* Menü */
-#menu_button_gross
-{
-	height:75px;
-	width:150px;
-	opacity:0.0;
-}
-
-#menu_button_klein
-{
-	height:50px;
-	width:100px;
-	opacity:0.0;
-}
-
-#menu2_button_gross
-{
-	height:75px;
-	width:150px;
-	opacity:0.0;
-}
-
-#menu1
-{
-    background:url(././Bilder/drachenkampf.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#menu2
-{
-    background:url(././Bilder/flugbutton.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#menu3
-{
-    background:url(././Bilder/erkundenbutton.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#menu4
-{
-    background:url(././Bilder/gepaeckbutton.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#menu5
-{
-	background:url(././Bilder/elementbutton.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
-
-#menu6
-{
-	background:url(././Bilder/Handwerk.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#menu7
-{
-	background:url(././Bilder/Tagebuch.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
-
-#erde
-{
-	background:url(./Bilder/erdelemente.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
-#wasser
-{
-	background:url(./Bilder/wasserelemente.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
-#feuer
-{
-	background:url(./Bilder/feuerelemente.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
-#luft
-{
-	background:url(./Bilder/luftelemente.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-#kampf_standard
-{
-	background:url(./Bilder/standardangriffe.png);
-	background-repeat:no-repeat;
-	background-size:100%;
-}
-
 
 /* Elemente */
 #zauber_tabelle
 {
-    background-color:#000000; /* wird beim Dartellen der Zaubertabelle entsprechend gesetzt */
-    position:absolute;
-    width:100%;
-	height:100%;
+    background-color: #000000; /* wird beim Dartellen der Zaubertabelle entsprechend gesetzt */
+    position: absolute;
+    width: 100%;
+	height: 100%;
 	overflow-y: auto;
 }
 
 
 /* Level-/Zahlensymbole */
 #l1{
-	position:absolute;
-	bottom:120px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 120px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_1.png");
 }
 #l2{
-	position:absolute;
-	bottom:170px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 170px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_2.png");
 }
 #l3{
-	position:absolute;
-	bottom:220px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 220px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_3.png");
 }
 #l4{
-	position:absolute;
-	bottom:270px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 270px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_4.png");
 }
 #l5{
-	position:absolute;
-	bottom:320px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 320px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_5.png");
 	
 }
 #l6{
-	position:absolute;
-	bottom:370px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 370px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_6.png");
 	background-repeat: no-repeat;
 }
 #l7{
-	position:absolute;
-	bottom:420px;
-	left:5px;
-	width:50px;
-	height:50px;
+	position: absolute;
+	bottom: 420px;
+	left: 5px;
+	width: 50px;
+	height: 50px;
 	background-image: url("./Bilder/zahl_7.png");
 }
 
@@ -533,7 +562,7 @@ display:none;
 	height: 20px;
 	border-right: 1px solid black;
 	background: darkred;
-	bottom:0px;
+	bottom: 0px;
 }
 #prozent
 {

@@ -44,6 +44,15 @@
 	<form id="drachenvongaja" method="POST" action="<?php echo $_SERVER['PHP_SELF'];?>">
 		<?php
 		include("klassen.php");
+		##### Logout löscht alle Session-Parameter #####
+		if (isset($_POST["button_logout"]))
+		{
+			if (isset($_SESSION["account_id"])) {
+				$session = new Session($_SESSION["account_id"], true);
+				$session->beenden_logout();
+			}
+			session_unset();
+		}
 		if (isset($_SESSION['account_id'])){
 			$account_id = $_SESSION['account_id'];
 			$konfig = new Konfig($account_id);
@@ -191,7 +200,7 @@
 												<tr align="center">
 													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
-													<td style="background:url(./../Bilder/jagenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="jagenbutton" name="button_jagen" value="<?php echo $npc_fund->id;?>"></td>
+													<td style="background:url(./../Bilder/Buttons/jagen_angreifen.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="Jagen & Angreifen" name="button_jagen" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 												<?php
 											}
@@ -205,7 +214,7 @@
 												<tr align="center">
 													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td	width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
-													<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>
+													<td style="background:url(./../Bilder/Buttons/pflanzen_sammeln.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="Pflanzen sammeln" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>
 												</tr>
 												<?php
 											}
@@ -220,7 +229,6 @@
 													<td width="85px"><img src="<?php echo get_bild_zu_id($npc_fund->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/></td>
 													<td	width="150px"><span title="<?php echo $npc_fund->beschreibung ?>"><h3><u><?php echo $npc_fund->name ?></u></h3></span></td>
 													<td><button class="button_standard" type="submit" name="button_dialog_start" value="<?php echo $npc_fund->id;?>">ansprechen</button></td>
-													<!--<td style="background:url(./../Bilder/pflanzenbutton.png); background-repeat:no-repeat;"><input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="pflanzenbutton" name="button_sammeln" value="<?php echo $npc_fund->id;?>"></td>-->
 												</tr>
 												<?php
 											}
@@ -498,10 +506,55 @@
 				</div>
 				
 				<div id="mitte_links">
-			
-					<!-- Button zur Spielerauswahl -->
-					<div id="zur_spielerauswahl">
-						<button class="button_standard" type="submit" name="button_zur_spielerauswahl" value="Zurück zur Spielerauswahl">Zurück zur Spielerauswahl</button>
+					
+					<div id="spielmenü">
+						<div class="dropdown">
+							<button class="button_standard_menue" type="button" name="button_menue" style="width:120px;">Menü</button>
+							<div class="dropdown-inhalt-standard">
+								<button class="button_standard_menue" type="submit" name="button_zur_spielerauswahl">Zurück zur Spielerauswahl</button>
+								<button class="button_standard_menue" type="submit" formaction="musik.php" formtarget="_blank">Musik starten</button>
+								<button class="button_standard_menue" type="submit" name="button_konfiguration" value="Einstellungen">Einstellungen</button>
+								<button class="button_standard_menue" type="submit" name="button_logout" value="Logout">Logout</button>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_weltkarte" type="submit" name="button_weltkarte" value="Weltkarte"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_gegend_erkunden" type="submit" name="button_gebiet_erkunden" value="0"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_drachenkampf" type="submit" name="button_drachenkampf" value="0"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_gepaeck_betrachten" type="submit" name="button_inventar" value="Gepäck betrachten"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_ausruhen" type="submit" name="button_ausruhen" value="Ausruhen"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_elemente_beschwoeren" type="button" name="button_elemente" value="Elemente beschwören"></button>
+							<div class="dropdown-inhalt-bild">
+								<button class="button_bild" id="btn_elemente_der_erde" type="submit" name="button_erde" value="Erdelemente"></button>
+								<button class="button_bild" id="btn_elemente_des_wassers" type="submit" name="button_wasser" value="Wasserelemente"></button>
+								<button class="button_bild" id="btn_elemente_des_feuers" type="submit" name="button_feuer" value="Feuerelemente"></button>
+								<button class="button_bild" id="btn_elemente_der_luft" type="submit" name="button_luft" value="Luftelemente"></button>
+								<button class="button_bild" id="btn_standardangriffe" type="submit" name="button_kampf_standard" value="Standardangriffe"></button>
+							</div>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_fliegen" type="submit" name="button_fliegen" value="Fliegen"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_handwerk" type="submit" name="button_handwerk" value="Handwerk"></button>
+						</div>
+						<div class="dropdown">
+							<button class="button_bild" id="btn_tagebuch" type="submit" name="button_tagebuch" value="Tagebuch"></button>
+							<div class="dropdown-inhalt-standard">
+								<button class="button_standard_menue" type="submit" name="button_charakterdaten" value="Charakterdaten">Charakterdaten</button>
+								<button class="button_standard_menue" type="submit" name="button_statistik" value="Statistik">Statistik</button>
+							</div>
+						</div>
 					</div>
 					
 					<!-- Level-/Zahlenzeichen -->
@@ -517,42 +570,6 @@
 							<div id="l2"><?php echo $level2 ?></div>
 							<div id="l1"><?php echo $level1 ?></div>	
 							<?php
-						}
-						?>
-					</div>
-					
-					<!-- Anzeige des Spielmenüs -->
-					<div id="spielmenü_2">
-						<div id="erde"><input id="menu2_button_gross" type="submit" name="button_erde" value="Erdelemente"></div>
-						<div id="wasser"><input id="menu2_button_gross" type="submit" name="button_wasser" value="Wasserelemente"></div>
-						<div id="feuer"><input id="menu2_button_gross" type="submit" name="button_feuer" value="Feuerelemente"></div>
-						<div id="luft"><input id="menu2_button_gross" type="submit" name="button_luft" value="Luftelemente"></div>
-						<div id="kampf_standard"><input id="menu2_button_gross" type="submit" name="button_kampf_standard" value="Standardangriffe"></div>
-					</div>
-					
-					<div id="spielmenü_1">
-						<?php	
-						if(isset($_POST["button_elemente"]) OR isset($_POST["button_erde"]) OR isset($_POST["button_wasser"]) OR isset($_POST["button_feuer"]) OR isset($_POST["button_luft"]) OR isset($_POST["button_kampf_standard"]) OR isset($_POST["anzeige_element"])){
-							?>
-							<script>sichtbar_elemente("menü");</script>
-							<div id="menu1"><input id="menu_button_klein" type="submit" name="button_drachenkampf" value="0"></div>
-							<div id="menu2"><input id="menu_button_klein" type="submit" name="button_fliegen" value="Fliegen"></div>
-							<div id="menu3"><input id="menu_button_klein" type="submit" name="button_gebiet_erkunden" value="0"></div>
-							<div id="menu4"><input id="menu_button_klein" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="menu5"><input id="menu_button_klein" type="submit" name="button_elemente" value="Elemente beschwören"></div>
-							<div id="menu6"><input id="menu_button_klein" type="submit" name="button_handwerk" value="Handwerk"></div>
-							<div id="menu7"><input id="menu_button_klein" type="submit" name="button_tagebuch" value="Tagebuch"></div>
-						<?php	
-						} else {
-						?>
-							<div id="menu1"><input id="menu_button_gross" type="submit" name="button_drachenkampf" value="0"></div>
-							<div id="menu2"><input id="menu_button_gross" type="submit" name="button_fliegen" value="Fliegen"></div>
-							<div id="menu3"><input id="menu_button_gross" type="submit" name="button_gebiet_erkunden" value="0"></div>
-							<div id="menu4"><input id="menu_button_gross" type="submit" name="button_inventar" value="Gepäck betrachten"></div>
-							<div id="menu5"><input id="menu_button_gross" type="submit" name="button_elemente" value="Elemente beschwören"></div>
-							<div id="menu6"><input id="menu_button_gross" type="submit" name="button_handwerk" value="Handwerk"></div>
-							<div id="menu7"><input id="menu_button_gross" type="submit" name="button_tagebuch" value="Tagebuch"></div>
-						<?php
 						}
 						?>
 					</div>
@@ -685,11 +702,6 @@
 						</script>
 					
 					</div>
-					
-					<div id="musik">
-						<u><a href="musik.php" target="_blank" style="color:white;">Starte Musik</a></u>
-					</div>
-					
 				</div>
 			</div>
 			
