@@ -91,9 +91,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4117 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=4118 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.809 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.912 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -3042,22 +3042,117 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(4113, 49, 6, '2020-09-06 15:36:28', '2020-09-06 15:36:30', 'abgeschlossen', 2, 0),
 	(4114, 49, 11, '2020-09-06 15:36:33', '2020-09-06 15:36:39', 'abgeschlossen', 670, 0),
 	(4115, 49, 5, '2020-09-06 15:36:44', '2020-09-06 15:36:52', 'abgeschlossen', 0, 0),
-	(4116, 49, 7, '2020-09-06 15:36:57', '2020-09-06 15:37:02', 'abgeschlossen', 7, 0);
+	(4116, 49, 7, '2020-09-06 15:36:57', '2020-09-06 15:37:02', 'abgeschlossen', 7, 0),
+	(4117, 48, 12, '2020-09-07 19:08:32', '2020-09-07 19:08:52', 'abgeschlossen', 0, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
--- Exportiere Struktur von Tabelle db_dvg.bedingungen
-DROP TABLE IF EXISTS `bedingungen`;
-CREATE TABLE IF NOT EXISTS `bedingungen` (
+-- Exportiere Struktur von Tabelle db_dvg.bedingung_knoten
+DROP TABLE IF EXISTS `bedingung_knoten`;
+CREATE TABLE IF NOT EXISTS `bedingung_knoten` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci,
+  `bedingung_knoten_id` int(10) DEFAULT NULL,
+  `operator` enum('UND','ODER') COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bedingung_knoten_id` (`bedingung_knoten_id`),
+  CONSTRAINT `FK_bedingung_knoten_bedingung_knoten` FOREIGN KEY (`bedingung_knoten_id`) REFERENCES `bedingung_knoten` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Wurzel oder Knotenelement einer Bedingung. Bestimmt die Verknüpung zwischen verschiedenen Knotenelmenten bzw. Teilbedingungen';
+
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_knoten: ~2 rows (ungefähr)
+DELETE FROM `bedingung_knoten`;
+/*!40000 ALTER TABLE `bedingung_knoten` DISABLE KEYS */;
+INSERT INTO `bedingung_knoten` (`id`, `titel`, `beschreibung`, `bedingung_knoten_id`, `operator`) VALUES
+	(1, 'Meine erste Bedingung 1', 'Dazu fällt mir leider nichts ein.', NULL, 'UND'),
+	(2, 'Meine erste Bedingung 1.1', NULL, 1, 'ODER');
+/*!40000 ALTER TABLE `bedingung_knoten` ENABLE KEYS */;
+
+-- Exportiere Struktur von Tabelle db_dvg.bedingung_kombi
+DROP TABLE IF EXISTS `bedingung_kombi`;
+CREATE TABLE IF NOT EXISTS `bedingung_kombi` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `wert` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Mögliche Kombinationen die geprüft werden können';
+
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_kombi: ~3 rows (ungefähr)
+DELETE FROM `bedingung_kombi`;
+/*!40000 ALTER TABLE `bedingung_kombi` DISABLE KEYS */;
+INSERT INTO `bedingung_kombi` (`id`, `titel`, `wert`) VALUES
+	(1, 'Spieler', 'Level'),
+	(2, 'Items', 'Anzahl'),
+	(3, 'NPC', 'Anzahl');
+/*!40000 ALTER TABLE `bedingung_kombi` ENABLE KEYS */;
+
+-- Exportiere Struktur von Tabelle db_dvg.bedingung_link
+DROP TABLE IF EXISTS `bedingung_link`;
+CREATE TABLE IF NOT EXISTS `bedingung_link` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `tabelle` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `tabelle_id` int(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Stellt diverse Bedingunen zur Verfügung';
+  `bedingung_knoten_id` int(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bedingung_knoten_id` (`bedingung_knoten_id`),
+  CONSTRAINT `FK_bedingung_link_bedingung_knoten` FOREIGN KEY (`bedingung_knoten_id`) REFERENCES `bedingung_knoten` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Verknüpft Bedingungen (Wurzelelemente) mit den Objekten, wo die Bedingung greifen soll (Dialoge, Quests, Zauber, usw.)';
 
--- Exportiere Daten aus Tabelle db_dvg.bedingungen: ~0 rows (ungefähr)
-DELETE FROM `bedingungen`;
-/*!40000 ALTER TABLE `bedingungen` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bedingungen` ENABLE KEYS */;
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_link: ~0 rows (ungefähr)
+DELETE FROM `bedingung_link`;
+/*!40000 ALTER TABLE `bedingung_link` DISABLE KEYS */;
+INSERT INTO `bedingung_link` (`id`, `tabelle`, `tabelle_id`, `bedingung_knoten_id`) VALUES
+	(1, 'dialog_link_spieler', 11, 1);
+/*!40000 ALTER TABLE `bedingung_link` ENABLE KEYS */;
+
+-- Exportiere Struktur von Tabelle db_dvg.bedingung_operator
+DROP TABLE IF EXISTS `bedingung_operator`;
+CREATE TABLE IF NOT EXISTS `bedingung_operator` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `symbol` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `beschreibung` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Operatoren die bei Bedingunen zum Einsatz kommen können.';
+
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_operator: ~6 rows (ungefähr)
+DELETE FROM `bedingung_operator`;
+/*!40000 ALTER TABLE `bedingung_operator` DISABLE KEYS */;
+INSERT INTO `bedingung_operator` (`id`, `symbol`, `beschreibung`) VALUES
+	(1, '=', 'gleich'),
+	(2, '<>', 'ungleich'),
+	(3, '>', 'größer'),
+	(4, '<', 'kleiner'),
+	(5, '>=', 'größer/gleich'),
+	(6, '<=', 'kleiner/gleich');
+/*!40000 ALTER TABLE `bedingung_operator` ENABLE KEYS */;
+
+-- Exportiere Struktur von Tabelle db_dvg.bedingung_teil
+DROP TABLE IF EXISTS `bedingung_teil`;
+CREATE TABLE IF NOT EXISTS `bedingung_teil` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `titel` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `bedingung_knoten_id` int(10) NOT NULL,
+  `betrifft` enum('Spieler','Welt') COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Spieler',
+  `bedingung_kombi_id` int(10) NOT NULL,
+  `ziel_id` int(10) NOT NULL,
+  `bedingung_operator_id` int(10) NOT NULL,
+  `wert` int(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bedingung_operator_id` (`bedingung_operator_id`),
+  KEY `bedingung_knoten_id` (`bedingung_knoten_id`),
+  KEY `bedingung_kombi_id` (`bedingung_kombi_id`),
+  CONSTRAINT `FK_bedingung_teil_bedingung_knoten` FOREIGN KEY (`bedingung_knoten_id`) REFERENCES `bedingung_knoten` (`id`),
+  CONSTRAINT `FK_bedingung_teil_bedingung_kombi` FOREIGN KEY (`bedingung_kombi_id`) REFERENCES `bedingung_kombi` (`id`),
+  CONSTRAINT `FK_bedingung_teil_bedingung_operator` FOREIGN KEY (`bedingung_operator_id`) REFERENCES `bedingung_operator` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Teilbedingungen';
+
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_teil: ~0 rows (ungefähr)
+DELETE FROM `bedingung_teil`;
+/*!40000 ALTER TABLE `bedingung_teil` DISABLE KEYS */;
+INSERT INTO `bedingung_teil` (`id`, `titel`, `bedingung_knoten_id`, `betrifft`, `bedingung_kombi_id`, `ziel_id`, `bedingung_operator_id`, `wert`) VALUES
+	(1, 'Spielerlevel > 1', 1, 'Spieler', 1, 0, 3, 1),
+	(3, 'Anzahl Ratten getötet >= 10', 2, 'Spieler', 3, 2, 5, 10),
+	(4, 'Anzahl Äpfel im Inventar < 5', 2, 'Spieler', 2, 1, 4, 5);
+/*!40000 ALTER TABLE `bedingung_teil` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
 DROP TABLE IF EXISTS `bilder`;
@@ -3066,9 +3161,9 @@ CREATE TABLE IF NOT EXISTS `bilder` (
   `titel` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `pfad` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=354 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
+) ENGINE=InnoDB AUTO_INCREMENT=371 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Bilder mit Speicherpfad, separatem Bildtitel und Beschreibung';
 
--- Exportiere Daten aus Tabelle db_dvg.bilder: ~259 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bilder: ~296 rows (ungefähr)
 DELETE FROM `bilder`;
 /*!40000 ALTER TABLE `bilder` DISABLE KEYS */;
 INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
@@ -3152,11 +3247,7 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(106, 'buchstabe_W', '../Bilder/buchstabe_W.png'),
 	(107, 'erde', '../Bilder/erde.png'),
 	(108, 'feuer', '../Bilder/feuer.png'),
-	(109, 'feuerbutton', '../Bilder/feuerbutton.png'),
-	(110, 'flugbutton', '../Bilder/flugbutton.png'),
-	(111, 'jagenbutton', '../Bilder/jagenbutton.png'),
 	(112, 'luft', '../Bilder/luft.png'),
-	(113, 'pflanzenbutton', '../Bilder/pflanzenbutton.png'),
 	(114, 'wasser', '../Bilder/wasser.png'),
 	(115, 'zahl_1', '../Bilder/zahl_1.png'),
 	(116, 'zahl_2', '../Bilder/zahl_2.png'),
@@ -3237,15 +3328,6 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(191, 'Windstoss', '../Bilder/Elemente/Windstoss.png'),
 	(192, 'Wolke', '../Bilder/Elemente/Wolke.png'),
 	(193, 'Wuestenwind', '../Bilder/Elemente/Wuestenwind.png'),
-	(194, 'elementbutton', '../Bilder/elementbutton.png'),
-	(195, 'erdelemente', '../Bilder/erdelemente.png'),
-	(196, 'erkundenbutton', '../Bilder/erkundenbutton.png'),
-	(197, 'feuerelemente', '../Bilder/feuerelemente.png'),
-	(198, 'gepäckbutton', '../Bilder/gepäckbutton.png'),
-	(199, 'luftelemente', '../Bilder/luftelemente.png'),
-	(200, 'wasserelemente', '../Bilder/wasserelemente.png'),
-	(201, 'Tagebuch', '../Bilder/Tagebuch.png'),
-	(202, 'gepaeckbutton', '../Bilder/gepaeckbutton.png'),
 	(203, 'kap_o', '../Bilder/kap_o.png'),
 	(204, 'kap_u', '../Bilder/kap_u.png'),
 	(205, 'streifen', '../Bilder/streifen.png'),
@@ -3296,10 +3378,8 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(265, 'koala', '../Bilder/NPC/koala.png'),
 	(266, 'schwan', '../Bilder/NPC/schwan.png'),
 	(267, 'Elemente_inaktiv', '../Bilder/Elemente/Elemente_inaktiv.png'),
-	(268, 'Handwerk', '../Bilder/Handwerk.png'),
 	(269, 'Drachenirrlicht', '../Bilder/NPC/Drachenirrlicht.png'),
 	(270, 'feuerring', '../Bilder/NPC/feuerring.png'),
-	(271, 'drachenkampf', '../Bilder/drachenkampf.png'),
 	(274, 'wymar', '../Bilder/NPC/wymar.png'),
 	(275, 'Biss', '../Bilder/Elemente/Biss.png'),
 	(276, 'Schlag', '../Bilder/Elemente/Schlag.png'),
@@ -3338,7 +3418,6 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(309, 'Urgürteltier', '../Bilder/NPC/Urgürteltier.png'),
 	(310, 'Alien', '../Bilder/NPC/Alien.png'),
 	(311, 'Urratte', '../Bilder/NPC/Urratte.png'),
-	(312, 'standardangriffe', '../Bilder/standardangriffe.png'),
 	(313, 'wolf2', '../Bilder/NPC/wolf2.png'),
 	(314, 'Ananas', '../Bilder/NPC/Ananas.png'),
 	(315, 'Farn', '../Bilder/NPC/Farn.png'),
@@ -3376,9 +3455,23 @@ INSERT INTO `bilder` (`id`, `titel`, `pfad`) VALUES
 	(347, 'puzzlevorlage', '../Bilder/NPC/puzzlevorlage.png'),
 	(348, 'cursor_klick_klein', '../Bilder/cursor_klick_klein.png'),
 	(349, 'cursor_standard_klein', '../Bilder/cursor_standard_klein.png'),
-	(350, 'ausruhen', '../Bilder/ausruhen.png'),
-	(351, 'weltkarte', '../Bilder/weltkarte.png'),
-	(353, 'Tagebuch_alt', '../Bilder/Tagebuch_alt.png');
+	(354, 'ausruhen', '../Bilder/Buttons/ausruhen.png'),
+	(355, 'drachenkampf', '../Bilder/Buttons/drachenkampf.png'),
+	(356, 'elemente_beschwoeren', '../Bilder/Buttons/elemente_beschwoeren.png'),
+	(357, 'elemente_der_erde', '../Bilder/Buttons/elemente_der_erde.png'),
+	(358, 'elemente_der_luft', '../Bilder/Buttons/elemente_der_luft.png'),
+	(359, 'elemente_des_feuers', '../Bilder/Buttons/elemente_des_feuers.png'),
+	(360, 'elemente_des_wassers', '../Bilder/Buttons/elemente_des_wassers.png'),
+	(361, 'fliegen', '../Bilder/Buttons/fliegen.png'),
+	(362, 'gegend_erkunden', '../Bilder/Buttons/gegend_erkunden.png'),
+	(363, 'gepaeck_betrachten', '../Bilder/Buttons/gepaeck_betrachten.png'),
+	(364, 'handwerk', '../Bilder/Buttons/handwerk.png'),
+	(365, 'jagen_angreifen', '../Bilder/Buttons/jagen_angreifen.png'),
+	(366, 'pflanzen_sammeln', '../Bilder/Buttons/pflanzen_sammeln.png'),
+	(367, 'standardangriffe', '../Bilder/Buttons/standardangriffe.png'),
+	(368, 'tagebuch', '../Bilder/Buttons/tagebuch.png'),
+	(369, 'tagebuch_groß', '../Bilder/Buttons/tagebuch_groß.png'),
+	(370, 'weltkarte', '../Bilder/Buttons/weltkarte.png');
 /*!40000 ALTER TABLE `bilder` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.datentyp
@@ -3882,7 +3975,7 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=773 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~762 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~761 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -4827,7 +4920,7 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=671 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~414 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~343 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -5295,7 +5388,7 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9838 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~5.639 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~5.327 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -11467,7 +11560,7 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10370 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.528 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.425 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -18046,7 +18139,7 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1429 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~891 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~903 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -19174,7 +19267,7 @@ CREATE TABLE IF NOT EXISTS `npc_gebiet` (
   CONSTRAINT `FK_npc_gebiet_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=796 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von NPCs zu den Gebieten mit individueller Wahrscheinlichkeit zum Gebiet';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~162 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_gebiet: ~158 rows (ungefähr)
 DELETE FROM `npc_gebiet`;
 /*!40000 ALTER TABLE `npc_gebiet` DISABLE KEYS */;
 INSERT INTO `npc_gebiet` (`id`, `npc_id`, `gebiet_id`, `wahrscheinlichkeit`) VALUES
@@ -19358,7 +19451,7 @@ CREATE TABLE IF NOT EXISTS `npc_items` (
   CONSTRAINT `FK_npc_items_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=425 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Zuordnung von Items, die ein NPC erzeugen kann (durch töten, ernten, ansprechen, u.ä.)';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_items: ~97 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_items: ~96 rows (ungefähr)
 DELETE FROM `npc_items`;
 /*!40000 ALTER TABLE `npc_items` DISABLE KEYS */;
 INSERT INTO `npc_items` (`id`, `npc_id`, `items_id`, `wahrscheinlichkeit`, `anzahl_min`, `anzahl_max`) VALUES
@@ -19681,9 +19774,9 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `rolle_id` (`rolle_id`),
   CONSTRAINT `FK_session_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_session_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
 
--- Exportiere Daten aus Tabelle db_dvg.session: ~139 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.session: ~154 rows (ungefähr)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_bis`, `aktiv`, `ip`) VALUES
@@ -19823,11 +19916,25 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(157, 11, 1, '2020-09-05 17:21:41', '2020-09-05 18:21:41', 0, '192.168.22.49'),
 	(158, 11, 1, '2020-09-05 17:22:10', '2020-09-05 18:22:10', 0, '192.168.22.49'),
 	(159, 11, 1, '2020-09-06 11:51:41', '2020-09-06 12:51:41', 0, '192.168.22.49'),
-	(160, 11, 1, '2020-09-06 14:29:30', '2020-09-06 17:33:33', 1, '192.168.22.49'),
+	(160, 11, 1, '2020-09-06 14:29:30', '2020-09-06 17:33:33', 0, '192.168.22.49'),
 	(161, 10, 1, '2020-09-06 14:29:58', '2020-09-06 15:37:11', 0, '192.168.22.50'),
-	(162, 11, 1, '2020-09-06 14:52:25', '2020-09-06 15:52:25', 1, '192.168.22.49'),
-	(163, 11, 1, '2020-09-06 15:33:38', '2020-09-06 16:33:38', 1, '192.168.22.49'),
-	(164, 10, 1, '2020-09-06 15:35:21', '2020-09-06 16:35:21', 1, '192.168.22.50');
+	(162, 11, 1, '2020-09-06 14:52:25', '2020-09-06 15:52:25', 0, '192.168.22.49'),
+	(163, 11, 1, '2020-09-06 15:33:38', '2020-09-06 16:33:38', 0, '192.168.22.49'),
+	(164, 10, 1, '2020-09-06 15:35:21', '2020-09-06 16:35:21', 1, '192.168.22.50'),
+	(165, 11, 1, '2020-09-07 10:39:48', '2020-09-07 13:06:56', 0, '192.168.22.49'),
+	(166, 11, 1, '2020-09-07 10:43:40', '2020-09-07 11:43:40', 0, '192.168.22.49'),
+	(167, 11, 1, '2020-09-07 10:49:10', '2020-09-07 11:49:10', 0, '192.168.22.49'),
+	(168, 11, 1, '2020-09-07 11:29:04', '2020-09-07 12:29:04', 0, '192.168.22.49'),
+	(169, 11, 1, '2020-09-07 11:32:33', '2020-09-07 12:32:33', 0, '192.168.22.49'),
+	(170, 11, 1, '2020-09-07 11:45:18', '2020-09-07 12:45:18', 0, '192.168.22.49'),
+	(171, 11, 1, '2020-09-07 11:53:59', '2020-09-07 12:53:59', 0, '192.168.22.49'),
+	(172, 11, 1, '2020-09-07 14:42:09', '2020-09-07 16:10:48', 0, '192.168.22.49'),
+	(173, 11, 1, '2020-09-07 17:31:04', '2020-09-07 18:52:43', 0, '192.168.22.49'),
+	(174, 11, 1, '2020-09-07 17:33:49', '2020-09-07 18:33:49', 0, '192.168.22.49'),
+	(175, 11, 1, '2020-09-07 18:38:06', '2020-09-07 19:38:06', 0, '192.168.22.49'),
+	(176, 11, 1, '2020-09-07 18:52:49', '2020-09-07 19:52:49', 0, '192.168.22.49'),
+	(177, 11, 1, '2020-09-07 18:52:56', '2020-09-07 18:53:45', 0, '192.168.22.49'),
+	(178, 11, 1, '2020-09-07 18:53:52', '2020-09-07 19:52:20', 0, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots
@@ -20452,7 +20559,7 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~22 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~20 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
