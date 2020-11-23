@@ -1810,7 +1810,7 @@ class Dialog {
 			if ($dialog_data_all = $stmt->get_result()){
 				while($dialog_data_einzel = $dialog_data_all->fetch_array(MYSQLI_NUM)){
 					$dialog = new DialogNPC($dialog_data_einzel);
-					if ($this->bed_prf($dialog)){
+					if ($this->bed_prf("dialog_link_npc", $dialog->id)){
 						$dialog_data = $dialog;
 						$count = $count + 1;
 					}
@@ -1885,9 +1885,9 @@ class Dialog {
 	}
 	
 	# Bedingungsprüfung für Dialogtexte (noch inaktiv)
-	private function bed_prf($dialog){
+	private function bed_prf($tabelle, $dialog_id){
 		# Funktion zur Bedingungsüberprüfung
-		return true;
+		return bedingung_pruefen($tabelle, $dialog_id);
 	}
 	
 	# Spieleroptionen laden
@@ -1915,7 +1915,7 @@ class Dialog {
 			if ($dialog_data_all = $stmt->get_result()){
 				while($dialog_data_einzel = $dialog_data_all->fetch_array(MYSQLI_NUM)){
 					$dialog = new DialogSpieler($dialog_data_einzel);
-					if ($this->bed_prf($dialog) and ($dialog_link_spieler_id == null or $dialog_link_spieler_id == $dialog->id)){
+					if ($this->bed_prf("dialog_link_spieler", $dialog->id) and ($dialog_link_spieler_id == null or $dialog_link_spieler_id == $dialog->id)){
 						$dialog_data[$count] = $dialog;
 						$count = $count + 1;
 					}
@@ -2053,9 +2053,160 @@ class DialogSpieler {
 }
 	
 
+class BedingungKnoten {
+	public $id;
+	public $titel;
+	public $beschreibung;
+	public $operator;
+	public $bed_teil;
+	public $bed_knoten;
+	public $anz_kinder;
+	private $elternknoten_id;
+	
+	public function __construct($kn_id){
+		global $debug, $connect_db_dvg;
+		# Knoten laden
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT bknot.*,
+				group_concat(bteil.id),
+				group_concat(bknot2.id),
+				COUNT(bteil.id) + COUNT(bknot2.id)
+			FROM bedingung_knoten bknot
+				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
+				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
+			WHERE bknot.id = ?;")){
+			$stmt->bind_param('d', $kn_id);
+			$stmt->execute();
+			$knoten_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+			if (isset($knoten_data)){
+				$this->id = $knoten_data[0];
+				$this->titel = $knoten_data[1];
+				$this->beschreibung = $knoten_data[2];
+				$this->elternknoten_id = $knoten_data[3];
+				$this->operator = $knoten_data[4];
+				$this->bed_teil = explode(",",$knoten_data[5]);
+				$this->bed_knoten = explode(",",$knoten_data[6]);
+				$this->anz_kinder = $knoten_data[7];
+			} else {
+				return false;
+			}
+		} else {
+			echo "<br />\nQuerryfehler in BedingungKnoten->__construct()<br />\n";
+			return false;
+		}
+	}
+	
+	public function bedingung_teil_pruefen($bed_teil_id){
+		$teilbedingung = new BedingungTeil($bed_teil_id);
+		if($teilbedingung == false){
+			return true;
+		} else {
+			return $teilbedingung->test();
+		}
+	}
+}
 
 
-
+class BedingungTeil {
+	private $id;
+	private $betrifft;
+	private $ziel;
+	private $ziel_id;
+	private $topic;
+	private $sql;
+	private $variablen;
+	private $operator;
+	private $wert;
+	
+	public function __construct($bed_teil_id){
+		global $debug, $connect_db_dvg;
+		# Teilbedingung laden
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT bteil.id,
+				bteil.betrifft,
+				bkombi.titel,
+				bteil.ziel_id,
+				bkombi.topic,
+				bkombi.sql,
+				bkombi.variablen,
+				bop.symbol,
+				bteil.wert
+			FROM bedingung_teil bteil
+				JOIN bedingung_kombi bkombi ON bkombi.id = bteil.bedingung_kombi_id
+				JOIN bedingung_operator bop ON bop.id = bteil.bedingung_operator_id
+			WHERE bteil.id = ?;")){
+			$stmt->bind_param('d', $bed_teil_id);
+			$stmt->execute();
+			$teilbed_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+			if (isset($teilbed_data)){
+				$this->id = $teilbed_data[0];
+				$this->betrifft = $teilbed_data[1];
+				$this->ziel = $teilbed_data[2];
+				$this->ziel_id = $teilbed_data[3];
+				$this->topic = $teilbed_data[4];
+				$this->sql = $teilbed_data[5];
+				$this->variablen = $teilbed_data[6];
+				$this->operator = $teilbed_data[7];
+				$this->wert = $teilbed_data[8];
+			} else {
+				if($debug) echo "<br />Keine Teilbedingung zu id=".$bed_teil_id." gefunden.";
+				return false;
+			}
+		} else {
+			echo "<br />\nQuerryfehler in BedingungTeil->__construct()<br />\n";
+			return false;
+		}
+	}
+	
+	private function operator_zu_sql(){
+		if(isset($this->sql) and isset($this->operator)){
+			$this->sql = str_replace("#", $this->operator, $this->sql);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private function check_sql(){
+		global $connect_db_dvg, $spieler;
+		if ($this->operator_zu_sql() and $stmt = $connect_db_dvg->prepare($this->sql)){
+			switch($this->variablen){
+				case "spieler_id,wert":
+					$stmt->bind_param('dd', $spieler->id, $this->wert);
+					break;
+				case "spieler_id,ziel_id,wert":
+					$stmt->bind_param('ddd', $spieler->id, $this->ziel_id, $this->wert);
+					break;
+				default:
+					echo "Welche Variablen müssen eingefügt werden?";
+					return false;
+			}
+			$stmt->execute();
+			$ergebnis = $stmt->get_result()->fetch_array(MYSQLI_NUM);
+			if (isset($ergebnis)) return true;
+				else return false;
+		} else {
+			echo "<br />\nQuerryfehler in BedingungTeil->test(check_sql())<br />\n";
+			return false;
+		}
+	}
+	
+	public function test(){
+		global $debug, $connect_db_dvg, $spieler;
+		if($debug) echo "<br />\nBedingungstest für Teilbedingung (id=".$this->id.") gestartet.";
+		$check = false;
+		switch($this->betrifft){
+			# Bedingungen mit Spielerbezug
+			case "Spieler":
+				return $this->check_sql();
+				break;
+			# Globale Bedingungen
+			default:
+				break;
+		}
+		return $check;
+	}
+}
 
 
 

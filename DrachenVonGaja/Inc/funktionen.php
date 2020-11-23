@@ -666,7 +666,6 @@ function beginne_aktion($spieler, $aktion_titel, $id_1=0, $id_2=0){
 }
 
 
-
 # Aufbau der Seite für Elementbäume
 function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 	?><div id="zauber_tabelle" style="background-color:#<?php echo $hintergrundfarbe ?>;"> <!-- Hintergundfarbe wird mit übergeben und gesetzt -->
@@ -739,6 +738,55 @@ function elemente_anzeigen($hauptelement, $hintergrundfarbe, $spieler){
 			?>
 		</table>
 	</div><?php
+}
+
+
+# Prüfung der Bedingungen zum übergebenen Element
+function bedingung_pruefen($tabelle, $tabelle_id){
+	$kn_id = get_bed_einstieg($tabelle, $tabelle_id);
+	# Wenn keine Bedingung gefunden oder Fehler aufgetreten, dann WAHR sonst Bedingung prüfen
+	if($kn_id == false){
+		return true;
+	} else {
+		return bedingung_knoten_pruefen($kn_id);
+	}
+}
+
+
+# Prüfung eines Bedingungsknotens; ruft sich ggf. rekursiv selbst auf
+function bedingung_knoten_pruefen($kn_id){
+	$knoten = new BedingungKnoten($kn_id);
+	# Knoten korrekt erzeugt und Teilbedingungen oder -knoten vorhanden?
+	if($knoten == false OR $knoten->anz_kinder == 0){
+		return true;
+	# Rückgabewert für den Fall dass alle Teilbedingungen und -knoten durchlaufen wurden
+	} else {
+		switch($knoten->operator){
+			# UND: wahr wenn alle Bedingungen wahr
+			case "UND":
+				$check = true;
+				break;
+			# ODER: falsch wenn alle Bedingungen falsch
+			case "ODER":
+				$check = false;
+				break;
+			# Andere Werte dürfte es nicht geben
+			default:
+				$check = false;
+				break;
+		}
+	}
+	foreach ($knoten->bed_teil as $teilbedingung_id){
+		$test = $knoten->bedingung_teil_pruefen($teilbedingung_id);
+		if($knoten->operator == "UND" AND $test == false) return false;
+		if($knoten->operator == "ODER" AND $test == true) return true;
+	}
+	foreach ($knoten->bed_knoten as $teilknoten_id){
+		$test = bedingung_knoten_pruefen($teilknoten_id);
+		if($knoten->operator == "UND" AND $test == false) return false;
+		if($knoten->operator == "ODER" AND $test == true) return true;
+	}
+	return $check;
 }
 
 ?>

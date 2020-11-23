@@ -362,6 +362,54 @@ function update_aktion_spieler($spieler_id, $aktion_titel)
 
 
 #***************************************************************************************************************
+#************************************************* BEDINGUNGEN *************************************************
+#***************************************************************************************************************
+
+#------------------------------------ SELECT bedingung.bedingung_knoten_id -------------------------------------
+# 	-> bedingung_link.tabelle (str)
+#	-> bedingung_link.tabelle_id (int)
+#	<- bedingung_link.bedingung_knoten_id (int) ODER false
+
+function get_bed_einstieg($tabelle, $tabelle_id)
+{
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT bedingung_link.bedingung_knoten_id
+			FROM bedingung_link
+			WHERE bedingung_link.tabelle = ?
+				AND bedingung_link.tabelle_id = ?;")){
+		$stmt->bind_param('sd', $tabelle, $tabelle_id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$row = $result->fetch_array(MYSQLI_NUM);
+		# Keine passende Bedingung gefunden
+		if(!is_array($row)){
+			if($debug) echo "<br />Keine aktive Bedingung zu ".$tabelle."(id=".$tabelle_id.") gefunden.";
+			return false;
+		}
+		# 1. Knoten-Id sichern
+		$bedingung_knoten_id = $row[0];
+		$row = $result->fetch_array(MYSQLI_NUM);
+		# Wenn kein weiterer Knoten verknüpft dann Rückgabe des gefundenen
+		if(!is_array($row)){
+			if($debug) echo "<br />Bedingung zu ".$tabelle."(id=".$tabelle_id.") gefunden. -> Knoten-Id=".$bedingung_knoten_id;
+			return $bedingung_knoten_id;
+		# Wenn mehr als 1 Knoten zugeordnet, dann Fehler
+		} else {
+			echo "<br />\nDem Objekt ".$tabelle."(id=".$tabelle_id.") ist mehr als ein Einstiegsknoten zugeordnet.";
+			return false;
+		}
+	} else {
+		echo "<br />\nQuerryfehler in get_bed_einstieg<br />\n";
+		return false;
+	}	
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** BILDER ****************************************************
 #***************************************************************************************************************
 

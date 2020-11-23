@@ -77,11 +77,12 @@
 		<h1 align="center"><?php echo $npc->name ?></h1>
 		<img src="<?php echo get_bild_zu_id($npc->bilder_id) ?>" style="max-height:100px; max-width:200px;" alt=""/>
 		<!--<?php var_dump($dialog); echo "<br />"; ?>-->
-		<p align="center"><?php echo $dialog->npc_text_aktuell ?></p>
+		<p align="center"><?php if($debug) echo "(".$dialog->npc_text_aktuell_id.") ".$dialog->npc_text_aktuell; else echo $dialog->npc_text_aktuell; ?></p>
 		<?php
 		if (is_array($dialog->spieler_texte)){
 			foreach ($dialog->spieler_texte as $spieler_text){
-				$button_text = $spieler_text->text;
+				if($debug) $button_text = "(".$spieler_text->id.") ".$spieler_text->text;
+					else $button_text = $spieler_text->text;
 				if ($spieler_text->aktion_id != null){
 					$button_text = $button_text." [".$spieler_text->aktion_text."]";
 				}
