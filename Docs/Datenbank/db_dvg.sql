@@ -91,9 +91,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4124 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=4149 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.913 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~2.924 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -3049,7 +3049,32 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(4120, 48, 13, '2020-11-21 19:27:12', '2020-11-21 19:27:17', 'abgeschlossen', 0, 0),
 	(4121, 48, 12, '2020-11-21 19:28:34', '2020-11-21 19:28:54', 'abgeschlossen', 0, 0),
 	(4122, 48, 13, '2020-11-21 19:29:15', '2020-11-21 19:29:20', 'abgeschlossen', 0, 0),
-	(4123, 48, 13, '2020-11-23 18:37:05', '2020-11-23 18:37:10', 'abgeschlossen', 0, 0);
+	(4123, 48, 13, '2020-11-23 18:37:05', '2020-11-23 18:37:10', 'abgeschlossen', 0, 0),
+	(4124, 48, 13, '2020-11-24 18:17:52', '2020-11-24 18:17:57', 'abgeschlossen', 0, 0),
+	(4125, 48, 13, '2020-11-24 19:14:19', '2020-11-24 19:14:24', 'abgeschlossen', 0, 0),
+	(4126, 48, 13, '2020-11-24 19:26:11', '2020-11-24 19:26:16', 'abgeschlossen', 0, 0),
+	(4127, 48, 13, '2020-11-24 19:27:01', '2020-11-24 19:27:06', 'abgeschlossen', 0, 0),
+	(4128, 48, 13, '2020-11-24 19:40:57', '2020-11-24 19:41:02', 'abgeschlossen', 0, 0),
+	(4129, 48, 12, '2020-11-28 15:43:37', '2020-11-28 15:43:57', 'abgeschlossen', 0, 0),
+	(4130, 48, 5, '2020-11-28 15:44:55', '2020-11-28 15:45:03', 'abgeschlossen', 0, 0),
+	(4131, 48, 7, '2020-11-28 15:45:05', '2020-11-28 15:45:10', 'abgeschlossen', 7, 0),
+	(4132, 48, 5, '2020-11-28 15:45:15', '2020-11-28 15:45:23', 'abgeschlossen', 0, 0),
+	(4133, 48, 7, '2020-11-28 15:45:33', '2020-11-28 15:45:38', 'abgeschlossen', 8, 0),
+	(4134, 48, 5, '2020-11-28 15:45:42', '2020-11-28 15:45:50', 'abgeschlossen', 0, 0),
+	(4135, 48, 7, '2020-11-28 15:45:52', '2020-11-28 15:45:57', 'abgeschlossen', 7, 0),
+	(4136, 48, 5, '2020-11-28 15:47:41', '2020-11-28 15:47:49', 'abgeschlossen', 0, 0),
+	(4137, 48, 7, '2020-11-28 15:47:50', '2020-11-28 15:47:55', 'abgeschlossen', 8, 0),
+	(4138, 48, 5, '2020-11-28 15:48:08', '2020-11-28 15:48:16', 'abgeschlossen', 0, 0),
+	(4139, 48, 7, '2020-11-28 16:21:30', '2020-11-28 16:21:35', 'abgeschlossen', 14, 0),
+	(4140, 48, 13, '2020-11-28 16:21:39', '2020-11-28 16:21:44', 'abgeschlossen', 0, 0),
+	(4141, 48, 13, '2020-11-28 16:29:07', '2020-11-28 16:29:12', 'abgeschlossen', 0, 0),
+	(4142, 48, 13, '2020-11-28 17:36:17', '2020-11-28 17:36:22', 'abgeschlossen', 0, 0),
+	(4143, 48, 13, '2020-11-28 17:37:03', '2020-11-28 17:37:08', 'abgeschlossen', 0, 0),
+	(4144, 48, 13, '2020-11-28 17:38:04', '2020-11-28 17:38:09', 'abgeschlossen', 0, 0),
+	(4145, 48, 13, '2020-11-28 17:39:33', '2020-11-28 17:39:38', 'abgeschlossen', 0, 0),
+	(4146, 50, 13, '2020-11-28 19:37:56', '2020-11-28 19:38:01', 'abgeschlossen', 0, 0),
+	(4147, 48, 13, '2020-11-28 19:39:02', '2020-11-28 19:39:07', 'abgeschlossen', 0, 0),
+	(4148, 50, 13, '2020-11-28 19:54:18', '2020-11-28 19:54:23', 'abgeschlossen', 0, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bedingung_knoten
@@ -3158,7 +3183,7 @@ DELETE FROM `bedingung_teil`;
 /*!40000 ALTER TABLE `bedingung_teil` DISABLE KEYS */;
 INSERT INTO `bedingung_teil` (`id`, `titel`, `bedingung_knoten_id`, `betrifft`, `bedingung_kombi_id`, `ziel_id`, `bedingung_operator_id`, `wert`) VALUES
 	(1, 'Spielerlevel > 1', 1, 'Spieler', 1, 0, 3, 1),
-	(3, 'Anzahl Ratten getötet >= 10', 2, 'Spieler', 3, 2, 5, 100),
+	(3, 'Anzahl Ratten getötet >= 10', 2, 'Spieler', 3, 2, 5, 10),
 	(4, 'Anzahl Äpfel im Inventar < 5', 2, 'Spieler', 2, 1, 4, 5);
 /*!40000 ALTER TABLE `bedingung_teil` ENABLE KEYS */;
 
@@ -3600,11 +3625,13 @@ CREATE TABLE IF NOT EXISTS `dialog_log` (
   KEY `dialog_npc_id` (`dialog_link_npc_id`),
   CONSTRAINT `FK_dialog_log_dialog_link_npc` FOREIGN KEY (`dialog_link_npc_id`) REFERENCES `dialog_link_npc` (`id`),
   CONSTRAINT `FK_dialog_log_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Aktueller Stand eines Dialogs zwischen Spieler und NPC';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Aktueller Stand eines Dialogs zwischen Spieler und NPC';
 
--- Exportiere Daten aus Tabelle db_dvg.dialog_log: ~0 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.dialog_log: ~1 rows (ungefähr)
 DELETE FROM `dialog_log`;
 /*!40000 ALTER TABLE `dialog_log` DISABLE KEYS */;
+INSERT INTO `dialog_log` (`id`, `spieler_id`, `dialog_link_npc_id`) VALUES
+	(6, 48, 11);
 /*!40000 ALTER TABLE `dialog_log` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.dialog_text
@@ -3979,9 +4006,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=773 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=778 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~761 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~766 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -4756,7 +4783,12 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(769, 0.02, 0.014, 0.01, 0.0125, 0, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
 	(770, 0.015, 0.013, 0.01, 0.0125, 0, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
 	(771, 0.01, 0.012, 0.01, 0.0125, 0, 0, 0.0025, 0, 0, 0, 0, 0, 0, 1),
-	(772, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+	(772, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(773, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(774, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(775, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(776, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
+	(777, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -4849,9 +4881,9 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   KEY `FK_spieler_id_items_spieler` (`spieler_id`),
   CONSTRAINT `FK_items_spieler_items` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=337 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
+) ENGINE=InnoDB AUTO_INCREMENT=338 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~56 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~57 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt`) VALUES
@@ -4872,7 +4904,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(68, 21, 48, 29, 0),
 	(69, 15, 48, 4, 0),
 	(70, 8, 48, 60, 0),
-	(71, 5, 48, 11, 0),
+	(71, 5, 48, 13, 0),
 	(75, 31, 48, 8, 0),
 	(77, 30, 26, 2, 0),
 	(78, 29, 48, 6, 0),
@@ -4887,7 +4919,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(90, 26, 48, 29, 0),
 	(91, 14, 48, 3, 0),
 	(92, 12, 48, 3, 0),
-	(93, 3, 48, 17, 0),
+	(93, 3, 48, 18, 0),
 	(94, 9, 48, 8, 0),
 	(100, 37, 48, 1, 0),
 	(105, 7, 48, 3, 0),
@@ -4912,7 +4944,8 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(318, 10, 49, 1, 0),
 	(332, 13, 49, 1, 0),
 	(335, 5, 49, 1, 0),
-	(336, 18, 49, 5, 0);
+	(336, 18, 49, 5, 0),
+	(337, 11, 48, 1, 0);
 /*!40000 ALTER TABLE `items_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf
@@ -19600,12 +19633,12 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(32, 26, 5, 3),
 	(39, 48, 6, 8),
 	(40, 48, 2, 85),
-	(41, 48, 14, 17),
+	(41, 48, 14, 18),
 	(42, 48, 27, 8),
 	(43, 26, 28, 2),
 	(44, 26, 6, 2),
 	(45, 48, 32, 7),
-	(46, 48, 7, 11),
+	(46, 48, 7, 13),
 	(47, 48, 42, 2),
 	(48, 48, 29, 1),
 	(49, 48, 25, 2),
@@ -19643,7 +19676,7 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(81, 48, 47, 4),
 	(82, 48, 46, 5),
 	(83, 48, 30, 7),
-	(84, 48, 8, 28),
+	(84, 48, 8, 30),
 	(85, 48, 40, 7),
 	(86, 48, 26, 4),
 	(87, 48, 10, 5),
@@ -19780,9 +19813,9 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `rolle_id` (`rolle_id`),
   CONSTRAINT `FK_session_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_session_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
+) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
 
--- Exportiere Daten aus Tabelle db_dvg.session: ~155 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.session: ~159 rows (ungefähr)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_bis`, `aktiv`, `ip`) VALUES
@@ -19942,7 +19975,11 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(177, 11, 1, '2020-09-07 18:52:56', '2020-09-07 18:53:45', 0, '192.168.22.49'),
 	(178, 11, 1, '2020-09-07 18:53:52', '2020-09-07 19:52:20', 0, '192.168.22.49'),
 	(179, 11, 1, '2020-11-21 18:56:14', '2020-11-21 19:29:36', 0, '192.168.22.49'),
-	(180, 11, 1, '2020-11-23 18:36:57', '2020-11-23 20:27:06', 1, '192.168.22.49');
+	(180, 11, 1, '2020-11-23 18:36:57', '2020-11-23 20:27:06', 0, '192.168.22.49'),
+	(181, 11, 1, '2020-11-24 18:17:46', '2020-11-24 20:41:04', 0, '192.168.22.49'),
+	(182, 11, 1, '2020-11-28 15:43:28', '2020-11-28 17:33:19', 0, '192.168.22.49'),
+	(183, 11, 1, '2020-11-28 17:36:13', '2020-11-28 19:37:23', 0, '192.168.22.49'),
+	(184, 11, 1, '2020-11-28 19:37:29', '2020-11-28 20:55:06', 1, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots
@@ -20010,15 +20047,16 @@ CREATE TABLE IF NOT EXISTS `spieler` (
   CONSTRAINT `FK_spieler_gattung` FOREIGN KEY (`gattung_id`) REFERENCES `gattung` (`id`),
   CONSTRAINT `FK_spieler_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`),
   CONSTRAINT `FK_spieler_level` FOREIGN KEY (`level_id`) REFERENCES `level` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Spieler mit Zuordnung zu den jeweiligen Accounts';
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Spieler mit Zuordnung zu den jeweiligen Accounts';
 
 -- Exportiere Daten aus Tabelle db_dvg.spieler: ~3 rows (ungefähr)
 DELETE FROM `spieler`;
 /*!40000 ALTER TABLE `spieler` DISABLE KEYS */;
 INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`, `gebiet_id`, `name`, `geschlecht`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `max_gesundheit`, `energie`, `max_energie`, `zauberpunkte`, `max_zauberpunkte`, `balance`, `initiative`, `abwehr`, `ausweichen`, `zuletzt_gespielt`, `erfahrung`) VALUES
 	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 16.1824, 11.4179, 7.14773, 6.30188, 10.2846, 6.14772, 6.14818, 66, 55, 19, 15, 23, 16, 81.761, 100, 10, 10, '2020-08-15 19:11:03', 170.602),
-	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 25.4517, 21.0464, 15.7197, 11.3998, 19.4408, 11.7031, 12.1171, 108, 90, 31, 27, 54, 33, 98.322, 100, 10, 10, '2020-11-23 18:37:05', 430.04),
-	(49, 10, 215, 4, 2, 6, 'Marduk', 'M', 18.1049, 15.2557, 11.6616, 6.6817, 6.56279, 6.70977, 10.7107, 67, 33, 6, 8, 20, 5, 94, 100, 10, 10, '2020-09-06 15:37:07', 207.543);
+	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 25.4517, 21.0959, 15.7197, 11.3998, 19.4408, 11.7031, 12.1171, 108, 90, 11, 27, 54, 33, 100, 100, 10, 10, '2020-11-28 19:39:02', 434.99),
+	(49, 10, 215, 4, 2, 6, 'Marduk', 'M', 18.1049, 15.2557, 11.6616, 6.6817, 6.56279, 6.70977, 10.7107, 67, 33, 6, 8, 20, 5, 94, 100, 10, 10, '2020-09-06 15:37:07', 207.543),
+	(50, 11, 211, 4, 1, 5, 'Taubsi', 'W', 10, 5, 1, 1, 1, 1, 5, 33, 33, 6, 8, 5, 5, 100, 100, 10, 10, '2020-11-28 19:54:18', 0);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber
@@ -20565,7 +20603,7 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   KEY `FK_zauber_id_zauber_spieler` (`zauber_id`),
   CONSTRAINT `FK_zauber_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=247 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
+) ENGINE=InnoDB AUTO_INCREMENT=252 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
 -- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~20 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
@@ -20590,7 +20628,12 @@ INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
 	(243, 49, 65),
 	(244, 49, 13),
 	(245, 49, 45),
-	(246, 49, 79);
+	(246, 49, 79),
+	(247, 50, 77),
+	(248, 50, 79),
+	(249, 50, 41),
+	(250, 50, 47),
+	(251, 50, 53);
 /*!40000 ALTER TABLE `zauber_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber_text

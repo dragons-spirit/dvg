@@ -748,13 +748,14 @@ function bedingung_pruefen($tabelle, $tabelle_id){
 	if($kn_id == false){
 		return true;
 	} else {
-		return bedingung_knoten_pruefen($kn_id);
+		return bedingung_knoten_pruefen($kn_id, 0);
 	}
 }
 
 
 # Prüfung eines Bedingungsknotens; ruft sich ggf. rekursiv selbst auf
-function bedingung_knoten_pruefen($kn_id){
+function bedingung_knoten_pruefen($kn_id, $ebene, $nr=null){
+	global $debug;
 	$knoten = new BedingungKnoten($kn_id);
 	# Knoten korrekt erzeugt und Teilbedingungen oder -knoten vorhanden?
 	if($knoten == false OR $knoten->anz_kinder == 0){
@@ -775,16 +776,51 @@ function bedingung_knoten_pruefen($kn_id){
 				$check = false;
 				break;
 		}
+		if($debug){
+			if($nr == null) $ebene_nr = $ebene;
+				else $ebene_nr = $ebene."-".$nr;
+			echo "<br \>Ebene ".$ebene_nr." | Operator = ".$knoten->operator;
+		}
 	}
-	foreach ($knoten->bed_teil as $teilbedingung_id){
-		$test = $knoten->bedingung_teil_pruefen($teilbedingung_id);
-		if($knoten->operator == "UND" AND $test == false) return false;
-		if($knoten->operator == "ODER" AND $test == true) return true;
+	if(isset($knoten->bed_teil)){
+		if($debug) echo "<br \>Ebene ".$ebene_nr." | Teilbedingungen prüfen";
+		$tb_nr = 0;
+		foreach ($knoten->bed_teil as $teilbedingung_id){
+			$tb_nr = $tb_nr + 1;
+			if($debug) echo "<br \>".$ebene_nr.".".$tb_nr." = ";
+			$test = $knoten->bedingung_teil_pruefen($teilbedingung_id);
+			if($knoten->operator == "UND" AND $test == false){
+				if($debug) echo "<br \>Ebene ".$ebene_nr." Abbruch : Rückgabewert = FALSCH";
+				return false;
+			}
+			if($knoten->operator == "ODER" AND $test == true){
+				if($debug) echo "<br \>Ebene ".$ebene_nr." Abbruch : Rückgabewert = WAHR";
+				return true;
+			}
+		}
+		if($debug) echo "<br \>Ebene ".$ebene_nr." | Teilbedingungen abgearbeitet";
 	}
-	foreach ($knoten->bed_knoten as $teilknoten_id){
-		$test = bedingung_knoten_pruefen($teilknoten_id);
-		if($knoten->operator == "UND" AND $test == false) return false;
-		if($knoten->operator == "ODER" AND $test == true) return true;
+	$ebene_neu = $ebene + 1;
+	$kn_nr = 0;
+	if(isset($knoten->bed_knoten)){
+		if($debug) echo "<br \>Ebene ".$ebene_nr." | Teilknoten prüfen";
+		foreach ($knoten->bed_knoten as $teilknoten_id){
+			$kn_nr = $kn_nr + 1;
+			$test = bedingung_knoten_pruefen($teilknoten_id, $ebene_neu, $kn_nr);
+			if($knoten->operator == "UND" AND $test == false){
+				if($debug) echo "<br \>Ebene ".$ebene_nr." Abbruch : Rückgabewert = FALSCH";
+				return false;
+			}
+			if($knoten->operator == "ODER" AND $test == true){
+				if($debug) echo "<br \>Ebene ".$ebene_nr." Abbruch : Rückgabewert = WAHR";
+				return true;
+			}
+		}
+		if($debug) echo "<br \>Ebene ".$ebene_nr." | Teilknoten abgearbeitet";
+	}
+	if($debug){
+		if($check == true) echo "<br \>Ebene ".$ebene_nr." nach Durchlauf = WAHR";
+			else echo "<br \>Ebene ".$ebene_nr." nach Durchlauf = FALSCH";
 	}
 	return $check;
 }

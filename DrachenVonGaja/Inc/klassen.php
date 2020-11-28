@@ -1761,7 +1761,7 @@ class Dialog {
 			return false;
 		}
 		# Weitere Informationen zur gewählten Spieleroption laden 
-		$test = $this->optionen_spieler_laden($dialog_link_spieler_id);
+		$test = $this->option_spieler_laden($dialog_link_spieler_id);
 		if (!$test){
 			echo "Keine Spielerdialoge gefunden.<br />";
 			return false;
@@ -1891,7 +1891,7 @@ class Dialog {
 	}
 	
 	# Spieleroptionen laden
-	private function optionen_spieler_laden($dialog_link_spieler_id=null){
+	private function optionen_spieler_laden(){
 		global $debug, $connect_db_dvg;
 		if ($stmt = $connect_db_dvg->prepare("
 			SELECT 
@@ -1915,7 +1915,7 @@ class Dialog {
 			if ($dialog_data_all = $stmt->get_result()){
 				while($dialog_data_einzel = $dialog_data_all->fetch_array(MYSQLI_NUM)){
 					$dialog = new DialogSpieler($dialog_data_einzel);
-					if ($this->bed_prf("dialog_link_spieler", $dialog->id) and ($dialog_link_spieler_id == null or $dialog_link_spieler_id == $dialog->id)){
+					if ($this->bed_prf("dialog_link_spieler", $dialog->id)){
 						$dialog_data[$count] = $dialog;
 						$count = $count + 1;
 					}
@@ -1925,6 +1925,40 @@ class Dialog {
 			else $this->spieler_texte = $dialog_data;
 		} else {
 			echo "<br />\nQuerryfehler in Dialog->optionen_spieler_laden()<br />\n";
+			return false;
+		}
+		return true;
+	}
+	
+	# Daten zu gewählter Spieleroption laden
+	private function option_spieler_laden($dialog_link_spieler_id){
+		global $debug, $connect_db_dvg;
+		if ($stmt = $connect_db_dvg->prepare("
+			SELECT 
+				dialog_link_spieler.id,
+				dialog_link_spieler.dialog_text_spieler_id,
+				dialog_text.inhalt,
+				dialog_link_spieler.next_dialog_link_npc_id,
+				dialog_link_spieler.dialog_aktion_id,
+				dialog_aktion.titel,
+				dialog_aktion.titel_intern,
+				dialog_link_spieler.any_id
+			FROM dialog_link_spieler
+				LEFT JOIN dialog_text ON dialog_text.id = dialog_link_spieler.dialog_text_spieler_id
+				LEFT JOIN dialog_aktion ON dialog_aktion.id = dialog_link_spieler.dialog_aktion_id
+			WHERE dialog_link_spieler.aktiv = 1
+				AND dialog_link_spieler.id = ?;")){
+			$stmt->bind_param('d', $dialog_link_spieler_id);
+			$stmt->execute();
+			$dialog_data = false;
+			if ($dialog_data_einzel = $stmt->get_result()->fetch_array(MYSQLI_NUM)){
+				$dialog = new DialogSpieler($dialog_data_einzel);
+				$dialog_data[0] = $dialog;
+			}
+			if (!$dialog_data) return false;
+			else $this->spieler_texte = $dialog_data;
+		} else {
+			echo "<br />\nQuerryfehler in Dialog->option_spieler_laden()<br />\n";
 			return false;
 		}
 		return true;
@@ -2084,8 +2118,10 @@ class BedingungKnoten {
 				$this->beschreibung = $knoten_data[2];
 				$this->elternknoten_id = $knoten_data[3];
 				$this->operator = $knoten_data[4];
-				$this->bed_teil = explode(",",$knoten_data[5]);
-				$this->bed_knoten = explode(",",$knoten_data[6]);
+				if($knoten_data[5] == "") $this->bed_teil = null;
+					else $this->bed_teil = explode(",",$knoten_data[5]);
+				if($knoten_data[6] == "") $this->bed_knoten = null;
+					else $this->bed_knoten = explode(",",$knoten_data[6]);
 				$this->anz_kinder = $knoten_data[7];
 			} else {
 				return false;
@@ -2109,6 +2145,7 @@ class BedingungKnoten {
 
 class BedingungTeil {
 	private $id;
+	private $titel;
 	private $betrifft;
 	private $ziel;
 	private $ziel_id;
@@ -2123,6 +2160,7 @@ class BedingungTeil {
 		# Teilbedingung laden
 		if ($stmt = $connect_db_dvg->prepare("
 			SELECT bteil.id,
+				bteil.titel,
 				bteil.betrifft,
 				bkombi.titel,
 				bteil.ziel_id,
@@ -2140,14 +2178,15 @@ class BedingungTeil {
 			$teilbed_data = $stmt->get_result()->fetch_array(MYSQLI_NUM);
 			if (isset($teilbed_data)){
 				$this->id = $teilbed_data[0];
-				$this->betrifft = $teilbed_data[1];
-				$this->ziel = $teilbed_data[2];
-				$this->ziel_id = $teilbed_data[3];
-				$this->topic = $teilbed_data[4];
-				$this->sql = $teilbed_data[5];
-				$this->variablen = $teilbed_data[6];
-				$this->operator = $teilbed_data[7];
-				$this->wert = $teilbed_data[8];
+				$this->titel = $teilbed_data[1];
+				$this->betrifft = $teilbed_data[2];
+				$this->ziel = $teilbed_data[3];
+				$this->ziel_id = $teilbed_data[4];
+				$this->topic = $teilbed_data[5];
+				$this->sql = $teilbed_data[6];
+				$this->variablen = $teilbed_data[7];
+				$this->operator = $teilbed_data[8];
+				$this->wert = $teilbed_data[9];
 			} else {
 				if($debug) echo "<br />Keine Teilbedingung zu id=".$bed_teil_id." gefunden.";
 				return false;
@@ -2193,16 +2232,20 @@ class BedingungTeil {
 	
 	public function test(){
 		global $debug, $connect_db_dvg, $spieler;
-		if($debug) echo "<br />\nBedingungstest für Teilbedingung (id=".$this->id.") gestartet.";
+		if($debug) echo "[".$this->id."] ".$this->titel;
 		$check = false;
 		switch($this->betrifft){
 			# Bedingungen mit Spielerbezug
 			case "Spieler":
-				return $this->check_sql();
+				$check = $this->check_sql();
 				break;
 			# Globale Bedingungen
 			default:
 				break;
+		}
+		if($debug){
+			if($check) echo " --> WAHR";
+				else echo " --> FALSCH";
 		}
 		return $check;
 	}
