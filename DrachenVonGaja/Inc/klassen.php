@@ -142,9 +142,9 @@ class Spieler {
 	
 	# Regeneration der Spielerwerte (Gesundheit, Energie, Zauberpunkte) um Prozent vom jeweiligen Maximum
 	public function erholung_prozent($gesundheit_proz = 100, $energie_proz = 100, $zauberpunkte_proz = 100){
-		$this->attribut_aendern("gesundheit", floor_x($this->max_gesundheit * ($gesundheit_proz/100), 0), 0, $this->max_gesundheit);
-		$this->attribut_aendern("energie", floor_x($this->max_energie * ($energie_proz/100), 0), 0, $this->max_energie);
-		$this->attribut_aendern("zauberpunkte", floor_x($this->max_zauberpunkte * ($zauberpunkte_proz/100), 0), 0, $this->max_zauberpunkte);
+		$this->attribut_aendern("gesundheit", floor_x($this->max_gesundheit * ($gesundheit_proz/100) + 0.5, 0), 0, $this->max_gesundheit);
+		$this->attribut_aendern("energie", floor_x($this->max_energie * ($energie_proz/100) + 0.5, 0), 0, $this->max_energie);
+		$this->attribut_aendern("zauberpunkte", floor_x($this->max_zauberpunkte * ($zauberpunkte_proz/100) + 0.5, 0), 0, $this->max_zauberpunkte);
 		$this->db_update();
 	}
 	

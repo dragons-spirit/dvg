@@ -263,13 +263,7 @@
 									<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
 										<?php echo "Ihr habt das NPC " . $npc->name . " gestellt und macht euch für den Kampf bereit."; ?>
 									</p>
-									<table style="margin:auto;margin-top:20px;">
-										<tr align="center">
-											<td style="background:url(./../Bilder/drachenkampf.png); background-repeat:no-repeat;">
-												<input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="kampfbutton" name="button_kampf" value="<?php echo $npc_id;?>">
-											</td>
-										</tr>
-									</table>
+									<button class="button_bild" id="btn_drachenkampf" type="submit" name="button_kampf" value="<?php echo $npc_id;?>" style="margin:auto;margin-top:20px;"></button>
 									<?php
 									$kampf_id = insert_kampf($spieler->gebiet_id);
 									insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
@@ -347,7 +341,7 @@
 								#################################################################
 								case "Ausruhen":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
-									$spieler->erholung_prozent(50, 100, 50);
+									$spieler->erholung_prozent(100, 100, 100);
 									?>
 									<p align="center" style="padding-top:10pt;">
 										Langsam schlagt ihr die Augen auf und seid bereit für neue Taten.
