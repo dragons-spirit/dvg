@@ -524,6 +524,7 @@ function zeige_hintergrundbild($gebiet_id, $aktion_text=false, $bewusstlos=false
 		$aktion_verboten = 0;
 		if($aktion_text) $aktion_verboten = 1;
 		if($bewusstlos and !isset($_POST["button_ausruhen"])) $aktion_verboten = 2;
+		if($bewusstlos and isset($_POST["button_ausruhen"]) and $_POST["button_ausruhen"]!="ausruhen_voll") $aktion_verboten = 3;
 		
 		if ($aktion_verboten > 0){
 			switch($aktion_verboten){
@@ -535,7 +536,13 @@ function zeige_hintergrundbild($gebiet_id, $aktion_text=false, $bewusstlos=false
 					break;
 				case 2:	?>
 					<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
-						<font color="red">Ihr seid bewusslos und damit höchstens im Stande euch auszuruhen!</font><br />
+						<font color="red">Ihr seid bewusslos und solltet erst einmal wieder eure Lebensgeister erwecken!</font><br />
+					</p>
+					<?php
+					break;
+				case 3:	?>
+					<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">
+						<font color="red">Ihr seid bewusslos. Eine kurze Ruhepause wird nicht genügen, damit ihr wieder zu Kräften kommt. Ihr müsst "Erneut Erwachen"!</font><br />
 					</p>
 					<?php
 					break;

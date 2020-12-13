@@ -341,9 +341,10 @@
 								#################################################################
 								case "Ausruhen":
 									update_aktion_spieler($spieler->id, $aktion_spieler->titel);
-									$spieler->erholung_prozent(100, 100, 100);
+									$aktion = get_aktion($aktion_spieler->titel);
+									$spieler->erholung_prozent(100*$aktion->faktor_1, 100*$aktion->faktor_2, 100*$aktion->faktor_2);
 									?>
-									<p align="center" style="padding-top:10pt;">
+									<p align="center" style="padding-top:10pt; font-size:14pt;">
 										Langsam schlagt ihr die Augen auf und seid bereit für neue Taten.
 									</p>
 									<p align="center" style="padding-top:10pt;">
@@ -397,7 +398,8 @@
 									if(isset($_POST["button_zum_zielgebiet"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "laufen", get_gebiet_id($_POST["button_zum_zielgebiet"]));
 									if(isset($_POST["button_jagen"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "jagen", $_POST["button_jagen"]);
 									if(isset($_POST["button_sammeln"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, "sammeln", $_POST["button_sammeln"]);
-									if(isset($_POST["button_ausruhen"])) beginne_aktion($spieler, "ausruhen_normal");
+									if(isset($_POST["button_ausruhen"]) and !$spieler->bewusstlos()) beginne_aktion($spieler, $_POST["button_ausruhen"]);
+									if(isset($_POST["button_ausruhen"]) and $spieler->bewusstlos() and $_POST["button_ausruhen"]=="ausruhen_voll") beginne_aktion($spieler, $_POST["button_ausruhen"]);
 								}
 							}
 							
@@ -524,7 +526,13 @@
 							<button class="button_bild" id="btn_gepaeck_betrachten" type="submit" name="button_inventar" value="Gepäck betrachten"></button>
 						</div>
 						<div class="dropdown">
-							<button class="button_bild" id="btn_ausruhen" type="submit" name="button_ausruhen" value="Ausruhen"></button>
+							<button class="button_bild" id="btn_ausruhen" type="button" name="button_ausruhen_menue" style="width:120px;"></button>
+							<div class="dropdown-inhalt-standard">
+								<button class="button_standard_menue" type="submit" name="button_ausruhen" value="ausruhen_kurz">Power Nap</button><!--Kleines Nickerchen-->
+								<button class="button_standard_menue" type="submit" name="button_ausruhen" value="ausruhen_normal">Mittagsschlaf</button><!--Kurzes Schläfchen-->
+								<button class="button_standard_menue" type="submit" name="button_ausruhen" value="ausruhen_lang">Nachtruhe</button><!--Ausgedehnte Ruhepause-->
+								<button class="button_standard_menue" type="submit" name="button_ausruhen" value="ausruhen_voll">Reinkarnation</button><!--Erneutes Erwachen-->
+							</div>
 						</div>
 						<div class="dropdown">
 							<button class="button_bild" id="btn_elemente_beschwoeren" type="button" name="button_elemente" value="Elemente beschwören"></button>

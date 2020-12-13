@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `aktion` (
   `faktor_1` float NOT NULL DEFAULT '1',
   `faktor_2` float NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die ausgeführt werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die ausgeführt werden können';
 
 -- Exportiere Daten aus Tabelle db_dvg.aktion: ~11 rows (ungefähr)
 DELETE FROM `aktion`;
@@ -71,8 +71,11 @@ INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `st
 	(9, 'fliegen', 'Fliegen', 'Du fliegst von Punkt A zu Punkt B. Das könnte ein bis drei Weilchen dauern.', 'bewegen', '00:01:00', 'laufend', 10, 1, 1),
 	(10, 'laufen', 'Laufen', 'Du läufst von Punkt A zu Punkt B. Das könnte zwei Weilchen dauern.', 'bewegen', '00:00:30', 'laufend', 2, 1, 1),
 	(11, 'kampf', 'Kampf', 'Ihr befindet euch im Kampf.', 'normal', '00:00:00', 'kaempfend', 0, 1, 1),
-	(12, 'ausruhen_normal', 'Ausruhen', 'Du rollst dich zusammen, machst ein Nickerchen und erholst dich dabei von den ganzen Strapazen.', 'normal', '00:00:20', 'wartend', 0, 1, 1),
-	(13, 'erkunden_reden', 'Gegend erkunden', 'Du streifst durch die Gegend, um vielleicht etwas Interessantes zu finden oder zumindest jemanden mit dem man sich unterhalten kann.', 'dialog', '00:00:05', 'laufend', 1, 1, 1);
+	(12, 'ausruhen_normal', 'Ausruhen', 'Du rollst dich zusammen, machst ein Nickerchen und erholst dich dabei von den ganzen Strapazen.', 'normal', '00:00:15', 'wartend', 0, 0.25, 0.5),
+	(13, 'erkunden_reden', 'Gegend erkunden', 'Du streifst durch die Gegend, um vielleicht etwas Interessantes zu finden oder zumindest jemanden mit dem man sich unterhalten kann.', 'dialog', '00:00:05', 'laufend', 1, 1, 1),
+	(14, 'ausruhen_voll', 'Ausruhen', 'Nach den letzten Unternehmungen bist du fix und fertig und ziehst dich zu einer ausgedehnten Ruhepause zurück.', 'normal', '00:03:00', 'wartend', 0, 1, 1),
+	(15, 'ausruhen_kurz', 'Ausruhen', 'Ein kurzes Schläfchen vertreibt Kummer und graue Strähnchen.', 'normal', '00:00:05', 'wartend', 0, 0.1, 0.2),
+	(16, 'ausruhen_lang', 'Ausruhen', 'Nach einigen anstrengenden Aktionen, bist du reif für ein Schläfchen.', 'normal', '00:00:30', 'wartend', 0, 0.5, 1);
 /*!40000 ALTER TABLE `aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.aktion_spieler
@@ -91,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `aktion_spieler` (
   KEY `FK_aktion_id_aktion_spieler` (`aktion_id`),
   CONSTRAINT `FK_aktion_spieler_aktion` FOREIGN KEY (`aktion_id`) REFERENCES `aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_aktion_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4335 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
+) ENGINE=InnoDB AUTO_INCREMENT=4355 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die die Spieler derzeit ausführen mit Start- und Endzeit';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~3.163 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion_spieler: ~3.120 rows (ungefähr)
 DELETE FROM `aktion_spieler`;
 /*!40000 ALTER TABLE `aktion_spieler` DISABLE KEYS */;
 INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, `status`, `any_id_1`, `any_id_2`) VALUES
@@ -3259,7 +3262,27 @@ INSERT INTO `aktion_spieler` (`id`, `spieler_id`, `aktion_id`, `start`, `ende`, 
 	(4331, 51, 2, '2020-12-12 20:03:42', '2020-12-12 20:03:50', 'abgeschlossen', 0, 0),
 	(4332, 51, 6, '2020-12-12 20:03:52', '2020-12-12 20:03:54', 'abgeschlossen', 25, 0),
 	(4333, 51, 11, '2020-12-12 20:03:54', '2020-12-12 20:04:03', 'abgeschlossen', 698, 0),
-	(4334, 51, 12, '2020-12-12 20:04:08', '2020-12-12 20:04:28', 'abgeschlossen', 0, 0);
+	(4334, 51, 12, '2020-12-12 20:04:08', '2020-12-12 20:04:28', 'abgeschlossen', 0, 0),
+	(4335, 51, 14, '2020-12-13 17:43:20', '2020-12-13 17:46:20', 'abgeschlossen', 0, 0),
+	(4336, 51, 15, '2020-12-13 17:52:21', '2020-12-13 17:52:26', 'abgeschlossen', 0, 0),
+	(4337, 51, 2, '2020-12-13 17:52:37', '2020-12-13 17:52:45', 'abgeschlossen', 0, 0),
+	(4338, 51, 6, '2020-12-13 17:52:47', '2020-12-13 17:52:49', 'abgeschlossen', 46, 0),
+	(4339, 51, 11, '2020-12-13 17:52:49', '2020-12-13 17:53:07', 'abgeschlossen', 699, 0),
+	(4340, 51, 15, '2020-12-13 17:53:12', '2020-12-13 17:53:17', 'abgeschlossen', 0, 0),
+	(4341, 51, 15, '2020-12-13 17:53:26', '2020-12-13 17:53:31', 'abgeschlossen', 0, 0),
+	(4342, 51, 15, '2020-12-13 17:55:53', '2020-12-13 17:55:58', 'abgeschlossen', 0, 0),
+	(4343, 51, 12, '2020-12-13 17:56:04', '2020-12-13 17:56:19', 'abgeschlossen', 0, 0),
+	(4344, 51, 2, '2020-12-13 17:56:25', '2020-12-13 17:56:33', 'abgeschlossen', 0, 0),
+	(4345, 51, 6, '2020-12-13 17:56:37', '2020-12-13 17:56:39', 'abgeschlossen', 28, 0),
+	(4346, 51, 11, '2020-12-13 17:56:39', '2020-12-13 17:57:17', 'abgeschlossen', 700, 0),
+	(4347, 51, 2, '2020-12-13 17:57:24', '2020-12-13 17:57:32', 'abgeschlossen', 0, 0),
+	(4348, 51, 6, '2020-12-13 17:57:33', '2020-12-13 17:57:35', 'abgeschlossen', 72, 0),
+	(4349, 51, 11, '2020-12-13 17:57:35', '2020-12-13 17:57:58', 'abgeschlossen', 701, 0),
+	(4350, 51, 14, '2020-12-13 17:58:18', '2020-12-13 18:01:18', 'abgeschlossen', 0, 0),
+	(4351, 51, 2, '2020-12-13 18:04:13', '2020-12-13 18:04:21', 'abgeschlossen', 0, 0),
+	(4352, 51, 6, '2020-12-13 18:04:23', '2020-12-13 18:04:25', 'abgeschlossen', 72, 0),
+	(4353, 51, 11, '2020-12-13 18:05:03', '2020-12-13 18:06:20', 'abgeschlossen', 702, 0),
+	(4354, 51, 14, '2020-12-13 18:06:25', '2020-12-13 18:09:25', 'abgeschlossen', 0, 0);
 /*!40000 ALTER TABLE `aktion_spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bedingung_knoten
@@ -4191,9 +4214,9 @@ CREATE TABLE IF NOT EXISTS `gewinn` (
   `abwehr` float NOT NULL DEFAULT '0',
   `erfahrung` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=835 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
+) ENGINE=InnoDB AUTO_INCREMENT=839 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Sammelt Gewinne innerhalb eines Zeitraums (z.B. während Kämpfen). Gewinne werden dem "Inhaber" in der Regel nach Ablauf des Zeitraums gutgeschrieben.';
 
--- Exportiere Daten aus Tabelle db_dvg.gewinn: ~834 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.gewinn: ~823 rows (ungefähr)
 DELETE FROM `gewinn`;
 /*!40000 ALTER TABLE `gewinn` DISABLE KEYS */;
 INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `gesundheit`, `energie`, `zauberpunkte`, `initiative`, `ausweichen`, `abwehr`, `erfahrung`) VALUES
@@ -5030,7 +5053,11 @@ INSERT INTO `gewinn` (`id`, `staerke`, `intelligenz`, `magie`, `element_feuer`, 
 	(831, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(832, 0, 0.01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1),
 	(833, 0.031, 0.0154, 0.005, 0.00875, 0.00175, 0, 0.0035, 0, 0, 0, 0, 0, 0, 0),
-	(834, 0.01, 0.0196, 0.016, 0.022, 0, 0.0044, 0.0008, 0, 0, 0, 0, 0, 0, 1);
+	(834, 0.01, 0.0196, 0.016, 0.022, 0, 0.0044, 0.0008, 0, 0, 0, 0, 0, 0, 1),
+	(835, 0.02, 0.024, 0.02, 0.025, 0.005, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(836, 0.01, 0.026, 0.024, 0.03, 0, 0.006, 0, 0, 0, 0, 0, 0, 0, 1),
+	(837, 0.021, 0.0068, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+	(838, 0.02, 0.0336, 0.026, 0.0325, 0.0025, 0.004, 0, 0, 0, 0, 0, 0, 0, 0);
 /*!40000 ALTER TABLE `gewinn` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.items
@@ -5133,7 +5160,7 @@ CREATE TABLE IF NOT EXISTS `items_spieler` (
   CONSTRAINT `FK_items_spieler_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=366 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Items die ein Spieler im Besitz hat';
 
--- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~77 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.items_spieler: ~74 rows (ungefähr)
 DELETE FROM `items_spieler`;
 /*!40000 ALTER TABLE `items_spieler` DISABLE KEYS */;
 INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt`) VALUES
@@ -5195,7 +5222,7 @@ INSERT INTO `items_spieler` (`id`, `items_id`, `spieler_id`, `anzahl`, `angelegt
 	(332, 13, 49, 1, 0),
 	(336, 18, 49, 9, 0),
 	(337, 11, 48, 1, 0),
-	(338, 18, 51, 4, 0),
+	(338, 18, 51, 5, 0),
 	(339, 5, 51, 2, 0),
 	(340, 3, 51, 1, 0),
 	(341, 14, 51, 1, 0),
@@ -5225,9 +5252,9 @@ CREATE TABLE IF NOT EXISTS `kampf` (
   PRIMARY KEY (`id`),
   KEY `gebiet_id` (`gebiet_id`),
   CONSTRAINT `FK_kampf_gebiet` FOREIGN KEY (`gebiet_id`) REFERENCES `gebiet` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=699 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
+) ENGINE=InnoDB AUTO_INCREMENT=703 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Stellt das Grundelement für einen Kampf';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf: ~384 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf: ~382 rows (ungefähr)
 DELETE FROM `kampf`;
 /*!40000 ALTER TABLE `kampf` DISABLE KEYS */;
 INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
@@ -5694,7 +5721,11 @@ INSERT INTO `kampf` (`id`, `gebiet_id`, `log`) VALUES
 	(695, 9, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Schwein stirbt im Kampf.</font><br />Schwein: -10 Gesundheit durch Biss<br />Flambor greift Schwein erfolgreich mit Biss an.<br /><br />Flambor: -6 Gesundheit durch Biss<br />Schwein greift Flambor erfolgreich mit Biss an.<br />Schwein: -4 Gesundheit durch Glut<br />Flambor zaubert erfolgreich Glut auf Schwein.<br /><br />Flambor: -6 Gesundheit durch Biss<br />Schwein greift Flambor erfolgreich mit Biss an.<br />Schwein: -4 Gesundheit durch Glut<br />Flambor zaubert erfolgreich Glut auf Schwein.<br /><br />Schwein: -4 Gesundheit durch Glut<br />Flambor zaubert erfolgreich Glut auf Schwein.<br /><br />'),
 	(696, 9, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Hahn stirbt im Kampf.</font><br />Hahn: -8 Gesundheit durch Biss<br />Flambor greift Hahn mit Biss an. Hahn kann den Angriff jedoch abwehren.<br /><br />Hahn: -10 Gesundheit durch Biss<br />Flambor greift Hahn erfolgreich mit Biss an.<br /><br />Flambor: -6 Gesundheit durch Biss<br />Hahn greift Flambor erfolgreich mit Biss an.<br />Hahn: -8 Gesundheit durch Biss<br />Hahn: 1 Ausweichen durch Beendigung von Schwelbrand<br />Hahn: 1 Ausweichen durch Beendigung von Schwelbrand<br />Hahn: 1 Ausweichen durch Beendigung von Schwelbrand<br />Flambor greift Hahn mit Biss an. Hahn kann den Angriff jedoch abwehren.<br /><br />Hahn: -3 Gesundheit durch Schwelbrand<br />Hahn: -3 Gesundheit durch Schwelbrand<br />Hahn: -3 Gesundheit durch Schwelbrand<br />Flambor greift Hahn mit Biss an. Hahn kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -6 Gesundheit durch Biss<br />Hahn greift Flambor erfolgreich mit Biss an.<br />Hahn: -1 Ausweichen durch Schwelbrand<br />Hahn: -3 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Hahn.<br /><br />Hahn: -1 Ausweichen durch Schwelbrand<br />Hahn: -3 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Hahn.<br /><br />Hahn: -1 Ausweichen durch Schwelbrand<br />Hahn: -3 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Hahn.<br /><br />'),
 	(697, 8, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Flambor stirbt im Kampf.</font><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -6 Gesundheit durch Biss<br />Flambor greift Adler mit Biss an. Adler kann den Angriff jedoch abwehren.<br /><br />Adler: -6 Gesundheit durch Biss<br />Flambor greift Adler mit Biss an. Adler kann den Angriff jedoch abwehren.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor patzt beim Ausführen von Biss auf Adler.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -6 Gesundheit durch Biss<br />Flambor greift Adler mit Biss an. Adler kann den Angriff jedoch abwehren.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Adler: -10 Gesundheit durch Biss<br />Flambor greift Adler erfolgreich mit Biss an.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: 1 Intelligenz durch Beendigung von Säure<br />Adler: -2 Gesundheit durch Säure<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -6 Gesundheit durch Biss<br />Flambor greift Adler mit Biss an. Adler kann den Angriff jedoch abwehren.<br /><br />Adler: -2 Gesundheit durch Säure<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Adler patzt beim Ausführen von Biss auf Flambor.<br />Flambor zaubert Säure auf Adler. Adler kann dem Zauber jedoch ausweichen.<br /><br />Adler: -2 Gesundheit durch Säure<br />Adler: -1 Intelligenz durch Säure<br />Flambor zaubert Säure auf Adler. Adler kann den Zauber jedoch abwehren.<br /><br />'),
-	(698, 8, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Stockente stirbt im Kampf.</font><br />Stockente: -10 Gesundheit durch Biss<br />Flambor greift Stockente erfolgreich mit Biss an.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Stockente greift Flambor erfolgreich mit Biss an.<br />Stockente: 2 Ausweichen durch Beendigung von Schwelbrand<br />Stockente: 2 Ausweichen durch Beendigung von Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Stockente: 3 Gesundheit durch Wasserdampf<br />Flambor zaubert Schwelbrand auf Stockente. Stockente kann dem Zauber jedoch ausweichen.<br /><br />Stockente: 3 Gesundheit durch Wasserdampf<br />Stockente zaubert erfolgreich Wasserdampf auf sich selbst.<br />Stockente: -2 Ausweichen durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Stockente.<br /><br />Stockente: -2 Ausweichen durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Stockente.<br /><br />');
+	(698, 8, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Stockente stirbt im Kampf.</font><br />Stockente: -10 Gesundheit durch Biss<br />Flambor greift Stockente erfolgreich mit Biss an.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Stockente greift Flambor erfolgreich mit Biss an.<br />Stockente: 2 Ausweichen durch Beendigung von Schwelbrand<br />Stockente: 2 Ausweichen durch Beendigung von Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Stockente: 3 Gesundheit durch Wasserdampf<br />Flambor zaubert Schwelbrand auf Stockente. Stockente kann dem Zauber jedoch ausweichen.<br /><br />Stockente: 3 Gesundheit durch Wasserdampf<br />Stockente zaubert erfolgreich Wasserdampf auf sich selbst.<br />Stockente: -2 Ausweichen durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Stockente.<br /><br />Stockente: -2 Ausweichen durch Schwelbrand<br />Stockente: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Stockente.<br /><br />'),
+	(699, 8, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Flambor stirbt im Kampf.</font><br />Flambor: -14 Gesundheit durch Biss<br />Alphawolf greift Flambor erfolgreich mit Biss an.<br />Alphawolf: 2 Intelligenz durch Beendigung von Säure<br />Alphawolf: -10 Gesundheit durch Biss<br />Alphawolf: -6 Gesundheit durch Säure<br />Flambor greift Alphawolf erfolgreich mit Biss an.<br /><br />Flambor: -9 Gesundheit durch Biss<br />Alphawolf greift Flambor mit Biss an. Flambor kann den Angriff jedoch abwehren.<br />Alphawolf: 2 Intelligenz durch Beendigung von Säure<br />Alphawolf: -10 Gesundheit durch Biss<br />Alphawolf: -6 Gesundheit durch Säure<br />Alphawolf: -6 Gesundheit durch Säure<br />Flambor greift Alphawolf erfolgreich mit Biss an.<br /><br />Flambor: -14 Gesundheit durch Biss<br />Alphawolf greift Flambor erfolgreich mit Biss an.<br />Alphawolf: -6 Gesundheit durch Säure<br />Alphawolf: -2 Intelligenz durch Säure<br />Alphawolf: -6 Gesundheit durch Säure<br />Flambor zaubert erfolgreich Säure auf Alphawolf.<br /><br />Flambor: -14 Gesundheit durch Biss<br />Alphawolf greift Flambor erfolgreich mit Biss an.<br />Alphawolf: -6 Gesundheit durch Säure<br />Alphawolf: -2 Intelligenz durch Säure<br />Flambor zaubert erfolgreich Säure auf Alphawolf.<br /><br />'),
+	(700, 8, '<font color=\'green\'>Gewonnen</font><br /><font color=\'red\'>Ara stirbt im Kampf.</font><br />Ara: -10 Gesundheit durch Biss<br />Ara: -4 Gesundheit durch Schwelbrand<br />Flambor greift Ara erfolgreich mit Biss an.<br /><br />Flambor: 6 Ausweichen durch Beendigung von Windstoß<br />Flambor: 6 Initiative durch Beendigung von Windstoß<br />Flambor: 2 Magie durch Beendigung von Windstoß<br />Flambor: -6 Ausweichen durch Windstoß<br />Flambor: -6 Initiative durch Windstoß<br />Flambor: -2 Magie durch Windstoß<br />Ara zaubert erfolgreich Windstoß auf Flambor.<br />Ara: 2 Ausweichen durch Beendigung von Schwelbrand<br />Ara: -2 Ausweichen durch Schwelbrand<br />Ara: -4 Gesundheit durch Schwelbrand<br />Ara: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Ara.<br /><br />Flambor: -4 Ausweichen durch Windhose<br />Ara zaubert erfolgreich Windhose auf Flambor.<br />Ara: 2 Ausweichen durch Beendigung von Schwelbrand<br />Ara: -2 Ausweichen durch Schwelbrand<br />Ara: -4 Gesundheit durch Schwelbrand<br />Ara: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Ara.<br /><br />Flambor: -4 Ausweichen durch Windhose<br />Ara zaubert erfolgreich Windhose auf Flambor.<br />Ara: -2 Ausweichen durch Schwelbrand<br />Ara: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Ara.<br /><br />'),
+	(701, 8, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Flambor stirbt im Kampf.</font><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -10 Gesundheit durch Biss<br />Flambor greift Adler erfolgreich mit Biss an.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -2 Gesundheit durch Biss<br />Adler greift Flambor mit Biss an. Flambor kann den Angriff jedoch abwehren.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor patzt beim Ausführen von Biss auf Adler.<br /><br />Adler greift Flambor mit Biss an. Flambor kann dem Angriff jedoch ausweichen.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Adler: -10 Gesundheit durch Biss<br />Flambor greift Adler erfolgreich mit Biss an.<br /><br />'),
+	(702, 8, '<font color=\'red\'>Verloren</font><br /><font color=\'red\'>Flambor stirbt im Kampf.</font><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -10 Gesundheit durch Biss<br />Flambor greift Adler erfolgreich mit Biss an.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -10 Gesundheit durch Biss<br />Flambor greift Adler erfolgreich mit Biss an.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -2 Gesundheit durch Biss<br />Adler greift Flambor mit Biss an. Flambor kann den Angriff jedoch abwehren.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -2 Gesundheit durch Biss<br />Adler greift Flambor mit Biss an. Flambor kann den Angriff jedoch abwehren.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Adler patzt beim Ausführen von Biss auf Flambor.<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: 2 Ausweichen durch Beendigung von Schwelbrand<br />Adler: 2 Intelligenz durch Beendigung von Säure<br />Adler: -4 Gesundheit durch Schwelbrand<br />Adler: -6 Gesundheit durch Säure<br />Flambor greift Adler mit Biss an. Adler kann dem Angriff jedoch ausweichen.<br /><br />Adler greift Flambor mit Biss an. Flambor kann dem Angriff jedoch ausweichen.<br />Adler: 2 Ausweichen durch Beendigung von Schwelbrand<br />Adler: -2 Ausweichen durch Schwelbrand<br />Adler: -4 Gesundheit durch Schwelbrand<br />Adler: -4 Gesundheit durch Schwelbrand<br />Adler: -6 Gesundheit durch Säure<br />Flambor zaubert erfolgreich Schwelbrand auf Adler.<br /><br />Flambor: -8 Gesundheit durch Biss<br />Adler greift Flambor erfolgreich mit Biss an.<br />Adler: -2 Ausweichen durch Schwelbrand<br />Adler: -4 Gesundheit durch Schwelbrand<br />Flambor zaubert erfolgreich Schwelbrand auf Adler.<br /><br />Adler: -6 Gesundheit durch Säure<br />Adler: -2 Intelligenz durch Säure<br />Flambor zaubert erfolgreich Säure auf Adler.<br /><br />');
 /*!40000 ALTER TABLE `kampf` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_aktion
@@ -5721,9 +5752,9 @@ CREATE TABLE IF NOT EXISTS `kampf_aktion` (
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_aktion_kampf_teilnehmer_2` FOREIGN KEY (`ziel_kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_aktion_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10206 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
+) ENGINE=InnoDB AUTO_INCREMENT=10261 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die von Spielern oder NPCs in einem Kampf ausgeführt werden';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~5.695 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_aktion: ~5.327 rows (ungefähr)
 DELETE FROM `kampf_aktion`;
 /*!40000 ALTER TABLE `kampf_aktion` DISABLE KEYS */;
 INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `ziel_kampf_teilnehmer_id`, `zauber_id`, `angriff_erfolg`, `ausweichen_erfolg`, `abwehr_erfolg`, `zauberpunkte_verbrauch`, `timer_verbrauch`, `zeitpunkt`) VALUES
@@ -12239,7 +12270,62 @@ INSERT INTO `kampf_aktion` (`id`, `kampf_id`, `timer`, `kampf_teilnehmer_id`, `z
 	(10202, 698, 100, 1484, 1484, 71, 1, 0, 0, 3, 100, '2020-12-12 20:03:58'),
 	(10203, 698, 200, 1483, 1484, 18, 1, 1, 0, 4, 100, '2020-12-12 20:03:59'),
 	(10204, 698, 200, 1484, 1483, 77, 1, 0, 0, 0, 100, '2020-12-12 20:03:59'),
-	(10205, 698, 300, 1483, 1484, 77, 1, 0, 0, 0, 100, '2020-12-12 20:04:01');
+	(10205, 698, 300, 1483, 1484, 77, 1, 0, 0, 0, 100, '2020-12-12 20:04:01'),
+	(10206, 699, 0, 1485, 1486, 7, 1, 0, 0, 5, 100, '2020-12-13 17:52:57'),
+	(10207, 699, 90.909, 1486, 1485, 77, 1, 0, 0, 0, 90.909, '2020-12-13 17:52:57'),
+	(10208, 699, 100, 1485, 1486, 7, 1, 0, 0, 5, 100, '2020-12-13 17:53:00'),
+	(10209, 699, 181.818, 1486, 1485, 77, 1, 0, 0, 0, 90.909, '2020-12-13 17:53:00'),
+	(10210, 699, 200, 1485, 1486, 77, 1, 0, 0, 0, 100, '2020-12-13 17:53:02'),
+	(10211, 699, 272.727, 1486, 1485, 77, 1, 0, 1, 0, 90.909, '2020-12-13 17:53:02'),
+	(10212, 699, 300, 1485, 1486, 77, 1, 0, 0, 0, 100, '2020-12-13 17:53:04'),
+	(10213, 699, 363.636, 1486, 1485, 77, 1, 0, 0, 0, 90.909, '2020-12-13 17:53:04'),
+	(10214, 700, 0, 1487, 1488, 18, 1, 0, 0, 4, 100, '2020-12-13 17:56:44'),
+	(10215, 700, 83.333, 1488, 1487, 54, 1, 0, 0, 4, 83.333, '2020-12-13 17:56:44'),
+	(10216, 700, 100, 1487, 1488, 18, 1, 0, 0, 4, 100, '2020-12-13 17:56:45'),
+	(10217, 700, 166.666, 1488, 1487, 54, 1, 0, 0, 4, 83.333, '2020-12-13 17:56:45'),
+	(10218, 700, 200, 1487, 1488, 18, 1, 0, 0, 4, 100, '2020-12-13 17:56:46'),
+	(10219, 700, 249.999, 1488, 1487, 44, 1, 0, 0, 5, 83.333, '2020-12-13 17:56:46'),
+	(10220, 700, 300, 1487, 1488, 77, 1, 0, 0, 0, 100, '2020-12-13 17:56:54'),
+	(10221, 701, 0, 1489, 1490, 77, 1, 0, 0, 0, 100, '2020-12-13 17:57:39'),
+	(10222, 701, 100, 1489, 1490, 77, 1, 1, 1, 0, 100, '2020-12-13 17:57:41'),
+	(10223, 701, 166.666, 1490, 1489, 77, 1, 1, 0, 0, 166.666, '2020-12-13 17:57:41'),
+	(10224, 701, 200, 1489, 1490, 77, 0, 0, 0, 0, 100, '2020-12-13 17:57:42'),
+	(10225, 701, 300, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:44'),
+	(10226, 701, 333.332, 1490, 1489, 77, 1, 0, 1, 0, 166.666, '2020-12-13 17:57:44'),
+	(10227, 701, 400, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:46'),
+	(10228, 701, 499.998, 1490, 1489, 77, 1, 0, 0, 0, 166.666, '2020-12-13 17:57:46'),
+	(10229, 701, 500, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:47'),
+	(10230, 701, 600, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:48'),
+	(10231, 701, 666.664, 1490, 1489, 77, 1, 0, 0, 0, 166.666, '2020-12-13 17:57:48'),
+	(10232, 701, 700, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:50'),
+	(10233, 701, 800, 1489, 1490, 77, 1, 0, 0, 0, 100, '2020-12-13 17:57:51'),
+	(10234, 701, 833.33, 1490, 1489, 77, 1, 0, 0, 0, 166.666, '2020-12-13 17:57:51'),
+	(10235, 701, 900, 1489, 1490, 77, 1, 1, 0, 0, 100, '2020-12-13 17:57:53'),
+	(10236, 701, 999.996, 1490, 1489, 77, 1, 0, 0, 0, 166.666, '2020-12-13 17:57:53'),
+	(10237, 702, 0, 1491, 1492, 7, 1, 0, 0, 5, 100, '2020-12-13 18:05:14'),
+	(10238, 702, 100, 1491, 1492, 18, 1, 0, 0, 4, 100, '2020-12-13 18:05:23'),
+	(10239, 702, 133.333, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:05:23'),
+	(10240, 702, 200, 1491, 1492, 18, 1, 0, 0, 4, 100, '2020-12-13 18:05:24'),
+	(10241, 702, 266.666, 1492, 1491, 77, 1, 1, 0, 0, 133.333, '2020-12-13 18:05:24'),
+	(10242, 702, 300, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:05:38'),
+	(10243, 702, 399.999, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:05:38'),
+	(10244, 702, 400, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:05:41'),
+	(10245, 702, 500, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:05:43'),
+	(10246, 702, 533.332, 1492, 1491, 77, 0, 0, 0, 0, 133.333, '2020-12-13 18:05:43'),
+	(10247, 702, 600, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:05:45'),
+	(10248, 702, 666.665, 1492, 1491, 77, 1, 0, 1, 0, 133.333, '2020-12-13 18:05:45'),
+	(10249, 702, 700, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:05:49'),
+	(10250, 702, 799.998, 1492, 1491, 77, 1, 0, 1, 0, 133.333, '2020-12-13 18:05:49'),
+	(10251, 702, 800, 1491, 1492, 77, 1, 1, 1, 0, 100, '2020-12-13 18:06:02'),
+	(10252, 702, 900, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:06:09'),
+	(10253, 702, 933.331, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:06:09'),
+	(10254, 702, 1000, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:06:12'),
+	(10255, 702, 1066.66, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:06:12'),
+	(10256, 702, 1100, 1491, 1492, 77, 1, 0, 0, 0, 100, '2020-12-13 18:06:14'),
+	(10257, 702, 1199.99, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:06:14'),
+	(10258, 702, 1200, 1491, 1492, 77, 1, 1, 0, 0, 100, '2020-12-13 18:06:15'),
+	(10259, 702, 1300, 1491, 1492, 77, 1, 0, 0, 0, 100, '2020-12-13 18:06:17'),
+	(10260, 702, 1333.32, 1492, 1491, 77, 1, 0, 0, 0, 133.333, '2020-12-13 18:06:17');
 /*!40000 ALTER TABLE `kampf_aktion` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_effekt
@@ -12261,9 +12347,9 @@ CREATE TABLE IF NOT EXISTS `kampf_effekt` (
   KEY `kampf_aktion_id` (`kampf_aktion_id`),
   CONSTRAINT `FK_kampf_effekt_kampf_aktion` FOREIGN KEY (`kampf_aktion_id`) REFERENCES `kampf_aktion` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_kampf_effekt_kampf_teilnehmer` FOREIGN KEY (`kampf_teilnehmer_id`) REFERENCES `kampf_teilnehmer` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10671 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
+) ENGINE=InnoDB AUTO_INCREMENT=10716 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Effekte die von Zaubern und anderen Aktionen in einem Kampf erzeugt werden und auf die Kampfteilnehmer angewendet werden, wenn diese an der Reihe sind';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.817 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_effekt: ~6.717 rows (ungefähr)
 DELETE FROM `kampf_effekt`;
 /*!40000 ALTER TABLE `kampf_effekt` DISABLE KEYS */;
 INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art`, `attribut`, `wert`, `runden`, `runden_max`, `jede_runde`, `ausgefuehrt`, `beendet`) VALUES
@@ -19107,7 +19193,52 @@ INSERT INTO `kampf_effekt` (`id`, `kampf_aktion_id`, `kampf_teilnehmer_id`, `art
 	(10667, 10201, 1484, 'angriff', 'ausweichen', -2, 2, 2, 0, 0, 1),
 	(10668, 10202, 1484, 'verteidigung', 'gesundheit', 3, 2, 2, 1, 1, 1),
 	(10669, 10204, 1483, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
-	(10670, 10205, 1484, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1);
+	(10670, 10205, 1484, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10671, 10206, 1486, 'angriff', 'intelligenz', -2, 3, 3, 0, 0, 1),
+	(10672, 10206, 1486, 'angriff', 'gesundheit', -6, 3, 3, 1, 1, 1),
+	(10673, 10207, 1485, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(10674, 10208, 1486, 'angriff', 'intelligenz', -2, 3, 3, 0, 0, 1),
+	(10675, 10208, 1486, 'angriff', 'gesundheit', -6, 3, 3, 1, 1, 1),
+	(10676, 10209, 1485, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(10677, 10210, 1486, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10678, 10211, 1485, 'angriff', 'gesundheit', -9, 1, 1, 1, 1, 1),
+	(10679, 10212, 1486, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10680, 10213, 1485, 'angriff', 'gesundheit', -14, 1, 1, 1, 1, 1),
+	(10681, 10214, 1488, 'angriff', 'gesundheit', -4, 2, 2, 1, 1, 1),
+	(10682, 10214, 1488, 'angriff', 'ausweichen', -2, 2, 2, 0, 0, 1),
+	(10683, 10215, 1487, 'angriff', 'ausweichen', -4, 4, 5, 0, 1, 0),
+	(10684, 10216, 1488, 'angriff', 'gesundheit', -4, 2, 2, 1, 1, 1),
+	(10685, 10216, 1488, 'angriff', 'ausweichen', -2, 2, 2, 0, 0, 1),
+	(10686, 10217, 1487, 'angriff', 'ausweichen', -4, 3, 5, 0, 1, 0),
+	(10687, 10218, 1488, 'angriff', 'gesundheit', -4, 2, 2, 1, 1, 1),
+	(10688, 10218, 1488, 'angriff', 'ausweichen', -2, 2, 2, 0, 1, 0),
+	(10689, 10219, 1487, 'angriff', 'magie', -2, 1, 1, 0, 0, 1),
+	(10690, 10219, 1487, 'angriff', 'initiative', -6, 1, 1, 0, 0, 1),
+	(10691, 10219, 1487, 'angriff', 'ausweichen', -6, 1, 1, 0, 0, 1),
+	(10692, 10220, 1488, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10693, 10221, 1490, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10694, 10226, 1489, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(10695, 10228, 1489, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10696, 10231, 1489, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10697, 10233, 1490, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10698, 10234, 1489, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10699, 10236, 1489, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10700, 10237, 1492, 'angriff', 'intelligenz', -2, 3, 3, 0, 0, 1),
+	(10701, 10237, 1492, 'angriff', 'gesundheit', -6, 3, 3, 1, 1, 1),
+	(10702, 10238, 1492, 'angriff', 'gesundheit', -4, 2, 2, 1, 1, 1),
+	(10703, 10238, 1492, 'angriff', 'ausweichen', -2, 2, 2, 0, 0, 1),
+	(10704, 10239, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10705, 10240, 1492, 'angriff', 'gesundheit', -4, 2, 2, 1, 1, 1),
+	(10706, 10240, 1492, 'angriff', 'ausweichen', -2, 2, 2, 0, 0, 1),
+	(10707, 10243, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10708, 10248, 1491, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(10709, 10250, 1491, 'angriff', 'gesundheit', -2, 1, 1, 1, 1, 1),
+	(10710, 10253, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10711, 10255, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10712, 10256, 1492, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10713, 10257, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1),
+	(10714, 10259, 1492, 'angriff', 'gesundheit', -10, 1, 1, 1, 1, 1),
+	(10715, 10260, 1491, 'angriff', 'gesundheit', -8, 1, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `kampf_effekt` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.kampf_teilnehmer
@@ -19141,9 +19272,9 @@ CREATE TABLE IF NOT EXISTS `kampf_teilnehmer` (
   KEY `gewinn_id` (`gewinn_id`),
   CONSTRAINT `FK_kampf_teilnehmer_gewinn` FOREIGN KEY (`gewinn_id`) REFERENCES `gewinn` (`id`),
   CONSTRAINT `FK_kampf_teilnehmer_kampf` FOREIGN KEY (`kampf_id`) REFERENCES `kampf` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1485 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=1493 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Teilnehmer an einem Kampf mit sämtlichen Kampfdaten, die durch Zauber und andere Aktionen temporär geändert werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~961 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.kampf_teilnehmer: ~953 rows (ungefähr)
 DELETE FROM `kampf_teilnehmer`;
 /*!40000 ALTER TABLE `kampf_teilnehmer` DISABLE KEYS */;
 INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_typ`, `seite`, `gesundheit`, `gesundheit_max`, `zauberpunkte`, `zauberpunkte_max`, `staerke`, `intelligenz`, `magie`, `element_feuer`, `element_wasser`, `element_erde`, `element_luft`, `initiative`, `abwehr`, `ausweichen`, `timer`, `gewinn_id`, `deaktiviert`) VALUES
@@ -20107,7 +20238,15 @@ INSERT INTO `kampf_teilnehmer` (`id`, `kampf_id`, `teilnehmer_id`, `teilnehmer_t
 	(1481, 697, 51, 'spieler', 0, 0, 50, 2, 13, 15.4576, 6.44, 3.5099, 5.1778, 1.0296, 1.0059, 1.001, 100, 10, 10, 1400, 833, 0),
 	(1482, 697, 72, 'npc', 1, 40, 80, 1, 1, 10, 40, 0, 0, 0, 0, 10, 60, 50, 60, 1500, NULL, 0),
 	(1483, 698, 51, 'spieler', 0, 42, 50, 1, 13, 15.4576, 6.44, 3.5099, 5.1778, 1.0296, 1.0059, 1.001, 100, 10, 10, 400, 834, 0),
-	(1484, 698, 25, 'npc', 1, 0, 20, 17, 20, 10, 20, 10, 0, 10, 0, 0, 100, 0, 20, 300, NULL, 0);
+	(1484, 698, 25, 'npc', 1, 0, 20, 17, 20, 10, 20, 10, 0, 10, 0, 0, 100, 0, 20, 300, NULL, 0),
+	(1485, 699, 51, 'spieler', 0, 0, 50, 3, 13, 15.4672, 6.4589, 3.5254, 5.199, 1.0296, 1.0102, 1.0018, 100, 10, 10, 400, 835, 0),
+	(1486, 699, 46, 'npc', 1, 14, 70, 6, 6, 30, 20, 5, 0, 0, 5, 0, 110, 5, 15, 454.545, NULL, 0),
+	(1487, 700, 51, 'spieler', 0, 28, 50, 1, 13, 15.4672, 6.4589, 3.5254, 5.199, 1.0296, 1.0102, 1.0018, 100, 10, 6, 400, 836, 0),
+	(1488, 700, 28, 'npc', 1, 0, 30, 17, 30, 10, 40, 10, 0, 0, 0, 20, 120, 0, 28, 333.332, NULL, 0),
+	(1489, 701, 51, 'spieler', 0, 0, 50, 1, 13, 15.4769, 6.4842, 3.5487, 5.2282, 1.0296, 1.016, 1.0018, 100, 10, 10, 1000, 837, 0),
+	(1490, 701, 72, 'npc', 1, 60, 80, 1, 1, 10, 40, 0, 0, 0, 0, 10, 60, 50, 60, 1166.66, NULL, 0),
+	(1491, 702, 51, 'spieler', 0, 0, 50, 0, 13, 15.4769, 6.4842, 3.5487, 5.2282, 1.0296, 1.016, 1.0018, 100, 10, 10, 1400, 838, 0),
+	(1492, 702, 72, 'npc', 1, 26, 80, 1, 1, 10, 40, 0, 0, 0, 0, 10, 75, 15, 65, 1466.65, NULL, 0);
 /*!40000 ALTER TABLE `kampf_teilnehmer` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.ki
@@ -20301,7 +20440,7 @@ INSERT INTO `npc` (`id`, `bilder_id`, `element_id`, `titel`, `familie`, `staerke
 	(69, 288, 1, 'Urgiraffe', 'Dinosaurier', 100, 0, 0, 0, 0, 0, 0, 600, 1, 1, 50, 50, 10, '---ohne---', 'angreifbar', 2, 1),
 	(70, 302, 3, 'Urrobbe', 'Dinosaurier', 150, 0, 50, 0, 30, 0, 0, 400, 1, 50, 80, 60, 10, '---ohne---', 'angreifbar', 2, 1),
 	(71, 83, 4, 'Jaguar', 'Raubkatzen', 80, 20, 0, 0, 0, 0, 0, 150, 80, 0, 70, 70, 50, 'Ein schön geflecktes Raubkätzchen.', 'angreifbar', 2, 1),
-	(72, 260, 5, 'Adler', 'Vogel', 10, 40, 0, 0, 0, 0, 10, 80, 40, 1, 60, 50, 60, 'Kein Doppelkopfadler !', 'angreifbar', 2, 1),
+	(72, 260, 5, 'Adler', 'Vogel', 10, 40, 0, 0, 0, 0, 10, 80, 40, 1, 75, 15, 65, 'Kein Doppelkopfadler !', 'angreifbar', 2, 1),
 	(73, 314, 5, 'Ananans', 'Früchte', 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 100, 10, 10, '---ohne---', 'sammelbar', 1, 1),
 	(74, 85, 5, 'Kupferschmetterling', 'Schmetterfinken', 1, 5, 0, 0, 0, 0, 0, 5, 5, 1, 50, 1, 50, 'Lohnt sich gar nicht zum Essen !', 'angreifbar', 2, 1),
 	(75, 266, 3, 'Schwan', 'Vögel', 20, 70, 5, 0, 5, 0, 5, 66, 60, 1, 80, 50, 30, '---ohne---', 'angreifbar', 2, 1),
@@ -20642,9 +20781,9 @@ CREATE TABLE IF NOT EXISTS `npc_spieler_statistik` (
   KEY `spieler_id` (`spieler_id`),
   CONSTRAINT `FK_npc_spieler_statistik_npc` FOREIGN KEY (`npc_id`) REFERENCES `npc` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_npc_spieler_statistik_spieler` FOREIGN KEY (`spieler_id`) REFERENCES `spieler` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=170 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Erfasst die Anzahl bereits gesammelter oder erlegter NPCs';
 
--- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~146 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.npc_spieler_statistik: ~137 rows (ungefähr)
 DELETE FROM `npc_spieler_statistik`;
 /*!40000 ALTER TABLE `npc_spieler_statistik` DISABLE KEYS */;
 INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VALUES
@@ -20793,7 +20932,8 @@ INSERT INTO `npc_spieler_statistik` (`id`, `spieler_id`, `npc_id`, `anzahl`) VAL
 	(166, 51, 33, 1),
 	(167, 51, 56, 2),
 	(168, 51, 58, 1),
-	(169, 51, 6, 1);
+	(169, 51, 6, 1),
+	(170, 51, 28, 1);
 /*!40000 ALTER TABLE `npc_spieler_statistik` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.quest
@@ -20873,7 +21013,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `rolle_id` (`rolle_id`),
   CONSTRAINT `FK_session_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_session_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
 
 -- Exportiere Daten aus Tabelle db_dvg.session: ~164 rows (ungefähr)
 DELETE FROM `session`;
@@ -21042,7 +21182,8 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(184, 11, 1, '2020-11-28 19:37:29', '2020-12-12 18:42:37', 0, '192.168.22.49'),
 	(185, 11, 1, '2020-12-12 18:42:43', '2020-12-12 20:04:32', 0, '192.168.22.49'),
 	(186, 10, 1, '2020-12-12 18:59:42', '2020-12-12 19:59:42', 0, '192.168.22.50'),
-	(187, 10, 1, '2020-12-12 18:59:57', '2020-12-12 19:25:07', 0, '192.168.22.50');
+	(187, 10, 1, '2020-12-12 18:59:57', '2020-12-12 19:25:07', 0, '192.168.22.50'),
+	(188, 11, 1, '2020-12-13 17:40:23', '2020-12-13 18:13:10', 0, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots
@@ -21119,7 +21260,7 @@ INSERT INTO `spieler` (`id`, `account_id`, `bilder_id`, `gattung_id`, `level_id`
 	(26, 10, 216, 2, 2, 5, 'Rashiel', 'W', 16.1824, 11.4179, 7.14773, 6.30188, 10.2846, 6.14772, 6.14818, 66, 55, 19, 15, 23, 16, 81.761, 100, 10, 10, '2020-08-15 19:11:03', 170.602),
 	(48, 11, 220, 2, 3, 5, 'Sumpfine', 'W', 25.4517, 21.0959, 15.7197, 11.3998, 19.4408, 11.7031, 12.1171, 108, 90, 11, 27, 54, 33, 100, 100, 10, 10, '2020-11-28 19:39:02', 434.99),
 	(49, 10, 215, 4, 2, 7, 'Marduk', 'M', 18.192, 15.5828, 11.8445, 6.76803, 6.61046, 6.78478, 10.7832, 77, 33, 17, 8, 20, 5, 90.776, 100, 10, 10, '2020-12-12 19:21:41', 225.047),
-	(51, 11, 210, 1, 1, 8, 'Flambor', 'M', 10.4672, 6.4589, 3.52537, 5.19903, 1.02963, 1.01019, 1.00176, 50, 33, 12, 8, 13, 5, 97.345, 100, 10, 10, '2020-12-12 20:04:28', 28.5855);
+	(51, 11, 210, 1, 1, 8, 'Flambor', 'M', 10.4769, 6.48421, 3.54873, 5.22823, 1.02963, 1.01603, 1.00176, 50, 33, 12, 8, 13, 5, 98.245, 100, 10, 10, '2020-12-13 18:12:56', 29.559);
 /*!40000 ALTER TABLE `spieler` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.zauber
@@ -21668,7 +21809,7 @@ CREATE TABLE IF NOT EXISTS `zauber_spieler` (
   CONSTRAINT `FK_zauber_spieler_zauber` FOREIGN KEY (`zauber_id`) REFERENCES `zauber` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Zuordnung Zauber zu Spieler';
 
--- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~26 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.zauber_spieler: ~25 rows (ungefähr)
 DELETE FROM `zauber_spieler`;
 /*!40000 ALTER TABLE `zauber_spieler` DISABLE KEYS */;
 INSERT INTO `zauber_spieler` (`id`, `spieler_id`, `zauber_id`) VALUES
