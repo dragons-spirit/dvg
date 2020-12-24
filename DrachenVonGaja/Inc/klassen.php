@@ -2087,6 +2087,91 @@ class DialogSpieler {
 }
 	
 
+class Bedingung {
+	public $id;
+	public $titel;
+	public $beschreibung;
+	public $operator;
+	public $bed_teil;
+	public $bed_knoten;
+	public $anz_kinder;
+	public $elternknoten_id;
+	public $zuordnung;
+	public $ebene;
+	
+	public function __construct($kn_data, $ebene=0){
+		global $debug, $connect_db_dvg;
+		if (isset($kn_data)){
+			$this->id = $kn_data[0];
+			$this->titel = $kn_data[1];
+			$this->beschreibung = $kn_data[2];
+			$this->elternknoten_id = $kn_data[3];
+			$this->operator = $kn_data[4];
+			if(isset($kn_data[5])) $this->bed_teil = explode(",",$kn_data[5]);
+				else $this->bed_teil = null;
+			if(isset($kn_data[6])) $this->bed_knoten = explode(",",$kn_data[6]);
+				else $this->bed_knoten = null;
+			$this->anz_kinder = $kn_data[7];
+			if(isset($kn_data[8])) $this->zuordnung = explode(",",$kn_data[8]);
+				else $this->zuordnung = null;
+			$this->ebene = $ebene+1;
+			$this->knoten_nachladen();
+			$this->teilbedingungen_nachladen();
+			$this->zuordnungen_organisieren();
+		} else {
+			if($debug) echo "Keine Daten zum Erzeugen einer Bedingung übergeben<br/>";
+			return false;
+		}
+	}
+	
+	private function knoten_nachladen(){
+		if(is_array($this->bed_knoten)){
+			foreach($this->bed_knoten as $pos => $bed_knoten){
+				$this->bed_knoten[$pos] = get_bedingung_by_id($bed_knoten, $this->ebene);
+			}
+		}
+	}
+	
+	private function teilbedingungen_nachladen(){
+		if(is_array($this->bed_teil)){
+			foreach($this->bed_teil as $pos => $bed_teil){
+				$this->bed_teil[$pos] = new BedingungTeil($bed_teil);
+			}
+		}
+	}
+	
+	private function zuordnungen_organisieren(){
+		if(is_array($this->zuordnung)){
+			foreach($this->zuordnung as $pos => $zuordnung){
+				$this->zuordnung[$pos] = new BedingungZuordnung($zuordnung);
+			}
+		}
+	}
+}
+
+
+class BedingungZuordnung {
+	public $id;
+	public $tabelle;
+	public $tabelle_id;
+	public $obj;
+	
+	public function __construct($datenstring){
+		global $debug, $connect_db_dvg;
+		if (isset($datenstring)){
+			$datenfeld = explode("#",$datenstring);
+			$this->id = $datenfeld[0];
+			$this->tabelle = $datenfeld[1];
+			$this->tabelle_id = $datenfeld[2];
+			$this->obj = null;
+		} else {
+			if($debug) echo "Keine Daten zum Erzeugen einer BedingungZuordnung übergeben<br/>";
+			return false;
+		}
+	}
+}
+	
+
 class BedingungKnoten {
 	public $id;
 	public $titel;

@@ -105,12 +105,12 @@
 						}
 						?>
 						</table>
-						<br>
+						<br/>
 						<?php
 						$anz_ok = insert_bilder($neue_dateien);
-						echo $anz_ok."/".$anz_gesamt." Bildern erfolgreich eingefügt<br>";
-						if($anz_ok < $anz_gesamt) echo "Bitte prüfen!<br>";
-						echo "<br>";
+						echo $anz_ok."/".$anz_gesamt." Bildern erfolgreich eingefügt<br/>";
+						if($anz_ok < $anz_gesamt) echo "Bitte prüfen!<br/>";
+						echo "<br/>";
 						zurueckButton();
 						break;
 					
@@ -126,7 +126,7 @@
 						if(isset($_POST['filter_typ'])) $typ = $_POST['filter_typ'];
 						?>
 						<h2>NPCs</h2>
-						<br>
+						<br/>
 						<?php
 						if($npc = suche_npcs("%".$titel."%", "%".$familie."%", "%".$beschreibung."%", "%".$typ."%"))
 						{
@@ -177,9 +177,9 @@
 							?>
 							</table>
 							<?php
-							echo "<br>Das dürfte(n) ".$anz_gesamt." NPC(s) sein.<br>";
+							echo "<br/>Das dürfte(n) ".$anz_gesamt." NPC(s) sein.<br/>";
 						} else {
-							echo "<br>Kein NPC gefunden.<br>";
+							echo "<br/>Kein NPC gefunden.<br/>";
 						}
 						zurueckButton();
 						break;
@@ -211,7 +211,7 @@
 									<?php eingabemaskeNPC($npc, $npc_id); ?>
 								</td>
 								<td valign="top" style="padding-top:50px;">
-									<img src="<?php echo get_bild_zu_id($npc[1]) ?>" width="75px" alt=""/><br>
+									<img src="<?php echo get_bild_zu_id($npc[1]) ?>" width="75px" alt=""/><br/>
 								</td>
 								<td valign="top">
 									<?php eingabemaskeNPCgebiete($npc_gebiete, $npc_id); ?>
@@ -224,7 +224,7 @@
 						<?php
 						updateButton("NPCaendern",$npc_id);
 						zurueckButton("NPCsSuchen");
-						echo "<br><br>";
+						echo "<br/><br/>";
 						break;
 					
 					/* Ausführung von Änderungen am NPC */
@@ -244,7 +244,7 @@
 							else
 								echo "Fehler beim Hinzufügen des NPCs";
 						}
-						echo "<br><br>";
+						echo "<br/><br/>";
 						
 						#Update NPC_Gebiet-Daten
 						$npc_gebiet_daten = daten_aus_post("npc_gebiete");
@@ -257,7 +257,7 @@
 							}
 						}
 						echo "Alle Vorkommen des NPC in Gebieten wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
-						echo "<br><br>";
+						echo "<br/><br/>";
 						
 						#Update NPC_Item-Daten
 						$npc_item_daten = daten_aus_post("npc_items");
@@ -270,7 +270,7 @@
 							}
 						}
 						echo "Alle Vorkommen von Items beim NPC wurden aktualisiert [alt: ".$anz_delete."] [neu: ".$anz_insert."]";
-						echo "<br><br>";
+						echo "<br/><br/>";
 						
 						zurueckButton("NPCsSuchen");
 						break;
@@ -293,7 +293,7 @@
 						if(isset($_POST['filter_verarbeitbar'])) $verarbeitbar = $_POST['filter_verarbeitbar'];
 						?>
 						<h2>Items</h2>
-						<br>
+						<br/>
 						<?php
 						if($items = suche_items("%".$titel."%", "%".$beschreibung."%", "%".$slot."%", "%".$essbar."%", "%".$ausruestbar."%", "%".$verarbeitbar."%"))
 						{
@@ -342,9 +342,9 @@
 							?>
 							</table>
 							<?php
-							echo "<br>Das dürfte(n) ".$anz_gesamt." Item(s) sein.<br>";
+							echo "<br/>Das dürfte(n) ".$anz_gesamt." Item(s) sein.<br/>";
 						} else {
-							echo "<br>Kein Item gefunden.<br>";
+							echo "<br/>Kein Item gefunden.<br/>";
 						}
 						zurueckButton();
 						break;
@@ -366,14 +366,14 @@
 									<?php eingabemaskeItem($item); ?>
 								</td>
 								<td valign="top" style="padding-top:50px;">
-									<img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/><br>
+									<img src="<?php echo get_bild_zu_id($item->bilder_id) ?>" width="75px" alt=""/><br/>
 								</td>
 							</tr>
 						</table>
 						<?php
 						updateButton("ItemAendern",$item_id);
 						zurueckButton("ItemsSuchen");
-						echo "<br><br>";
+						echo "<br/><br/>";
 						break;
 						
 					/* Ausführung von Änderungen am Item */
@@ -392,10 +392,76 @@
 							else
 								echo "Fehler beim Hinzufügen des Items";
 						}
-						echo "<br><br>";
+						echo "<br/><br/>";
 						zurueckButton("ItemsSuchen");
 						break;
 					
+					# Bedingungen ändern
+					case "BedingungenSuchen":
+						$titel = "";
+						$beschreibung = "";
+						$zuordnung = "";
+						$teilknoten = "";
+						if(isset($_POST['filter_titel'])) $titel = $_POST['filter_titel'];
+						if(isset($_POST['filter_beschreibung'])) $beschreibung = $_POST['filter_beschreibung'];
+						if(isset($_POST['filter_zuordnung'])) $zuordnung = $_POST['filter_zuordnung'];
+						if(isset($_POST['filter_teilknoten'])) $teilknoten = $_POST['filter_teilknoten'];
+						?>
+						<h2>Bedingungen</h2>
+						<br/>
+						<?php
+						if($bedingungen = suche_bedingungen("%".$titel."%", "%".$beschreibung."%", "%".$zuordnung."%", $teilknoten))
+						{
+							?>
+							<table border="1px" border-color="white">
+								<tr align="left" style="margin:5px;">
+									<th>Aktionen</th>
+									<th>Id</th>
+									<th>Titel</th>
+									<th>Beschreibung</th>
+									<th>Zuordnung</th>
+									<th>Ist Teilknoten</th>
+								</tr>
+								<tr align="left" style="margin:5px;">
+									<td><input type="button" name="button_BedingungBearbeiten" value="hinzufügen" onclick="set_button_submit('BedingungBearbeiten',0);"></td>
+									<td></td>
+									<td><input type="input" name="filter_titel" value="<?php echo $titel ?>" autofocus onFocus="set_button('BedingungenSuchen','titel');"></td>
+									<td><input type="input" name="filter_beschreibung" value="<?php echo $beschreibung ?>" onFocus="set_button('BedingungenSuchen','beschreibung');"></td>
+									<td><input type="input" name="filter_zuordnung" value="<?php echo $zuordnung ?>" onFocus="set_button('BedingungenSuchen','zuordnung');"></td>
+									<td><input type="input" name="filter_teilknoten" value="<?php echo $teilknoten ?>" onFocus="set_button('BedingungenSuchen','teilknoten');"></td>
+								</tr>   
+							<?php
+							$anz_gesamt = 0;
+							foreach ($bedingungen as $bedingung){
+								$anz_gesamt = $anz_gesamt + 1;
+								?>
+								<tr>
+									<td><input type="button" name="button_BedingungBearbeiten" value="bearbeiten" onclick="set_button_submit('BedingungBearbeiten',<?php echo $bedingung->id; ?>);"></td>
+									<td align="left"><?php echo $bedingung->id ?></td>
+									<td align="left"><?php echo $bedingung->titel ?></td>
+									<td align="left" style="max-width:500px;"><?php echo $bedingung->beschreibung ?></td>
+									<td align="left"><?php
+										if(is_array($bedingung->zuordnung)){
+											foreach($bedingung->zuordnung as $zuordnung){
+												echo $zuordnung->tabelle."(".$zuordnung->tabelle_id.")<br/>";
+											}
+										}?>
+									</td>
+									<td align="left"><?php if($bedingung->elternknoten_id == null) echo "nein"; else echo "ja"; ?></td>
+								</tr>
+								<?php
+							}
+							?>
+							</table>
+							<?php
+							echo "<br/>Das dürfte(n) ".$anz_gesamt." Bedingung(en) sein.<br/>";
+						} else {
+							echo "<br/>Keine Bedingung gefunden.<br/>";
+						}
+						zurueckButton();
+						break;
+					
+					/* Admin Menü */
 					case "AdminStart":
 						?>
 						<div id="Bilder">
@@ -409,6 +475,10 @@
 						<div id="Items" style="padding-top:20px;">
 							<h3>Items</h3>
 							<input type="button" name="button_ItemsSuchen" value="Hinzufügen/Ändern" onclick="set_button_submit('ItemsSuchen'); this.form.submit();">
+						</div>
+						<div id="Bedingungen" style="padding-top:20px;">
+							<h3>Bedingunen</h3>
+							<input type="button" name="button_BedingungenSuchen" value="Hinzufügen/Ändern" onclick="set_button_submit('BedingungenSuchen'); this.form.submit();">
 						</div>
 						<?php
 						break;
@@ -623,7 +693,7 @@
 				</td>
 			</tr>
 		</table>
-		<br>
+		<br/>
 		<?php
 	}
 	
@@ -681,7 +751,7 @@
 			?>
 			<tr>
 				<td colspan="2" align="left">
-					<br><input type="button" name="weiteresGebiet" value="Weiteres Gebiet hinzufügen" onclick="weiteresElement('npc_gebiet_neu')"><br>
+					<br/><input type="button" name="weiteresGebiet" value="Weiteres Gebiet hinzufügen" onclick="weiteresElement('npc_gebiet_neu')"><br/>
 				</td>
 			</tr>
 			<tr id="<?php echo 'npc_gebiet_neu_'.$count; ?>">
@@ -709,7 +779,7 @@
 				</td>
 			</tr>
 		</table>
-		<br>
+		<br/>
 		<?php
 	}
 	
@@ -775,7 +845,7 @@
 			?>
 			<tr>
 				<td colspan="4" align="left">
-					<br><input type="button" name="weiteresItem" value="Weiteres Item hinzufügen" onclick="weiteresElement('npc_item_neu')"><br>
+					<br/><input type="button" name="weiteresItem" value="Weiteres Item hinzufügen" onclick="weiteresElement('npc_item_neu')"><br/>
 				</td>
 			</tr>
 			<tr id="<?php echo 'npc_item_neu_'.$count; ?>">
@@ -809,7 +879,7 @@
 				</td>
 			</tr>
 		</table>
-		<br>
+		<br/>
 		<?php
 	}
 	
@@ -972,7 +1042,7 @@
 				</td>
 			</tr>
 		</table>
-		<br>
+		<br/>
 		<?php
 	}
 	

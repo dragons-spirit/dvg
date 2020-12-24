@@ -59,6 +59,93 @@ function get_spalten($tabellenname)
 
 
 #***************************************************************************************************************
+#************************************************* BEDINGUNGEN *************************************************
+#***************************************************************************************************************
+
+#----------------------------------- SELECT bedingungen (auswahl) -----------------------------------
+#	-> bedgingung_knoten.titel (str)
+#	-> bedgingung_knoten.beschreibung (str)
+#	-> bedingung_link.tabelle (str)
+#	-> bedgingung_knoten.id (str) (ja/nein)
+#	<- alle_bedingungen (array [Bedingung])
+
+function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT bknot.*,
+				group_concat(bteil.id),
+				group_concat(bknot2.id),
+				COUNT(bteil.id) + COUNT(bknot2.id),
+				GROUP_CONCAT(concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+			FROM bedingung_knoten bknot
+				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
+				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
+				LEFT JOIN bedingung_link blink ON blink.bedingung_knoten_id = bknot.id
+			GROUP BY bknot.id
+			HAVING ((bknot.titel IS NULL AND '' LIKE ?) OR bknot.titel LIKE ?)
+				AND ((bknot.beschreibung IS NULL AND '' LIKE ?) OR bknot.beschreibung LIKE ?)
+				AND ((zuordnung IS NULL AND '' LIKE ?) OR zuordnung LIKE ?)
+				AND ((bknot.bedingung_knoten_id IS NULL AND 'nein' = ?)
+					OR (bknot.bedingung_knoten_id IS NOT NULL AND 'ja' = ?)
+					OR ('' = ?))
+			ORDER BY bknot.titel;")){
+		$stmt->bind_param('sssssssss', $titel, $titel, $beschreibung, $beschreibung, $zuordnung, $zuordnung, $teilknoten, $teilknoten, $teilknoten);
+		$stmt->execute();
+		$counter = 0;
+		if ($bedingung_all = $stmt->get_result()){
+			while($bedingung_data = $bedingung_all->fetch_array(MYSQLI_NUM)){
+				$bedingung = new Bedingung($bedingung_data);
+				if($bedingung){
+					$alle_bedingungen[$counter] = $bedingung;
+					$counter = $counter + 1;
+				}
+			}
+		}
+		if ($debug) echo "<br />\Bedingungen geladen.<br />\n";
+		if (isset($alle_bedingungen[0])) return $alle_bedingungen;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in suche_bedingungen()<br />\n";
+		return false;
+	}
+}
+
+
+function get_bedingung_by_id($bedingung_id, $ebene=0){
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT bknot.*,
+				group_concat(bteil.id),
+				group_concat(bknot2.id),
+				COUNT(bteil.id) + COUNT(bknot2.id),
+				GROUP_CONCAT(concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+			FROM bedingung_knoten bknot
+				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
+				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
+				LEFT JOIN bedingung_link blink ON blink.bedingung_knoten_id = bknot.id
+			WHERE bknot.id = ?
+			GROUP BY bknot.id;")){
+		$stmt->bind_param('d', $bedingung_id);
+		$stmt->execute();
+		if ($bedingung_data = $stmt->get_result()->fetch_array(MYSQLI_NUM)){
+			$bedingung = new Bedingung($bedingung_data, $ebene);
+		}
+		if ($debug) echo "<br />\Bedingung geladen.<br />\n";
+		if (isset($bedingung)) return $bedingung;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_bedingung_by_id()<br />\n";
+		return false;
+	}
+}
+
+
+
+#***************************************************************************************************************
 #*************************************************** BILDER ****************************************************
 #***************************************************************************************************************
 
