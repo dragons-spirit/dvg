@@ -460,7 +460,23 @@
 						}
 						zurueckButton();
 						break;
-					
+						
+					# Bedingung anlegen/bearbeiten
+					case "BedingungBearbeiten":
+						$bedingung_id = $button_value;
+						?>
+						<!-- Standardaktion - Seite neu laden mit selber Item_Id -->
+						<?php
+						$bedingung = false;
+						if($bedingung_id > 0){
+							$bedingung = get_bedingung_by_id($bedingung_id);
+						}
+						eingabemaskeBedingung($bedingung);
+						updateButton("BedingungAendern",$bedingung_id);
+						zurueckButton("BedingungenSuchen");
+						echo "<br/><br/>";
+						break;
+						
 					/* Admin Menü */
 					case "AdminStart":
 						?>
@@ -531,7 +547,7 @@
 					if($bilder = get_bilder_titel("../Bilder/NPC/"))
 					{
 						?>
-						<select name="npc_bild">
+						<select class="select_200" name="npc_bild">
 						<?php
 						while($bild = $bilder->fetch_array(MYSQLI_NUM))
 						{
@@ -557,7 +573,7 @@
 					if($elemente = get_elemente_titel())
 					{
 						?>
-						<select name="npc_element">
+						<select class="select_200" name="npc_element">
 						<?php
 						while($element = $elemente->fetch_array(MYSQLI_NUM))
 						{
@@ -647,7 +663,7 @@
 					if($typen = get_npc_typen_titel())
 					{
 						?>
-						<select name="npc_typ">
+						<select class="select_200" name="npc_typ">
 						<?php
 						while($typ = $typen->fetch_array(MYSQLI_NUM))
 						{
@@ -673,7 +689,7 @@
 					if($ki_namen = get_ki_namen())
 					{
 						?>
-						<select name="npc_ki">
+						<select class="select_200" name="npc_ki">
 						<?php
 						while($ki = $ki_namen->fetch_array(MYSQLI_NUM))
 						{
@@ -722,7 +738,7 @@
 							if($gebiete = get_gebiete_titel())
 							{
 								?>
-								<select id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
+								<select class="select_200" id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 								<?php
 								while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 								{
@@ -760,7 +776,7 @@
 					if($gebiete = get_gebiete_titel())
 					{
 						?>
-						<select id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
+						<select class="select_200" id="<?php echo 'npc_gebiet_auswahl_'.$count; ?>" name="<?php echo 'npc_gebiet_auswahl_'.$count; ?>">
 						<?php
 						while($gebiet = $gebiete->fetch_array(MYSQLI_NUM))
 						{
@@ -810,14 +826,13 @@
 							if($items = get_items_titel())
 							{
 								?>
-								<select id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
+								<select class="select_200" id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
 								<?php
-								while($item = $items->fetch_array(MYSQLI_NUM))
-								{
-									if($npc_item[0] != $item[0]){
-										echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item[1]."</option>";
+								foreach($items as $item){
+									if($npc_item[0] != $item["id"]){
+										echo "<option value='".$item["id"]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item["text"]."</option>";
 									} else {
-										echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$item[1]."</option>";
+										echo "<option value='".$item["id"]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\" selected>".$item["text"]."</option>";
 									}
 								}
 								?>
@@ -854,11 +869,10 @@
 					if($items = get_items_titel())
 					{
 						?>
-						<select id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
+						<select class="select_200" id="<?php echo 'npc_item_auswahl_'.$count; ?>" name="<?php echo 'npc_item_auswahl_'.$count; ?>">
 						<?php
-						while($item = $items->fetch_array(MYSQLI_NUM))
-						{
-							echo "<option value='".$item[0]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item[1]."</option>";
+						foreach($items as $item){
+							echo "<option value='".$item["id"]."' onFocus=\"set_button('NPCaendern',".$npc_id.");\">".$item["text"]."</option>";
 						}
 						?>
 						</select> 
@@ -904,7 +918,7 @@
 					if($bilder = get_bilder_titel("../Bilder/NPC/"))
 					{
 						?>
-						<select name="item_bild">
+						<select class="select_200" name="item_bild">
 						<?php
 						while($bild = $bilder->fetch_array(MYSQLI_NUM))
 						{
@@ -938,7 +952,7 @@
 					if($slots = get_slots_titel())
 					{
 						?>
-						<select name="item_slot">
+						<select class="select_200" name="item_slot">
 						<?php
 						while($slot = $slots->fetch_array(MYSQLI_NUM))
 						{
@@ -960,7 +974,7 @@
 			<tr>
 				<td>Essbar</td>
 				<td>
-					<select name="item_essbar">
+					<select class="select_200" name="item_essbar">
 						<?php optionJaNein($item->id, $item->essbar); ?>
 					</select>
 				</td>
@@ -968,7 +982,7 @@
 			<tr>
 				<td>Ausrüstbar</td>
 				<td>
-					<select name="item_ausruestbar">
+					<select class="select_200" name="item_ausruestbar">
 						<?php optionJaNein($item->id, $item->ausruestbar); ?>
 					</select>
 				</td>
@@ -976,7 +990,7 @@
 			<tr>
 				<td>Verarbeitbar</td>
 				<td>
-					<select name="item_verarbeitbar">
+					<select class="select_200" name="item_verarbeitbar">
 						<?php optionJaNein($item->id, $item->verarbeitbar); ?>
 					</select>
 				</td>
@@ -1036,7 +1050,7 @@
 			<tr>
 				<td>In Prozent</td>
 				<td>
-					<select name="item_prozent">
+					<select class="select_200" name="item_prozent">
 						<?php optionJaNein($item->id, $item->prozent); ?>
 					</select>
 				</td>
@@ -1044,6 +1058,181 @@
 		</table>
 		<br/>
 		<?php
+	}
+	
+	
+	function eingabemaskeBedingung($bedingung){
+		if($bedingung) $wurzel_id = $bedingung->id;
+			else $wurzel_id = 0;
+		?>
+		<table>
+			<tr>
+				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
+			</tr>
+			<tr>
+				<td>Id</td>
+				<td><input id="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="wurzel_id" value="<?php if($bedingung) echo $bedingung->id; ?>" readonly></td>
+			</tr>
+			<tr>
+				<td>Titel</td>
+				<td><input id="allg_info_eingabe_text" type="input" name="bedingung_titel" value="<?php if($bedingung) echo $bedingung->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
+			</tr>
+			<tr>
+				<td>Beschreibung</td>
+				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="bedingung_beschreibung" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"><?php if($bedingung) echo $bedingung->beschreibung; ?></textarea></td>
+			</tr>
+			<tr>
+				<td>Zuordnungen</td>
+				<td><?php
+					if($bedingung and is_array($bedingung->zuordnung)){
+						foreach($bedingung->zuordnung as $zuordnung){
+							echo "[".$zuordnung->id."] - ".$zuordnung->tabelle." (id=".$zuordnung->tabelle_id.")<br/>";
+						}
+					}?>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="left" style="padding-top:30px;"><h2>Bedingungsbaum</h2></td>
+			</tr>
+		</table>
+		
+		<table border bordercolor=white style="border-collapse:collapse;">
+			<?php bedingungsbaum($bedingung, $wurzel_id);?>
+		</table>
+		<br/><br/>
+		<?php
+	}
+	
+	
+	function bedingungsbaum($bedingung, $wurzel_id){
+		?>
+		<tr>
+			<td class="td_bed_baum" id="<?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr; ?>" rowspan="0" align="center" style="<?php if($bedingung->operator == 'UND') echo 'background-color:#666666;'; else echo 'background-color:#444444;';?>">
+				<?php echo $bedingung->operator; ?>
+				<br/>
+				<text style="font-size:small">
+					<?php echo "Ebene ".$bedingung->ebene.'-'.$bedingung->elem_nr; ?>
+				</text>
+			</td>
+		</tr>
+		<?php
+		if(is_array($bedingung->bed_teil)){
+			foreach($bedingung->bed_teil as $bteil){
+				?><tr><td class="td_bed_baum">
+				<table>
+					<tr>
+						<td>Element</td>
+						<td><?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr.'_bed_teil_'.$bteil->ebene.'_'.$bteil->elem_nr; ?></td>
+					</tr>
+					<tr>
+						<td>Id</td>
+						<td><input id="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="bteil_id" value="<?php if($bteil) echo $bteil->id; ?>" readonly></td>
+					</tr>
+					<tr>
+						<td>Titel</td>
+						<td><input id="allg_info_eingabe_text" type="input" name="bteil_titel" value="<?php if($bteil) echo $bteil->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
+					</tr>
+					<tr>
+						<td>Betrifft</td>
+						<td>
+							<select class="select_200" name="bteil_betrifft">
+								<?php
+								if($bteil->betrifft == "Welt"){
+									echo "<option value=\"Spieler\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">Spieler</option>";
+									echo "<option value=\"Welt\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>Welt</option>";
+								} else {
+									echo "<option value=\"Spieler\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>Spieler</option>";
+									echo "<option value=\"Welt\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">Welt</option>";
+								}
+								?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Ziel</td>
+						<td>
+							<?php
+							if($kombis = get_kombis()){
+								?>
+								<select class="select_200" name="bteil_kombi">
+								<?php
+								foreach($kombis as $kombi){
+									if($bteil->kombi_id != $kombi["id"]){
+										echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">".$kombi["text"]."</option>";
+									} else {
+										echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>".$kombi["text"]."</option>";
+									}
+								}
+								?>
+								</select>
+							<?php
+							} else {
+								echo "Fehler beim Laden von Kombis.";
+							}
+							?>
+						</td>
+					</tr>
+					<tr>
+						<td>Ziel_Objekt</td>
+						<td>
+							<?php
+							# Listen für Auswahlfelder
+							$liste_npc = get_npcs_titel();
+							$liste_items = get_items_titel();
+							$eingabe_gesperrt = true;
+							if($bteil->ziel == "Items"){
+								auswahlliste_erzeugen($wurzel_id, $bteil, $liste_items, true);
+								$eingabe_gesperrt = false;
+								} else auswahlliste_erzeugen($wurzel_id, $bteil, $liste_items, false);
+							if($bteil->ziel == "NPC"){
+								auswahlliste_erzeugen($wurzel_id, $bteil, $liste_npc, true);
+								$eingabe_gesperrt = false;
+								} else auswahlliste_erzeugen($wurzel_id, $bteil, $liste_npc, false);
+							?>
+							<select class="select_200" name="bteil_ziel_id_" readonly style="<?php if($eingabe_gesperrt) echo 'display:block;'; else echo 'display:none;'; ?>">
+								<option value="0">0</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Wert</td>
+						<td>
+							<?php
+							if($operatoren = get_operatoren()){
+								?>
+								<select class="select_50" name="bteil_operator">
+								<?php
+								foreach($operatoren as $operator){
+									if($bteil->operator_id != $operator["id"]){
+										echo "<option value='".$operator["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">".$operator["text"]."</option>";
+									} else {
+										echo "<option value='".$operator["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>".$operator["text"]."</option>";
+									}
+								}
+								?>
+								</select><input id="allg_info_eingabe_links_150" type="input" name="bteil_wert" value="<?php if($bteil) echo $bteil->wert; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+							<?php
+							} else {
+								echo "Fehler beim Laden von Operatoren.";
+							}
+							?>
+						</td>
+					</tr>
+				</table>
+				</td></tr><?php
+			}
+		}
+		$anz_zeilen = count($bedingung->bed_teil)+1;
+		if(is_array($bedingung->bed_knoten)){
+			foreach($bedingung->bed_knoten as $bknot){
+				$neue_zeilen =	bedingungsbaum($bknot, $wurzel_id);
+				$anz_zeilen = $anz_zeilen + $neue_zeilen;
+			}
+		}
+		?>
+		<text class="bed_set_rowspan" id="<?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr.'__zeilen'; ?>" style="display:none"><?php echo $anz_zeilen; ?></text>
+		<?php
+		return $anz_zeilen;
 	}
 	
 	
@@ -1191,16 +1380,14 @@
 	}
 	
 	
-	function updateButton($topic, $id)
-	{
+	function updateButton($topic, $id){
 		?>
 		<input type="button" name="update" value="Hinzufügen/Ändern" style="float:left;" onclick="set_button_submit('<?php echo $topic ?>','<?php echo $id ?>');">
 		<?php
 	}
 	
 	
-	function optionJaNein($obj_id, $aktueller_wert)
-	{
+	function optionJaNein($obj_id, $aktueller_wert){
 		if($aktueller_wert == 0){
 			echo "<option value=0 onFocus=\"set_button('ItemAendern',".$obj_id.");\" selected>nein</option>";
 			echo "<option value=1 onFocus=\"set_button('ItemAendern',".$obj_id.");\">ja</option>";
@@ -1209,8 +1396,28 @@
 			echo "<option value=1 onFocus=\"set_button('ItemAendern',".$obj_id.");\" selected>ja</option>";
 		}
 	}
-?>
+	
+	function auswahlliste_erzeugen($obj_id, $bteil, $optionen, $aktiv){
+		?>
+		<select class="select_200" name="<?php echo 'bteil_ziel_id_'.$bteil->ziel; ?>" style="<?php if($aktiv) echo 'display:block;'; else echo 'display:none;'; ?>">
+			<?php
+			foreach($optionen as $option){
+				if($bteil->ziel_id != $option["id"]){
+					echo "<option value='".$option["id"]."' onFocus=\"set_button('BedingungAendern',".$obj_id.");\">".$option["text"]."</option>";
+				} else {
+					echo "<option value='".$option["id"]."' onFocus=\"set_button('BedingungAendern',".$obj_id.");\" selected>".$option["text"]."</option>";
+				}
+			}
+			?>
+		</select>
+		<?php
+	}
+	?>
+	
+	<script>
+		set_rowspan();
+	</script>
 
-<?php
+	<?php
 	close_connection($connect_db_dvg);
 ?>

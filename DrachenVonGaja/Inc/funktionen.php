@@ -1015,6 +1015,17 @@ function bedingung_knoten_pruefen($kn_id, $ebene, $nr=null){
 		document.getElementById("dvg_admin").submit();
 	}
 	
+	/* Setzt rowspan für Bedingunsbaum korrekt */
+	function set_rowspan() {
+		var elemente = document.getElementsByClassName("bed_set_rowspan");
+		var i, elem_id, neues_element;
+		for (i = 0; i < elemente.length; i++) {
+			elem_id = elemente[i].id.split("__")[0];
+			neues_element = document.getElementById(elem_id);
+			neues_element.setAttribute("rowspan", elemente[i].innerHTML);
+		}
+	}
+	
 	/* Setzt Werte zur Weitergabe an POST und lädt Seite (drachenvongaja) neu */
 	function zaubern(kt_id, kt_id_ziel, zauber_id){
 		document.getElementById("kt_id_value").value=kt_id;

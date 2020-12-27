@@ -2098,8 +2098,9 @@ class Bedingung {
 	public $elternknoten_id;
 	public $zuordnung;
 	public $ebene;
+	public $elem_nr;
 	
-	public function __construct($kn_data, $ebene=0){
+	public function __construct($kn_data, $ebene=0, $elem_nr=0){
 		global $debug, $connect_db_dvg;
 		if (isset($kn_data)){
 			$this->id = $kn_data[0];
@@ -2115,6 +2116,7 @@ class Bedingung {
 			if(isset($kn_data[8])) $this->zuordnung = explode(",",$kn_data[8]);
 				else $this->zuordnung = null;
 			$this->ebene = $ebene+1;
+			$this->elem_nr = $elem_nr+1;
 			$this->knoten_nachladen();
 			$this->teilbedingungen_nachladen();
 			$this->zuordnungen_organisieren();
@@ -2127,7 +2129,9 @@ class Bedingung {
 	private function knoten_nachladen(){
 		if(is_array($this->bed_knoten)){
 			foreach($this->bed_knoten as $pos => $bed_knoten){
-				$this->bed_knoten[$pos] = get_bedingung_by_id($bed_knoten, $this->ebene);
+				$bed_neu = get_bedingung_by_id($bed_knoten, $this->ebene);
+				$bed_neu->elem_nr = $pos+1;
+				$this->bed_knoten[$pos] = $bed_neu;
 			}
 		}
 	}
@@ -2135,7 +2139,10 @@ class Bedingung {
 	private function teilbedingungen_nachladen(){
 		if(is_array($this->bed_teil)){
 			foreach($this->bed_teil as $pos => $bed_teil){
-				$this->bed_teil[$pos] = new BedingungTeil($bed_teil);
+				$bteil = new BedingungTeil($bed_teil);
+				$bteil->ebene = $this->ebene;
+				$bteil->elem_nr = $pos+1;
+				$this->bed_teil[$pos] = $bteil;
 			}
 		}
 	}
@@ -2229,16 +2236,20 @@ class BedingungKnoten {
 
 
 class BedingungTeil {
-	private $id;
-	private $titel;
-	private $betrifft;
-	private $ziel;
-	private $ziel_id;
-	private $topic;
+	public $id;
+	public $titel;
+	public $betrifft;
+	public $kombi_id;
+	public $ziel;
+	public $ziel_id;
+	public $topic;
 	private $sql;
 	private $variablen;
-	private $operator;
-	private $wert;
+	public $operator_id;
+	public $operator;
+	public $wert;
+	public $ebene;
+	public $elem_nr;
 	
 	public function __construct($bed_teil_id){
 		global $debug, $connect_db_dvg;
@@ -2253,7 +2264,9 @@ class BedingungTeil {
 				bkombi.sql,
 				bkombi.variablen,
 				bop.symbol,
-				bteil.wert
+				bteil.wert,
+				bkombi.id,
+				bop.id
 			FROM bedingung_teil bteil
 				JOIN bedingung_kombi bkombi ON bkombi.id = bteil.bedingung_kombi_id
 				JOIN bedingung_operator bop ON bop.id = bteil.bedingung_operator_id
@@ -2272,6 +2285,10 @@ class BedingungTeil {
 				$this->variablen = $teilbed_data[7];
 				$this->operator = $teilbed_data[8];
 				$this->wert = $teilbed_data[9];
+				$this->kombi_id = $teilbed_data[10];
+				$this->operator_id = $teilbed_data[11];
+				$this->ebene = null;
+				$this->elem_nr = null;
 			} else {
 				if($debug) echo "<br />Keine Teilbedingung zu id=".$bed_teil_id." gefunden.";
 				return false;

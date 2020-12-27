@@ -67,7 +67,7 @@ function get_spalten($tabellenname)
 #	-> bedgingung_knoten.beschreibung (str)
 #	-> bedingung_link.tabelle (str)
 #	-> bedgingung_knoten.id (str) (ja/nein)
-#	<- alle_bedingungen (array [Bedingung])
+#	<- alle_bedingungen (array [Bedingung(obj)])
 
 function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 	global $debug;
@@ -75,10 +75,10 @@ function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT bknot.*,
-				group_concat(bteil.id),
-				group_concat(bknot2.id),
-				COUNT(bteil.id) + COUNT(bknot2.id),
-				GROUP_CONCAT(concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+				group_concat(distinct bteil.id),
+				group_concat(distinct bknot2.id),
+				COUNT(distinct bteil.id) + COUNT(distinct bknot2.id),
+				GROUP_CONCAT(distinct concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
 			FROM bedingung_knoten bknot
 				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
 				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
@@ -112,6 +112,9 @@ function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 	}
 }
 
+#----------------------------------- SELECT bedingung (einzel) -----------------------------------
+#	-> bedgingung_knoten.id (int)
+#	<- Bedingung (obj)
 
 function get_bedingung_by_id($bedingung_id, $ebene=0){
 	global $debug;
@@ -119,10 +122,10 @@ function get_bedingung_by_id($bedingung_id, $ebene=0){
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT bknot.*,
-				group_concat(bteil.id),
-				group_concat(bknot2.id),
-				COUNT(bteil.id) + COUNT(bknot2.id),
-				GROUP_CONCAT(concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+				group_concat(distinct bteil.id),
+				group_concat(distinct bknot2.id),
+				COUNT(distinct bteil.id) + COUNT(distinct bknot2.id),
+				GROUP_CONCAT(distinct concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
 			FROM bedingung_knoten bknot
 				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
 				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
@@ -143,6 +146,65 @@ function get_bedingung_by_id($bedingung_id, $ebene=0){
 	}
 }
 
+
+#----------------------------------------------- Kombinationen für Selects ----------------------------------------------
+#	Array mit Kobinationen für Selects
+#	<- ["id"] id
+#	<- ["text"] titel - topic
+
+function get_kombis(){
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT id, concat(titel, ' - ', topic) as kombi
+			FROM bedingung_kombi
+			ORDER BY kombi")){
+		$stmt->execute();
+		$count = 0;
+		if ($kombi_all = $stmt->get_result()){
+			while($kombi_data = $kombi_all->fetch_array(MYSQLI_NUM)){
+				$kombis[$count] = array("id"=>$kombi_data[0], "text"=>$kombi_data[1]);
+				$count = $count + 1;
+			}
+		}
+		if (isset($kombis[0])) return $kombis;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_kombis()<br />\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------------- Operatoren für Selects ----------------------------------------------
+#	Array mit Operatoren für Selects
+#	<- ["id"] id
+#	<- ["text"] symbol
+
+function get_operatoren(){
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT id, symbol
+			FROM bedingung_operator
+			ORDER BY id")){
+		$stmt->execute();
+		$count = 0;
+		if ($operator_all = $stmt->get_result()){
+			while($operator_data = $operator_all->fetch_array(MYSQLI_NUM)){
+				$operatoren[$count] = array("id"=>$operator_data[0], "text"=>$operator_data[1]);
+				$count = $count + 1;
+			}
+		}
+		if (isset($operatoren[0])) return $operatoren;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_operatoren()<br />\n";
+		return false;
+	}
+}
 
 
 #***************************************************************************************************************
@@ -380,8 +442,15 @@ function get_items_titel()
 			FROM 	items
 			ORDER BY titel")){
 		$stmt->execute();
-		$result = $stmt->get_result();
-		return $result;
+		$count = 0;
+		if ($items_all = $stmt->get_result()){
+			while($items_data = $items_all->fetch_array(MYSQLI_NUM)){
+				$items[$count] = array("id"=>$items_data[0], "text"=>$items_data[1]);
+				$count = $count + 1;
+			}
+		}
+		if (isset($items[0])) return $items;
+			else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_items_titel()<br />\n";
 		return false;
@@ -1362,6 +1431,36 @@ function insertNPCzauberStandard($npc_id, $zauber_id=77, $wkt=100)
 			return 0;
 	} else {
 		echo "<br>\nQuerryfehler in insertNPCzauberStandard()<br>\n";
+		return false;
+	}
+}
+
+
+#----------------------------------------------- NPC für Select ----------------------------------------------
+#	Array mit NPC für Selects
+#	<- ["id"] id
+#	<- ["text"] symbol
+
+function get_npcs_titel(){
+	global $debug;
+	global $connect_db_dvg;
+	
+	if ($stmt = $connect_db_dvg->prepare("
+			SELECT id, titel
+			FROM npc
+			ORDER BY titel")){
+		$stmt->execute();
+		$count = 0;
+		if ($npc_all = $stmt->get_result()){
+			while($npc_data = $npc_all->fetch_array(MYSQLI_NUM)){
+				$npcs[$count] = array("id"=>$npc_data[0], "text"=>$npc_data[1]);
+				$count = $count + 1;
+			}
+		}
+		if (isset($npcs[0])) return $npcs;
+			else return false;
+	} else {
+		echo "<br />\nQuerryfehler in get_npcs_titel()<br />\n";
 		return false;
 	}
 }

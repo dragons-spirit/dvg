@@ -43,6 +43,18 @@ input[type=input]
 	text-align:right;
 }
 
+#allg_info_eingabe_links
+{
+	min-width:200px;
+	text-align:left;
+}
+
+#allg_info_eingabe_links_150
+{
+	min-width:150px;
+	text-align:left;
+}
+
 #allg_info_eingabe_text
 {
 	min-width:200px;
@@ -55,10 +67,16 @@ input[type=input]
 	text-align:right;
 }
 
-select
+.select_200
 {
 	min-width:200px;
-} 
+}
+
+.select_50
+{
+	min-width:50px;
+	min-height:21px;
+}
 
 #rahmen
 {
@@ -100,4 +118,9 @@ select
     top:10px;
     right:10px;
 	z-index: 1;
+}
+
+.td_bed_baum
+{
+	width:300px;
 }
