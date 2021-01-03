@@ -2099,6 +2099,7 @@ class Bedingung {
 	public $zuordnung;
 	public $ebene;
 	public $elem_nr;
+	public $maske_id;
 	
 	public function __construct($kn_data, $ebene=0, $elem_nr=0){
 		global $debug, $connect_db_dvg;
@@ -2117,6 +2118,7 @@ class Bedingung {
 				else $this->zuordnung = null;
 			$this->ebene = $ebene+1;
 			$this->elem_nr = $elem_nr+1;
+			$this->maske_id = $this->ebene."_".$this->elem_nr;
 			$this->knoten_nachladen();
 			$this->teilbedingungen_nachladen();
 			$this->zuordnungen_organisieren();
@@ -2129,8 +2131,7 @@ class Bedingung {
 	private function knoten_nachladen(){
 		if(is_array($this->bed_knoten)){
 			foreach($this->bed_knoten as $pos => $bed_knoten){
-				$bed_neu = get_bedingung_by_id($bed_knoten, $this->ebene);
-				$bed_neu->elem_nr = $pos+1;
+				$bed_neu = get_bedingung_by_id($bed_knoten, $this->ebene, $pos);
 				$this->bed_knoten[$pos] = $bed_neu;
 			}
 		}
@@ -2140,8 +2141,7 @@ class Bedingung {
 		if(is_array($this->bed_teil)){
 			foreach($this->bed_teil as $pos => $bed_teil){
 				$bteil = new BedingungTeil($bed_teil);
-				$bteil->ebene = $this->ebene;
-				$bteil->elem_nr = $pos+1;
+				$bteil->set_maske_id($this->maske_id, $this->ebene, $pos+1);
 				$this->bed_teil[$pos] = $bteil;
 			}
 		}
@@ -2250,6 +2250,7 @@ class BedingungTeil {
 	public $wert;
 	public $ebene;
 	public $elem_nr;
+	public $maske_id;
 	
 	public function __construct($bed_teil_id){
 		global $debug, $connect_db_dvg;
@@ -2289,6 +2290,7 @@ class BedingungTeil {
 				$this->operator_id = $teilbed_data[11];
 				$this->ebene = null;
 				$this->elem_nr = null;
+				$this->maske_id = null;
 			} else {
 				if($debug) echo "<br />Keine Teilbedingung zu id=".$bed_teil_id." gefunden.";
 				return false;
@@ -2350,6 +2352,12 @@ class BedingungTeil {
 				else echo " --> FALSCH";
 		}
 		return $check;
+	}
+	
+	public function set_maske_id($knoten_maske_id, $ebene, $elem_nr){
+		$this->ebene = $ebene;
+		$this->elem_nr = $elem_nr;
+		$this->maske_id = $knoten_maske_id."-".$ebene."_".$elem_nr;
 	}
 }
 

@@ -33,49 +33,39 @@ input[type=button]
 input[type=input]
 {
     width:50px;
-	text-align:right;
-}
-
-
-#allg_info_eingabe
-{
-	min-width:200px;
-	text-align:right;
-}
-
-#allg_info_eingabe_links
-{
-	min-width:200px;
 	text-align:left;
 }
 
-#allg_info_eingabe_links_150
+
+.allg_info_eingabe
 {
-	min-width:150px;
-	text-align:left;
+	min-width: 200px;
 }
 
-#allg_info_eingabe_text
+.allg_info_eingabe_links
 {
-	min-width:200px;
-	text-align:left;
+	min-width: 200px;
 }
 
-#eingabe_wkt
+.allg_info_eingabe_links_150
 {
-	width:50px;
-	text-align:right;
+	min-width: 150px;
+}
+
+.allg_info_eingabe_text
+{
+	min-width: 200px;
 }
 
 .select_200
 {
-	min-width:200px;
+	min-width: 200px;
 }
 
 .select_50
 {
-	min-width:50px;
-	min-height:21px;
+	min-width: 50px;
+	min-height: 21px;
 }
 
 #rahmen

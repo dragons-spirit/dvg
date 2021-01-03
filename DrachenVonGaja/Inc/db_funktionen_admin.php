@@ -116,7 +116,7 @@ function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 #	-> bedgingung_knoten.id (int)
 #	<- Bedingung (obj)
 
-function get_bedingung_by_id($bedingung_id, $ebene=0){
+function get_bedingung_by_id($bedingung_id, $ebene=0, $elem_nr=0){
 	global $debug;
 	global $connect_db_dvg;
 	
@@ -135,7 +135,7 @@ function get_bedingung_by_id($bedingung_id, $ebene=0){
 		$stmt->bind_param('d', $bedingung_id);
 		$stmt->execute();
 		if ($bedingung_data = $stmt->get_result()->fetch_array(MYSQLI_NUM)){
-			$bedingung = new Bedingung($bedingung_data, $ebene);
+			$bedingung = new Bedingung($bedingung_data, $ebene, $elem_nr);
 		}
 		if ($debug) echo "<br />\Bedingung geladen.<br />\n";
 		if (isset($bedingung)) return $bedingung;

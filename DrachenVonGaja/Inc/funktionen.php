@@ -1026,6 +1026,39 @@ function bedingung_knoten_pruefen($kn_id, $ebene, $nr=null){
 		}
 	}
 	
+	/* Auswahlliste für Bedinugng wechseln */
+	function auswahlliste_wechseln(grund_id, option) {
+		var topic = option.innerHTML.split(' - ', 1)[0];
+		select_items = document.getElementById("bteil_ziel_id-" + grund_id + "-items");
+		select_npc = document.getElementById("bteil_ziel_id-" + grund_id + "-npc");
+		select_ohne = document.getElementById("bteil_ziel_id-" + grund_id + "-ohne");
+		switch(topic){
+			case "Items":
+				select_items.style.display="block";
+				select_items.name="bteil_ziel_id-" + grund_id;
+				select_npc.style.display="none";
+				select_npc.name="bteil_ziel_id-" + grund_id + "-npc";
+				select_ohne.style.display="none";
+				select_ohne.name="bteil_ziel_id-" + grund_id + "-ohne";
+				break;
+			case "NPC":
+				select_items.style.display="none";
+				select_items.name="bteil_ziel_id-" + grund_id + "-items";
+				select_npc.style.display="block";
+				select_npc.name="bteil_ziel_id-" + grund_id;
+				select_ohne.style.display="none";
+				select_ohne.name="bteil_ziel_id-" + grund_id + "-ohne";
+				break;
+			default:
+				select_items.style.display="none";
+				select_items.name="bteil_ziel_id-" + grund_id + "-items";
+				select_npc.style.display="none";
+				select_npc.name="bteil_ziel_id-" + grund_id + "-npc";
+				select_ohne.style.display="block";
+				select_ohne.name="bteil_ziel_id-" + grund_id;
+		}
+	}
+	
 	/* Setzt Werte zur Weitergabe an POST und lädt Seite (drachenvongaja) neu */
 	function zaubern(kt_id, kt_id_ziel, zauber_id){
 		document.getElementById("kt_id_value").value=kt_id;

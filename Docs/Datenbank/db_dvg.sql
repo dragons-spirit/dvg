@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `aktion` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Aktionen die ausgeführt werden können';
 
--- Exportiere Daten aus Tabelle db_dvg.aktion: ~11 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.aktion: ~13 rows (ungefähr)
 DELETE FROM `aktion`;
 /*!40000 ALTER TABLE `aktion` DISABLE KEYS */;
 INSERT INTO `aktion` (`id`, `titel`, `text`, `beschreibung`, `art`, `dauer`, `statusbild`, `energiebedarf`, `faktor_1`, `faktor_2`) VALUES
@@ -3296,14 +3296,16 @@ CREATE TABLE IF NOT EXISTS `bedingung_knoten` (
   PRIMARY KEY (`id`),
   KEY `bedingung_knoten_id` (`bedingung_knoten_id`),
   CONSTRAINT `FK_bedingung_knoten_bedingung_knoten` FOREIGN KEY (`bedingung_knoten_id`) REFERENCES `bedingung_knoten` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Wurzel oder Knotenelement einer Bedingung. Bestimmt die Verknüpung zwischen verschiedenen Knotenelmenten bzw. Teilbedingungen';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Wurzel oder Knotenelement einer Bedingung. Bestimmt die Verknüpung zwischen verschiedenen Knotenelmenten bzw. Teilbedingungen';
 
--- Exportiere Daten aus Tabelle db_dvg.bedingung_knoten: ~2 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_knoten: ~4 rows (ungefähr)
 DELETE FROM `bedingung_knoten`;
 /*!40000 ALTER TABLE `bedingung_knoten` DISABLE KEYS */;
 INSERT INTO `bedingung_knoten` (`id`, `titel`, `beschreibung`, `bedingung_knoten_id`, `operator`) VALUES
 	(1, 'Meine erste Bedingung 1', 'Dazu fällt mir leider nichts ein.', NULL, 'UND'),
-	(2, 'Meine erste Bedingung 1.1', NULL, 1, 'ODER');
+	(2, 'Meine erste Bedingung 1.1', NULL, 1, 'ODER'),
+	(3, 'Meine erste Bedingung 1.2', NULL, 1, 'ODER'),
+	(4, 'Meine erste Bedingung 1.1.1', NULL, 2, 'UND');
 /*!40000 ALTER TABLE `bedingung_knoten` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bedingung_kombi
@@ -3315,7 +3317,7 @@ CREATE TABLE IF NOT EXISTS `bedingung_kombi` (
   `sql` text COLLATE utf8_unicode_ci NOT NULL COMMENT '? wird Parameter und # wird Operator',
   `variablen` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Ersetzungsparameter ? abstrakt',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Mögliche Kombinationen die geprüft werden können';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Mögliche Kombinationen die geprüft werden können.\r\nBei neuen Kombinationen muss im Adminbereich eine Erweiterung vorgenommen werden:\r\n* Die neue Auswahlliste muss geladen werden (admin.php Zeile 60-70)\r\n* Die Liste muss bei der Zielauswahl ergänzt werden (admin.php ab Zeile 1200)\r\n* Die Funktion zum Wechseln der Liste muss erweitert werden (funktionen.php auswahlliste_wechseln())';
 
 -- Exportiere Daten aus Tabelle db_dvg.bedingung_kombi: ~3 rows (ungefähr)
 DELETE FROM `bedingung_kombi`;
@@ -3384,15 +3386,20 @@ CREATE TABLE IF NOT EXISTS `bedingung_teil` (
   CONSTRAINT `FK_bedingung_teil_bedingung_knoten` FOREIGN KEY (`bedingung_knoten_id`) REFERENCES `bedingung_knoten` (`id`),
   CONSTRAINT `FK_bedingung_teil_bedingung_kombi` FOREIGN KEY (`bedingung_kombi_id`) REFERENCES `bedingung_kombi` (`id`),
   CONSTRAINT `FK_bedingung_teil_bedingung_operator` FOREIGN KEY (`bedingung_operator_id`) REFERENCES `bedingung_operator` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Teilbedingungen';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Teilbedingungen';
 
--- Exportiere Daten aus Tabelle db_dvg.bedingung_teil: ~3 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.bedingung_teil: ~8 rows (ungefähr)
 DELETE FROM `bedingung_teil`;
 /*!40000 ALTER TABLE `bedingung_teil` DISABLE KEYS */;
 INSERT INTO `bedingung_teil` (`id`, `titel`, `bedingung_knoten_id`, `betrifft`, `bedingung_kombi_id`, `ziel_id`, `bedingung_operator_id`, `wert`) VALUES
 	(1, 'Spielerlevel > 1', 1, 'Spieler', 1, 0, 3, 1),
 	(3, 'Anzahl Ratten getötet >= 10', 2, 'Spieler', 3, 2, 5, 10),
-	(4, 'Anzahl Äpfel im Inventar < 5', 2, 'Spieler', 2, 1, 4, 5);
+	(4, 'Anzahl Äpfel im Inventar < 5', 2, 'Spieler', 2, 1, 4, 5),
+	(6, 'Anzahl Zayinenkrieger < 1', 3, 'Spieler', 3, 3, 4, 1),
+	(7, 'Anzahl Wymar < 1', 3, 'Spieler', 3, 1, 4, 1),
+	(9, 'Spielerlevel >= 2', 4, 'Spieler', 1, 0, 5, 2),
+	(10, 'Spielerlevel <= 10', 4, 'Spieler', 1, 0, 6, 10),
+	(11, 'Spielerlevel <> 5', 4, 'Spieler', 1, 0, 2, 5);
 /*!40000 ALTER TABLE `bedingung_teil` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.bilder
@@ -21013,9 +21020,9 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `rolle_id` (`rolle_id`),
   CONSTRAINT `FK_session_account` FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_session_rolle` FOREIGN KEY (`rolle_id`) REFERENCES `rolle` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT COMMENT='Logindaten für Nutzer';
 
--- Exportiere Daten aus Tabelle db_dvg.session: ~164 rows (ungefähr)
+-- Exportiere Daten aus Tabelle db_dvg.session: ~165 rows (ungefähr)
 DELETE FROM `session`;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
 INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_bis`, `aktiv`, `ip`) VALUES
@@ -21183,7 +21190,16 @@ INSERT INTO `session` (`id`, `account_id`, `rolle_id`, `gueltig_von`, `gueltig_b
 	(185, 11, 1, '2020-12-12 18:42:43', '2020-12-12 20:04:32', 0, '192.168.22.49'),
 	(186, 10, 1, '2020-12-12 18:59:42', '2020-12-12 19:59:42', 0, '192.168.22.50'),
 	(187, 10, 1, '2020-12-12 18:59:57', '2020-12-12 19:25:07', 0, '192.168.22.50'),
-	(188, 11, 1, '2020-12-13 17:40:23', '2020-12-13 18:13:10', 0, '192.168.22.49');
+	(188, 11, 1, '2020-12-13 17:40:23', '2020-12-13 18:13:10', 0, '192.168.22.49'),
+	(189, 11, 1, '2020-12-24 17:12:04', '2020-12-24 18:01:52', 0, '192.168.22.49'),
+	(190, 11, 1, '2020-12-25 19:07:15', '2020-12-25 20:00:24', 0, '192.168.22.49'),
+	(191, 11, 1, '2020-12-25 19:48:15', '2020-12-27 19:28:28', 0, '192.168.22.49'),
+	(192, 11, 1, '2020-12-25 19:49:15', '2020-12-25 20:49:15', 1, '192.168.22.49'),
+	(193, 11, 1, '2020-12-25 19:50:15', '2020-12-25 20:50:15', 1, '192.168.22.49'),
+	(194, 11, 1, '2020-12-27 13:53:22', '2020-12-27 14:53:22', 1, '192.168.22.49'),
+	(195, 11, 1, '2021-01-03 10:09:26', '2021-01-03 11:09:26', 1, '192.168.22.49'),
+	(196, 11, 1, '2021-01-03 16:34:43', '2021-01-03 17:34:43', 1, '192.168.22.49'),
+	(197, 11, 1, '2021-01-03 16:52:41', '2021-01-03 17:52:41', 1, '192.168.22.49');
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 
 -- Exportiere Struktur von Tabelle db_dvg.slots

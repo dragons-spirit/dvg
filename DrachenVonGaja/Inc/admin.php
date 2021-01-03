@@ -18,7 +18,6 @@
 		<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
 	
 		<link rel="stylesheet" type="text/css" href="../index_admin.css">
-		<script src="../index.js" type="text/javascript"></script>
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja - Administration</title>
 		<?php
@@ -59,6 +58,12 @@
 			</script>
 			<?php
 		} else {
+			# Auswahllisten laden
+			if($liste_items = get_items_titel()){} else echo "Fehler beim Laden einer Auswahlliste (Items)";
+			if($liste_npc = get_npcs_titel()){} else echo "Fehler beim Laden einer Auswahlliste (NPC)";;
+			if($liste_kombis = get_kombis()){} else echo "Fehler beim Laden einer Auswahlliste (Kombis)";;
+			$liste_leer = array(0=>array("id"=>0, "text"=>0));
+			
 	### Hier beginnt der eigentliche Seitenaufbau ###
 			?>
 			<input type="submit" style="visibility: hidden;">
@@ -538,7 +543,7 @@
 			</tr>
 			<tr>
 				<td>Id</td>
-				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="npc_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
+				<td><input class="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="npc_id" value="<?php if($row) echo $row[0]; ?>" readonly></td>
 			</tr>
 			<tr>
 				<td>Bild</td>
@@ -594,67 +599,67 @@
 			</tr>
 			<tr>
 				<td>Titel</td>
-				<td><input id="allg_info_eingabe_text" type="input" name="npc_titel" value="<?php if($row) echo $row[3]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe_text" type="input" name="npc_titel" value="<?php if($row) echo $row[3]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Familie</td>
-				<td><input id="allg_info_eingabe_text" type="input" name="npc_familie" value="<?php if($row) echo $row[4]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe_text" type="input" name="npc_familie" value="<?php if($row) echo $row[4]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Stärke</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_staerke" value="<?php if($row) echo $row[5]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_staerke" value="<?php if($row) echo $row[5]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Intelligenz</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_intelligenz" value="<?php if($row) echo $row[6]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_intelligenz" value="<?php if($row) echo $row[6]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Magie</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_magie" value="<?php if($row) echo $row[7]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_magie" value="<?php if($row) echo $row[7]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Feuer</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_feuer" value="<?php if($row) echo $row[8]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_feuer" value="<?php if($row) echo $row[8]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Wasser</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_wasser" value="<?php if($row) echo $row[9]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_wasser" value="<?php if($row) echo $row[9]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Erde</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_erde" value="<?php if($row) echo $row[10]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_erde" value="<?php if($row) echo $row[10]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Luft</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_luft" value="<?php if($row) echo $row[11]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_luft" value="<?php if($row) echo $row[11]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Gesundheit</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_gesundheit" value="<?php if($row) echo $row[12]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_gesundheit" value="<?php if($row) echo $row[12]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Energie</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_energie" value="<?php if($row) echo $row[13]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_energie" value="<?php if($row) echo $row[13]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Zauberpunkte</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_zauberpunkte" value="<?php if($row) echo $row[14]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_zauberpunkte" value="<?php if($row) echo $row[14]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Initiative</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_initiative" value="<?php if($row) echo $row[15]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_initiative" value="<?php if($row) echo $row[15]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Abwehr in %</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_abwehr" value="<?php if($row) echo $row[16]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_abwehr" value="<?php if($row) echo $row[16]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Ausweichen in %</td>
-				<td><input id="allg_info_eingabe" type="input" name="npc_ausweichen" value="<?php if($row) echo $row[17]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="npc_ausweichen" value="<?php if($row) echo $row[17]; ?>" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[18]; ?></textarea></td>
+				<td><textarea class="allg_info_eingabe_text" style="height:150px; width:200px;" name="npc_beschreibung" onFocus="set_button('NPCaendern',<?php echo $npc_id; ?>);"><?php if($row) echo $row[18]; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>Typ</td>
@@ -909,7 +914,7 @@
 			</tr>
 			<tr>
 				<td>Id</td>
-				<td><input id="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="item_id" value="<?php if($item) echo $item->id; ?>" readonly></td>
+				<td><input class="allg_info_eingabe" type="input" style="background-color:lightgrey;" name="item_id" value="<?php if($item) echo $item->id; ?>" readonly></td>
 			</tr>
 			<tr>
 				<td>Bild</td>
@@ -939,11 +944,11 @@
 			</tr>
 			<tr>
 				<td>Titel</td>
-				<td><input id="allg_info_eingabe_text" type="input" name="item_titel" value="<?php if($item) echo $item->name; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe_text" type="input" name="item_titel" value="<?php if($item) echo $item->name; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="item_beschreibung" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"><?php if($item) echo $item->beschreibung; ?></textarea></td>
+				<td><textarea class="allg_info_eingabe_text" style="height:150px; width:200px;" name="item_beschreibung" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"><?php if($item) echo $item->beschreibung; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>Slot</td>
@@ -997,55 +1002,55 @@
 			</tr>
 			<tr>
 				<td>Gesundheit</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_gesundheit" value="<?php if($item) echo $item->gesundheit; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_gesundheit" value="<?php if($item) echo $item->gesundheit; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Energie</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_energie" value="<?php if($item) echo $item->energie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_energie" value="<?php if($item) echo $item->energie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Zauberpunkte</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_zauberpunkte" value="<?php if($item) echo $item->zauberpunkte; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_zauberpunkte" value="<?php if($item) echo $item->zauberpunkte; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Stärke</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_staerke" value="<?php if($item) echo $item->staerke; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_staerke" value="<?php if($item) echo $item->staerke; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Intelligenz</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_intelligenz" value="<?php if($item) echo $item->intelligenz; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_intelligenz" value="<?php if($item) echo $item->intelligenz; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Magie</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_magie" value="<?php if($item) echo $item->magie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_magie" value="<?php if($item) echo $item->magie; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Element Feuer</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_element_feuer" value="<?php if($item) echo $item->element_feuer; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_element_feuer" value="<?php if($item) echo $item->element_feuer; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Element Wasser</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_element_wasser" value="<?php if($item) echo $item->element_wasser; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_element_wasser" value="<?php if($item) echo $item->element_wasser; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Element Erde</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_element_erde" value="<?php if($item) echo $item->element_erde; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_element_erde" value="<?php if($item) echo $item->element_erde; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Element Luft</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_element_luft" value="<?php if($item) echo $item->element_luft; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_element_luft" value="<?php if($item) echo $item->element_luft; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Initiative</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_initiative" value="<?php if($item) echo $item->initiative; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_initiative" value="<?php if($item) echo $item->initiative; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Abwehr</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_abwehr" value="<?php if($item) echo $item->abwehr; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_abwehr" value="<?php if($item) echo $item->abwehr; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Ausweichen</td>
-				<td><input id="allg_info_eingabe" type="input" name="item_ausweichen" value="<?php if($item) echo $item->ausweichen; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
+				<td><input class="allg_info_eingabe" type="input" name="item_ausweichen" value="<?php if($item) echo $item->ausweichen; ?>" onFocus="set_button('ItemAendern',<?php echo $item_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>In Prozent</td>
@@ -1071,15 +1076,15 @@
 			</tr>
 			<tr>
 				<td>Id</td>
-				<td><input id="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="wurzel_id" value="<?php if($bedingung) echo $bedingung->id; ?>" readonly></td>
+				<td><input class="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="wurzel_id" value="<?php if($bedingung) echo $bedingung->id; ?>" readonly></td>
 			</tr>
 			<tr>
 				<td>Titel</td>
-				<td><input id="allg_info_eingabe_text" type="input" name="bedingung_titel" value="<?php if($bedingung) echo $bedingung->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
+				<td><input class="allg_info_eingabe_text" type="input" name="bedingung_titel" value="<?php if($bedingung) echo $bedingung->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
 			</tr>
 			<tr>
 				<td>Beschreibung</td>
-				<td><textarea id="allg_info_eingabe_text" style="height:150px; width:200px;" name="bedingung_beschreibung" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"><?php if($bedingung) echo $bedingung->beschreibung; ?></textarea></td>
+				<td><textarea class="allg_info_eingabe_text" style="height:150px; width:200px;" name="bedingung_beschreibung" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"><?php if($bedingung) echo $bedingung->beschreibung; ?></textarea></td>
 			</tr>
 			<tr>
 				<td>Zuordnungen</td>
@@ -1105,37 +1110,53 @@
 	
 	
 	function bedingungsbaum($bedingung, $wurzel_id){
+		global $liste_kombis, $liste_items, $liste_npc, $liste_leer;
+		# Kopfdaten des Knotens
 		?>
 		<tr>
-			<td class="td_bed_baum" id="<?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr; ?>" rowspan="0" align="center" style="<?php if($bedingung->operator == 'UND') echo 'background-color:#666666;'; else echo 'background-color:#444444;';?>">
+			<td class="td_bed_baum" id="<?php echo $bedingung->maske_id; ?>" rowspan="0" align="center" style="<?php if($bedingung->operator == 'UND') echo 'background-color:#666666;'; else echo 'background-color:#444444;';?>">
 				<?php echo $bedingung->operator; ?>
 				<br/>
 				<text style="font-size:small">
-					<?php echo "Ebene ".$bedingung->ebene.'-'.$bedingung->elem_nr; ?>
+					<?php echo "Ebene ".$bedingung->maske_id; ?>
 				</text>
 			</td>
 		</tr>
 		<?php
+		# Teilbedingungen des Knotens
 		if(is_array($bedingung->bed_teil)){
 			foreach($bedingung->bed_teil as $bteil){
 				?><tr><td class="td_bed_baum">
 				<table>
 					<tr>
 						<td>Element</td>
-						<td><?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr.'_bed_teil_'.$bteil->ebene.'_'.$bteil->elem_nr; ?></td>
+						<td><?php echo $bteil->maske_id; ?></td>
 					</tr>
 					<tr>
 						<td>Id</td>
-						<td><input id="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="bteil_id" value="<?php if($bteil) echo $bteil->id; ?>" readonly></td>
+						<td>
+							<input class="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" readonly
+								id="<?php echo 'bteil_id-'.$bteil->maske_id; ?>"
+								name="<?php echo 'bteil_id-'.$bteil->maske_id; ?>" 
+								value="<?php if($bteil) echo $bteil->id; ?>">
+						</td>
 					</tr>
 					<tr>
 						<td>Titel</td>
-						<td><input id="allg_info_eingabe_text" type="input" name="bteil_titel" value="<?php if($bteil) echo $bteil->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
+						<td>
+							<input class="allg_info_eingabe_text" type="input"
+								id="<?php echo 'bteil_titel-'.$bteil->maske_id; ?>"
+								name="<?php echo 'bteil_titel-'.$bteil->maske_id; ?>" 
+								value="<?php if($bteil) echo $bteil->titel; ?>"
+								onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+						</td>
 					</tr>
 					<tr>
 						<td>Betrifft</td>
 						<td>
-							<select class="select_200" name="bteil_betrifft">
+							<select class="select_200"
+								id="<?php echo 'bteil_betrifft-'.$bteil->maske_id; ?>"
+								name="<?php echo 'bteil_betrifft-'.$bteil->maske_id; ?>">
 								<?php
 								if($bteil->betrifft == "Welt"){
 									echo "<option value=\"Spieler\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">Spieler</option>";
@@ -1152,18 +1173,21 @@
 						<td>Ziel</td>
 						<td>
 							<?php
-							if($kombis = get_kombis()){
+							if($liste_kombis){
 								?>
-								<select class="select_200" name="bteil_kombi">
-								<?php
-								foreach($kombis as $kombi){
-									if($bteil->kombi_id != $kombi["id"]){
-										echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">".$kombi["text"]."</option>";
-									} else {
-										echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>".$kombi["text"]."</option>";
+								<select class="select_200"
+									id="<?php echo 'bteil_kombi-'.$bteil->maske_id; ?>"
+									name="<?php echo 'bteil_kombi-'.$bteil->maske_id; ?>"
+									onchange="auswahlliste_wechseln('<?php echo $bteil->maske_id; ?>', this.options[this.selectedIndex])">
+									<?php
+									foreach($liste_kombis as $kombi){
+										if($bteil->kombi_id != $kombi["id"]){
+											echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id."); \">".$kombi["text"]."</option>";
+										} else {
+											echo "<option value='".$kombi["id"]."' onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>".$kombi["text"]."</option>";
+										}
 									}
-								}
-								?>
+									?>
 								</select>
 							<?php
 							} else {
@@ -1177,21 +1201,19 @@
 						<td>
 							<?php
 							# Listen für Auswahlfelder
-							$liste_npc = get_npcs_titel();
-							$liste_items = get_items_titel();
 							$eingabe_gesperrt = true;
 							if($bteil->ziel == "Items"){
-								auswahlliste_erzeugen($wurzel_id, $bteil, $liste_items, true);
+								auswahlliste_erzeugen($wurzel_id, $bteil, "items", $liste_items, true);
 								$eingabe_gesperrt = false;
-								} else auswahlliste_erzeugen($wurzel_id, $bteil, $liste_items, false);
+								} else auswahlliste_erzeugen($wurzel_id, $bteil, "items", $liste_items, false);
 							if($bteil->ziel == "NPC"){
-								auswahlliste_erzeugen($wurzel_id, $bteil, $liste_npc, true);
+								auswahlliste_erzeugen($wurzel_id, $bteil, "npc", $liste_npc, true);
 								$eingabe_gesperrt = false;
-								} else auswahlliste_erzeugen($wurzel_id, $bteil, $liste_npc, false);
+								} else auswahlliste_erzeugen($wurzel_id, $bteil, "npc", $liste_npc, false);
+							if($eingabe_gesperrt){
+								auswahlliste_erzeugen($wurzel_id, $bteil, "ohne", $liste_leer, true);
+								} else auswahlliste_erzeugen($wurzel_id, $bteil, "ohne", $liste_leer, false);
 							?>
-							<select class="select_200" name="bteil_ziel_id_" readonly style="<?php if($eingabe_gesperrt) echo 'display:block;'; else echo 'display:none;'; ?>">
-								<option value="0">0</option>
-							</select>
 						</td>
 					</tr>
 					<tr>
@@ -1210,7 +1232,7 @@
 									}
 								}
 								?>
-								</select><input id="allg_info_eingabe_links_150" type="input" name="bteil_wert" value="<?php if($bteil) echo $bteil->wert; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+								</select><input class="allg_info_eingabe_links_150" type="input" name="bteil_wert" value="<?php if($bteil) echo $bteil->wert; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
 							<?php
 							} else {
 								echo "Fehler beim Laden von Operatoren.";
@@ -1222,7 +1244,9 @@
 				</td></tr><?php
 			}
 		}
+		# Summierung der angelegten Zeilen
 		$anz_zeilen = count($bedingung->bed_teil)+1;
+		# Unterknoten des aktuellen Knotens
 		if(is_array($bedingung->bed_knoten)){
 			foreach($bedingung->bed_knoten as $bknot){
 				$neue_zeilen =	bedingungsbaum($bknot, $wurzel_id);
@@ -1230,7 +1254,7 @@
 			}
 		}
 		?>
-		<text class="bed_set_rowspan" id="<?php echo 'bed_'.$bedingung->ebene.'_'.$bedingung->elem_nr.'__zeilen'; ?>" style="display:none"><?php echo $anz_zeilen; ?></text>
+		<text class="bed_set_rowspan" id="<?php echo $bedingung->ebene.'_'.$bedingung->elem_nr.'__zeilen'; ?>" style="display:none"><?php echo $anz_zeilen; ?></text>
 		<?php
 		return $anz_zeilen;
 	}
@@ -1397,9 +1421,22 @@
 		}
 	}
 	
-	function auswahlliste_erzeugen($obj_id, $bteil, $optionen, $aktiv){
+	function auswahlliste_erzeugen($obj_id, $bteil, $topic, $optionen, $aktiv){
 		?>
-		<select class="select_200" name="<?php echo 'bteil_ziel_id_'.$bteil->ziel; ?>" style="<?php if($aktiv) echo 'display:block;'; else echo 'display:none;'; ?>">
+		<select class="select_200" 
+			<?php
+			if($aktiv){
+				echo " style=\"display:block;\"";
+				echo " id=\""."bteil_ziel_id-".$bteil->maske_id."-".$topic."\"";
+				echo " name=\""."bteil_ziel_id-".$bteil->maske_id."\"";
+			} else {
+				echo " style=\"display:none;\"";
+				echo " id=\""."bteil_ziel_id-".$bteil->maske_id."-".$topic."\"";
+				echo " name=\""."bteil_ziel_id-".$bteil->maske_id."-0\"";
+			}
+			if($topic == "ohne") echo " style=\"background-color:lightgrey;\"";
+			?>
+			>
 			<?php
 			foreach($optionen as $option){
 				if($bteil->ziel_id != $option["id"]){
@@ -1407,8 +1444,7 @@
 				} else {
 					echo "<option value='".$option["id"]."' onFocus=\"set_button('BedingungAendern',".$obj_id.");\" selected>".$option["text"]."</option>";
 				}
-			}
-			?>
+			}?>
 		</select>
 		<?php
 	}
