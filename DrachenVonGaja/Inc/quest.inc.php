@@ -129,9 +129,12 @@
 		?>
 		<div>
 			<h1 style="margin-top:15px">3D-Ansicht vom Planeten Gaja</h1>
+			<iframe src="planetgaja.html" width="100%" height="80%"></iframe>
+			<!--
 			<?php
 				include("planetgaja.html");
 			?>
+			-->
 		</div>
 		<?php
 	}
