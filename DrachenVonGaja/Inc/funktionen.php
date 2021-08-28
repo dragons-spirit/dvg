@@ -447,7 +447,7 @@ function berechne_effekt_wert($kt, $kt_ziel, $zauber, $effekt, $abwehr){
 }
 
 
-# Anzeige von Attributnamen korrigieren
+# Kampfteilnehmer hinzufügen/entfernen
 function kt_array_korrigieren($kt_id, $param){
 	global $kt_0;
 	global $kt_1;
@@ -660,6 +660,16 @@ function beginne_aktion($spieler, $aktion_titel, $id_1=0, $id_2=0){
 		insert_aktion_spieler($spieler->id, $neue_aktion->titel, $id_1, $id_2);
 		$spieler->attribut_aendern("energie", -$neue_aktion->energiebedarf, 0, $spieler->max_energie);
 		$spieler->db_update();
+		if ($aktion_titel == "jagen"){
+			if ($spieler->level_id <= 2) $sound = "../Musik/Drachenbaby.mp3";
+			if ($spieler->level_id >= 3 and $spieler->level_id <= 5) $sound = "../Musik/Jugenddrache.mp3";
+			if ($spieler->level_id >= 6) $sound = "../Musik/AlterDrache.mp3";
+			?>
+			<audio autoplay>
+				<source src="<?php echo $sound ?>" type="audio/mpeg">
+			</audio>
+			<?php
+		}
 	} else {
 		?>
 		<p align="center" style="margin-top:20px; margin-bottom:0px; font-size:14pt;">

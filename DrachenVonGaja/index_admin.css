@@ -114,3 +114,31 @@ input[type=input]
 {
 	width:300px;
 }
+
+.button_bed_baum_gruen
+{
+	color: black;
+	font-weight: normal;
+	padding: 5px;
+	border: solid 0.5px black;
+	border-radius: 3px;
+	background: #ccffcc;
+}
+.button_bed_baum_gruen:hover
+{
+	background: #88ff88;
+}
+
+.button_bed_baum_rot
+{
+	color: black;
+	font-weight: normal;
+	padding: 5px;
+	border: solid 0.5px black;
+	border-radius: 3px;
+	background: #ffcccc;
+}
+.button_bed_baum_rot:hover
+{
+	background: #ff8888;
+}

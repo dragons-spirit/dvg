@@ -1115,11 +1115,35 @@
 		?>
 		<tr>
 			<td class="td_bed_baum" id="<?php echo $bedingung->maske_id; ?>" rowspan="0" align="center" style="<?php if($bedingung->operator == 'UND') echo 'background-color:#666666;'; else echo 'background-color:#444444;';?>">
-				<?php echo $bedingung->operator; ?>
-				<br/>
 				<text style="font-size:small">
 					<?php echo "Ebene ".$bedingung->maske_id; ?>
 				</text>
+				<br/>
+				<input class="allg_info_eingabe_text" type="input"
+					id="<?php echo 'bed_titel-'.$bedingung->maske_id; ?>"
+					name="<?php echo 'bed_titel-'.$bedingung->maske_id; ?>" 
+					value="<?php if($bedingung) echo $bedingung->titel; ?>"
+					onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+				<br/>
+				<select class="select_50"
+					id="<?php echo 'bed_operator-'.$bedingung->maske_id; ?>"
+					name="<?php echo 'bed_operator-'.$bedingung->maske_id; ?>">
+					<?php
+					if($bedingung->operator == "UND"){
+						echo "<option value=\"UND\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>UND</option>";
+						echo "<option value=\"ODER\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">ODER</option>";
+					} else {
+						echo "<option value=\"UND\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\">UND</option>";
+						echo "<option value=\"ODER\" onFocus=\"set_button('BedingungAendern',".$wurzel_id.");\" selected>ODER</option>";
+					}
+					?>
+				</select>
+				<br/><br/><br/>
+				<button type="button" class="button_bed_baum_gruen" name="neu_bteil" onclick="bedingungsbaum_aendern('neu_bteil','<?php $bedingung->maske_id; ?>');">Neue Teilbedingung</button>
+				<br/><br/>
+				<button type="button" class="button_bed_baum_gruen" name="neu_knoten" onclick="bedingungsbaum_aendern('neu_knoten','<?php $bedingung->maske_id; ?>');">Neuer Unterknoten</button>
+				<br/><br/>
+				<button type="button" class="button_bed_baum_rot" name="entferne_knoten" onclick="bedingungsbaum_aendern('entferne_knoten','<?php $bedingung->maske_id; ?>');">Knoten entfernen</button>
 			</td>
 		</tr>
 		<?php
