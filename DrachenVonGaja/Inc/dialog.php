@@ -14,61 +14,63 @@
 	}
 	
 	$hintergrundbild_anzeigen = true;
-	switch ($dialog->aktion_offen[0]){
-		case "kaempfen":
-			$npc_id = $dialog->aktion_offen[1];
-			$npc = get_npc($npc_id);
-			?>
-			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-				<?php echo "Ihr macht euch zum Kampf gegen " . $npc->name . " bereit."; ?>
-			</p>
-			<table style="margin:auto;margin-top:20px;">
-				<tr align="center">
-					<td style="background:url(./../Bilder/drachenkampf.png); background-repeat:no-repeat;">
-						<input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="kampfbutton" name="button_kampf" value="<?php echo $npc_id;?>">
-					</td>
-				</tr>
-			</table>
-			<?php
-			$kampf_id = insert_kampf($spieler->gebiet_id);
-			insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
-			insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 0);
-			insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 1);
-			#insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
-			$hintergrundbild_anzeigen = false;
-			break;
-		case "handeln":
-			$npc_id = $dialog->aktion_offen[1];
-			$npc = get_npc($npc_id);
-			?>
-			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-				<?php echo "Irgendwann könnte man hier mit " . $npc->name . " handeln."; ?>
-			</p>
-			<br /><br />
-			<p align="center" style="padding-top:10pt;">
-				<button class="button_standard" type="submit" name="zurück" value="zurück">zurück</button>
-			</p>
-			<?php
-			$hintergrundbild_anzeigen = false;
-			break;
-		case "quest_start":
-			$any_id = $dialog->aktion_offen[1];
-			?>
-			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-				<?php echo "Eine Quest mit id = " . $any_id . " soll hier GESTARTET werden."; ?>
-			</p>
-			<?php
-			break;
-		case "quest_ende":
-			$any_id = $dialog->aktion_offen[1];
-			?>
-			<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
-				<?php echo "Eine Quest mit id = " . $any_id . " soll hier BEENDET werden."; ?>
-			</p>
-			<?php
-			break;
-		default:
-			break;
+	if (isset($dialog->aktion_offen)){
+		switch ($dialog->aktion_offen[0]){
+			case "kaempfen":
+				$npc_id = $dialog->aktion_offen[1];
+				$npc = get_npc($npc_id);
+				?>
+				<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+					<?php echo "Ihr macht euch zum Kampf gegen " . $npc->name . " bereit."; ?>
+				</p>
+				<table style="margin:auto;margin-top:20px;">
+					<tr align="center">
+						<td style="background:url(./../Bilder/drachenkampf.png); background-repeat:no-repeat;">
+							<input type="submit" style="height:100px; width:200px; opacity: 0.0;" alt="kampfbutton" name="button_kampf" value="<?php echo $npc_id;?>">
+						</td>
+					</tr>
+				</table>
+				<?php
+				$kampf_id = insert_kampf($spieler->gebiet_id);
+				insert_aktion_spieler($spieler->id, "kampf", $kampf_id);
+				insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 0);
+				insert_kampf_teilnehmer($kampf_id, $spieler->id, "spieler", 1);
+				#insert_kampf_teilnehmer($kampf_id, $npc_id, "npc", 1);
+				$hintergrundbild_anzeigen = false;
+				break;
+			case "handeln":
+				$npc_id = $dialog->aktion_offen[1];
+				$npc = get_npc($npc_id);
+				?>
+				<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+					<?php echo "Irgendwann könnte man hier mit " . $npc->name . " handeln."; ?>
+				</p>
+				<br /><br />
+				<p align="center" style="padding-top:10pt;">
+					<button class="button_standard" type="submit" name="zurück" value="zurück">zurück</button>
+				</p>
+				<?php
+				$hintergrundbild_anzeigen = false;
+				break;
+			case "quest_start":
+				$any_id = $dialog->aktion_offen[1];
+				?>
+				<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+					<?php echo "Eine Quest mit id = " . $any_id . " soll hier GESTARTET werden."; ?>
+				</p>
+				<?php
+				break;
+			case "quest_ende":
+				$any_id = $dialog->aktion_offen[1];
+				?>
+				<p align="center" style="margin-top:10%; margin-bottom:0px; font-size:14pt;">
+					<?php echo "Eine Quest mit id = " . $any_id . " soll hier BEENDET werden."; ?>
+				</p>
+				<?php
+				break;
+			default:
+				break;
+		}
 	}
 	
 	if ($dialog->id != null){

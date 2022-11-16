@@ -9,7 +9,7 @@
 	$kampf_anzeigen = false;
 	$kampf_vorbei = false;
 	
-	if ($aktion_spieler->titel == "kampf"){
+	if ($aktion_spieler->titel == "kampf" AND $kampf != false){
 		$kt_0 = get_all_kampf_teilnehmer($kampf->id, 0);
 		$kt_1 = get_all_kampf_teilnehmer($kampf->id, 1);
 		$kt_all = array_merge($kt_0, $kt_1);
@@ -417,8 +417,10 @@
 <div id="kampf_log">
 	<p align="left" style="padding-top:5pt;">
 		<?php
-		update_kampf($kampf);
-		echo $kampf->log;
+		if ($kampf){
+			update_kampf($kampf);
+			echo $kampf->log;
+		}
 		?>
 	</p>
 </div>

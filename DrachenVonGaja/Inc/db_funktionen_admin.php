@@ -75,14 +75,20 @@ function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT bknot.*,
-				group_concat(distinct bteil.id),
-				group_concat(distinct bknot2.id),
-				COUNT(distinct bteil.id) + COUNT(distinct bknot2.id),
-				GROUP_CONCAT(distinct concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+				GROUP_CONCAT(DISTINCT bteil.id),
+				GROUP_CONCAT(DISTINCT bknot2.id),
+				COUNT(DISTINCT bteil.id) + COUNT(DISTINCT bknot2.id),
+				GROUP_CONCAT(DISTINCT CONCAT(blink.id, '#', blink.tabelle, '#', blink.tabelle_id)) AS zuordnung
 			FROM bedingung_knoten bknot
 				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
 				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
-				LEFT JOIN bedingung_link blink ON blink.bedingung_knoten_id = bknot.id
+				LEFT JOIN (
+					SELECT *
+					FROM bedingung_link
+					UNION
+					SELECT '-' AS id, 'bedingung_knoten' AS tabelle, bedingung_knoten_id AS tabelle_id, id AS bedingung_knoten_id
+					FROM bedingung_knoten
+					) blink ON blink.bedingung_knoten_id = bknot.id
 			GROUP BY bknot.id
 			HAVING ((bknot.titel IS NULL AND '' LIKE ?) OR bknot.titel LIKE ?)
 				AND ((bknot.beschreibung IS NULL AND '' LIKE ?) OR bknot.beschreibung LIKE ?)
@@ -116,26 +122,32 @@ function suche_bedingungen($titel, $beschreibung, $zuordnung, $teilknoten){
 #	-> bedgingung_knoten.id (int)
 #	<- Bedingung (obj)
 
-function get_bedingung_by_id($bedingung_id, $ebene=0, $elem_nr=0){
+function get_bedingung_by_id($bedingung_id, $ebene_vor=0, $elem_nr_neu=0, $elem_nr_vor=0){
 	global $debug;
 	global $connect_db_dvg;
 	
 	if ($stmt = $connect_db_dvg->prepare("
 			SELECT bknot.*,
-				group_concat(distinct bteil.id),
-				group_concat(distinct bknot2.id),
-				COUNT(distinct bteil.id) + COUNT(distinct bknot2.id),
-				GROUP_CONCAT(distinct concat(blink.id, '#', blink.tabelle, '#', blink.id)) AS zuordnung
+				GROUP_CONCAT(DISTINCT bteil.id),
+				GROUP_CONCAT(DISTINCT bknot2.id),
+				COUNT(DISTINCT bteil.id) + COUNT(DISTINCT bknot2.id),
+				GROUP_CONCAT(DISTINCT CONCAT(blink.id, '#', blink.tabelle, '#', blink.tabelle_id)) AS zuordnung
 			FROM bedingung_knoten bknot
 				LEFT JOIN bedingung_teil bteil ON bteil.bedingung_knoten_id = bknot.id
 				LEFT JOIN bedingung_knoten bknot2 ON bknot2.bedingung_knoten_id = bknot.id
-				LEFT JOIN bedingung_link blink ON blink.bedingung_knoten_id = bknot.id
+				LEFT JOIN (
+					SELECT *
+					FROM bedingung_link
+					UNION
+					SELECT '-' AS id, 'bedingung_knoten' AS tabelle, bedingung_knoten_id AS tabelle_id, id AS bedingung_knoten_id
+					FROM bedingung_knoten
+					) blink ON blink.bedingung_knoten_id = bknot.id
 			WHERE bknot.id = ?
 			GROUP BY bknot.id;")){
 		$stmt->bind_param('d', $bedingung_id);
 		$stmt->execute();
 		if ($bedingung_data = $stmt->get_result()->fetch_array(MYSQLI_NUM)){
-			$bedingung = new Bedingung($bedingung_data, $ebene, $elem_nr);
+			$bedingung = new Bedingung($bedingung_data, $ebene_vor, $elem_nr_neu, $elem_nr_vor);
 		}
 		if ($debug) echo "<br />\Bedingung geladen.<br />\n";
 		if (isset($bedingung)) return $bedingung;
@@ -258,7 +270,7 @@ function check_bild_vorhanden($pfad)
 		$stmt->execute();
 		$result = $stmt->get_result();
 		$row = $result->fetch_array(MYSQLI_NUM);
-		if($row[0]) return true;
+		if($row) return true;
 		else return false;
 	} else {
 		echo "<br />\nQuerryfehler in get_bild_zu_titel()<br />\n";

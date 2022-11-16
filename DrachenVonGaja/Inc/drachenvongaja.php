@@ -1,9 +1,10 @@
 <!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"-->
 
 <?php
-	session_start();
+	
 	session_cache_limiter('private');
 	session_cache_expire(0);
+	session_start();
 	include("connect.inc.php");
 	$connect_db_dvg = open_connection($default_user, $default_pswd, $default_host, $default_db);
 ?>

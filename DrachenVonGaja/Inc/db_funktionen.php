@@ -1323,7 +1323,12 @@ function select_kampf($kampf_id)
 		$stmt->bind_param('d', $kampf_id);
 		$stmt->execute();
 		$kampf_row = $stmt->get_result()->fetch_array(MYSQLI_NUM);
-		$kampf = new Kampf($kampf_row);
+		if ($kampf_row){
+			$kampf = new Kampf($kampf_row);
+		} else {
+			return false;
+			if ($debug) echo "Kein aktiver Kampf gefunden.<br />\n";
+		}
 		if ($debug) echo "<br />\nKampf [" . $kampf_id . "] im Gebiet [" . $kampf->gebiet_id . "] wurde geladen.<br />\n";
 		return $kampf;
 	} else {

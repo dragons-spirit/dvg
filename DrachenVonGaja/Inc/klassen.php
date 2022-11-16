@@ -11,7 +11,22 @@ class LoginSpieler {
 	public $geschlecht;
 
 	public function __construct($ds=null) {
-		$this->set($ds);
+		if ($ds == null){
+			$this->init();
+		} else {
+			$this->set($ds);
+		}
+	}
+	
+	public function init() {
+		$this->id = null;
+		$this->account_id = null;
+		$this->bilder_id = null;
+		$this->gattung = null;
+		$this->level_id = null;
+		$this->startgebiet = null;
+		$this->name = null;
+		$this->geschlecht = null;
 	}
 	
 	public function set($ds) {
@@ -623,7 +638,7 @@ class AktionSpieler {
 	public $any_id_2;
 
 	public function __construct($ds=null) {
-		if ($ds = null) $this->set_null();
+		if ($ds == null) $this->set_null();
 			else $this->set($ds);
 	}
 	
@@ -1643,14 +1658,15 @@ class Session {
 		global $debug, $connect_db_dvg, $konfig;
 		$jetzt = new DateTime();
 		$max_gueltigkeit = new DateInterval("PT".$konfig->get("gueltigkeit_session")."M");
-		$gueltig_bis_neu = (new DateTime)->add($max_gueltigkeit);
+		$gueltig_bis_neu_tmp = (new DateTime)->add($max_gueltigkeit);
+		$gueltig_bis_neu =  '2025-02-15 19:59:59'; //$gueltig_bis_neu_tmp.format('Y-m-d H:i:s');
 		if ($stmt = $connect_db_dvg->prepare("
 			UPDATE session
 			SET gueltig_bis = ?
 			WHERE id = ?;")){
-			$stmt->bind_param('sd', $gueltig_bis_neu->format('Y-m-d H:i:s'), $this->id);
+			$stmt->bind_param('sd', $gueltig_bis_neu, $this->id);
 			$stmt->execute();
-			$this->gueltig_bis = $gueltig_bis_neu->format('Y-m-d H:i:s');
+			$this->gueltig_bis = $gueltig_bis_neu;
 		} else {
 			echo "<br />\nQuerryfehler in Session->aktualisieren()<br />\n";
 			return false;
@@ -1658,16 +1674,17 @@ class Session {
 	}
 	public function beenden_logout(){
 		global $debug, $connect_db_dvg;
-		$jetzt = new DateTime();
+		$jetzt_tmp = new DateTime();
+		$jetzt = $jetzt_tmp->format('Y-m-d H:i:s');
 		if ($stmt = $connect_db_dvg->prepare("
 			UPDATE session
 			SET gueltig_bis = ?,
 				aktiv = 0
 			WHERE id = ?;")){
-			$stmt->bind_param('sd', $jetzt->format('Y-m-d H:i:s'), $this->id);
+			$stmt->bind_param('sd', $jetzt, $this->id);
 			$stmt->execute();
 			$this->aktiv = 0;
-			$this->gueltig_bis = $jetzt->format('Y-m-d H:i:s');
+			$this->gueltig_bis = $jetzt;
 		} else {
 			echo "<br />\nQuerryfehler in Session->beenden_logout()<br />\n";
 			return false;
@@ -1871,9 +1888,9 @@ class Dialog {
 			WHERE spieler_id = ?;")){
 			$stmt->bind_param('d', $spieler_id);
 			$stmt->execute();
-			$dialog_log_id = $stmt->get_result()->fetch_array(MYSQLI_NUM)[0];
+			$dialog_log_id = $stmt->get_result()->fetch_array(MYSQLI_NUM);
 			if (isset($dialog_log_id)){
-				return $dialog_log_id;
+				return $dialog_log_id[0];
 			} else {
 				return false;
 			}
@@ -2101,7 +2118,7 @@ class Bedingung {
 	public $elem_nr;
 	public $maske_id;
 	
-	public function __construct($kn_data, $ebene=0, $elem_nr=0){
+	public function __construct($kn_data=null, $ebene_vor=0, $elem_nr_neu=0, $elem_nr_vor=0){
 		global $debug, $connect_db_dvg;
 		if (isset($kn_data)){
 			$this->id = $kn_data[0];
@@ -2116,22 +2133,32 @@ class Bedingung {
 			$this->anz_kinder = $kn_data[7];
 			if(isset($kn_data[8])) $this->zuordnung = explode(",",$kn_data[8]);
 				else $this->zuordnung = null;
-			$this->ebene = $ebene+1;
-			$this->elem_nr = $elem_nr+1;
-			$this->maske_id = $this->ebene."_".$this->elem_nr;
+			$this->ebene = $ebene_vor+1;
+			$this->elem_nr = $elem_nr_neu+1;
+			$this->maske_id = "BK-".$ebene_vor."_".$elem_nr_vor."-".$this->ebene."_".$this->elem_nr;
 			$this->knoten_nachladen();
 			$this->teilbedingungen_nachladen();
 			$this->zuordnungen_organisieren();
 		} else {
-			if($debug) echo "Keine Daten zum Erzeugen einer Bedingung übergeben<br/>";
-			return false;
+			$this->id = 0;
+			$this->titel = "Kein Titel";	
+			$this->beschreibung = "Keine Beschreibung";
+			$this->elternknoten_id = null;
+			$this->operator = "UND";
+			$this->bed_teil = null;
+			$this->bed_knoten = null;
+			$this->anz_kinder = 0;
+			$this->zuordnung = null;
+			$this->ebene = 1;
+			$this->elem_nr = 1;
+			$this->maske_id = "BK-0_0-".$this->ebene."_".$this->elem_nr;
 		}
 	}
 	
 	private function knoten_nachladen(){
 		if(is_array($this->bed_knoten)){
 			foreach($this->bed_knoten as $pos => $bed_knoten){
-				$bed_neu = get_bedingung_by_id($bed_knoten, $this->ebene, $pos);
+				$bed_neu = get_bedingung_by_id($bed_knoten, $this->ebene, $pos, $this->elem_nr);
 				$this->bed_knoten[$pos] = $bed_neu;
 			}
 		}
@@ -2141,7 +2168,7 @@ class Bedingung {
 		if(is_array($this->bed_teil)){
 			foreach($this->bed_teil as $pos => $bed_teil){
 				$bteil = new BedingungTeil($bed_teil);
-				$bteil->set_maske_id($this->maske_id, $this->ebene, $pos+1);
+				$bteil->set_maske_id("TB-".$this->ebene."_".$this->elem_nr, $this->ebene, $pos+1);
 				$this->bed_teil[$pos] = $bteil;
 			}
 		}
@@ -2153,6 +2180,12 @@ class Bedingung {
 				$this->zuordnung[$pos] = new BedingungZuordnung($zuordnung);
 			}
 		}
+	}
+	
+	public function set_maske_id($knoten_maske_id, $ebene, $elem_nr){
+		$this->ebene = $ebene;
+		$this->elem_nr = $elem_nr;
+		$this->maske_id = $knoten_maske_id."-".$ebene."_".$elem_nr;
 	}
 }
 

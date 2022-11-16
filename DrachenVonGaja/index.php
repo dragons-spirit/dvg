@@ -20,6 +20,7 @@
 		<meta charset="utf-8">
 	
 		<link rel="stylesheet" type="text/css" href="index.css">
+		<link rel="stylesheet" type="text/css" href="debug.css">
 		<!--<script src="index.js" type="text/javascript"></script>-->
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja</title>

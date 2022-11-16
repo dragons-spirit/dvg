@@ -18,6 +18,7 @@
 		<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
 	
 		<link rel="stylesheet" type="text/css" href="../index_admin.css">
+		<link rel="stylesheet" type="text/css" href="../debug.css">
 		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 		<title>Drachen von Gaja - Administration</title>
 		<?php
@@ -473,15 +474,45 @@
 						<!-- Standardaktion - Seite neu laden mit selber Item_Id -->
 						<?php
 						$bedingung = false;
-						if($bedingung_id > 0){
-							$bedingung = get_bedingung_by_id($bedingung_id);
-						}
+						if($bedingung_id > 0) $bedingung = get_bedingung_by_id($bedingung_id);
+							else $bedingung = new Bedingung();
 						eingabemaskeBedingung($bedingung);
 						updateButton("BedingungAendern",$bedingung_id);
 						zurueckButton("BedingungenSuchen");
 						echo "<br/><br/>";
 						break;
 						
+					/* Ausführung von Änderungen an Bedingung */
+					case "BedingungAendern":
+						#Update Bedingung-Daten
+						$bedingung_id = $button_value;
+						$bedingung = daten_aus_post("bedingung");
+						/*
+						if($item_id > 0){
+							if (updateItem($item))
+								echo "Item erfolgreich geändert";
+							else
+								echo "Keine Änderungen an Item vorgenommen";
+						} else {
+							if (insertItem($item))
+								echo "Item erfolgreich hinzugefügt";								
+							else
+								echo "Fehler beim Hinzufügen des Items";
+						}
+						*/
+						echo "Zu ändernde Bedingung hat id = ".$bedingung_id." und folgende Daten.<br/>";
+						if (is_array($bedingung)){
+							foreach($bedingung as $key => $value) {
+								echo '<br/>'.$key.' = '.$value;
+							}
+						} else {
+							var_dump($bedingung);
+						}
+						
+						echo "<br/><br/>";
+						zurueckButton("BedingungenSuchen");
+						break;
+					
 					/* Admin Menü */
 					case "AdminStart":
 						?>
@@ -1070,36 +1101,19 @@
 		if($bedingung) $wurzel_id = $bedingung->id;
 			else $wurzel_id = 0;
 		?>
-		<table>
-			<tr>
-				<td colspan="2" align="left"><h2>Allgemeine Daten</h2></td>
-			</tr>
-			<tr>
-				<td>Id</td>
-				<td><input class="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" name="wurzel_id" value="<?php if($bedingung) echo $bedingung->id; ?>" readonly></td>
-			</tr>
-			<tr>
-				<td>Titel</td>
-				<td><input class="allg_info_eingabe_text" type="input" name="bedingung_titel" value="<?php if($bedingung) echo $bedingung->titel; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"></td>
-			</tr>
-			<tr>
-				<td>Beschreibung</td>
-				<td><textarea class="allg_info_eingabe_text" style="height:150px; width:200px;" name="bedingung_beschreibung" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"><?php if($bedingung) echo $bedingung->beschreibung; ?></textarea></td>
-			</tr>
-			<tr>
-				<td>Zuordnungen</td>
-				<td><?php
-					if($bedingung and is_array($bedingung->zuordnung)){
-						foreach($bedingung->zuordnung as $zuordnung){
-							echo "[".$zuordnung->id."] - ".$zuordnung->tabelle." (id=".$zuordnung->tabelle_id.")<br/>";
-						}
-					}?>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2" align="left" style="padding-top:30px;"><h2>Bedingungsbaum</h2></td>
-			</tr>
-		</table>
+		
+		<h2><?php if($bedingung) echo $bedingung->titel; else "Kein Titel" ?></h2>
+		<br/><br/>
+		<h3>Aktuelle Zuordnungen</h3>
+		<?php
+			if(is_array($bedingung->zuordnung)){
+				foreach($bedingung->zuordnung as $zuordnung){
+					echo "[".$zuordnung->id."] - ".$zuordnung->tabelle." (id=".$zuordnung->tabelle_id.")<br/>";
+				}
+			} else {
+				echo "keine Zuordnungen";
+			}?>
+		<h3>Bedingungsbaum</h3></td>
 		
 		<table border bordercolor=white style="border-collapse:collapse;">
 			<?php bedingungsbaum($bedingung, $wurzel_id);?>
@@ -1115,15 +1129,27 @@
 		?>
 		<tr>
 			<td class="td_bed_baum" id="<?php echo $bedingung->maske_id; ?>" rowspan="0" align="center" style="<?php if($bedingung->operator == 'UND') echo 'background-color:#666666;'; else echo 'background-color:#444444;';?>">
-				<text style="font-size:small">
-					<?php echo "Ebene ".$bedingung->maske_id; ?>
-				</text>
+				<input class="allg_info_eingabe_text" type="input" style="background-color:lightgrey;" readonly
+					id="<?php echo 'bed_maske_id-'.$bedingung->maske_id; ?>"
+					name="<?php echo 'bed_maske_id-'.$bedingung->maske_id; ?>" 
+					value="<?php if($bedingung) echo $bedingung->maske_id; ?>">
+				<br/>
+				<input class="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" 
+					id="<?php echo 'bed_id-'.$bedingung->maske_id; ?>"
+					name="<?php echo 'bed_id-'.$bedingung->maske_id; ?>"
+					value="<?php if($bedingung) echo $bedingung->id; ?>" readonly>
 				<br/>
 				<input class="allg_info_eingabe_text" type="input"
 					id="<?php echo 'bed_titel-'.$bedingung->maske_id; ?>"
 					name="<?php echo 'bed_titel-'.$bedingung->maske_id; ?>" 
 					value="<?php if($bedingung) echo $bedingung->titel; ?>"
 					onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+				<br/>
+				<textarea class="allg_info_eingabe_text" style="height:100px; width:200px;"
+					id="<?php echo 'bed_id-'.$bedingung->maske_id; ?>"
+					name="<?php echo 'bed_beschreibung-'.$bedingung->maske_id; ?>"
+					onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);"><?php if($bedingung) echo $bedingung->beschreibung; ?>
+				</textarea>
 				<br/>
 				<select class="select_50"
 					id="<?php echo 'bed_operator-'.$bedingung->maske_id; ?>"
@@ -1154,7 +1180,12 @@
 				<table>
 					<tr>
 						<td>Element</td>
-						<td><?php echo $bteil->maske_id; ?></td>
+						<td>
+							<input class="allg_info_eingabe_links" type="input" style="background-color:lightgrey;" readonly
+								id="<?php echo 'bteil_maske_id-'.$bteil->maske_id; ?>"
+								name="<?php echo 'bteil_maske_id-'.$bteil->maske_id; ?>" 
+								value="<?php if($bteil) echo $bteil->maske_id; ?>">
+						</td>
 					</tr>
 					<tr>
 						<td>Id</td>
@@ -1246,7 +1277,7 @@
 							<?php
 							if($operatoren = get_operatoren()){
 								?>
-								<select class="select_50" name="bteil_operator">
+								<select class="select_50" name="<?php echo 'bteil_operator-'.$bteil->maske_id; ?>">
 								<?php
 								foreach($operatoren as $operator){
 									if($bteil->operator_id != $operator["id"]){
@@ -1256,7 +1287,7 @@
 									}
 								}
 								?>
-								</select><input class="allg_info_eingabe_links_150" type="input" name="bteil_wert" value="<?php if($bteil) echo $bteil->wert; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
+								</select><input class="allg_info_eingabe_links_150" type="input" name="<?php echo 'bteil_wert-'.$bteil->maske_id; ?>" value="<?php if($bteil) echo $bteil->wert; ?>" onFocus="set_button('BedingungAendern',<?php echo $wurzel_id; ?>);">
 							<?php
 							} else {
 								echo "Fehler beim Laden von Operatoren.";
@@ -1268,6 +1299,7 @@
 				</td></tr><?php
 			}
 		}
+		
 		# Summierung der angelegten Zeilen
 		$anz_zeilen = count($bedingung->bed_teil)+1;
 		# Unterknoten des aktuellen Knotens
@@ -1278,8 +1310,9 @@
 			}
 		}
 		?>
-		<text class="bed_set_rowspan" id="<?php echo $bedingung->ebene.'_'.$bedingung->elem_nr.'__zeilen'; ?>" style="display:none"><?php echo $anz_zeilen; ?></text>
+		<text class="bed_set_rowspan" id="<?php echo $bedingung->maske_id.'__zeilen'; ?>" style="display:none"><?php echo $anz_zeilen; ?></text>
 		<?php
+		
 		return $anz_zeilen;
 	}
 	
@@ -1369,13 +1402,8 @@
 					$count++;
 				}
 				return $daten;
-				
-				
-			####################
-			# ToDo
-			####################
-			# Item-Daten aus $_POST auslesen und in Item-Objekt schreiben
 			
+			# Item-Daten aus $_POST auslesen und in Item-Objekt schreiben
 			case "item":
 				$item = new Item("neu");
 				$item->id = $_POST["item_id"];
@@ -1420,6 +1448,12 @@
 					else $item->prozent = 0;
 				$item->slot = get_slot($_POST["item_slot"]);
 				return $item;
+			
+			# Bedinung-Daten aus $_POST auslesen und in Bedingung-Objekt schreiben
+			case "bedingung":
+				$bedingung = new Bedingung();
+				
+				return $bedingung;
 			
 			# Keine Ahnung
 			default:

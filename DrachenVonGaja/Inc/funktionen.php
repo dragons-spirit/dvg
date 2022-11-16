@@ -60,8 +60,8 @@ function scanneNeueBilder($ordner){
 	foreach ($alle_dateien as $datei)
 	{
 		$dateiinfo = pathinfo($ordner."/".$datei); # Dateiinfos holen
-		$titel = utf8_encode($dateiinfo['filename']); # ersten Bildtitel aus Dateiname erzeugen
-		$pfad = utf8_encode($dateiinfo['dirname'])."/".utf8_encode($dateiinfo['basename']); # kompletter Dateipfad für Datenbank
+		$titel = $dateiinfo['filename']; # ersten Bildtitel aus Dateiname erzeugen
+		$pfad = $dateiinfo['dirname']."/".$dateiinfo['basename']; # kompletter Dateipfad für Datenbank
 		if(array_key_exists('extension', $dateiinfo))
 			$endung = $dateiinfo['extension']; # Dateiendung der aktuellen Datei
 		else $endung = 'none';
@@ -522,7 +522,7 @@ function zeige_hintergrundbild($gebiet_id, $aktion_text=false, $bewusstlos=false
 		<?php
 		# Hinweis, falls Spieler eine noch nicht abgeschlossene Aktion hat
 		$aktion_verboten = 0;
-		if($aktion_text) $aktion_verboten = 1;
+		if($aktion_text and $aktion_text != "keine aktuelle Aktion") $aktion_verboten = 1;
 		if($bewusstlos and !isset($_POST["button_ausruhen"])) $aktion_verboten = 2;
 		if($bewusstlos and isset($_POST["button_ausruhen"]) and $_POST["button_ausruhen"]!="ausruhen_voll") $aktion_verboten = 3;
 		

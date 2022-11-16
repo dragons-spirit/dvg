@@ -11,8 +11,9 @@ body
 input[type=submit]
 {
     cursor:pointer;
-    color:white;
-    background-color:black;
+    color:green;
+    background-color:red;
+	border-color: white;
     line-height:normal;
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
 	font-size:smaller;
@@ -23,8 +24,16 @@ input[type=button]
 {
     cursor:pointer;
     color:white;
-    background-color:black;
-    line-height:normal;
+	padding: 8px;
+	height: 30px;
+	background: -moz-linear-gradient(left top,#333333,#330000);
+	background: -webkit-linear-gradient(left top,#333333,#330000);
+	background: -o-linear-gradient(left top,#333333,#330000);
+	background: -ms-linear-gradient(left top,#333333,#330000);
+	background: linear-gradient(left top,#333333,#330000);
+    border: solid 0.5px white;
+	border-radius: 5px;
+	line-height:normal;
     font-family: fantasy, Lucida Calligraphy, Georgia, EG Dragon Caps;
 	font-size:smaller;
 	min-width:75px;
