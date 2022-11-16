@@ -1,128 +1,82 @@
-<style>
 
-#left
-{
-    position:absolute;
-    width:56px;
-    height:100%;
-    top:0px;
-    left:0px;
-    bottom:0px;
-}
-
-#right
-{
-    position:absolute;
-    width:56px;
-    height:100%;
-    top:0px;
-    right:0px;
-    bottom:0px;
-}
-
-#questinhalt
-{
-    position:absolute;
-    background-color:#F5D0A9;
-    top:18px;
-    left:43px;
-    right:43px;
-    bottom:11px;
-	color:black;
-}
-
-
-#kap_o_l
-{
-    position:absolute;
-    top:0px;
-    left:0px;
-	width:100%;
-	height:5%;
-    background-Image: url("../Bilder/kap_o.png");
-    background-repeat:no-repeat;
-    background-size:100%;
-	background-position:top center;
-}
-#kap_o_r
-{
-    position:absolute;
-    top:0px;
-    right:0px;
-    width:100%;
-    height:5%;
-    background-Image: url("../Bilder/kap_o.png");
-    background-repeat:no-repeat;
-    background-size:100%;
-	background-position:top center;
-}
-#kap_u_l
-{
-    position:absolute;
-    bottom:0px;
-	width:100%;
-    height:5%;
-    background-Image: url("../Bilder/kap_u.png");
-    background-repeat:no-repeat;
-    background-size:80%;
-	background-position:bottom center;
-}
-#kap_u_r
-{
-    position:absolute;
-    bottom:0px;
-    width:100%;
-    height:5%;
-    background-Image: url("../Bilder/kap_u.png");
-    background-repeat:no-repeat;
-    background-size:80%;
-	background-position:bottom center;
-}
-
-#streifen_links
-{
-    position:absolute;
-    background-image: url("../Bilder/streifen.png");
-    background-repeat:repeat-y;
-    background-size:56%;
-    top:0px;
-    width:100%;
-    height:99%;
-    background-position:bottom center;
-}
-
-#streifen_rechts
-{
-    position:absolute;
-    background-image: url("../Bilder/streifen.png");
-    background-repeat:repeat-y;
-    background-size:56%;
-    top:0px;
-    width:100%;
-    height:99%;
-    background-position:bottom center;
-}
-
-</style>
-
-
-<div id="left">
-    <div id="streifen_links"></div>
-    <div id="kap_o_l"></div>
-    <div id="kap_u_l"></div>
+<h1 align="center">Handwerk</h1>
     
-</div>
 
-<div id="right">
-    <div id="streifen_rechts"></div>
-    <div id="kap_o_r"></div>
-     <div id="kap_u_r"></div>
-</div>
+<?php
+if ($items = get_all_items_spieler($spieler->id))
+{
+	?>
+	<table class="tabelle" style="margin-top:10%;" width="700px" cellpadding="5px">
+		<tr class="tabelle_kopf">
+			<td align="center">Material</td>
+			<td align="center">Anzahl vorhanden</td>
+			
+		</tr>
+		<?php
+		foreach ($items as $item)
+		{
+		    if ($item->verarbeitbar==1)
+		    {
+			?>
+			<tr class="tabelle_inhalt">
+				<td align="left" valign="top"><?php echo $item->name ?></td>
+				<td align="right" valign="top"><?php echo $item->anzahl ?></td>
+			</tr>
+			<?php
+		}}
+		if(!isset($items[0]))
+		{
+			?>
+			<tr class="tabelle_inhalt">
+				<td colspan=4>Keine Items gefunden.</td>
+			</tr>
+			<?php
+		}
+		?>
+</table>
+	<?php
+		}
+		?>
 
-<div id="questinhalt">
+<p align="left" style="font-size:12pt;padding-left:10px;"><b>Herstellungsmöglichkeiten:</b> <br><br>
+<button class="button_standard" type="submit" name="trommel" value="">Trommel</button> aus 2 Knochen für die Sticks, 24 Knochen für das Gerüst, 12 Rindstücke, ein Stück Leder<br><br>
+<button class="button_standard" type="submit" name="puzzle" value="">Drachenpuzzle</button> aus 12 Teilen <br><br>
+<button class="button_standard" type="submit" name="gefaess" value="">Gefäß</button> aus 10 Ton und 4 Rindenstücken für den Deckel <br><br>
+
+<table>
+	<tr><td>Material</td><td>Anzahl</td></tr>
+	<tr class="tabelle_inhalt"><td>Ton</td><td><input type="text" size="5" value=""/></td></tr>
+	<tr class="tabelle_inhalt"><td>Glas</td><td><input type="text" size="5" value=""/></td></tr>
+	<tr class="tabelle_inhalt"><td>Metall</td><td><input type="text" size="5" value=""/></td></tr>
+	<tr class="tabelle_inhalt"><td>Kristall</td><td><input type="text" size="5" value=""/></td></tr>
+  </table>
+<details style="position:absolute;">
+  <summary>Herstellung von Materialien</summary>
+  
+  
+  <br>
     
-    <h1 align="center">Titel</h1>
-    <p align="center">Textinhalt</p>
+    <input type="text" size="5" value=""/>
+    <select>
+	<option>Ton</option>
+	<option>Glas</option>
+	<option>Metall</option>
+	<option>Kristall</option>
+    </select>
+  <button class="button_standard" type="submit" name="formen" value="">formen</button>
+    
+</details>
+
+</p>
+<p align="center" style="padding-top:10pt;">
+		<button class="button_standard" type="submit" name="zurück" value="zurück">zurück</button>
+</p>
+    
+   
+    
+
+    
+
  
-</div>
+
 
