@@ -271,7 +271,7 @@
 						$anz_delete = deleteNPCitems($npc_id);
 						$anz_insert = 0;
 						foreach ($npc_item_daten as $ds){
-							if ($ds["wkt"]>0 and $ds["items_id"]<>9){ #Wahrscheinlichkeit größer 0 und Item ungleich ---ohne---
+							if ($ds["wkt"]>0){ #Wahrscheinlichkeit größer 0 und Item ungleich ---ohne---
 								$anz_insert += insertNPCitem($ds);
 							}
 						}

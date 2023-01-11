@@ -1493,7 +1493,11 @@ function insert_kampf_aktion($kampf_id, $kt, $kt_ziel, $zauber)
 	if (!$return_wert OR $return_wert[0] > 2){	
 		# Eintragen der Effekte in die Datenbank
 		foreach ($zauber->zaubereffekte as $zauber_effekt){
-			berechne_effekt_wert($kt, $kt_ziel, $zauber, $zauber_effekt, $return_wert[0] == 3);
+			if (!$return_wert){
+				berechne_effekt_wert($kt, $kt_ziel, $zauber, $zauber_effekt, false);
+			} else {
+				berechne_effekt_wert($kt, $kt_ziel, $zauber, $zauber_effekt, $return_wert[0] == 3);
+			}
 			if ($stmt = $connect_db_dvg->prepare("
 					INSERT INTO kampf_effekt(
 						kampf_aktion_id,
